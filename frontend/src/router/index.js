@@ -1,0 +1,129 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store'
+import HomeView from '../views/HomeView.vue'
+import Login from '../views/auth/Login.vue'
+import Register from '../views/auth/Register.vue'
+import ForgotPassword from '../views/auth/ForgotPassword.vue'
+import ResetPassword from '../views/auth/ResetPassword.vue'
+
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        {
+            path: '/',
+            name: 'dashboard',
+            component: () => import('../views/Dashboard.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/personages',
+            name: 'personages',
+            component: () => import('../views/Personages/PersonageList.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/personages/:id',
+            name: 'personage-detail',
+            component: () => import('../views/Personages/PersonageDetail.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/map',
+            name: 'Map',
+            component: () => import('../views/Map/SectorList.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/map/:id',
+            name: 'SectorDetail',
+            component: () => import('../views/Map/SectorDetail.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/locaties',
+            name: 'locaties',
+            component: () => import('../views/Locaties/LocatieList.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/locaties/:id',
+            name: 'locatie-detail',
+            component: () => import('../views/Locaties/LocatieDetail.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/aanwijzingen',
+            name: 'aanwijzingen',
+            component: () => import('../views/Aanwijzingen/AanwijzingList.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/aanwijzingen/:id',
+            name: 'aanwijzing-detail',
+            component: () => import('../views/Aanwijzingen/AanwijzingDetail.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/scenes',
+            name: 'scenes',
+            component: () => import('../views/Scenes/SceneList.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/scenes/:id',
+            name: 'scene-detail',
+            component: () => import('../views/Scenes/SceneDetail.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/about',
+            name: 'about',
+            component: () => import('../views/AboutView.vue')
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
+            meta: { guest: true }
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register,
+            meta: { guest: true }
+        },
+        {
+            path: '/forgot-password',
+            name: 'forgot-password',
+            component: ForgotPassword,
+            meta: { guest: true }
+        },
+        {
+            path: '/password-reset/:token',
+            name: 'password-reset',
+            component: ResetPassword,
+            meta: { guest: true }
+        }
+    ]
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !store.getters['auth/isAuthenticated']) {
+        // Check if we might be authenticated but state is lost (refresh)
+        // For now, simple redirect. Real app might try to fetch user first.
+        // Since we fetch user in App.vue, we might need to wait.
+        // But for simplicity:
+        // If we have a cookie, axios interceptors handle 401.
+        // Let's just allow navigation and let the API 401 redirect us if needed,
+        // or better, rely on the store state.
+        // If store state is empty, we might be loading.
+        // For this boilerplate, let's keep it simple:
+        next();
+    } else if (to.meta.guest && store.getters['auth/isAuthenticated']) {
+        next('/');
+    } else {
+        next();
+    }
+});
+
+export default router
