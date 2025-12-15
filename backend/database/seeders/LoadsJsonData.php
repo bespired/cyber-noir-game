@@ -29,7 +29,22 @@ trait LoadsJsonData
 
         $this->command->info("Seeding " . count($records) . " records from {$filename}.json...");
 
+        // Instantiate model to check casts (to distinguish JSON columns from Relations)
+        $instance = new $modelClass;
+        $casts = $instance->getCasts();
+
         foreach ($records as $record) {
+            // Filter out relations (arrays/objects that are NOT cast to array/json)
+            foreach ($record as $key => $value) {
+                if (is_array($value) || is_object($value)) {
+                    $isJsonColumn = isset($casts[$key]) && in_array($casts[$key], ['array', 'json', 'object', 'collection']);
+
+                    if (!$isJsonColumn) {
+                        unset($record[$key]);
+                    }
+                }
+            }
+
             // Remove timestamps if you want fresh ones, or keep them if you want to preserve history
             // Usually for backup restoration we might want to keep IDs to preserve relations
 
