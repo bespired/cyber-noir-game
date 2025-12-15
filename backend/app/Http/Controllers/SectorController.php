@@ -19,6 +19,10 @@ class SectorController extends Controller
             'beschrijving' => 'nullable|string',
             'kaart_coordinaten' => 'nullable|string',
             'is_ontdekt' => 'boolean',
+            'x' => 'integer',
+            'y' => 'integer',
+            'width' => 'integer',
+            'height' => 'integer',
         ]);
 
         return Sector::create($validated);
@@ -26,7 +30,7 @@ class SectorController extends Controller
 
     public function show(Sector $sector)
     {
-        $sector->load('locaties');
+        $sector->load(['locaties', 'artwork']);
         return response()->json($sector);
     }
 
@@ -37,11 +41,15 @@ class SectorController extends Controller
             'beschrijving' => 'nullable|string',
             'kaart_coordinaten' => 'nullable|string',
             'is_ontdekt' => 'boolean',
+            'x' => 'integer',
+            'y' => 'integer',
+            'width' => 'integer',
+            'height' => 'integer',
         ]);
 
         $sector->update($validated);
 
-        return $sector;
+        return $sector->load('artwork');
     }
 
     public function destroy(Sector $sector)

@@ -28,6 +28,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('scenes', \App\Http\Controllers\SceneController::class)
         ->parameters(['scenes' => 'scene']);
 
+    Route::apiResource('notes', \App\Http\Controllers\NoteController::class);
+
+    Route::apiResource('conversations', \App\Http\Controllers\ConversationController::class);
+
     Route::delete('/artwork/{afbeelding}', [\App\Http\Controllers\AfbeeldingController::class, 'destroy']);
 
     Route::post('/upload/{modelType}/{modelId}', [\App\Http\Controllers\AfbeeldingUploadController::class, 'upload']);

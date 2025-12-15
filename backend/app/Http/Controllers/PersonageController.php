@@ -22,6 +22,7 @@ class PersonageController extends Controller
             'replicant_status' => 'nullable|string',
             'motief' => 'nullable|string',
             'is_replicant' => 'boolean',
+            'is_playable' => 'boolean',
         ]);
 
         return Personage::create($validated);
@@ -43,6 +44,7 @@ class PersonageController extends Controller
             'replicant_status' => 'nullable|string',
             'motief' => 'nullable|string',
             'is_replicant' => 'boolean',
+            'is_playable' => 'boolean',
         ]);
 
         $personage->update($validated);

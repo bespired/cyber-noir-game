@@ -34,3 +34,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-noir-muted;
 }
+
+.w-1 {
+  min-width: 34px;
+}

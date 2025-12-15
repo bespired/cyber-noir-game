@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "titel": "Logistiek Order Formulier",
+        "beschrijving": "Een orderformulier van Nexus Logistics dat wijst op een illegale zending naar het slachtoffer, ondertekend door Julian Dex.",
+        "type": "Data File",
+        "locatie_id": 4,
+        "personage_id": 3,
+        "is_kritisch": false,
+        "moeilijkheidsgraad": 1,
+        "created_at": "2025-12-14T15:40:29.000000Z",
+        "updated_at": "2025-12-14T15:40:29.000000Z"
+    },
+    {
+        "id": 2,
+        "titel": "Tickets voor de show",
+        "beschrijving": "Een reeks VIP tickets van Kaelen Rui\u2019s show. De datum van het incident staat omcirkeld met de aantekening: \"Belangrijk! Waarschuwing.\"",
+        "type": "Fysiek Object",
+        "locatie_id": 4,
+        "personage_id": 2,
+        "is_kritisch": false,
+        "moeilijkheidsgraad": 2,
+        "created_at": "2025-12-14T15:40:29.000000Z",
+        "updated_at": "2025-12-14T15:40:29.000000Z"
+    },
+    {
+        "id": 3,
+        "titel": "Zeldzame Chip Module",
+        "beschrijving": "Een hyper-geavanceerde, unieke geheugenmodule verstopt in een oude, analoge videocamera. Deze module bevat de ware data die het slachtoffer zocht.",
+        "type": "Technisch Bewijs",
+        "locatie_id": 1,
+        "personage_id": 1,
+        "is_kritisch": true,
+        "moeilijkheidsgraad": 3,
+        "created_at": "2025-12-14T15:40:29.000000Z",
+        "updated_at": "2025-12-14T15:40:29.000000Z"
+    },
+    {
+        "id": 4,
+        "titel": "Security Log (Nexus)",
+        "beschrijving": "De logboeken tonen aan dat Julian Dex op de avond van het incident 15 minuten te laat was met uitklokken, wat zijn alibi schendt.",
+        "type": "Data File",
+        "locatie_id": 3,
+        "personage_id": null,
+        "is_kritisch": false,
+        "moeilijkheidsgraad": 2,
+        "created_at": "2025-12-14T15:40:29.000000Z",
+        "updated_at": "2025-12-14T15:40:29.000000Z"
+    }
+]

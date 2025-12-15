@@ -14,16 +14,31 @@ class Sector extends Model
     protected $fillable = [
         'naam',
         'beschrijving',
-        'kaart_coordinaten',
+        'kaart_coordinaten', // Deprecated but kept for now
         'is_ontdekt',
+        'x',
+        'y',
+        'width',
+        'height',
     ];
 
     protected $casts = [
         'is_ontdekt' => 'boolean',
+        'x' => 'integer',
+        'y' => 'integer',
+        'width' => 'integer',
+        'height' => 'integer',
     ];
+
+    protected $with = ['artwork'];
 
     public function locaties()
     {
         return $this->hasMany(Locatie::class);
+    }
+
+    public function artwork()
+    {
+        return $this->morphMany(Afbeelding::class, 'imageable');
     }
 }

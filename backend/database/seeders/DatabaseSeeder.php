@@ -17,16 +17,20 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name'  => 'Test User',
+            'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
         $this->call([
-            // De volgorde is BELANGRIJK: Personages en Locaties eerst
+                // De volgorde is BELANGRIJK: Personages en Locaties eerst
             PersonageSeeder::class,
             LocatieSeeder::class,
             AanwijzingSeeder::class,
+            SectorSeeder::class,
+            SceneSeeder::class,
             AfbeeldingenSeeder::class,
+            NoteSeeder::class,
+            ConversationSeeder::class,
         ]);
     }
 }

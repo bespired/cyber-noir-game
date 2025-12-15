@@ -29,14 +29,33 @@ const router = createRouter({
         },
         {
             path: '/map',
-            name: 'Map',
-            component: () => import('../views/Map/SectorList.vue'),
+            name: 'map-list',
+            component: () => import('../views/Map/GlobalMapView.vue'),
+            meta: { requiresAuth: true }
+        },
+        // Conversations
+        {
+            path: '/conversations',
+            name: 'conversations-list',
+            component: () => import('../views/Dialogues/ConversationList.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/conversations/:id',
+            name: 'conversation-edit',
+            component: () => import('../views/Dialogues/ConversationEditor.vue'),
             meta: { requiresAuth: true }
         },
         {
             path: '/map/:id',
-            name: 'SectorDetail',
+            name: 'sector-detail',
             component: () => import('../views/Map/SectorDetail.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/notes',
+            name: 'notes',
+            component: () => import('../views/Notes/NotesList.vue'),
             meta: { requiresAuth: true }
         },
         {

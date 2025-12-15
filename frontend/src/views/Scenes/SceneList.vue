@@ -2,11 +2,29 @@
 import { ref, onMounted } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
+import Modal from '../../components/Modal.vue';
 
 const scenes = ref([]);
+const locaties = ref([]);
 const loading = ref(true);
+const showModal = ref(false);
+const form = ref({
+    titel: '',
+    locatie_id: '',
+    type: 'investigation',
+    beschrijving: '',
+    status: 'active'
+});
 
 onMounted(async () => {
+    await Promise.all([
+        fetchScenes(),
+        fetchLocaties()
+    ]);
+});
+
+const fetchScenes = async () => {
+    loading.value = true;
     try {
         const response = await axios.get('/api/scenes');
         scenes.value = response.data;
@@ -15,7 +33,37 @@ onMounted(async () => {
     } finally {
         loading.value = false;
     }
-});
+};
+
+const fetchLocaties = async () => {
+    try {
+        const response = await axios.get('/api/locaties');
+        locaties.value = response.data;
+    } catch (e) {
+        console.error("Failed to fetch locations", e);
+    }
+};
+
+const openModal = () => {
+    form.value = {
+        titel: '',
+        locatie_id: '',
+        type: 'investigation',
+        beschrijving: '',
+        status: 'active'
+    };
+    showModal.value = true;
+};
+
+const createScene = async () => {
+    try {
+        await axios.post('/api/scenes', form.value);
+        showModal.value = false;
+        await fetchScenes();
+    } catch (e) {
+        console.error("Failed to create scene", e);
+    }
+};
 
 const getStatusColor = (status) => {
     switch (status) {
@@ -40,7 +88,7 @@ const getTypeIcon = (type) => {
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-white tracking-tight">SCENES</h1>
-            <button class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+            <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
                 + NEW SCENE
             </button>
         </div>
@@ -85,5 +133,49 @@ const getTypeIcon = (type) => {
                 </div>
             </div>
         </div>
+
+        <!-- Create Modal -->
+        <Modal :isOpen="showModal" title="NEW SCENE ENTRY" @close="showModal = false">
+            <form @submit.prevent="createScene" class="space-y-4">
+                <div>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">Titel</label>
+                    <input v-model="form.titel" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                </div>
+                 <div>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">Location</label>
+                    <select v-model="form.locatie_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <option value="" disabled>Select a location</option>
+                        <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                     <div>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">Type</label>
+                        <select v-model="form.type" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                            <option value="investigation">Investigation</option>
+                            <option value="interrogation">Interrogation</option>
+                            <option value="combat">Combat</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">Status</label>
+                        <select v-model="form.status" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="locked">Locked</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">Beschrijving</label>
+                    <textarea v-model="form.beschrijving" required rows="3" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
+                </div>
+                <div class="pt-4 flex justify-end gap-2 text-sm">
+                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">CREATE RECORD</button>
+                </div>
+            </form>
+        </Modal>
     </div>
 </template>

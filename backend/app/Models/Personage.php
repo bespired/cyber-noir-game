@@ -17,10 +17,12 @@ class Personage extends Model
         'replicant_status',
         'motief',
         'is_replicant',
+        'is_playable',
     ];
 
     protected $casts = [
         'is_replicant' => 'boolean',
+        'is_playable' => 'boolean',
     ];
 
     public function aanwijzingen()
