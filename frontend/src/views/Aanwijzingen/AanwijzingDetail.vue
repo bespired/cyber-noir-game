@@ -58,7 +58,7 @@ const handleDeleteSuccess = (deletedId) => {
 
     <div v-else-if="aanwijzing" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/aanwijzingen" class="hover:text-white">&lt; BACK_TO_DATABASE</RouterLink>
+            <RouterLink to="/aanwijzingen" class="hover:text-white">&lt; AANWIJZINGEN</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ aanwijzing.titel }}</span>
         </div>
@@ -73,7 +73,7 @@ const handleDeleteSuccess = (deletedId) => {
                     </div>
                 </div>
                 <button @click="saveChanges" class="bg-noir-danger/20 text-noir-danger border border-noir-danger px-4 py-2 rounded hover:bg-noir-danger hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                    UPDATE_EVIDENCE
+                    AANWIJZING_BEWAREN
                 </button>
             </div>
 
@@ -95,7 +95,7 @@ const handleDeleteSuccess = (deletedId) => {
                     <div class="bg-noir-danger/10 border border-noir-danger/30 p-4 rounded mb-6">
                         <label class="flex items-center space-x-3 cursor-pointer">
                             <input type="checkbox" v-model="aanwijzing.is_kritisch" class="form-checkbox h-5 w-5 text-noir-danger rounded bg-noir-dark border-noir-danger focus:ring-0 focus:ring-offset-0 cursor-pointer">
-                            <span class="text-noir-danger font-bold uppercase tracking-wider">Critical Evidence</span>
+                            <span class="text-noir-danger font-bold uppercase tracking-wider">Kritieke Aanwijzing</span>
                         </label>
                     </div>
 
@@ -118,7 +118,7 @@ const handleDeleteSuccess = (deletedId) => {
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Found At Location</label>
+                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Waar te vinden</label>
                             <select v-model="aanwijzing.locatie_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors cursor-pointer">
                                 <option :value="null">-- None --</option>
                                 <option v-for="l in locaties" :key="l.id" :value="l.id">{{ l.naam }}</option>
@@ -131,6 +131,6 @@ const handleDeleteSuccess = (deletedId) => {
     </div>
 
     <div v-else class="container mx-auto p-6 text-center text-noir-danger">
-        FILE_NOT_FOUND_OR_CORRUPTED
+        BESTAND_NIET_GEVONDEN_OF_CORRUPT
     </div>
 </template>

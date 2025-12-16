@@ -33,17 +33,17 @@ const router = createRouter({
             component: () => import('../views/Map/GlobalMapView.vue'),
             meta: { requiresAuth: true }
         },
-        // Conversations
+        // Conversations -> Dialogen
         {
-            path: '/conversations',
-            name: 'conversations-list',
-            component: () => import('../views/Dialogues/ConversationList.vue'),
+            path: '/dialogen',
+            name: 'dialogen-list',
+            component: () => import('../views/Dialogen/DialoogList.vue'),
             meta: { requiresAuth: true }
         },
         {
-            path: '/conversations/:id',
-            name: 'conversation-edit',
-            component: () => import('../views/Dialogues/ConversationEditor.vue'),
+            path: '/dialogen/:id',
+            name: 'dialoog-edit',
+            component: () => import('../views/Dialogen/DialoogEditor.vue'),
             meta: { requiresAuth: true }
         },
         {
@@ -53,9 +53,9 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
-            path: '/notes',
-            name: 'notes',
-            component: () => import('../views/Notes/NotesList.vue'),
+            path: '/notities',
+            name: 'notities',
+            component: () => import('../views/Notes/NotitieList.vue'),
             meta: { requiresAuth: true }
         },
         {

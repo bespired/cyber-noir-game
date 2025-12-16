@@ -44,7 +44,7 @@ onMounted(async () => {
     <div class="container mx-auto p-6">
         <div v-if="isAuthenticated">
             <h1 class="text-3xl font-bold text-white mb-8 tracking-tight">
-                CASE_STATUS: <span class="text-noir-success">ACTIVE</span>
+                CASE_STATUS: <span class="text-noir-success">ACTIEF</span>
             </h1>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -93,9 +93,9 @@ onMounted(async () => {
             </div>
 
             <div class="bg-noir-panel border border-noir-dark p-6 rounded">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-noir-dark pb-2">CURRENT_OBJECTIVE</h2>
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-noir-dark pb-2">SPEL_DOEL</h2>
                 <p class="text-noir-text text-lg">
-                    > Vind de bron van het gestolen data-bestand.
+                    > Vind de bron van het gestolen data-bestand. Of iets.
                     <span class="animate-pulse inline-block w-2 h-4 bg-noir-accent ml-1 align-middle"></span>
                 </p>
             </div>

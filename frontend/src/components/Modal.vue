@@ -29,8 +29,8 @@ defineEmits(['close'])
 </template>
 
 <style scoped>
-/* Ensure the modal is always above other content */
-.z-50 {
-  z-index: 50;
-}
+  /* Ensure the modal is always above other content */
+  .z-50 {
+    z-index: 50;
+  }
 </style>

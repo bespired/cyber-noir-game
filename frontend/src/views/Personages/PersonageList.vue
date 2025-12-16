@@ -73,12 +73,12 @@ const getImageUrl = (path) => {
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-white tracking-tight">PERSONAGES</h1>
             <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                + NEW ENTRY
+                + NIEUW PERSOON
             </button>
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
-            LOADING_DATABASE...
+            DATABASE LADEN...
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -90,9 +90,9 @@ const getImageUrl = (path) => {
 
                 <!-- Thumbnail -->
                 <div v-if="personage.artwork && personage.artwork.length > 0" class="flex-shrink-0 w-20">
-                    <img 
-                        :src="getImageUrl(personage.artwork[0].bestandspad)" 
-                        :alt="personage.naam" 
+                    <img
+                        :src="getImageUrl(personage.artwork[0].bestandspad)"
+                        :alt="personage.naam"
                         class="w-full aspect-[2/3] object-cover rounded border border-noir-dark"
                     >
                 </div>
@@ -103,15 +103,15 @@ const getImageUrl = (path) => {
                             <h2 class="text-xl font-bold text-white group-hover:text-noir-accent transition-colors">{{ personage.naam }}</h2>
                             <span class="text-xs text-noir-muted uppercase tracking-wider">{{ personage.rol }}</span>
                         </div>
-                        <div class="h-2 w-2 rounded-full" :class="personage.is_replicant ? 'bg-noir-danger' : 'bg-noir-success'" :title="personage.is_replicant ? 'Replicant Detected' : 'Human Verified'"></div>
+                        <div class="h-2 w-2 rounded-full" :class="personage.is_replicant ? 'bg-noir-danger' : 'bg-noir-success'" :title="personage.is_replicant ? 'Replicant Gedetecteerd' : 'Mens Geverifieerd'"></div>
                     </div>
-                    
+
                     <p class="text-noir-text text-sm mb-4 line-clamp-3">{{ personage.beschrijving }}</p>
-                    
+
                     <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                         <span class="text-xs text-noir-muted">ID: {{ String(personage.id).padStart(4, '0') }}</span>
                         <RouterLink :to="`/personages/${personage.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
-                            ACCESS_FILE >
+                            WIJZIG BESTAND >
                         </RouterLink>
                     </div>
                 </div>
@@ -119,7 +119,7 @@ const getImageUrl = (path) => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" title="NEW PERSONAGE ENTRY" @close="showModal = false">
+        <Modal :isOpen="showModal" title="NIEUW PERSONAGE" @close="showModal = false">
             <form @submit.prevent="createPersonage" class="space-y-4">
                 <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">Naam</label>
@@ -154,12 +154,12 @@ const getImageUrl = (path) => {
                     </div>
                     <div class="flex items-center gap-2">
                         <input v-model="form.is_playable" type="checkbox" id="is_playable" class="rounded bg-noir-darker border-noir-dark text-noir-warning focus:ring-noir-warning">
-                        <label for="is_playable" class="text-white text-sm">Playable Character?</label>
+                        <label for="is_playable" class="text-white text-sm">Speelbaar Personage?</label>
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">CREATE RECORD</button>
+                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">AANMAKEN</button>
                 </div>
             </form>
         </Modal>

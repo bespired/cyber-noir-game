@@ -36,6 +36,7 @@ class LocatieController extends Controller
             'naam' => 'string|max:255',
             'beschrijving' => 'string',
             'notities' => 'nullable|string',
+            'sector_id' => 'nullable|exists:sectoren,id',
         ]);
 
         $locatie->update($validated);

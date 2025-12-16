@@ -23,9 +23,27 @@ const editForm = ref({
     height: 100
 });
 
+const locaties = ref([]);
+
+// Link Location State
+const showLinkLocationModal = ref(false);
+const selectedLocationId = ref('');
+
 onMounted(async () => {
-    await fetchSector();
+    await Promise.all([
+        fetchSector(),
+        fetchLocaties()
+    ]);
 });
+
+const fetchLocaties = async () => {
+    try {
+        const response = await axios.get('/api/locaties');
+        locaties.value = response.data;
+    } catch (e) {
+        console.error("Failed to fetch locations", e);
+    }
+};
 
 const fetchSector = async () => {
     loading.value = true;
@@ -91,23 +109,34 @@ const handleFileUpload = async (event) => {
     }
 };
 
-const getImageUrl = (path) => {
-    if (!path) return '';
-    if (path.startsWith('http')) return path;
-    if (path.startsWith('/storage')) return `http://localhost:8000${path}`;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `http://localhost:8000/storage${cleanPath}`;
+const openLinkLocationModal = () => {
+    selectedLocationId.value = '';
+    showLinkLocationModal.value = true;
+};
+
+const linkLocation = async () => {
+    if (!selectedLocationId.value) return;
+
+    try {
+        await axios.put(`/api/locaties/${selectedLocationId.value}`, {
+            sector_id: sector.value.id
+        });
+        showLinkLocationModal.value = false;
+        await fetchSector();
+    } catch (e) {
+        console.error("Failed to link location", e);
+    }
 };
 </script>
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        LOADING_SECTOR_DATA...
+        LADEN...
     </div>
 
     <div v-else-if="sector" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/map" class="hover:text-white">&lt; BACK_TO_MAP</RouterLink>
+            <RouterLink to="/map" class="hover:text-white">&lt; SECTOREN</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ sector.naam }}</span>
         </div>
@@ -119,13 +148,13 @@ const getImageUrl = (path) => {
                     <img :src="getImageUrl(sector.artwork[0].bestandspad)" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
                 </div>
                 <div v-else class="w-full h-full min-h-[200px] flex items-center justify-center text-noir-muted bg-noir-dark/50">
-                    NO_VISUAL_DATA
+                    GEEN VISUELE DATA
                 </div>
-                
+
                 <!-- Upload Overlay -->
                 <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button @click="triggerUpload" class="px-4 py-2 border border-white text-white hover:bg-white hover:text-black transition-colors uppercase text-xs font-bold tracking-wider">
-                        {{ uploadLoading ? 'UPLOADING...' : 'CHANGE_VISUAL' }}
+                        {{ uploadLoading ? 'UPLOADING...' : 'WIJZIG VISUAL' }}
                     </button>
                     <input type="file" ref="fileInput" @change="handleFileUpload" class="hidden" accept="image/*">
                 </div>
@@ -136,36 +165,36 @@ const getImageUrl = (path) => {
                 <div class="flex justify-between items-start mb-4">
                     <h1 class="text-3xl font-bold text-white">{{ sector.naam }}</h1>
                     <button @click="openEditModal" class="text-noir-accent hover:text-white text-sm font-bold uppercase tracking-wider border border-noir-accent hover:border-white px-3 py-1 rounded transition-colors">
-                        EDIT_DATA
+                        BEWERK DATA
                     </button>
                 </div>
                 <p class="text-noir-text mb-6 flex-grow">{{ sector.beschrijving }}</p>
-                
+
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-noir-muted border-t border-noir-dark pt-4 font-mono">
                     <div>
-                        <div class="uppercase mb-1">Coordinates</div>
+                        <div class="uppercase mb-1">Coördinaten</div>
                         <div class="text-white">{{ sector.kaart_coordinaten || 'N/A' }}</div>
                     </div>
                     <div>
-                        <div class="uppercase mb-1">Grid Position</div>
+                        <div class="uppercase mb-1">Grid Positie</div>
                         <div class="text-white">X:{{ sector.x }} Y:{{ sector.y }}</div>
                     </div>
                     <div>
-                        <div class="uppercase mb-1">Dimensions</div>
+                        <div class="uppercase mb-1">Afmetingen</div>
                         <div class="text-white">{{ sector.width }}x{{ sector.height }}</div>
                     </div>
                      <div>
                         <div class="uppercase mb-1">Status</div>
-                        <div :class="sector.is_ontdekt ? 'text-noir-success' : 'text-noir-muted'">{{ sector.is_ontdekt ? 'DISCOVERED' : 'UNKNOWN' }}</div>
+                        <div :class="sector.is_ontdekt ? 'text-noir-success' : 'text-noir-muted'">{{ sector.is_ontdekt ? 'ONTDEKT' : 'ONBEKEND' }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white uppercase tracking-wider">Locations in Sector</h2>
-            <button class="bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                + ADD LOCATION
+            <h2 class="text-xl font-bold text-white uppercase tracking-wider">Locaties in Sector</h2>
+            <button @click="openLinkLocationModal" class="bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                + LINK BESTAANDE LOCATIE
             </button>
         </div>
 
@@ -173,23 +202,23 @@ const getImageUrl = (path) => {
             <div v-for="locatie in sector.locaties" :key="locatie.id" class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-warning transition-colors group">
                 <h3 class="text-xl font-bold text-white mb-2 group-hover:text-noir-warning transition-colors">{{ locatie.naam }}</h3>
                 <p class="text-noir-text text-sm mb-4 line-clamp-2">{{ locatie.beschrijving }}</p>
-                
+
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                     <span class="text-xs text-noir-muted">ID: {{ String(locatie.id).padStart(4, '0') }}</span>
                     <RouterLink :to="`/locaties/${locatie.id}`" class="text-noir-warning text-sm hover:text-white hover:underline decoration-noir-warning underline-offset-4 uppercase font-semibold transition-all">
-                        INSPECT >
+                        INSPECTEREN >
                     </RouterLink>
                 </div>
             </div>
-            
+
             <!-- Empty State -->
             <div v-if="!sector.locaties || sector.locaties.length === 0" class="col-span-full text-center py-12 border-2 border-dashed border-noir-dark rounded text-noir-muted">
-                NO_LOCATIONS_DETECTED
+                GEEN LOCATIES GEVONDEN
             </div>
         </div>
 
         <!-- Edit Modal -->
-        <Modal :isOpen="showEditModal" title="EDIT SECTOR DATA" @close="showEditModal = false">
+        <Modal :isOpen="showEditModal" title="BEWERK SECTOR" @close="showEditModal = false">
             <form @submit.prevent="updateSector" class="space-y-4">
                 <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">Naam</label>
@@ -201,19 +230,38 @@ const getImageUrl = (path) => {
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Width (px)</label>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">Breedte (px)</label>
                         <input v-model="editForm.width" type="number" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Height (px)</label>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">Hoogte (px)</label>
                         <input v-model="editForm.height" type="number" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                     </div>
                 </div>
                 <!-- X/Y are managed via map but editable here if needed -->
-                
+
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showEditModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">UPDATE RECORD</button>
+                    <button type="button" @click="showEditModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">OPSLAAN</button>
+                </div>
+            </form>
+        </Modal>
+
+        <!-- Link Location Modal -->
+        <Modal :isOpen="showLinkLocationModal" title="LINK LOCATIE" @close="showLinkLocationModal = false">
+            <form @submit.prevent="linkLocation" class="space-y-4">
+                <div>
+                     <label class="block text-noir-muted text-xs uppercase mb-1">Selecteer Locatie</label>
+                     <select v-model="selectedLocationId" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-warning focus:outline-none">
+                        <option value="" disabled>Selecteer een locatie om te linken...</option>
+                        <option v-for="loc in locaties" :key="loc.id" :value="loc.id">
+                            {{ loc.naam }} {{ loc.sector_id ? '(Verplaatst van andere sector)' : '(Niet toegewezen)' }}
+                        </option>
+                     </select>
+                </div>
+                <div class="pt-4 flex justify-end gap-2 text-sm">
+                    <button type="button" @click="showLinkLocationModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">LINK LOCATIE</button>
                 </div>
             </form>
         </Modal>

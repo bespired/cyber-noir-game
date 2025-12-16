@@ -55,6 +55,3 @@ const handleLogout = () => {
     </nav>
 </template>
 
-<style scoped>
-/* Scoped styles removed in favor of inline Tailwind classes */
-</style>

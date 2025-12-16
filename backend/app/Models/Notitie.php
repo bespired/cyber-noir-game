@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Note extends Model
+class Notitie extends Model
 {
-    /** @use HasFactory<\Database\Factories\NoteFactory> */
-    use HasFactory;
+    // use HasFactory;
+
+    protected $table = 'notities';
 
     protected $fillable = ['titel', 'inhoud', 'is_afgerond'];
 }

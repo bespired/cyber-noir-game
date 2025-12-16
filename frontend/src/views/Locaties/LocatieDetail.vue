@@ -50,7 +50,7 @@ const handleDeleteSuccess = (deletedId) => {
 
     <div v-else-if="locatie" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/locaties" class="hover:text-white">&lt; BACK_TO_MAP</RouterLink>
+            <RouterLink to="/locaties" class="hover:text-white">&lt; LOCATIES</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ locatie.naam }}</span>
         </div>
@@ -65,7 +65,7 @@ const handleDeleteSuccess = (deletedId) => {
                     </div>
                 </div>
                 <button @click="saveChanges" class="bg-noir-warning/20 text-noir-warning border border-noir-warning px-4 py-2 rounded hover:bg-noir-warning hover:text-black hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                    UPDATE_SECTOR
+                    UPDATE_LOCATIE
                 </button>
             </div>
 
@@ -99,7 +99,7 @@ const handleDeleteSuccess = (deletedId) => {
 
                     <!-- Linked Clues -->
                     <div v-if="locatie.aanwijzingen && locatie.aanwijzingen.length > 0">
-                        <h3 class="text-sm font-bold text-white uppercase mb-4 border-b border-noir-dark pb-2">Evidence Found Here</h3>
+                        <h3 class="text-sm font-bold text-white uppercase mb-4 border-b border-noir-dark pb-2">Aanwijzingen</h3>
                         <ul class="space-y-2">
                             <li v-for="clue in locatie.aanwijzingen" :key="clue.id" class="flex items-center text-sm">
                                 <span class="w-2 h-2 bg-noir-warning rounded-full mr-2"></span>

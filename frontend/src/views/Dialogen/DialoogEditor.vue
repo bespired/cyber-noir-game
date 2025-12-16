@@ -17,7 +17,7 @@ onMounted(async () => {
 const fetchConversation = async () => {
     loading.value = true;
     try {
-        const response = await axios.get(`/api/conversations/${route.params.id}`);
+        const response = await axios.get(`/api/dialogen/${route.params.id}`);
         conversation.value = response.data;
         // Pretty print JSON
         jsonString.value = JSON.stringify(conversation.value.tree, null, 2);
@@ -33,14 +33,14 @@ const saveChanges = async () => {
     try {
         // Validate JSON
         const parsedTree = JSON.parse(jsonString.value);
-        
+
         // Update
         const payload = {
             ...conversation.value,
             tree: parsedTree
         };
-        
-        await axios.put(`/api/conversations/${conversation.value.id}`, payload);
+
+        await axios.put(`/api/dialogen/${conversation.value.id}`, payload);
         alert('CHANGES_SAVED');
     } catch (e) {
             if (e instanceof SyntaxError) {
@@ -55,12 +55,12 @@ const saveChanges = async () => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        DECODING_SEQUENCE...
+        DECODEREN_SEQUENCE...
     </div>
 
     <div v-else-if="conversation" class="container mx-auto p-6 h-[calc(100vh-4rem)] flex flex-col">
         <div class="flex items-center mb-6 text-sm text-noir-muted flex-shrink-0">
-            <RouterLink to="/conversations" class="hover:text-white">&lt; BACK_TO_LIST</RouterLink>
+            <RouterLink to="/dialogen" class="hover:text-white">&lt; NAAR_LIST</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ conversation.titel }}</span>
         </div>
@@ -83,15 +83,15 @@ const saveChanges = async () => {
                      <label class="block text-xs font-bold text-noir-muted uppercase">Dialogue Tree (JSON)</label>
                      <span v-if="error" class="text-noir-danger text-xs font-bold">{{ error }}</span>
                 </div>
-                
-                <textarea 
-                    v-model="jsonString" 
+
+                <textarea
+                    v-model="jsonString"
                     class="flex-grow w-full bg-[#0a0a0a] border border-noir-dark text-white p-4 rounded focus:border-noir-accent focus:outline-none font-mono text-sm leading-relaxed resize-none"
                     spellcheck="false"
                 ></textarea>
-                
+
                 <div class="mt-2 text-xs text-noir-muted">
-                    Defining Structure: { "root": { "text": "...", "options": [ { "text": "...", "next": "node_id" } ] } }
+                    Defining Structure: { "nodes": { "start": { "text": "...", "options": [ { "text": "...", "next": "node_id", "conditions": [], "actions": [] } ] } } }
                 </div>
             </div>
         </div>

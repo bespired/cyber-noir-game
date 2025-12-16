@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Conversation extends Model
+class Dialoog extends Model
 {
-    /** @use HasFactory<\Database\Factories\ConversationFactory> */
-    use HasFactory;
+    // use HasFactory;
+
+    protected $table = 'dialogen';
 
     protected $fillable = [
         'personage_id',

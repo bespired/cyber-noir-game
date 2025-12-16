@@ -20,6 +20,8 @@ class SceneController extends Controller
             'type' => 'required|string',
             'beschrijving' => 'required|string',
             'status' => 'required|string',
+            'entry_point' => 'nullable|string',
+            'exit_point' => 'nullable|string',
         ]);
 
         return Scene::create($validated);
@@ -39,6 +41,8 @@ class SceneController extends Controller
             'type' => 'string',
             'beschrijving' => 'string',
             'status' => 'string',
+            'entry_point' => 'nullable|string',
+            'exit_point' => 'nullable|string',
         ]);
 
         $scene->update($validated);

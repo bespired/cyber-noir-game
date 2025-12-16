@@ -46,12 +46,12 @@ const handleDeleteSuccess = (deletedId) => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        ACCESSING_SECURE_FILE...
+        INLADEN_VEILIGE_FILE...
     </div>
 
     <div v-else-if="personage" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/personages" class="hover:text-white">&lt; BACK_TO_DATABASE</RouterLink>
+            <RouterLink to="/personages" class="hover:text-white">&lt; PERSONAGES</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ personage.naam }}</span>
         </div>
@@ -67,7 +67,7 @@ const handleDeleteSuccess = (deletedId) => {
                     </div>
                 </div>
                 <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                    SAVE_CHANGES
+                    BEWAAR_
                 </button>
             </div>
 

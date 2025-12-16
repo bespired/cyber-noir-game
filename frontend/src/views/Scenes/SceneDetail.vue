@@ -56,12 +56,12 @@ const getStatusColor = (status) => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        LOADING_SCENE_DATA...
+        LADEN_SCENE_DATA...
     </div>
 
     <div v-else-if="scene" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/scenes" class="hover:text-white">&lt; BACK_TO_SCENES</RouterLink>
+            <RouterLink to="/scenes" class="hover:text-white">&lt; NAAR_OVERZICHT</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ scene.titel }}</span>
         </div>
@@ -81,10 +81,10 @@ const getStatusColor = (status) => {
                 </div>
                 <div class="flex gap-2">
                     <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                        SAVE_CHANGES
+                        BEWAREN
                     </button>
                     <button @click="deleteScene" class="bg-noir-danger/20 text-noir-danger border border-noir-danger px-4 py-2 rounded hover:bg-noir-danger hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                        DELETE
+                        VERWIJDEREN
                     </button>
                 </div>
             </div>
@@ -102,27 +102,28 @@ const getStatusColor = (status) => {
                         <div>
                             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Type</label>
                             <select v-model="scene.type" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                                <option value="standard">Standard</option>
-                                <option value="interrogation">Interrogation</option>
-                                <option value="combat">Combat</option>
-                                <option value="investigation">Investigation</option>
-                                <option value="dialogue">Dialogue</option>
+                                <option value="walk-area">Loopbaar</option>
+                                <option value="investigation">Onderzoek</option>
+                                <option value="interrogation">Verhoor</option>
+                                <option value="combat">Gevecht</option>
+                                <option value="dialogue">Dialoog</option>
+                                <option value="flying">Vliegen</option>
                             </select>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Status</label>
                             <select v-model="scene.status" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                                <option value="active">Active</option>
-                                <option value="completed">Completed</option>
-                                <option value="locked">Locked</option>
+                                <option value="active">Actief</option>
+                                <option value="completed">Gedaan</option>
+                                <option value="locked">Gesloten</option>
                             </select>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Locatie</label>
                             <select v-model="scene.locatie_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                                <option :value="null">-- Select Location --</option>
+                                <option :value="null">-- Select Locatie --</option>
                                 <option v-for="loc in locaties" :key="loc.id" :value="loc.id">
                                     {{ loc.naam }}
                                 </option>
@@ -131,11 +132,11 @@ const getStatusColor = (status) => {
 
                         <!-- Current Location Info -->
                         <div v-if="scene.locatie" class="p-4 bg-noir-dark/30 rounded border border-noir-dark">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">Current Location</h3>
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">Omschrijving</h3>
                             <div class="text-white font-semibold mb-1">{{ scene.locatie.naam }}</div>
                             <div class="text-sm text-noir-text">{{ scene.locatie.beschrijving }}</div>
                             <div v-if="scene.locatie.adres" class="text-xs text-noir-muted mt-2">
-                                📍 {{ scene.locatie.adres }}
+                                {{ scene.locatie.adres }}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,9 @@
   --color-noir-warning: #F59E0B;
 
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
 }
+
 
 body {
   @apply bg-noir-bg text-noir-text font-mono;

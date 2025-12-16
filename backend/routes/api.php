@@ -28,9 +28,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('scenes', \App\Http\Controllers\SceneController::class)
         ->parameters(['scenes' => 'scene']);
 
-    Route::apiResource('notes', \App\Http\Controllers\NoteController::class);
+    Route::apiResource('notities', \App\Http\Controllers\NotitieController::class)
+        ->parameters(['notities' => 'notitie']);
 
-    Route::apiResource('conversations', \App\Http\Controllers\ConversationController::class);
+    Route::apiResource('dialogen', \App\Http\Controllers\DialoogController::class)
+        ->parameters(['dialogen' => 'dialoog']);
+    Route::post('/dialogen/{dialoog}/check-options', [\App\Http\Controllers\DialoogController::class, 'checkOptions']);
+    Route::post('/dialogen/{dialoog}/perform-action', [\App\Http\Controllers\DialoogController::class, 'performAction']);
 
     Route::delete('/artwork/{afbeelding}', [\App\Http\Controllers\AfbeeldingController::class, 'destroy']);
 

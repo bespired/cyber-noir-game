@@ -82,8 +82,10 @@ const aspectRatioClass = computed(() => {
     switch (props.modelType) {
         case 'personage':
             return 'aspect-[2/3]'; // Portrait
+
         case 'aanwijzing':
             return 'aspect-square'; // Square
+
         case 'locatie':
         default:
             return 'aspect-video'; // Landscape (16:9)
@@ -114,7 +116,7 @@ const deleteImage = async (id) => {
     <div class="bg-noir-panel">
         <div class="flex justify-between items-center pb-2">
             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">
-                Visual Records
+                Visuele Bestanden
             </label>
         </div>
 
@@ -142,7 +144,7 @@ const deleteImage = async (id) => {
             </div>
         </div>
         <div v-else class="text-noir-muted text-sm italic mb-6">
-            NO_VISUAL_DATA_AVAILABLE
+            GEEN_VISUEEL_DATA_BESCHIKBAAR
         </div>
 
         <!-- Footer Actions -->
@@ -152,13 +154,13 @@ const deleteImage = async (id) => {
                 class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded border transition-all duration-300"
                 :class="isUploadOpen ? 'bg-noir-danger/20 text-noir-danger border-noir-danger hover:bg-noir-danger hover:text-white' : 'bg-noir-accent/20 text-noir-accent border-noir-accent hover:bg-noir-accent hover:text-white'"
             >
-                {{ isUploadOpen ? 'Close Upload' : 'Add New Record' }}
+                {{ isUploadOpen ? 'Sluit Upload' : 'Record Toevoegen' }}
             </button>
         </div>
 
         <!-- Upload Form (Collapsible) -->
         <div v-if="isUploadOpen" class="bg-noir-dark/50 p-4 rounded border border-noir-dark animate-fade-in-down">
-            <h4 class="text-sm font-bold text-noir-muted uppercase mb-3">Upload New Image</h4>
+            <h4 class="text-sm font-bold text-noir-muted uppercase mb-3">Nieuw Plaatje Uploaden</h4>
             <form @submit.prevent="handleUpload" class="space-y-3">
                 <div>
                     <input
@@ -174,7 +176,7 @@ const deleteImage = async (id) => {
                     <input
                         type="text"
                         v-model="artworkTitle"
-                        placeholder="IMAGE_TITLE_OPTIONAL"
+                        placeholder="OPTIONEEL_TITEL"
                         class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-sm text-white focus:border-noir-accent focus:outline-none transition-colors"
                     >
                 </div>
@@ -183,7 +185,7 @@ const deleteImage = async (id) => {
                     :disabled="!selectedFile || uploading"
                     class="w-full bg-noir-accent text-white py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_10px_rgba(59,130,246,0.5)] transition-all uppercase font-bold text-xs tracking-wider disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                    {{ uploading ? 'UPLOADING...' : 'UPLOAD_IMAGE' }}
+                    {{ uploading ? 'UPLOADING...' : 'UPLOAD_PLAATJE' }}
                 </button>
             </form>
         </div>

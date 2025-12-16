@@ -19,7 +19,7 @@ onMounted(async () => {
 const fetchNotes = async () => {
     loading.value = true;
     try {
-        const response = await axios.get('/api/notes');
+        const response = await axios.get('/api/notities');
         notes.value = response.data;
     } catch (e) {
         console.error(e);
@@ -39,7 +39,7 @@ const openModal = () => {
 
 const createNote = async () => {
     try {
-        await axios.post('/api/notes', form.value);
+        await axios.post('/api/notities', form.value);
         showModal.value = false;
         await fetchNotes();
     } catch (e) {
@@ -49,7 +49,7 @@ const createNote = async () => {
 
 const toggleNote = async (note) => {
     try {
-        await axios.put(`/api/notes/${note.id}`, {
+        await axios.put(`/api/notities/${note.id}`, {
             ...note,
             is_afgerond: !note.is_afgerond
         });
@@ -61,9 +61,9 @@ const toggleNote = async (note) => {
 };
 
 const deleteNote = async (id) => {
-    if (!confirm('CONFIRM DELETION?')) return;
+    if (!confirm('BEVESTIG WISSEN?')) return;
     try {
-        await axios.delete(`/api/notes/${id}`);
+        await axios.delete(`/api/notities/${id}`);
         await fetchNotes();
     } catch (e) {
         console.error("Failed to delete note", e);
@@ -76,7 +76,7 @@ const deleteNote = async (id) => {
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-white tracking-tight">MYN NOTITIES</h1>
             <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                + NEW IDEA
+                + NIEUW IDEE
             </button>
         </div>
 
@@ -109,7 +109,7 @@ const deleteNote = async (id) => {
 
                 <div class="text-xs text-noir-muted border-t border-noir-dark pt-4 mt-auto flex justify-between">
                     <span>{{ new Date(note.created_at).toLocaleDateString() }}</span>
-                    <span>{{ note.is_afgerond ? 'ARCHIVED' : 'ACTIVE' }}</span>
+                    <span>{{ note.is_afgerond ? 'ARCHIEF' : 'ACTIEF' }}</span>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@ const deleteNote = async (id) => {
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
                     <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">SAVE RECORD</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">BEWAAR RECORD</button>
                 </div>
             </form>
         </Modal>

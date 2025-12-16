@@ -14,6 +14,8 @@ class Scene extends Model
         'titel',
         'type',
         'beschrijving',
+        'entry_point',
+        'exit_point',
         'status',
     ];
 

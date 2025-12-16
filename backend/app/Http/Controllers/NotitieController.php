@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Note;
+use App\Models\Notitie;
 use Illuminate\Http\Request;
 
-class NoteController extends Controller
+class NotitieController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Note::orderBy('created_at', 'desc')->get();
+        return Notitie::orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -26,22 +26,22 @@ class NoteController extends Controller
             'is_afgerond' => 'boolean'
         ]);
 
-        $note = Note::create($validated);
-        return response()->json($note, 201);
+        $notitie = Notitie::create($validated);
+        return response()->json($notitie, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Note $note)
+    public function show(Notitie $notitie)
     {
-        return $note;
+        return $notitie;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Note $note)
+    public function update(Request $request, Notitie $notitie)
     {
         $validated = $request->validate([
             'titel' => 'sometimes|required|string|max:255',
@@ -49,16 +49,16 @@ class NoteController extends Controller
             'is_afgerond' => 'boolean'
         ]);
 
-        $note->update($validated);
-        return response()->json($note);
+        $notitie->update($validated);
+        return response()->json($notitie);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Note $note)
+    public function destroy(Notitie $notitie)
     {
-        $note->delete();
+        $notitie->delete();
         return response()->json(null, 204);
     }
 }

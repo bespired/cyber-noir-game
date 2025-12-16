@@ -13,8 +13,8 @@ const navItems = [
     { path: '/aanwijzingen', svg: 'clue',      icon: '🔍', label: 'Aanwijzingen', title: 'AANWIJZINGEN' },
     { path: '/scenes',       svg: 'scene',     icon: '🎬', label: 'Scenes',       title: 'SCENES'       },
     { path: '/map',          svg: 'map',       icon: '🗺️', label: 'Map',          title: 'SECTOR MAP'   },
-    { path: '/notes',        svg: 'note',      icon: '📝', label: 'Notes',        title: 'MYN NOTITIES' },
-    { path: '/dialogues',    svg: 'dialogue',  icon: '💬', label: 'Dialogues',    title: 'DIALOGUES'    },
+    { path: '/notities',     svg: 'note',      icon: '📝', label: 'Notities',     title: 'MYN NOTITIES' },
+    { path: '/dialogen',     svg: 'dialogue',  icon: '💬', label: 'Dialogen',     title: 'DIALOGEN'     },
 ];
 </script>
 
