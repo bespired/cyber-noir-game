@@ -17,6 +17,8 @@ services:
         build:
             context: .
             dockerfile: docker/php/Dockerfile
+        env_file:
+            - ./backend/.env.docker
         image: cyber-noir-backend
         environment:
             APP_SERVICE: backend
