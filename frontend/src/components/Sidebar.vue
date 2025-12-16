@@ -32,11 +32,11 @@ const navItems = [
                 :key="item.path"
                 :to="item.path"
                 :title="item.title"
-                class="w-12 h-12 flex items-center justify-center text-2xl text-noir-muted hover:text-white hover:bg-noir-panel rounded transition-all duration-200 relative group p-1"
+                class="w-12 h-12 p-1 flex items-center justify-center text-2xl text-noir-muted hover:text-white hover:bg-noir-panel rounded transition-all duration-200 relative group "
                 active-class="text-noir-accent bg-noir-panel"
             >
-                <!-- <span>{{ item.icon }}</span> -->
                 <img :src="`/icons/${item.svg}.svg`" />
+
                 <!-- Tooltip -->
                 <div class="absolute left-full ml-2 px-3 py-1 bg-noir-panel border border-noir-dark rounded text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 font-bold tracking-wider">
                     {{ item.title }}
@@ -49,9 +49,11 @@ const navItems = [
             <RouterLink
                 to="/about"
                 title="ABOUT"
-                class="w-12 h-12 flex items-center justify-center text-xl text-noir-muted hover:text-white hover:bg-noir-panel rounded transition-all duration-200 relative group"
+                class="w-12 h-12 p-1 flex items-center justify-center text-2xl text-noir-muted hover:text-white hover:bg-noir-panel rounded transition-all duration-200 relative group"
             >
-                <span>ℹ️</span>
+                <img :src="`/icons/about.svg`" />
+
+                <!-- Tooltip -->
                 <div class="absolute left-full ml-2 px-3 py-1 bg-noir-panel border border-noir-dark rounded text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 font-bold tracking-wider">
                     ABOUT
                 </div>
