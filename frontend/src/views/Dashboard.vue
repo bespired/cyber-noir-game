@@ -12,7 +12,11 @@ const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
 const stats = ref({
     personages: 0,
     locaties: 0,
-    aanwijzingen: 0
+    aanwijzingen: 0,
+    scenes: 0,
+    sectoren: 0,
+    dialogen: 0,
+    notities: 0
 });
 
 const loading = ref(true);
@@ -21,15 +25,23 @@ const fetchStats = async () => {
     if (!isAuthenticated.value) return;
 
     try {
-        const [pRes, lRes, aRes] = await Promise.all([
+        const [pRes, lRes, aRes, sRes, secRes, dRes, nRes] = await Promise.all([
             axios.get('/api/personages'),
             axios.get('/api/locaties'),
-            axios.get('/api/aanwijzingen')
+            axios.get('/api/aanwijzingen'),
+            axios.get('/api/scenes'),
+            axios.get('/api/sectoren'),
+            axios.get('/api/dialogen'),
+            axios.get('/api/notities')
         ]);
         stats.value = {
             personages: pRes.data.length,
             locaties: lRes.data.length,
-            aanwijzingen: aRes.data.length
+            aanwijzingen: aRes.data.length,
+            scenes: sRes.data.length,
+            sectoren: secRes.data.length,
+            dialogen: dRes.data.length,
+            notities: nRes.data.length
         };
     } catch (e) {
         console.error("Failed to load stats", e);
@@ -94,6 +106,52 @@ watch(isAuthenticated, (newVal) => {
                     <div class="mt-4 h-1 w-full bg-noir-dark rounded-full overflow-hidden">
                         <div class="h-full bg-noir-danger w-3/4"></div>
                     </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <!-- Scenes -->
+                <div class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-noir-muted uppercase text-sm font-semibold mb-2">Scenes</h3>
+                    <p class="text-3xl font-bold text-white">{{ stats.scenes }}</p>
+                </div>
+
+                <!-- Sectors -->
+                <div class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-noir-muted uppercase text-sm font-semibold mb-2">Sectors</h3>
+                    <p class="text-3xl font-bold text-white">{{ stats.sectoren }}</p>
+                </div>
+
+                <!-- Dialogen -->
+                <div class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-noir-muted uppercase text-sm font-semibold mb-2">Dialogen</h3>
+                    <p class="text-3xl font-bold text-white">{{ stats.dialogen }}</p>
+                </div>
+
+                <!-- Notities -->
+                <div class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-noir-muted uppercase text-sm font-semibold mb-2">Notities</h3>
+                    <p class="text-3xl font-bold text-white">{{ stats.notities }}</p>
                 </div>
             </div>
 
