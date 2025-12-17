@@ -22,7 +22,7 @@ trait LoadsJsonData
         $json = File::get($path);
         $records = json_decode($json, true);
 
-        if (!$records) {
+        if ($records === null) {
             $this->command->warn("Invalid JSON in {$filename}.json");
             return false;
         }

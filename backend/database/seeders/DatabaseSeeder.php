@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             SectorSeeder::class,
             SceneSeeder::class,
             AfbeeldingenSeeder::class,
-            NoteSeeder::class,
-            ConversationSeeder::class,
+            NotitieSeeder::class,
+            DialoogSeeder::class,
         ]);
     }
 }

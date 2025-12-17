@@ -29,11 +29,11 @@ const handleLogin = async () => {
         <form @submit.prevent="handleLogin">
             <div class="form-group">
                 <label>Email:</label>
-                <input type="email" v-model="email" required />
+                <input type="email" v-model="email" required class="rounded bg-blue-300 text-black"/>
             </div>
             <div class="form-group">
                 <label>Password:</label>
-                <input type="password" v-model="password" required />
+                <input type="password" v-model="password" required class="rounded bg-blue-300 text-black"/>
             </div>
             <div v-if="error" class="error">{{ error }}</div>
             <button type="submit" class="w-full bg-noir-accent text-white font-bold py-2 px-4 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase tracking-wider transform hover:-translate-y-0.5 cursor-pointer">

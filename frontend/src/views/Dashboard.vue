@@ -4,6 +4,8 @@ import { useStore } from 'vuex';
 import { RouterLink } from 'vue-router';
 import axios from '../axios';
 
+import { watch } from 'vue';
+
 const store = useStore();
 const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
 
@@ -15,13 +17,10 @@ const stats = ref({
 
 const loading = ref(true);
 
-onMounted(async () => {
-    if (!isAuthenticated.value) return; // Don't fetch stats if not logged in
+const fetchStats = async () => {
+    if (!isAuthenticated.value) return;
 
     try {
-        // In a real app, we'd have a stats endpoint. For now, we'll fetch counts.
-        // Or just placeholders if endpoints aren't ready.
-        // Let's assume we can fetch lists and count them for now.
         const [pRes, lRes, aRes] = await Promise.all([
             axios.get('/api/personages'),
             axios.get('/api/locaties'),
@@ -37,7 +36,13 @@ onMounted(async () => {
     } finally {
         loading.value = false;
     }
-});
+};
+
+watch(isAuthenticated, (newVal) => {
+    if (newVal) {
+        fetchStats();
+    }
+}, { immediate: true });
 </script>
 
 <template>
