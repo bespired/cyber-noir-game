@@ -20,8 +20,6 @@ class SceneController extends Controller
             'type' => 'required|string',
             'beschrijving' => 'required|string',
             'status' => 'required|string',
-            'entry_point' => 'nullable|string',
-            'exit_point' => 'nullable|string',
         ]);
 
         return Scene::create($validated);
@@ -29,7 +27,7 @@ class SceneController extends Controller
 
     public function show(Scene $scene)
     {
-        $scene->load('locatie');
+        $scene->load(['locatie.sector', 'artwork']);
         return response()->json($scene);
     }
 
@@ -41,8 +39,7 @@ class SceneController extends Controller
             'type' => 'string',
             'beschrijving' => 'string',
             'status' => 'string',
-            'entry_point' => 'nullable|string',
-            'exit_point' => 'nullable|string',
+            'gateways' => 'nullable|array',
         ]);
 
         $scene->update($validated);

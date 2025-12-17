@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Notitie extends Model
 {
-    // use HasFactory;
+    use HasFactory;
 
     protected $table = 'notities';
 

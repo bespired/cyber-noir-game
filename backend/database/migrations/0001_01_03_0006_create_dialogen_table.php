@@ -10,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('dialogen', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('personage_id')->constrained('personages')->onDelete('cascade');
             $table->string('titel');
-            $table->text('inhoud');
-            $table->boolean('is_afgerond')->default(false);
+            $table->json('tree')->nullable(); // Stores the dialogue graph
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('dialogen');
     }
 };

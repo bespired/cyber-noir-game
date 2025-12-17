@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dialoog extends Model
 {
-    // use HasFactory;
+    use HasFactory;
 
     protected $table = 'dialogen';
 
