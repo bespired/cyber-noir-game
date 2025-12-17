@@ -1,9 +1,8 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Aanwijzing;
+use Illuminate\Database\Seeder;
 
 class AanwijzingSeeder extends Seeder
 {
@@ -18,8 +17,5 @@ class AanwijzingSeeder extends Seeder
             return;
         }
 
-        if (Aanwijzing::count() === 0) {
-            Aanwijzing::factory(20)->create();
-        }
     }
 }

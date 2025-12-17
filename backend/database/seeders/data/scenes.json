@@ -5,8 +5,6 @@
         "titel": "Baseline test",
         "type": "other",
         "beschrijving": "Plek waar detective kijkt of ie nog op de baseline zit.",
-        "entry_point": null,
-        "exit_point": null,
         "gateways": [
             {
                 "x": 79.37477867725173,
@@ -35,8 +33,6 @@
         "titel": "Andere scene om te linken",
         "type": "walkable-area",
         "beschrijving": "Bibliotheek",
-        "entry_point": null,
-        "exit_point": null,
         "gateways": null,
         "status": "active",
         "created_at": "2025-12-17T14:31:47.000000Z",

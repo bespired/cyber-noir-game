@@ -1,9 +1,8 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Locatie;
+use Illuminate\Database\Seeder;
 
 class LocatieSeeder extends Seeder
 {
@@ -18,6 +17,6 @@ class LocatieSeeder extends Seeder
             return;
         }
 
-        Locatie::factory(5)->create();
+        // Locatie::factory(5)->create();
     }
 }

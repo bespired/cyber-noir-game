@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -16,7 +17,8 @@ return new class() extends Migration {
             $table->string('titel');
             $table->string('type')->default('standard'); // e.g., standard, interrogation, combat
             $table->text('beschrijving');
-            $table->string('status')->default('active'); // active, completed, locked
+            $table->string('status')->default('walk-area'); // active, completed, locked
+            $table->json('gateways')->nullable();
             $table->timestamps();
         });
     }
