@@ -8,12 +8,12 @@ Start your docker.
 
 gives you
 
- ✔ Network cyber-noir-game_cyber-noir-network  Created
- ✔ Container cyber-noir-game-mailpit-1         Started
- ✔ Container cyber-noir-game-mysql-1           Started
- ✔ Container cyber-noir-game-backend-1         Started
- ✔ Container cyber-noir-game-redis-1           Started
- ✔ Container cyber-noir-game-nginx-1           Started
+	 ✔ Network cyber-noir-game_cyber-noir-network  Created  
+	 ✔ Container cyber-noir-game-mailpit-1         Started  
+	 ✔ Container cyber-noir-game-mysql-1           Started  
+	 ✔ Container cyber-noir-game-backend-1         Started  
+	 ✔ Container cyber-noir-game-redis-1           Started  
+	 ✔ Container cyber-noir-game-nginx-1           Started  
 
 #### Get Laravel
 `docker exec cyber-noir-game-backend-1 composer install`
@@ -22,9 +22,9 @@ gives you
 `docker exec cyber-noir-game-backend-1 php artisan migrate --seed`
 
 #### Install Vue
-`cd frontend`
-`nvm use 20`
-`npm i`
+`cd frontend`  
+`nvm use 20`  
+`npm i`  
 
 #### Start Cyber Noir
 `npm run dev`
@@ -43,3 +43,10 @@ gives you
 #### Login
 
 ![](https://raw.githubusercontent.com/bespired/cyber-noir-game/refs/heads/main/docker/dashboard.png)
+
+
+#### Backup your data
+
+`docker compose exec cyber-noir-game-backend-1 php artisan game:backup`
+
+This creates seed files in laravel database seeder folder.

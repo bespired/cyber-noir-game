@@ -370,7 +370,7 @@ const getSceneName = (id) => {
                     SECTOR: <span class="text-white">{{ scene.locatie.sector.naam }}</span>
                 </div>
 
-                <div>s
+                <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">Doel Scene</label>
                     <select v-model="gatewayForm.target_scene_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                         <option :value="null">-- KIES SCENE --</option>
