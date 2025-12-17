@@ -268,63 +268,65 @@ const getSceneName = (id) => {
                         />
 
                         <!-- Visual Gateway Editor -->
-                        <div v-if="scene.artwork && scene.artwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
-                            <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none">
-                                KLIK & SLEEP OM GATEWAY TE MAKEN
-                            </div>
-
-                            <div
-                                ref="imageContainer"
-                                class="relative cursor-crosshair"
-                                @mousedown="startDrawing"
-                                @mousemove="draw"
-                                @mouseup="stopDrawing"
-                            >
-                                <img
-                                    :src="getImageUrl(scene.artwork[0].bestandspad)"
-                                    class="w-full h-auto block pointer-events-none"
-                                >
-
-                                <!-- Existing Gateways -->
-                                <div
-                                    v-for="(gateway, index) in scene.gateways"
-                                    :key="index"
-                                    class="absolute border-2 border-noir-accent bg-noir-accent/20 hover:bg-noir-accent/40 transition-colors cursor-pointer flex items-center justify-center"
-                                    :style="{
-                                        left: `${gateway.x}%`,
-                                        top: `${gateway.y}%`,
-                                        width: `${gateway.width}%`,
-                                        height: `${gateway.height}%`
-                                    }"
-                                    @click.stop="editGateway(index)"
-                                    @mousedown="startDrag(index, $event)"
-                                >
-                                    <span class="text-xs font-bold text-white bg-black/50 px-1 rounded truncate max-w-full">
-                                        {{ getSceneName(gateway.target_scene_id) }}
-                                    </span>
-                                    <button
-                                        @click.stop="removeGateway(index)"
-                                        class="absolute -top-2 -right-2 bg-noir-danger text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hover:scale-110 transition-transform"
-                                    >
-                                        &times;
-                                    </button>
+                        <div v-if="scene.type === 'walkable-area'">
+                            <div v-if="scene.artwork && scene.artwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
+                                <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none">
+                                    KLIK & SLEEP OM GATEWAY TE MAKEN
                                 </div>
 
-                                <!-- Drawing Preview -->
                                 <div
-                                    v-if="isDrawing"
-                                    class="absolute border-2 border-white bg-white/10 pointer-events-none"
-                                    :style="{
-                                        left: `${previewBox.x}%`,
-                                        top: `${previewBox.y}%`,
-                                        width: `${previewBox.width}%`,
-                                        height: `${previewBox.height}%`
-                                    }"
-                                ></div>
+                                    ref="imageContainer"
+                                    class="relative cursor-crosshair"
+                                    @mousedown="startDrawing"
+                                    @mousemove="draw"
+                                    @mouseup="stopDrawing"
+                                >
+                                    <img
+                                        :src="getImageUrl(scene.artwork[0].bestandspad)"
+                                        class="w-full h-auto block pointer-events-none"
+                                    >
+
+                                    <!-- Existing Gateways -->
+                                    <div
+                                        v-for="(gateway, index) in scene.gateways"
+                                        :key="index"
+                                        class="absolute border-2 border-noir-accent bg-noir-accent/20 hover:bg-noir-accent/40 transition-colors cursor-pointer flex items-center justify-center"
+                                        :style="{
+                                            left: `${gateway.x}%`,
+                                            top: `${gateway.y}%`,
+                                            width: `${gateway.width}%`,
+                                            height: `${gateway.height}%`
+                                        }"
+                                        @click.stop="editGateway(index)"
+                                        @mousedown="startDrag(index, $event)"
+                                    >
+                                        <span class="text-xs font-bold text-white bg-black/50 px-1 rounded truncate max-w-full">
+                                            {{ getSceneName(gateway.target_scene_id) }}
+                                        </span>
+                                        <button
+                                            @click.stop="removeGateway(index)"
+                                            class="absolute -top-2 -right-2 bg-noir-danger text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hover:scale-110 transition-transform"
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+
+                                    <!-- Drawing Preview -->
+                                    <div
+                                        v-if="isDrawing"
+                                        class="absolute border-2 border-white bg-white/10 pointer-events-none"
+                                        :style="{
+                                            left: `${previewBox.x}%`,
+                                            top: `${previewBox.y}%`,
+                                            width: `${previewBox.width}%`,
+                                            height: `${previewBox.height}%`
+                                        }"
+                                    ></div>
+                                </div>
                             </div>
-                        </div>
-                        <div v-else class="p-8 text-center border-2 border-dashed border-noir-dark rounded text-noir-muted">
-                            UPLOAD EEN ACHTERGROND OM GATEWAYS TE PLAATSEN
+                            <div v-else class="p-8 text-center border-2 border-dashed border-noir-dark rounded text-noir-muted">
+                                UPLOAD EEN ACHTERGROND OM GATEWAYS TE PLAATSEN
+                            </div>
                         </div>
                     </div>
 
