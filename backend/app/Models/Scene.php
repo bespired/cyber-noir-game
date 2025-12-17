@@ -14,13 +14,21 @@ class Scene extends Model
         'titel',
         'type',
         'beschrijving',
-        'entry_point',
-        'exit_point',
         'status',
+        'gateways',
     ];
 
     public function locatie()
     {
         return $this->belongsTo(Locatie::class);
     }
+
+    public function artwork()
+    {
+        return $this->morphMany(Afbeelding::class, 'imageable');
+    }
+
+    protected $casts = [
+        'gateways' => 'array',
+    ];
 }

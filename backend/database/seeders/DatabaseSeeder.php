@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => 'testKoo1', // Will be hashed by the User model mutator or factory if set up, but standard factory usually hashes 'password'
         ]);
 
         $this->call([
@@ -29,8 +30,8 @@ class DatabaseSeeder extends Seeder
             SectorSeeder::class,
             SceneSeeder::class,
             AfbeeldingenSeeder::class,
-            NoteSeeder::class,
-            ConversationSeeder::class,
+            NotitieSeeder::class,
+            DialoogSeeder::class,
         ]);
     }
 }

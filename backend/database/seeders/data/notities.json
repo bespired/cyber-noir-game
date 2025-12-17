@@ -30,5 +30,13 @@
         "is_afgerond": 0,
         "created_at": "2025-12-15T23:06:49.000000Z",
         "updated_at": "2025-12-15T23:06:49.000000Z"
+    },
+    {
+        "id": 10,
+        "titel": "scene ideeen",
+        "inhoud": "- props plaatsen, mensen plaatsen.\n- alleen scenes van sector tonen\n+ speciale scenes zoals spinner ...",
+        "is_afgerond": 0,
+        "created_at": "2025-12-17T14:45:23.000000Z",
+        "updated_at": "2025-12-17T14:45:23.000000Z"
     }
 ]

@@ -8,7 +8,7 @@ defineEmits(['close'])
 </script>
 
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm">
+  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
     <div class="bg-noir-panel border border-noir-dark w-full max-w-lg rounded shadow-2xl overflow-hidden relative" @click.stop>
       <!-- Header -->
       <div class="flex justify-between items-center bg-noir-darker p-4 border-b border-noir-dark">

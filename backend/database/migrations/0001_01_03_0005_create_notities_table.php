@@ -10,8 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::rename('conversations', 'dialogen');
-        Schema::rename('notes', 'notities');
+        Schema::create('notities', function (Blueprint $table) {
+            $table->id();
+            $table->string('titel');
+            $table->text('inhoud');
+            $table->boolean('is_afgerond')->default(false);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,7 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::rename('dialogen', 'conversations');
-        Schema::rename('notities', 'notes');
+        Schema::dropIfExists('notities');
     }
 };

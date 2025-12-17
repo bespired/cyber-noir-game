@@ -1,0 +1,60 @@
+[
+    {
+        "id": 1,
+        "personage_id": 1,
+        "titel": "Introductie Barman",
+        "tree": {
+            "end": {
+                "text": "[Einde gesprek]",
+                "options": []
+            },
+            "info": {
+                "text": "Informatie is niet gratis, vriend.",
+                "options": [
+                    {
+                        "next": "paid",
+                        "text": "Hier is 50 credits."
+                    },
+                    {
+                        "next": "end",
+                        "text": "Laat maar."
+                    }
+                ]
+            },
+            "paid": {
+                "text": "Er is een hacker in Sector 4.",
+                "options": [
+                    {
+                        "next": "end",
+                        "text": "Interessant."
+                    }
+                ]
+            },
+            "root": {
+                "text": "Wat kan ik voor je inschenken?",
+                "options": [
+                    {
+                        "next": "info",
+                        "text": "Geef me informatie."
+                    },
+                    {
+                        "next": "drink",
+                        "text": "Gewoon een drankje."
+                    }
+                ]
+            },
+            "drink": {
+                "text": "Komt eraan.",
+                "options": [
+                    {
+                        "next": "end",
+                        "text": "Bedankt."
+                    }
+                ]
+            }
+        },
+        "is_active": true,
+        "created_at": "2025-12-17T13:23:18.000000Z",
+        "updated_at": "2025-12-17T13:23:18.000000Z"
+    }
+]

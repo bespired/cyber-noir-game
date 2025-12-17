@@ -147,17 +147,19 @@ const handleDeleteSuccess = (deletedId) => {
 
                     <!-- Right Column: Inputs -->
                     <div class="lg:col-span-2 space-y-6">
-                        <div class="bg-noir-danger/10 border border-noir-danger/30 p-4 rounded mb-2">
-                            <label class="flex items-center space-x-3 cursor-pointer">
-                                <input type="checkbox" v-model="personage.is_replicant" class="form-checkbox h-5 w-5 text-noir-danger rounded bg-noir-dark border-noir-danger focus:ring-0 focus:ring-offset-0">
-                                <span class="text-noir-danger font-bold uppercase tracking-wider">Subject is Replicant</span>
-                            </label>
-                        </div>
-                        <div class="bg-noir-warning/10 border border-noir-warning/30 p-4 rounded mb-6">
-                            <label class="flex items-center space-x-3 cursor-pointer">
-                                <input type="checkbox" v-model="personage.is_playable" class="form-checkbox h-5 w-5 text-noir-warning rounded bg-noir-dark border-noir-warning focus:ring-0 focus:ring-offset-0">
-                                <span class="text-noir-warning font-bold uppercase tracking-wider">Playable Character</span>
-                            </label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-noir-danger/10 border border-noir-danger/30 p-4 rounded">
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" v-model="personage.is_replicant" class="form-checkbox h-5 w-5 text-noir-danger rounded bg-noir-dark border-noir-danger focus:ring-0 focus:ring-offset-0">
+                                    <span class="text-noir-danger font-bold uppercase tracking-wider">Subject is Replicant</span>
+                                </label>
+                            </div>
+                            <div class="bg-noir-warning/10 border border-noir-warning/30 p-4 rounded">
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" v-model="personage.is_playable" class="form-checkbox h-5 w-5 text-noir-warning rounded bg-noir-dark border-noir-warning focus:ring-0 focus:ring-offset-0">
+                                    <span class="text-noir-warning font-bold uppercase tracking-wider">Playable Character</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div>

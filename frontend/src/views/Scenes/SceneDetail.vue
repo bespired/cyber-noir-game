@@ -1,22 +1,54 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
+import Modal from '../../components/Modal.vue';
 
 const route = useRoute();
 const router = useRouter();
 const scene = ref(null);
 const locaties = ref([]);
+const allScenes = ref([]); // For gateway target selection
 const loading = ref(true);
+
+const availableTargetScenes = computed(() => {
+    if (!scene.value || !scene.value.locatie) return [];
+    const currentSectorId = scene.value.locatie.sector_id;
+    return allScenes.value.filter(s => s.locatie && s.locatie.sector_id === currentSectorId && s.id !== scene.value.id);
+});
+
+// Gateway Editor State
+const imageContainer = ref(null);
+const isDrawing = ref(false);
+const startPos = ref({ x: 0, y: 0 });
+const previewBox = ref({ x: 0, y: 0, width: 0, height: 0 });
+const showGatewayModal = ref(false);
+const editingGatewayIndex = ref(null);
+const gatewayForm = ref({
+    target_scene_id: null,
+    label: ''
+});
+
+// Dragging State
+const draggingGatewayIndex = ref(null);
+const dragStart = ref({ x: 0, y: 0 });
+const gatewayStart = ref({ x: 0, y: 0 });
+const hasMoved = ref(false);
+const justDragged = ref(false);
 
 onMounted(async () => {
     try {
-        const [sceneResponse, locatiesResponse] = await Promise.all([
+        const [sceneResponse, locatiesResponse, scenesResponse] = await Promise.all([
             axios.get(`/api/scenes/${route.params.id}`),
-            axios.get('/api/locaties')
+            axios.get('/api/locaties'),
+            axios.get('/api/scenes')
         ]);
         scene.value = sceneResponse.data;
+        if (!scene.value.gateways) scene.value.gateways = []; // Ensure array
+
         locaties.value = locatiesResponse.data;
+        allScenes.value = scenesResponse.data;
     } catch (e) {
         console.error(e);
     } finally {
@@ -24,10 +56,10 @@ onMounted(async () => {
     }
 });
 
-const saveChanges = async () => {
+const saveChanges = async (silent = false) => {
     try {
         await axios.put(`/api/scenes/${scene.value.id}`, scene.value);
-        alert('CHANGES_SAVED');
+        if (!silent) alert('CHANGES_SAVED');
     } catch (e) {
         alert('ERROR_SAVING');
     }
@@ -52,6 +84,138 @@ const getStatusColor = (status) => {
         default: return 'text-noir-muted border-noir-muted';
     }
 };
+
+// Artwork Handlers
+const handleUploadSuccess = (newImage) => {
+    if (!scene.value.artwork) scene.value.artwork = [];
+    scene.value.artwork.push(newImage);
+};
+
+const handleDeleteSuccess = (deletedId) => {
+    if (scene.value.artwork) {
+        scene.value.artwork = scene.value.artwork.filter(img => img.id !== deletedId);
+    }
+};
+
+const getImageUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    if (path.startsWith('/storage')) return `http://localhost:8000${path}`;
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `http://localhost:8000/storage${cleanPath}`;
+};
+
+// Gateway Logic
+const startDrawing = (e) => {
+    if (!scene.value.artwork || scene.value.artwork.length === 0) return;
+    isDrawing.value = true;
+    const rect = imageContainer.value.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    startPos.value = { x, y };
+    previewBox.value = { x, y, width: 0, height: 0 };
+};
+
+const startDrag = (index, e) => {
+    e.stopPropagation(); // Prevent drawing start
+    draggingGatewayIndex.value = index;
+    hasMoved.value = false;
+    dragStart.value = { x: e.clientX, y: e.clientY };
+    gatewayStart.value = {
+        x: scene.value.gateways[index].x,
+        y: scene.value.gateways[index].y
+    };
+};
+
+const draw = (e) => {
+    const rect = imageContainer.value.getBoundingClientRect();
+
+    // Handle Dragging
+    if (draggingGatewayIndex.value !== null) {
+        hasMoved.value = true;
+        const deltaX = ((e.clientX - dragStart.value.x) / rect.width) * 100;
+        const deltaY = ((e.clientY - dragStart.value.y) / rect.height) * 100;
+
+        scene.value.gateways[draggingGatewayIndex.value].x = gatewayStart.value.x + deltaX;
+        scene.value.gateways[draggingGatewayIndex.value].y = gatewayStart.value.y + deltaY;
+        return;
+    }
+
+    // Handle Drawing
+    if (!isDrawing.value) return;
+    const currentX = ((e.clientX - rect.left) / rect.width) * 100;
+    const currentY = ((e.clientY - rect.top) / rect.height) * 100;
+
+    previewBox.value = {
+        x: Math.min(startPos.value.x, currentX),
+        y: Math.min(startPos.value.y, currentY),
+        width: Math.abs(currentX - startPos.value.x),
+        height: Math.abs(currentY - startPos.value.y)
+    };
+};
+
+const stopDrawing = () => {
+    // Handle Stop Dragging
+    if (draggingGatewayIndex.value !== null) {
+        if (hasMoved.value) {
+            saveChanges(true); // Silent save
+            justDragged.value = true;
+            setTimeout(() => justDragged.value = false, 100);
+        }
+        draggingGatewayIndex.value = null;
+        return;
+    }
+
+    if (!isDrawing.value) return;
+    isDrawing.value = false;
+
+    // Only add if size is significant (> 1%)
+    if (previewBox.value.width > 1 && previewBox.value.height > 1) {
+        editingGatewayIndex.value = null; // New gateway
+        gatewayForm.value = { target_scene_id: null, label: '' };
+        showGatewayModal.value = true;
+    }
+};
+
+const saveGateway = () => {
+    if (editingGatewayIndex.value !== null) {
+        // Edit existing
+        scene.value.gateways[editingGatewayIndex.value] = {
+            ...scene.value.gateways[editingGatewayIndex.value],
+            ...gatewayForm.value
+        };
+    } else {
+        // Add new
+        scene.value.gateways.push({
+            ...previewBox.value,
+            ...gatewayForm.value
+        });
+    }
+    saveChanges(true); // Auto-save after modal
+    showGatewayModal.value = false;
+};
+
+const editGateway = (index) => {
+    if (justDragged.value) return;
+    editingGatewayIndex.value = index;
+    gatewayForm.value = {
+        target_scene_id: scene.value.gateways[index].target_scene_id,
+        label: scene.value.gateways[index].label || ''
+    };
+    showGatewayModal.value = true;
+};
+
+const removeGateway = (index) => {
+    if (confirm('DELETE_GATEWAY?')) {
+        scene.value.gateways.splice(index, 1);
+    }
+};
+
+const getSceneName = (id) => {
+    const s = allScenes.value.find(s => s.id === id);
+    return s ? s.titel : 'Unknown Scene';
+};
+
 </script>
 
 <template>
@@ -91,58 +255,91 @@ const getStatusColor = (status) => {
 
             <!-- Content -->
             <div class="p-6">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Left Column -->
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Titel</label>
-                            <input v-model="scene.titel" type="text" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                        </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column: Visual Editor -->
+                    <div class="lg:col-span-2 space-y-6">
+                         <!-- Artwork Manager -->
+                        <ArtworkManager
+                            model-type="scene"
+                            :model-id="scene.id"
+                            :artwork="scene.artwork"
+                            @upload-success="handleUploadSuccess"
+                            @image-deleted="handleDeleteSuccess"
+                        />
 
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Type</label>
-                            <select v-model="scene.type" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                                <option value="walk-area">Loopbaar</option>
-                                <option value="investigation">Onderzoek</option>
-                                <option value="interrogation">Verhoor</option>
-                                <option value="combat">Gevecht</option>
-                                <option value="dialogue">Dialoog</option>
-                                <option value="flying">Vliegen</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Status</label>
-                            <select v-model="scene.status" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                                <option value="active">Actief</option>
-                                <option value="completed">Gedaan</option>
-                                <option value="locked">Gesloten</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Locatie</label>
-                            <select v-model="scene.locatie_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                                <option :value="null">-- Select Locatie --</option>
-                                <option v-for="loc in locaties" :key="loc.id" :value="loc.id">
-                                    {{ loc.naam }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <!-- Current Location Info -->
-                        <div v-if="scene.locatie" class="p-4 bg-noir-dark/30 rounded border border-noir-dark">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">Omschrijving</h3>
-                            <div class="text-white font-semibold mb-1">{{ scene.locatie.naam }}</div>
-                            <div class="text-sm text-noir-text">{{ scene.locatie.beschrijving }}</div>
-                            <div v-if="scene.locatie.adres" class="text-xs text-noir-muted mt-2">
-                                {{ scene.locatie.adres }}
+                        <!-- Visual Gateway Editor -->
+                        <div v-if="scene.artwork && scene.artwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
+                            <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none">
+                                KLIK & SLEEP OM GATEWAY TE MAKEN
                             </div>
+
+                            <div
+                                ref="imageContainer"
+                                class="relative cursor-crosshair"
+                                @mousedown="startDrawing"
+                                @mousemove="draw"
+                                @mouseup="stopDrawing"
+                            >
+                                <img
+                                    :src="getImageUrl(scene.artwork[0].bestandspad)"
+                                    class="w-full h-auto block pointer-events-none"
+                                >
+
+                                <!-- Existing Gateways -->
+                                <div
+                                    v-for="(gateway, index) in scene.gateways"
+                                    :key="index"
+                                    class="absolute border-2 border-noir-accent bg-noir-accent/20 hover:bg-noir-accent/40 transition-colors cursor-pointer flex items-center justify-center"
+                                    :style="{
+                                        left: `${gateway.x}%`,
+                                        top: `${gateway.y}%`,
+                                        width: `${gateway.width}%`,
+                                        height: `${gateway.height}%`
+                                    }"
+                                    @click.stop="editGateway(index)"
+                                    @mousedown="startDrag(index, $event)"
+                                >
+                                    <span class="text-xs font-bold text-white bg-black/50 px-1 rounded truncate max-w-full">
+                                        {{ getSceneName(gateway.target_scene_id) }}
+                                    </span>
+                                    <button
+                                        @click.stop="removeGateway(index)"
+                                        class="absolute -top-2 -right-2 bg-noir-danger text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hover:scale-110 transition-transform"
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <!-- Drawing Preview -->
+                                <div
+                                    v-if="isDrawing"
+                                    class="absolute border-2 border-white bg-white/10 pointer-events-none"
+                                    :style="{
+                                        left: `${previewBox.x}%`,
+                                        top: `${previewBox.y}%`,
+                                        width: `${previewBox.width}%`,
+                                        height: `${previewBox.height}%`
+                                    }"
+                                ></div>
+                            </div>
+                        </div>
+                        <div v-else class="p-8 text-center border-2 border-dashed border-noir-dark rounded text-noir-muted">
+                            UPLOAD EEN ACHTERGROND OM GATEWAYS TE PLAATSEN
                         </div>
                     </div>
 
-                    <!-- Right Column -->
+                    <!-- Right Column: Metadata & Form -->
                     <div class="space-y-6">
+                        <div>
+                            <div v-if="scene.locatie && scene.locatie.sector" class="mt-1 text-xs text-noir-muted">
+                                SECTOR: <span class="text-white">{{ scene.locatie.sector.naam }}</span>
+                            </div>
+                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Locatie</label>
+                            <select v-model="scene.locatie_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
+                                <option :value="null">-- GEEN LOCATIE --</option>
+                                <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
+                            </select>
+                        </div>
                         <div>
                             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Beschrijving</label>
                             <textarea v-model="scene.beschrijving" rows="12" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors" placeholder="Describe what happens in this scene..."></textarea>
@@ -166,5 +363,31 @@ const getStatusColor = (status) => {
                 </div>
             </div>
         </div>
+        <!-- Gateway Modal -->
+        <Modal :isOpen="showGatewayModal" title="PLAATS GATEWAY" @close="showGatewayModal = false">
+            <form @submit.prevent="saveGateway" class="space-y-4">
+                <div v-if="scene.locatie && scene.locatie.sector" class="mt-1 text-xs text-noir-muted">
+                    SECTOR: <span class="text-white">{{ scene.locatie.sector.naam }}</span>
+                </div>
+
+                <div>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">Doel Scene</label>
+                    <select v-model="gatewayForm.target_scene_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <option :value="null">-- KIES SCENE --</option>
+                        <option v-for="s in availableTargetScenes" :key="s.id" :value="s.id">
+                            {{ s.titel }} (ID: {{ s.id }})
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">Label (Optioneel)</label>
+                    <input v-model="gatewayForm.label" type="text" placeholder="b.v. Naar Hoofd Street" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                </div>
+                <div class="pt-4 flex justify-end gap-2 text-sm">
+                    <button type="button" @click="showGatewayModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">HMMM...</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">BEWAAR_GATEWAY</button>
+                </div>
+            </form>
+        </Modal>
     </div>
 </template>

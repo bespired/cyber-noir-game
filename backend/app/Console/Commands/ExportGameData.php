@@ -33,8 +33,8 @@ class ExportGameData extends Command
             'aanwijzingen' => \App\Models\Aanwijzing::all(),
             'sectoren' => \App\Models\Sector::all(),
             'scenes' => \App\Models\Scene::all(),
-            'notes' => \App\Models\Note::all(),
-            'conversations' => \App\Models\Conversation::all(),
+            'notities' => \App\Models\Notitie::all(),
+            'dialogen' => \App\Models\Dialoog::all(),
         ];
 
         $directory = database_path('seeders/data');
