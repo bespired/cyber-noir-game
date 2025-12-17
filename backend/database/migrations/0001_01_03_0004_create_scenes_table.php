@@ -15,9 +15,10 @@ return new class() extends Migration
             $table->id();
             $table->foreignId('locatie_id')->constrained('locaties')->cascadeOnDelete();
             $table->string('titel');
-            $table->string('type')->default('standard'); // e.g., standard, interrogation, combat
+            $table->string('type')->default('walkable-area')
+                ->comment('walkable-area, investigation, interrogation, combat, practice');
             $table->text('beschrijving');
-            $table->string('status')->default('walk-area'); // active, completed, locked
+            $table->string('status')->default('active'); // active, completed, locked
             $table->json('gateways')->nullable();
             $table->timestamps();
         });

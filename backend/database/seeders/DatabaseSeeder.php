@@ -14,12 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
         User::factory()->create([
             'name'     => 'Test User',
             'email'    => 'test@example.com',
-            'password' => 'testKoo1', // Will be hashed by the User model mutator or factory if set up, but standard factory usually hashes 'password'
+            'password' => 'testKoo1',
+
+            // Will be hashed by the User model mutator or factory if set up,
+            // but standard factory usually hashes 'password'
         ]);
 
         $this->call([
