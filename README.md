@@ -4,6 +4,11 @@ Start your docker.
 
 #### Get the stack ready:
 
+create a .env.docker with
+
+`./install.sh`
+
+
 `docker compose up -d`
 
 gives you
@@ -16,10 +21,14 @@ gives you
 	 ✔ Container cyber-noir-game-nginx-1           Started  
 
 #### Get Laravel
-`docker exec cyber-noir-game-backend-1 composer install`
+`docker exec backend composer install`
 
 #### Install Cyber Noir
-`docker exec cyber-noir-game-backend-1 php artisan migrate --seed`
+`docker exec backend php artisan migrate --seed`
+
+#### Install Artwork
+`docker-compose exec backend php artisan app:artwork-install`
+
 
 #### Install Vue
 `cd frontend`  
@@ -47,6 +56,16 @@ gives you
 
 #### Backup your data
 
-`docker compose exec cyber-noir-game-backend-1 php artisan game:backup`
+`docker compose exec backend php artisan game:backup`
 
 This creates seed files in laravel database seeder folder.
+
+#### Backup your artwork
+
+This is a bit tricky...   
+If you have google drive credentials you can add them  
+in the .env.docker file and then artisan app:artwork-backup  
+and artisan app:artwork-restore will work. 
+Or you could zip the cyber-noir-game/backend/storage/app/public/artwork folder.  
+
+
