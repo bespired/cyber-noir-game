@@ -1,3 +1,4 @@
 .DS_Store
 *.af~lock~
 backend/.env.docker
+backend/.env.docker
