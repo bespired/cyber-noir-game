@@ -1,15 +1,29 @@
 <script setup>
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter, useRoute } from 'vue-router';
 import Sidebar from './components/Sidebar.vue';
 import Header from './components/Header.vue';
 import { useStore } from 'vuex';
-import { onMounted, computed } from 'vue';
+import { onMounted, onUnmounted, computed } from 'vue';
 
 const store = useStore();
+const router = useRouter();
+const route = useRoute();
 const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
 
+const checkAuth = async () => {
+  await store.dispatch('auth/getUser');
+  if (!isAuthenticated.value && route.meta.requiresAuth) {
+    router.push({ name: 'dashboard' });
+  }
+};
+
 onMounted(() => {
-  store.dispatch('auth/getUser');
+  checkAuth();
+  window.addEventListener('focus', checkAuth);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('focus', checkAuth);
 });
 </script>
 

@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'NexusNoir';
+  src: url('/font/nexusnoir.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 @theme {
   --color-noir-bg: #111827;
   --color-noir-dark: #0B0F19;
@@ -11,10 +19,8 @@
   --color-noir-success: #10B981;
   --color-noir-warning: #F59E0B;
 
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
+  --font-mono: "NexusNoir", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-
 
 body {
   @apply bg-noir-bg text-noir-text font-mono;
