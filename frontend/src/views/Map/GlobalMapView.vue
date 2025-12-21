@@ -7,7 +7,21 @@ import Modal from '../../components/Modal.vue';
 const sectors = ref([]);
 const loading = ref(true);
 const mapContainer = ref(null);
-const dragging = ref(null); // { id: 1, startX: 0, startY: 0, initialLeft: 0, initialTop: 0 }
+const dragging = ref(null);
+const mapBackground = ref('');
+
+// Constants for the native map size
+const NATIVE_WIDTH = 1536;
+const NATIVE_HEIGHT = 1024;
+
+// Reactive state for the actual display dimensions and offsets of the "contained" image
+const mapGeometry = ref({
+    width: 0,
+    height: 0,
+    scale: 1,
+    offsetX: 0,
+    offsetY: 0
+});
 
 // Create Modal State
 const showCreateModal = ref(false);
@@ -23,15 +37,66 @@ const form = ref({
 });
 
 onMounted(async () => {
-    await fetchSectors();
+    await Promise.all([
+        fetchSectors(),
+        fetchSettings()
+    ]);
+    updateMapGeometry();
+    window.addEventListener('resize', updateMapGeometry);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
 });
 
 onUnmounted(() => {
+    window.removeEventListener('resize', updateMapGeometry);
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mouseup', onMouseUp);
 });
+
+const fetchSettings = async () => {
+    try {
+        const response = await axios.get('/api/instellingen/map_background');
+        mapBackground.value = getImageUrl(response.data.waarde);
+    } catch (e) {
+        console.error("Failed to fetch map background setting", e);
+        // Fallback for dev if needed, though we moved it
+        mapBackground.value = '/map-noir.png'; 
+    }
+};
+
+const updateMapGeometry = () => {
+    if (!mapContainer.value) return;
+
+    const containerWidth = mapContainer.value.clientWidth;
+    const containerHeight = mapContainer.value.clientHeight;
+
+    const containerRatio = containerWidth / containerHeight;
+    const imageRatio = NATIVE_WIDTH / NATIVE_HEIGHT;
+
+    let displayWidth, displayHeight;
+
+    if (containerRatio > imageRatio) {
+        // Container is wider than the image (letterboxed on sides)
+        displayHeight = containerHeight;
+        displayWidth = containerHeight * imageRatio;
+    } else {
+        // Container is taller than the image (letterboxed on top/bottom)
+        displayWidth = containerWidth;
+        displayHeight = containerWidth / imageRatio;
+    }
+
+    const scale = displayWidth / NATIVE_WIDTH;
+    const offsetX = (containerWidth - displayWidth) / 2;
+    const offsetY = (containerHeight - displayHeight) / 2;
+
+    mapGeometry.value = {
+        width: displayWidth,
+        height: displayHeight,
+        scale: scale,
+        offsetX: offsetX,
+        offsetY: offsetY
+    };
+};
 
 const fetchSectors = async () => {
     loading.value = true;
@@ -60,8 +125,9 @@ const onMouseDown = (event, sector) => {
 const onMouseMove = (event) => {
     if (!dragging.value) return;
 
-    const dx = event.clientX - dragging.value.startX;
-    const dy = event.clientY - dragging.value.startY;
+    // Movement in screen pixels must be converted to internal coordinates
+    const dx = (event.clientX - dragging.value.startX) / mapGeometry.value.scale;
+    const dy = (event.clientY - dragging.value.startY) / mapGeometry.value.scale;
 
     // Update local state immediately for responsiveness
     dragging.value.sector.x = Math.max(0, dragging.value.initialX + dx);
@@ -77,15 +143,8 @@ const onMouseUp = async () => {
     // Save final position to backend
     try {
         await axios.put(`/api/sectoren/${sector.id}`, {
-            x: sector.x,
-            y: sector.y,
-            // Send other required fields to satisfy validation if necessary,
-            // though typically PATCH/PUT might validate 'sometimes'.
-            // Our controller validates 'sometimes' for update, so just x/y is fine?
-            // Wait, standard update usually requires full body if we use the same validation rules.
-            // Let's check SectorController validation... it's `unique:sectoren,naam,id`, so likely fine if we just send x/y?
-            // Actually the controller validates everything if present. But standard resource controller patterns often assume full object or patch.
-            // To be safe and compliant with the update method we made:
+            x: Math.round(sector.x),
+            y: Math.round(sector.y),
             naam: sector.naam,
             width: sector.width,
             height: sector.height
@@ -133,20 +192,27 @@ const createSector = async () => {
         </div>
 
         <!-- Map Canvas -->
-        <div class="flex-grow relative overflow-auto bg-[#0a0a0a] cursor-crosshair" ref="mapContainer">
-            <!-- Grid Background -->
-            <div class="absolute inset-0 pointer-events-none opacity-20"
-                 style="background-image: radial-gradient(#333 1px, transparent 1px); background-size: 20px 20px;">
+        <div class="flex-grow relative overflow-hidden bg-[#0a0a0a] cursor-crosshair" ref="mapContainer">
+            
+            <!-- Map Background -->
+            <div class="absolute inset-0 pointer-events-none opacity-80"
+                 :style="{
+                    backgroundImage: `url(${mapBackground})`,
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                 }"
+            >
             </div>
 
             <!-- Sectors -->
             <div v-for="sector in sectors" :key="sector.id"
                  @mousedown="onMouseDown($event, sector)"
                  :style="{
-                     left: `${sector.x}px`,
-                     top: `${sector.y}px`,
-                     width: `${sector.width}px`,
-                     height: `${sector.height}px`
+                     left: `${mapGeometry.offsetX + (sector.x * mapGeometry.scale)}px`,
+                     top: `${mapGeometry.offsetY + (sector.y * mapGeometry.scale)}px`,
+                     width: `${sector.width * mapGeometry.scale}px`,
+                     height: `${sector.height * mapGeometry.scale}px`
                  }"
                  class="absolute bg-noir-panel border border-noir-dark group hover:border-noir-accent hover:z-50 shadow-lg flex flex-col select-none transition-shadow"
                  :class="{ 'border-noir-accent z-50 ring-1 ring-noir-accent': dragging?.sector?.id === sector.id }">
@@ -169,7 +235,7 @@ const createSector = async () => {
                     </div>
 
                     <div>
-                         <RouterLink :to="`/map/${sector.id}`" class="text-white font-bold hover:underline decoration-noir-accent underline-offset-2 uppercase text-sm drop-shadow-md block truncate">
+                         <RouterLink :to="`/map/${sector.id}`" @mousedown.stop class="text-white font-bold hover:underline decoration-noir-accent underline-offset-2 uppercase text-sm drop-shadow-md block truncate">
                             {{ sector.naam }}
                         </RouterLink>
                     </div>

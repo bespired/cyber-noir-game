@@ -43,6 +43,24 @@ body {
   @apply bg-noir-muted;
 }
 
+/* Specific scrollbar for utility */
+.noir-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.noir-scrollbar::-webkit-scrollbar-track {
+  @apply bg-noir-dark;
+}
+
+.noir-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-noir-accent;
+  border-radius: 0;
+}
+
+.noir-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-blue-400;
+}
+
 .w-1 {
   min-width: 34px;
 }

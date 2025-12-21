@@ -28,6 +28,7 @@ class ExportGameData extends Command
         $this->info('Starting Game Data Backup...');
 
         $exports = [
+            'instellingen' => \App\Models\Instelling::all(),
             'personages' => \App\Models\Personage::all(),
             'locaties' => \App\Models\Locatie::all(),
             'aanwijzingen' => \App\Models\Aanwijzing::all(),

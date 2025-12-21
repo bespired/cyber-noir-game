@@ -39,4 +39,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/artwork/{afbeelding}', [\App\Http\Controllers\AfbeeldingController::class, 'destroy']);
 
     Route::post('/upload/{modelType}/{modelId}', [\App\Http\Controllers\AfbeeldingUploadController::class, 'upload']);
+
+    Route::apiResource('instellingen', \App\Http\Controllers\Api\InstellingController::class)->only(['index', 'show']);
 });

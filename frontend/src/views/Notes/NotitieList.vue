@@ -105,7 +105,7 @@ const deleteNote = async (id) => {
                     </div>
                 </div>
 
-                <p :class="['text-sm mb-4 whitespace-pre-wrap', note.is_afgerond ? 'text-noir-muted' : 'text-noir-text']">{{ note.inhoud }}</p>
+                <p :class="['text-sm mb-4 whitespace-pre-wrap max-h-[7.5rem] overflow-y-auto noir-scrollbar', note.is_afgerond ? 'text-noir-muted' : 'text-noir-text']">{{ note.inhoud }}</p>
 
                 <div class="text-xs text-noir-muted border-t border-noir-dark pt-4 mt-auto flex justify-between">
                     <span>{{ new Date(note.created_at).toLocaleDateString() }}</span>
