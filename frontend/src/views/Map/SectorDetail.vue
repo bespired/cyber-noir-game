@@ -23,25 +23,25 @@ const editForm = ref({
     height: 100
 });
 
-const locaties = ref([]);
+const scenes = ref([]);
 
-// Link Location State
-const showLinkLocationModal = ref(false);
-const selectedLocationId = ref('');
+// Link Scene State
+const showLinkSceneModal = ref(false);
+const selectedSceneId = ref('');
 
 onMounted(async () => {
     await Promise.all([
         fetchSector(),
-        fetchLocaties()
+        fetchScenes()
     ]);
 });
 
-const fetchLocaties = async () => {
+const fetchScenes = async () => {
     try {
-        const response = await axios.get('/api/locaties');
-        locaties.value = response.data;
+        const response = await axios.get('/api/scenes');
+        scenes.value = response.data;
     } catch (e) {
-        console.error("Failed to fetch locations", e);
+        console.error("Failed to fetch scenes", e);
     }
 };
 
@@ -109,22 +109,22 @@ const handleFileUpload = async (event) => {
     }
 };
 
-const openLinkLocationModal = () => {
-    selectedLocationId.value = '';
-    showLinkLocationModal.value = true;
+const openLinkSceneModal = () => {
+    selectedSceneId.value = '';
+    showLinkSceneModal.value = true;
 };
 
-const linkLocation = async () => {
-    if (!selectedLocationId.value) return;
+const linkScene = async () => {
+    if (!selectedSceneId.value) return;
 
     try {
-        await axios.put(`/api/locaties/${selectedLocationId.value}`, {
+        await axios.put(`/api/scenes/${selectedSceneId.value}`, {
             sector_id: sector.value.id
         });
-        showLinkLocationModal.value = false;
+        showLinkSceneModal.value = false;
         await fetchSector();
     } catch (e) {
-        console.error("Failed to link location", e);
+        console.error("Failed to link scene", e);
     }
 };
 
@@ -200,28 +200,28 @@ const getImageUrl = (path) => {
         </div>
 
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white uppercase tracking-wider">Locaties in Sector</h2>
-            <button @click="openLinkLocationModal" class="bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                + LINK BESTAANDE LOCATIE
+            <h2 class="text-xl font-bold text-white uppercase tracking-wider">Scenes in Sector</h2>
+            <button @click="openLinkSceneModal" class="bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                + LINK BESTAANDE SCENE
             </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="locatie in sector.locaties" :key="locatie.id" class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-warning transition-colors group">
-                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-noir-warning transition-colors">{{ locatie.naam }}</h3>
-                <p class="text-noir-text text-sm mb-4 line-clamp-2">{{ locatie.beschrijving }}</p>
+            <div v-for="scene in sector.scenes" :key="scene.id" class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-warning transition-colors group">
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-noir-warning transition-colors">{{ scene.titel }}</h3>
+                <p class="text-noir-text text-sm mb-4 line-clamp-2">{{ scene.beschrijving }}</p>
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-                    <span class="text-xs text-noir-muted">ID: {{ String(locatie.id).padStart(4, '0') }}</span>
-                    <RouterLink :to="`/locaties/${locatie.id}`" class="text-noir-warning text-sm hover:text-white hover:underline decoration-noir-warning underline-offset-4 uppercase font-semibold transition-all">
-                        INSPECTEREN >
+                    <span class="text-xs text-noir-muted">TYPE: {{ scene.type }}</span>
+                    <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-warning text-sm hover:text-white hover:underline decoration-noir-warning underline-offset-4 uppercase font-semibold transition-all">
+                        BINNENGAAN >
                     </RouterLink>
                 </div>
             </div>
 
             <!-- Empty State -->
-            <div v-if="!sector.locaties || sector.locaties.length === 0" class="col-span-full text-center py-12 border-2 border-dashed border-noir-dark rounded text-noir-muted">
-                GEEN LOCATIES GEVONDEN
+            <div v-if="!sector.scenes || sector.scenes.length === 0" class="col-span-full text-center py-12 border-2 border-dashed border-noir-dark rounded text-noir-muted">
+                GEEN SCENES GEVONDEN IN DEZE SECTOR
             </div>
         </div>
 
@@ -255,21 +255,21 @@ const getImageUrl = (path) => {
             </form>
         </Modal>
 
-        <!-- Link Location Modal -->
-        <Modal :isOpen="showLinkLocationModal" title="LINK LOCATIE" @close="showLinkLocationModal = false">
-            <form @submit.prevent="linkLocation" class="space-y-4">
+        <!-- Link Scene Modal -->
+        <Modal :isOpen="showLinkSceneModal" title="LINK SCENE" @close="showLinkSceneModal = false">
+            <form @submit.prevent="linkScene" class="space-y-4">
                 <div>
-                     <label class="block text-noir-muted text-xs uppercase mb-1">Selecteer Locatie</label>
-                     <select v-model="selectedLocationId" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-warning focus:outline-none">
-                        <option value="" disabled>Selecteer een locatie om te linken...</option>
-                        <option v-for="loc in locaties" :key="loc.id" :value="loc.id">
-                            {{ loc.naam }} {{ loc.sector_id ? '(Verplaatst van andere sector)' : '(Niet toegewezen)' }}
+                     <label class="block text-noir-muted text-xs uppercase mb-1">Selecteer Scene</label>
+                     <select v-model="selectedSceneId" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-warning focus:outline-none">
+                        <option value="" disabled>Selecteer een scene om te linken...</option>
+                        <option v-for="sce in scenes" :key="sce.id" :value="sce.id">
+                            {{ sce.titel }} {{ sce.sector_id ? '(Reeds gelinkt)' : '(Vrij)' }}
                         </option>
                      </select>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showLinkLocationModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">LINK LOCATIE</button>
+                    <button type="button" @click="showLinkSceneModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">LINK SCENE</button>
                 </div>
             </form>
         </Modal>

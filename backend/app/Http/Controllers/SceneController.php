@@ -9,13 +9,14 @@ class SceneController extends Controller
 {
     public function index()
     {
-        return Scene::with('locatie')->get();
+        return Scene::with(['locatie', 'sector'])->get();
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'locatie_id' => 'required|exists:locaties,id',
+            'sector_id' => 'nullable|exists:sectoren,id',
             'titel' => 'required|string|max:255',
             'type' => 'required|string',
             'beschrijving' => 'required|string',
@@ -27,7 +28,7 @@ class SceneController extends Controller
 
     public function show(Scene $scene)
     {
-        $scene->load(['locatie.sector', 'artwork']);
+        $scene->load(['locatie.artwork', 'sector', 'artwork']);
         return response()->json($scene);
     }
 
@@ -35,6 +36,7 @@ class SceneController extends Controller
     {
         $validated = $request->validate([
             'locatie_id' => 'exists:locaties,id',
+            'sector_id' => 'nullable|exists:sectoren,id',
             'titel' => 'string|max:255',
             'type' => 'string',
             'beschrijving' => 'string',

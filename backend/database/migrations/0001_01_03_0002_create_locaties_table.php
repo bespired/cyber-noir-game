@@ -25,12 +25,6 @@ return new class extends Migration {
             $table->integer('veiligheidsniveau')
                 ->default(0)->comment('Bv. 0: openbaar, 3: zwaar bewaakt.');
 
-            // Relatie naar sectoren
-            $table->foreignId('sector_id')
-                ->nullable()
-                ->constrained('sectoren')
-                ->nullOnDelete();
-
             $table->timestamps();
         });
     }

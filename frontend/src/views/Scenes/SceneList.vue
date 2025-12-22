@@ -11,6 +11,7 @@ const showModal = ref(false);
 const form = ref({
     titel: '',
     locatie_id: '',
+    sector_id: '',
     type: 'walkable-area',
     beschrijving: '',
     entry_point: '',
@@ -40,7 +41,7 @@ const fetchSectors = async () => {
 
 const filteredScenes = computed(() => {
     if (!selectedSector.value) return scenes.value;
-    return scenes.value.filter(s => s.locatie && s.locatie.sector_id == selectedSector.value);
+    return scenes.value.filter(s => s.sector_id == selectedSector.value);
 });
 
 const fetchScenes = async () => {
@@ -68,6 +69,7 @@ const openModal = () => {
     form.value = {
         titel: '',
         locatie_id: '',
+        sector_id: selectedSector.value || '',
         type: 'walkable-area',
         beschrijving: '',
         entry_point: '',
@@ -173,12 +175,21 @@ const getTypeIcon = (type) => {
                     <label class="block text-noir-muted text-xs uppercase mb-1">Titel</label>
                     <input v-model="form.titel" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                 </div>
-                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Location</label>
-                    <select v-model="form.locatie_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
-                        <option value="" disabled>Select a location</option>
-                        <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
-                    </select>
+                 <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">Sector</label>
+                        <select v-model="form.sector_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                            <option value="" disabled>Select a sector</option>
+                            <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{ sector.naam }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">Location</label>
+                        <select v-model="form.locatie_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                            <option value="" disabled>Select a location</option>
+                            <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                      <div>

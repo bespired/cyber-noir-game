@@ -11,6 +11,7 @@ class Scene extends Model
 
     protected $fillable = [
         'locatie_id',
+        'sector_id',
         'titel',
         'type',
         'beschrijving',
@@ -21,6 +22,11 @@ class Scene extends Model
     public function locatie()
     {
         return $this->belongsTo(Locatie::class);
+    }
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
     }
 
     public function artwork()

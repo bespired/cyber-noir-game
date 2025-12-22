@@ -37,5 +37,18 @@
         "is_playable": false,
         "created_at": "2025-12-14T15:40:29.000000Z",
         "updated_at": "2025-12-14T15:40:29.000000Z"
+    },
+    {
+        "id": 4,
+        "naam": "Elia Spindex",
+        "rol": "Blade Runner",
+        "beschrijving": "Blonde vrouw",
+        "menselijke_status": null,
+        "replicant_status": null,
+        "motief": null,
+        "is_replicant": false,
+        "is_playable": true,
+        "created_at": "2025-12-22T11:10:26.000000Z",
+        "updated_at": "2025-12-22T11:10:26.000000Z"
     }
 ]

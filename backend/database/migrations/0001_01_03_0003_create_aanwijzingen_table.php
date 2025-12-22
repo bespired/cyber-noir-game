@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('titel');
             $table->text('beschrijving');
             $table->string('type')
+                ->nullable()
                 ->comment('Bv. Getuigenis, Vingerafdruk, Gehackt Data File.');
 
             // Relaties (Foreign Keys)

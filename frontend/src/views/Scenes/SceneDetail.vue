@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
@@ -10,12 +10,23 @@ const router = useRouter();
 const scene = ref(null);
 const locaties = ref([]);
 const allScenes = ref([]); // For gateway target selection
+const sectors = ref([]);
 const loading = ref(true);
 
 const availableTargetScenes = computed(() => {
-    if (!scene.value || !scene.value.locatie) return [];
-    const currentSectorId = scene.value.locatie.sector_id;
-    return allScenes.value.filter(s => s.locatie && s.locatie.sector_id === currentSectorId && s.id !== scene.value.id);
+    if (!scene.value || !scene.value.sector_id) return [];
+    const currentSectorId = scene.value.sector_id;
+    return allScenes.value.filter(s => s.sector_id === currentSectorId && s.id !== scene.value.id);
+});
+
+const activeArtwork = computed(() => {
+    if (scene.value?.artwork && scene.value.artwork.length > 0) {
+        return scene.value.artwork;
+    }
+    if (scene.value?.locatie?.artwork && scene.value.locatie.artwork.length > 0) {
+        return scene.value.locatie.artwork;
+    }
+    return [];
 });
 
 // Gateway Editor State
@@ -39,16 +50,18 @@ const justDragged = ref(false);
 
 onMounted(async () => {
     try {
-        const [sceneResponse, locatiesResponse, scenesResponse] = await Promise.all([
+        const [sceneResponse, locatiesResponse, scenesResponse, sectorsResponse] = await Promise.all([
             axios.get(`/api/scenes/${route.params.id}`),
             axios.get('/api/locaties'),
-            axios.get('/api/scenes')
+            axios.get('/api/scenes'),
+            axios.get('/api/sectoren')
         ]);
         scene.value = sceneResponse.data;
         if (!scene.value.gateways) scene.value.gateways = []; // Ensure array
 
         locaties.value = locatiesResponse.data;
         allScenes.value = scenesResponse.data;
+        sectors.value = sectorsResponse.data;
     } catch (e) {
         console.error(e);
     } finally {
@@ -107,7 +120,7 @@ const getImageUrl = (path) => {
 
 // Gateway Logic
 const startDrawing = (e) => {
-    if (!scene.value.artwork || scene.value.artwork.length === 0) return;
+    if (activeArtwork.value.length === 0) return;
     isDrawing.value = true;
     const rect = imageContainer.value.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -216,6 +229,18 @@ const getSceneName = (id) => {
     return s ? s.titel : 'Unknown Scene';
 };
 
+watch(() => scene.value?.locatie_id, (newId) => {
+    if (!newId) {
+        if (scene.value) scene.value.locatie = null;
+        return;
+    }
+    const loc = locaties.value.find(l => l.id === newId);
+    if (loc && scene.value) {
+        // We set the nested location object so the computed activeArtwork updates
+        scene.value.locatie = loc;
+    }
+});
+
 </script>
 
 <template>
@@ -258,8 +283,9 @@ const getSceneName = (id) => {
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Left Column: Visual Editor -->
                     <div class="lg:col-span-2 space-y-6">
-                         <!-- Artwork Manager -->
+                        <!-- Artwork Manager (Hidden if we have a fallback visual but no scene-specific artwork) -->
                         <ArtworkManager
+                            v-if="scene.artwork.length > 0 || activeArtwork.length === 0"
                             model-type="scene"
                             :model-id="scene.id"
                             :artwork="scene.artwork"
@@ -269,9 +295,10 @@ const getSceneName = (id) => {
 
                         <!-- Visual Gateway Editor -->
                         <div v-if="scene.type === 'walkable-area'">
-                            <div v-if="scene.artwork && scene.artwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
-                                <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none">
-                                    KLIK & SLEEP OM GATEWAY TE MAKEN
+                            <div v-if="activeArtwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
+                                <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none flex items-center gap-2">
+                                    <span class="text-noir-warning">⚡</span> KLIK & SLEEP OM GATEWAY TE MAKEN
+                                    <span v-if="scene.artwork.length === 0" class="ml-2 text-[10px] text-noir-accent bg-noir-accent/10 px-1 rounded border border-noir-accent/30 font-mono">USING_LOCATION_VISUALS</span>
                                 </div>
 
                                 <div
@@ -282,8 +309,8 @@ const getSceneName = (id) => {
                                     @mouseup="stopDrawing"
                                 >
                                     <img
-                                        :src="getImageUrl(scene.artwork[0].bestandspad)"
-                                        class="w-full h-auto block pointer-events-none"
+                                        :src="getImageUrl(activeArtwork[0].bestandspad)"
+                                        class="w-full h-auto block pointer-events-none opacity-90 group-hover:opacity-100 transition-opacity"
                                     >
 
                                     <!-- Existing Gateways -->
@@ -324,8 +351,10 @@ const getSceneName = (id) => {
                                     ></div>
                                 </div>
                             </div>
-                            <div v-else class="p-8 text-center border-2 border-dashed border-noir-dark rounded text-noir-muted">
-                                UPLOAD EEN ACHTERGROND OM GATEWAYS TE PLAATSEN
+                            <div v-else class="p-12 text-center border-2 border-dashed border-noir-dark rounded text-noir-muted bg-noir-darker/30 flex flex-col items-center justify-center gap-3">
+                                <span class="text-3xl">⚠️</span>
+                                <div class="uppercase tracking-widest font-mono text-sm">NO_VISUAL_DATA_AVAILABLE</div>
+                                <div class="text-[10px] max-w-xs">Upload een achtergrond voor de scene of koppel een locatie met artwork om gateways te kunnen plaatsen.</div>
                             </div>
                         </div>
                     </div>
@@ -333,13 +362,20 @@ const getSceneName = (id) => {
                     <!-- Right Column: Metadata & Form -->
                     <div class="space-y-6">
                         <div>
-                            <div v-if="scene.locatie && scene.locatie.sector" class="mt-1 text-xs text-noir-muted">
-                                SECTOR: <span class="text-white">{{ scene.locatie.sector.naam }}</span>
+                            <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
+                                SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
                             </div>
                             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Locatie</label>
                             <select v-model="scene.locatie_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
                                 <option :value="null">-- GEEN LOCATIE --</option>
                                 <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Sector</label>
+                            <select v-model="scene.sector_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
+                                <option :value="null">-- GEEN SECTOR --</option>
+                                <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
                             </select>
                         </div>
                         <div>
@@ -368,8 +404,8 @@ const getSceneName = (id) => {
         <!-- Gateway Modal -->
         <Modal :isOpen="showGatewayModal" title="PLAATS GATEWAY" @close="showGatewayModal = false">
             <form @submit.prevent="saveGateway" class="space-y-4">
-                <div v-if="scene.locatie && scene.locatie.sector" class="mt-1 text-xs text-noir-muted">
-                    SECTOR: <span class="text-white">{{ scene.locatie.sector.naam }}</span>
+                <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
+                    SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
                 </div>
 
                 <div>

@@ -71,6 +71,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/reorder/locaties',
+            name: 'locaties-reorder',
+            component: () => import('../views/Locaties/LocatieReorder.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/aanwijzingen',
             name: 'aanwijzingen',
             component: () => import('../views/Aanwijzingen/AanwijzingList.vue'),

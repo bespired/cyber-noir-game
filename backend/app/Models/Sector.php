@@ -32,9 +32,9 @@ class Sector extends Model
 
     protected $with = ['artwork'];
 
-    public function locaties()
+    public function scenes()
     {
-        return $this->hasMany(Locatie::class);
+        return $this->hasMany(Scene::class);
     }
 
     public function artwork()

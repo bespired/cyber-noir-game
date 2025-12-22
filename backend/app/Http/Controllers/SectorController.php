@@ -9,7 +9,7 @@ class SectorController extends Controller
 {
     public function index()
     {
-        return Sector::with('locaties')->get();
+        return Sector::with('scenes')->get();
     }
 
     public function store(Request $request)
@@ -30,7 +30,7 @@ class SectorController extends Controller
 
     public function show(Sector $sector)
     {
-        $sector->load(['locaties', 'artwork']);
+        $sector->load(['scenes', 'artwork']);
         return response()->json($sector);
     }
 

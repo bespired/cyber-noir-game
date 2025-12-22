@@ -10,16 +10,15 @@ class Locatie extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sector_id',
         'naam',
         'beschrijving',
         'notities',
+        'volgorde',
     ];
 
-    public function sector()
-    {
-        return $this->belongsTo(Sector::class);
-    }
+    protected $casts = [
+        'volgorde' => 'integer',
+    ];
 
     public function scenes()
     {
