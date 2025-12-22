@@ -53,6 +53,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/sector-map/:id',
+            name: 'sector-map',
+            component: () => import('../views/Map/SectorMapView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/notities',
             name: 'notities',
             component: () => import('../views/Notes/NotitieList.vue'),

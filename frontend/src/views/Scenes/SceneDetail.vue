@@ -268,13 +268,23 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         </span>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                        BEWAREN
-                    </button>
-                    <button @click="deleteScene" class="bg-noir-danger/20 text-noir-danger border border-noir-danger px-4 py-2 rounded hover:bg-noir-danger hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                        VERWIJDEREN
-                    </button>
+                <div class="flex flex-col gap-2 items-end">
+                    <div class="flex gap-2">
+                        <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                            BEWAREN
+                        </button>
+                        <button @click="deleteScene" class="bg-noir-danger/20 text-noir-danger border border-noir-danger px-4 py-2 rounded hover:bg-noir-danger hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                            VERWIJDEREN
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                    <RouterLink v-if="scene.sector_id" :to="`/sector-map/${scene.sector_id}`" class="bg-noir-accent/20 text-noir-accent border border-noir-accent px-4 py-2 rounded hover:bg-noir-accent hover:text-white hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                        </svg>
+                        GATEWAY_OVERZICHT
+                    </RouterLink>
+                    </div>
                 </div>
             </div>
 
@@ -298,7 +308,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             <div v-if="activeArtwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
                                 <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none flex items-center gap-2">
                                     <span class="text-noir-warning">⚡</span> KLIK & SLEEP OM GATEWAY TE MAKEN
-                                    <span v-if="scene.artwork.length === 0" class="ml-2 text-[10px] text-noir-accent bg-noir-accent/10 px-1 rounded border border-noir-accent/30 font-mono">USING_LOCATION_VISUALS</span>
+                                    <span v-if="scene.artwork.length === 0" class="ml-2 text-[10px] text-noir-accent bg-noir-accent/10 px-1 rounded border border-noir-accent/30 font-mono">LOCATIE_VISUAL_IN_GEBRUIK</span>
                                 </div>
 
                                 <div

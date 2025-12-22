@@ -30,7 +30,7 @@ class SectorController extends Controller
 
     public function show(Sector $sector)
     {
-        $sector->load(['scenes', 'artwork']);
+        $sector->load(['scenes.artwork', 'scenes.locatie.artwork', 'artwork']);
         return response()->json($sector);
     }
 

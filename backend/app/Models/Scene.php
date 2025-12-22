@@ -17,6 +17,10 @@ class Scene extends Model
         'beschrijving',
         'status',
         'gateways',
+        'x',
+        'y',
+        'width',
+        'height',
     ];
 
     public function locatie()

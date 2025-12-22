@@ -42,8 +42,11 @@ class SceneController extends Controller
             'beschrijving' => 'string',
             'status' => 'string',
             'gateways' => 'nullable|array',
+            'x' => 'integer',
+            'y' => 'integer',
+            'width' => 'integer',
+            'height' => 'integer',
         ]);
-
         $scene->update($validated);
 
         return $scene;
