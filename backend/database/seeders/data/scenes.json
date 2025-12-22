@@ -9,7 +9,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:14:53.000000Z",
-        "updated_at": "2025-12-22T15:32:51.000000Z"
+        "updated_at": "2025-12-22T15:32:51.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 4,
@@ -21,7 +25,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 5,
@@ -33,7 +41,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 6,
@@ -43,9 +55,22 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 45.85395580956773,
+                "y": 39.131952384964436,
+                "label": null,
+                "width": 13.70348104653749,
+                "height": 22.493169481121285,
+                "target_scene_id": 7
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T17:12:41.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 7,
@@ -55,9 +80,22 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 39.63468364229303,
+                "y": 34.81819385433843,
+                "label": null,
+                "width": 7.062563308600083,
+                "height": 23.41754630911258,
+                "target_scene_id": 6
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T17:12:54.000000Z",
+        "x": 416,
+        "y": 143,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 8,
@@ -67,9 +105,22 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 2.506426735218509,
+                "y": 85.10038746037337,
+                "label": "Naar court",
+                "width": 94.34447300771208,
+                "height": 13.713748972642946,
+                "target_scene_id": 9
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T16:15:00.000000Z",
+        "x": 179,
+        "y": 253,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 9,
@@ -79,9 +130,22 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 40.80976863753214,
+                "y": 56.92145121521662,
+                "label": "Naar Rosse buurt",
+                "width": 21.72236503856041,
+                "height": 6.762944698837629,
+                "target_scene_id": 8
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T16:18:40.000000Z",
+        "x": 428,
+        "y": 499,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 10,
@@ -93,7 +157,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 11,
@@ -105,7 +173,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 12,
@@ -117,7 +189,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 13,
@@ -129,7 +205,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 14,
@@ -141,7 +221,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 15,
@@ -153,7 +237,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 16,
@@ -165,7 +253,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 17,
@@ -177,7 +269,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 18,
@@ -189,7 +285,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 19,
@@ -201,7 +301,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 20,
@@ -213,7 +317,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 21,
@@ -225,7 +333,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 22,
@@ -237,7 +349,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 23,
@@ -249,7 +365,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 24,
@@ -261,7 +381,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 25,
@@ -273,7 +397,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 26,
@@ -285,7 +413,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 27,
@@ -297,7 +429,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 28,
@@ -307,9 +443,22 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 43.41317365269461,
+                "y": 49.885474000888856,
+                "label": "Naar standbeelden",
+                "width": 14.670658682634738,
+                "height": 9.408225359816768,
+                "target_scene_id": 29
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T16:57:00.000000Z",
+        "x": 684,
+        "y": 760,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 29,
@@ -319,9 +468,30 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 40.26946107784431,
+                "y": 91.4567023349629,
+                "label": null,
+                "width": 22.904191616766468,
+                "height": 7.4390619124132655,
+                "target_scene_id": 28
+            },
+            {
+                "x": 83.53293413173652,
+                "y": 48.791494307886914,
+                "label": null,
+                "width": 12.125748502994014,
+                "height": 13.346552254623774,
+                "target_scene_id": 30
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T16:57:05.000000Z",
+        "x": 684,
+        "y": 570,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 30,
@@ -331,9 +501,30 @@
         "type": "walkable-area",
         "beschrijving": "tbd",
         "status": "active",
-        "gateways": [],
+        "gateways": [
+            {
+                "x": 46.706586826347305,
+                "y": 46.16594304468224,
+                "label": null,
+                "width": 6.137724550898206,
+                "height": 17.503675088031173,
+                "target_scene_id": 29
+            },
+            {
+                "x": 30.83832335329341,
+                "y": 90.36272264196096,
+                "label": null,
+                "width": 37.2754491017964,
+                "height": 7.657857851013645,
+                "target_scene_id": 31
+            }
+        ],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T17:12:22.000000Z",
+        "x": 683,
+        "y": 380,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 31,
@@ -345,7 +536,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T17:12:20.000000Z",
+        "x": 991,
+        "y": 265,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 32,
@@ -357,7 +552,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 33,
@@ -369,7 +568,11 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     },
     {
         "id": 34,
@@ -381,6 +584,10 @@
         "status": "active",
         "gateways": [],
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-22T15:50:19.000000Z"
+        "updated_at": "2025-12-22T15:50:19.000000Z",
+        "x": 100,
+        "y": 100,
+        "width": 200,
+        "height": 150
     }
 ]

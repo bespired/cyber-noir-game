@@ -8,6 +8,7 @@ create a .env.docker with
 
 `./install.sh`
 
+then:
 
 `docker compose up -d`
 
@@ -39,11 +40,11 @@ gives you
 `npm run dev`
 
 
-#### Reset password
+#### Reset password ( not really needed )
 `http://localhost:3000/forgot-password`
 
 > test@example.com
-(has given password testKoo1)
+(has given password testL33uw)
 
 
 #### Check your mail

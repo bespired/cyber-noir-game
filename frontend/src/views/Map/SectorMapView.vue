@@ -191,6 +191,37 @@ const getLineCoords = (conn) => {
         y2: mapGeometry.value.offsetY + ty * mapGeometry.value.scale
     };
 };
+
+const getLinePath = (conn) => {
+    const { x1, y1, x2, y2 } = getLineCoords(conn);
+    const dx = Math.abs(x2 - x1);
+
+    // Control points: pull out horizontally from dots
+    // If target is to the left, we still pull "out" from right and "in" to left
+    const offset = Math.max(80 * mapGeometry.value.scale, dx * 0.5);
+    const cx1 = x1 + offset;
+    const cy1 = y1;
+    const cx2 = x2 - offset;
+    const cy2 = y2;
+
+    return `M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}`;
+};
+
+const getLineColor = (conn) => {
+    const s = conn.source;
+    const t = conn.target;
+    // Determine "Back" connection if target is significantly to the left of source
+    if ((t.x || 0) < (s.x || 0) - 50) {
+        return {
+            stroke: 'rgba(255, 60, 150, 0.5)', // Neon Pink/Magenta for "Back"
+            filter: 'glow-back'
+        };
+    }
+    return {
+        stroke: 'rgba(0, 180, 255, 0.5)', // Neon Blue/Cyan for "Forward"
+        filter: 'glow-forward'
+    };
+};
 </script>
 
 <template>
@@ -216,7 +247,7 @@ const getLineCoords = (conn) => {
 
         <!-- Map Canvas -->
         <div v-if="loading" class="flex-grow flex items-center justify-center text-noir-muted font-mono animate-pulse">
-            LADING_SECTOR_MATRIIX...
+            LADING_SECTOR_MATRIX...
         </div>
         <div v-else class="flex-grow relative overflow-hidden bg-[#050505] cursor-crosshair" ref="mapContainer">
 
@@ -226,7 +257,8 @@ const getLineCoords = (conn) => {
                     backgroundImage: `url(${mapBackground})`,
                     backgroundSize: 'contain',
                     backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
+                    backgroundRepeat: 'no-repeat',
+                    filter: 'blur(7px)'
                  }"
             >
             </div>
@@ -234,20 +266,28 @@ const getLineCoords = (conn) => {
             <!-- SVG Overlay for Wires -->
             <svg class="absolute inset-0 pointer-events-none w-full h-full z-10">
                 <defs>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <filter id="glow-forward">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    <filter id="glow-back">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                         <feMerge>
                             <feMergeNode in="coloredBlur"/>
                             <feMergeNode in="SourceGraphic"/>
                         </feMerge>
                     </filter>
                 </defs>
-                <line v-for="conn in connections" :key="conn.id"
-                      v-bind="getLineCoords(conn)"
-                      stroke="rgba(0, 150, 255, 0.4)"
+                <path v-for="conn in connections" :key="conn.id"
+                      :d="getLinePath(conn)"
+                      :stroke="getLineColor(conn).stroke"
                       stroke-width="2"
-                      stroke-dasharray="5,5"
-                      filter="url(#glow)"
+                      stroke-dasharray="8,6"
+                      fill="none"
+                      :filter="`url(#${getLineColor(conn).filter})`"
                 />
             </svg>
 
@@ -319,7 +359,7 @@ const getLineCoords = (conn) => {
     }
 }
 
-svg line {
-    animation: dash 10s linear infinite;
+svg path {
+    animation: dash 8s linear infinite;
 }
 </style>
