@@ -171,7 +171,7 @@ const getImageUrl = (path) => {
             <!-- Details Section -->
             <div class="lg:col-span-2 p-6 flex flex-col">
                 <div class="flex justify-between items-start mb-4">
-                    <h1 class="text-3xl font-bold text-white">{{ sector.naam }}</h1>
+                    <h1 class="page-header">{{ sector.naam }}</h1>
                     <button @click="openEditModal" class="text-noir-accent hover:text-white text-sm font-bold uppercase tracking-wider border border-noir-accent hover:border-white px-3 py-1 rounded transition-colors">
                         BEWERK DATA
                     </button>

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -276,10 +276,6 @@ const animate = () => {
     renderer.render(scene, camera);
 };
 
-const goBack = () => {
-    router.push('/scenes');
-};
-
 const updateCubePos = () => {
     if (testCubeMesh) {
         testCubeMesh.position.set(cubePosition.x, cubePosition.y, cubePosition.z);
@@ -310,17 +306,19 @@ const onScroll = (e) => {
 <template>
     <div class="min-h-screen bg-noir-darker p-8">
         <div class="max-w-[1300px] mx-auto">
+            <div class="flex items-center mb-6 text-sm text-noir-muted">
+                <RouterLink :to="`/scenes/${sceneId}`" class="hover:text-white">&lt; SCENE DETAILS</RouterLink>
+                <span class="mx-2">/</span>
+                <span class="text-white">3D TESTER</span>
+            </div>
+
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    
-                    <h1 class="text-3xl font-bold text-white tracking-tight uppercase">3D_SCENE_TESTER</h1>
+                    <h1 class="page-header">3D_SCENE_TESTER</h1>
                     <p v-if="sceneData" class="text-noir-muted text-sm mt-1">
                         {{ sceneData.sector?.naam }} // {{ sceneData.locatie?.naam }} // {{ sceneData.titel }}
                     </p>
                 </div>
-                <button @click="goBack" class="bg-noir-dark border border-noir-dark text-noir-muted px-4 py-2 rounded hover:text-white transition-colors uppercase font-bold text-sm tracking-wider">
-                    TERUG_NAAR_OVERZICHT
-                </button>
             </div>
 
             <div v-if="loading" class="flex items-center justify-center py-40">

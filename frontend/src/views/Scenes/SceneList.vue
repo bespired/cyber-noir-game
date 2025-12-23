@@ -124,7 +124,7 @@ const getTypeIcon = (type) => {
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
              <div class="flex items-center gap-4">
-                <h1 class="text-3xl font-bold text-white tracking-tight">SCENES</h1>
+                <h1 class="page-header">SCENES</h1>
                 <div class="flex items-center gap-2">
                     <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-2 text-sm focus:border-noir-accent focus:outline-none">
                         <option value="">ALLE SECTOREN</option>

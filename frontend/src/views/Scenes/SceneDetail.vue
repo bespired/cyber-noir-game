@@ -259,7 +259,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
             <!-- Header -->
             <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
                 <div>
-                    <h1 class="text-3xl font-bold text-white mb-1">{{ scene.titel }}</h1>
+                    <h1 class="page-header mb-1">{{ scene.titel }}</h1>
                     <div class="flex items-center space-x-4">
                         <span class="text-noir-accent font-mono text-sm uppercase tracking-wider">{{ scene.type }}</span>
                         <span class="text-xs text-noir-muted">SCENE_ID: {{ String(scene.id).padStart(8, '0') }}</span>
