@@ -126,18 +126,18 @@ const getTypeIcon = (type) => {
              <div class="flex items-center gap-4">
                 <h1 class="page-header">SCENES</h1>
                 <div class="flex items-center gap-2">
-                    <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-2 text-sm focus:border-noir-accent focus:outline-none">
+                    <select v-model="selectedSector" class="form-input text-sm w-auto">
                         <option value="">ALLE SECTOREN</option>
                         <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
                             {{ sector.naam }}
                         </option>
                     </select>
-                    <button v-if="selectedSector" @click="selectedSector = ''" class="bg-noir-dark border border-noir-dark text-noir-muted hover:text-white px-2 py-2 rounded text-xs transition-colors" title="Clear Filter">
+                    <button v-if="selectedSector" @click="selectedSector = ''" class="btn btn--secondary p-2 text-xs" title="Clear Filter">
                         ✕
                     </button>
                 </div>
             </div>
-            <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+            <button @click="openModal" class="btn btn--primary">
                 + NIEUWE SCENE
             </button>
         </div>
@@ -147,7 +147,7 @@ const getTypeIcon = (type) => {
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="scene in filteredScenes" :key="scene.id" class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-accent transition-colors group">
+            <div v-for="scene in filteredScenes" :key="scene.id" class="panel panel--hover group">
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-1">
@@ -170,20 +170,20 @@ const getTypeIcon = (type) => {
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-noir-muted">ID: {{ String(scene.id).padStart(4, '0') }}</span>
-                        <span class="px-2 py-0.5 rounded text-xs font-bold uppercase" :class="{
-                            'bg-noir-success/20 text-noir-success border border-noir-success': scene.status === 'active',
-                            'bg-noir-muted/20 text-noir-muted border border-noir-muted': scene.status === 'completed',
-                            'bg-noir-danger/20 text-noir-danger border border-noir-danger': scene.status === 'locked'
+                        <span class="badge" :class="{
+                            'badge--active': scene.status === 'active',
+                            'badge--completed': scene.status === 'completed',
+                            'badge--locked': scene.status === 'locked'
                         }">{{ scene.status }}</span>
-                         <RouterLink :to="`/scenes/${scene.id}/test-3d`" class="text-noir-warning text-[12px] border border-noir-warning/30 px-2 py-0.5 rounded hover:bg-noir-warning hover:text-black transition-all uppercase font-bold tracking-tighter">
-                            TEST_3D_SCENE
+                         <RouterLink :to="`/scenes/${scene.id}/test-3d`" class="btn btn--warning btn--small">
+                            3D_SCENE
                         </RouterLink>
                     </div>
                     <div class="flex flex-col items-end gap-2">
-                        <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
+                        <RouterLink :to="`/scenes/${scene.id}`" class="btn--link">
                             WIJZIG_SCENE >
                         </RouterLink>
-                       
+
                     </div>
                 </div>
             </div>
@@ -193,20 +193,20 @@ const getTypeIcon = (type) => {
         <Modal :isOpen="showModal" title="NEW SCENE ENTRY" @close="showModal = false">
             <form @submit.prevent="createScene" class="space-y-4">
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Titel</label>
-                    <input v-model="form.titel" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                    <label class="form-label">Titel</label>
+                    <input v-model="form.titel" type="text" required class="form-input">
                 </div>
                  <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Sector</label>
-                        <select v-model="form.sector_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <label class="form-label">Sector</label>
+                        <select v-model="form.sector_id" required class="form-input">
                             <option value="" disabled>Select a sector</option>
                             <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{ sector.naam }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Location</label>
-                        <select v-model="form.locatie_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <label class="form-label">Location</label>
+                        <select v-model="form.locatie_id" required class="form-input">
                             <option value="" disabled>Select a location</option>
                             <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
                         </select>
@@ -214,8 +214,8 @@ const getTypeIcon = (type) => {
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                      <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Type</label>
-                        <select v-model="form.type" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <label class="form-label">Type</label>
+                        <select v-model="form.type" required class="form-input">
                             <option value="walkable-area">Walkable Area (Outside)</option>
                             <option value="investigation">Investigation (Inside)</option>
                             <option value="interrogation">Interrogation</option>
@@ -224,8 +224,8 @@ const getTypeIcon = (type) => {
                         </select>
                     </div>
                      <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Status</label>
-                        <select v-model="form.status" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <label class="form-label">Status</label>
+                        <select v-model="form.status" required class="form-input">
                             <option value="active">Active</option>
                             <option value="completed">Completed</option>
                             <option value="locked">Locked</option>
@@ -233,22 +233,22 @@ const getTypeIcon = (type) => {
                     </div>
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Beschrijving</label>
-                    <textarea v-model="form.beschrijving" required rows="3" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
+                    <label class="form-label">Beschrijving</label>
+                    <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
                  <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Entry Point</label>
-                        <textarea v-model="form.entry_point" rows="2" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
+                        <label class="form-label">Entry Point</label>
+                        <textarea v-model="form.entry_point" rows="2" class="form-input"></textarea>
                     </div>
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Exit Point</label>
-                        <textarea v-model="form.exit_point" rows="2" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
+                        <label class="form-label">Exit Point</label>
+                        <textarea v-model="form.exit_point" rows="2" class="form-input"></textarea>
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">MAAK_RECORD</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">CANCEL</button>
+                    <button type="submit" class="btn btn--primary">MAAK_RECORD</button>
                 </div>
             </form>
         </Modal>

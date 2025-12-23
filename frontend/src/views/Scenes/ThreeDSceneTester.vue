@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue';
+    import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
 import * as THREE from 'three';
@@ -64,7 +64,7 @@ const ASPECT_RATIO = VIEW_WIDTH / VIEW_HEIGHT;
 const updateDimensions = () => {
     // Calculate available space
     // Header ~ 100px, Instructions ~ 250px, Padding ~ 64px
-    const verticalOffset = 380; 
+    const verticalOffset = 380;
     const maxWidth = window.innerWidth - 64; // Horizontal padding
     const maxHeight = window.innerHeight - verticalOffset;
 
@@ -178,7 +178,7 @@ const initThree = () => {
     testCubeMesh.position.set(0, 0.5, 0);
     testCubeMesh.name = "test-cube";
     scene.add(testCubeMesh);
-    
+
     // Sync reactive state
     cubePosition.x = testCubeMesh.position.x;
     cubePosition.y = testCubeMesh.position.y;
@@ -195,7 +195,7 @@ const loadGLB = () => {
     const loader = new GLTFLoader();
     // Allow cross-origin requests
     loader.setCrossOrigin('anonymous');
-    
+
     loader.load(glbUrl.value, (gltf) => {
         currentGltf = gltf.scene;
         scene.add(currentGltf);
@@ -221,8 +221,8 @@ const loadGLB = () => {
 
         if (floorMesh) {
             console.log("Found floor mesh, applying helper material");
-            floorMesh.material = new THREE.MeshBasicMaterial({ 
-                color: 0x00ffff, 
+            floorMesh.material = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
                 wireframe: false,
                 transparent: true,
                 opacity: 0.5
@@ -232,7 +232,7 @@ const loadGLB = () => {
             const box = new THREE.Box3().setFromObject(floorMesh);
             const center = new THREE.Vector3();
             box.getCenter(center);
-            
+
             if (testCubeMesh) {
                 testCubeMesh.position.set(center.x, box.max.y + 0.5, center.z);
                 // Sync UI
@@ -289,7 +289,7 @@ watch(cubePosition, () => {
 
 const onScroll = (e) => {
     e.preventDefault();
-    
+
     if (e.shiftKey) {
         // Shift + Scroll = X-axis
         // User confirmed X should behave exactly like Z (Up/Down)
@@ -302,60 +302,48 @@ const onScroll = (e) => {
     }
 };
 </script>
-
 <template>
     <div class="min-h-screen bg-noir-darker p-8">
         <div class="max-w-[1300px] mx-auto">
-            <div class="flex items-center mb-6 text-sm text-noir-muted">
-                <RouterLink :to="`/scenes/${sceneId}`" class="hover:text-white">&lt; SCENE DETAILS</RouterLink>
-                <span class="mx-2">/</span>
-                <span class="text-white">3D TESTER</span>
+            <div class="flex items-center text-sm text-noir-muted">
+                <span>
+                    <RouterLink to="/scenes" class="hover:text-white">&lt; SCENES</RouterLink>
+                    &nbsp;
+                </span>
+                <span>
+                    <RouterLink :to="`/scenes/${sceneId}`" class="hover:text-white">&lt; SCENE DETAILS</RouterLink>
+                    <span class="mx-2">/</span>
+                    <span class="text-white">3D TESTER</span>
+                    &nbsp;
+                </span>
+
             </div>
 
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h1 class="page-header">3D_SCENE_TESTER</h1>
-                    <p v-if="sceneData" class="text-noir-muted text-sm mt-1">
-                        {{ sceneData.sector?.naam }} // {{ sceneData.locatie?.naam }} // {{ sceneData.titel }}
-                    </p>
-                </div>
-            </div>
+            <span v-if="sceneData" class="text-noir-muted text-sm mt-1">
+                {{ sceneData.sector?.naam }} // {{ sceneData.locatie?.naam }} // {{ sceneData.titel }}
+            </span>
 
             <div v-if="loading" class="flex items-center justify-center py-40">
                 <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-noir-accent"></div>
             </div>
-
             <div v-else-if="error" class="bg-noir-panel border border-noir-danger p-6 rounded text-noir-danger text-center">
                 {{ error }}
                 <div class="mt-4 text-xs text-noir-muted">Expected path: {{ glbUrl }}</div>
             </div>
-
             <div v-else class="flex flex-col items-center">
                 <!-- Tester Viewport Container -->
-                <div 
-                    class="relative border-4 border-noir-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black overflow-hidden"
-                    :style="{ width: containerWidth + 'px', height: containerHeight + 'px' }"
-                    @wheel="onScroll"
-                >
+                <div class="relative border-4 border-noir-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black overflow-hidden" :style="{ width: containerWidth + 'px', height: containerHeight + 'px' }" @wheel="onScroll">
                     <!-- Background Image (Layer 0) -->
-                    <img 
-                        v-if="backgroundImageUrl"
-                        :src="backgroundImageUrl" 
-                        class="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-100"
-                        alt="Background"
-                    />
-                    
+                    <img v-if="backgroundImageUrl" :src="backgroundImageUrl" class="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-100" alt="Background" />
                     <!-- Three.js Canvas (Layer 1) -->
                     <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
-
                     <!-- Overlay Info -->
                     <div class="absolute bottom-4 left-4 z-20 bg-black/60 p-3 rounded border border-white/10 text-xs font-mono text-noir-accent pointer-events-none">
-                        RESOLUTION: {{ containerWidth }}x{{ containerHeight }}<br/>
-                        GLB: {{ glbUrl.split('/').pop() }}<br/>
+                        RESOLUTION: {{ containerWidth }}x{{ containerHeight }}<br />
+                        GLB: {{ glbUrl.split('/').pop() }}<br />
                         NODES: [camera.fspy, floor, sun]
                     </div>
                 </div>
-
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
                         <h3 class="text-white font-bold mb-2 uppercase text-sm border-b border-noir-dark pb-1">INSTRUCTIES</h3>
@@ -376,8 +364,8 @@ const onScroll = (e) => {
                         </ul>
                     </div>
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                         <h3 class="text-white font-bold mb-2 uppercase text-sm border-b border-noir-dark pb-1">DEBUG_ACTIONS (CUBE)</h3>
-                         <div class="space-y-2 mt-2">
+                        <h3 class="text-white font-bold mb-2 uppercase text-sm border-b border-noir-dark pb-1">DEBUG_ACTIONS (CUBE)</h3>
+                        <div class="space-y-2 mt-2">
                             <div class="flex items-center gap-2">
                                 <span class="text-noir-muted w-4 text-xs font-bold">X</span>
                                 <input type="number" step="0.5" v-model.number="cubePosition.x" class="bg-noir-darker text-white border border-noir-dark rounded px-2 py-1 text-xs w-full focus:outline-none focus:border-noir-accent">
@@ -390,14 +378,13 @@ const onScroll = (e) => {
                                 <span class="text-noir-muted w-4 text-xs font-bold">Z</span>
                                 <input type="number" step="0.5" v-model.number="cubePosition.z" class="bg-noir-darker text-white border border-noir-dark rounded px-2 py-1 text-xs w-full focus:outline-none focus:border-noir-accent">
                             </div>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <style scoped>
 /* Ensure the canvas doesn't have a background if we want the image to show through */
 :deep(canvas) {

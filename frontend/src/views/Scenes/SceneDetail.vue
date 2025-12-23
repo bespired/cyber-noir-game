@@ -255,7 +255,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
             <span class="text-white">{{ scene.titel }}</span>
         </div>
 
-        <div class="bg-noir-panel border border-noir-dark rounded shadow-xl overflow-hidden">
+        <div class="panel overflow-hidden">
             <!-- Header -->
             <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
                 <div>
@@ -270,15 +270,15 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
                 <div class="flex flex-col gap-2 items-end">
                     <div class="flex gap-2">
-                        <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                        <button @click="saveChanges" class="btn btn--success">
                             BEWAREN
                         </button>
-                        <button @click="deleteScene" class="bg-noir-danger/20 text-noir-danger border border-noir-danger px-4 py-2 rounded hover:bg-noir-danger hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                        <button @click="deleteScene" class="btn btn--danger">
                             VERWIJDEREN
                         </button>
                     </div>
                     <div class="flex gap-2">
-                    <RouterLink v-if="scene.sector_id" :to="`/sector-map/${scene.sector_id}`" class="bg-noir-accent/20 text-noir-accent border border-noir-accent px-4 py-2 rounded hover:bg-noir-accent hover:text-white hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2 w-full">
+                    <RouterLink v-if="scene.sector_id" :to="`/sector-map/${scene.sector_id}`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
                         </svg>
@@ -375,22 +375,22 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
                                 SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
                             </div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Locatie</label>
-                            <select v-model="scene.locatie_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
+                            <label class="form-label">Locatie</label>
+                            <select v-model="scene.locatie_id" class="form-input">
                                 <option :value="null">-- GEEN LOCATIE --</option>
                                 <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Sector</label>
-                            <select v-model="scene.sector_id" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
+                            <label class="form-label">Sector</label>
+                            <select v-model="scene.sector_id" class="form-input">
                                 <option :value="null">-- GEEN SECTOR --</option>
                                 <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Beschrijving</label>
-                            <textarea v-model="scene.beschrijving" rows="12" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors" placeholder="Describe what happens in this scene..."></textarea>
+                            <label class="form-label">Beschrijving</label>
+                            <textarea v-model="scene.beschrijving" rows="12" class="form-input" placeholder="Describe what happens in this scene..."></textarea>
                         </div>
 
                         <!-- Scene Metadata -->
@@ -419,8 +419,8 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
 
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Doel Scene</label>
-                    <select v-model="gatewayForm.target_scene_id" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                    <label class="form-label">Doel Scene</label>
+                    <select v-model="gatewayForm.target_scene_id" required class="form-input">
                         <option :value="null">-- KIES SCENE --</option>
                         <option v-for="s in availableTargetScenes" :key="s.id" :value="s.id">
                             {{ s.titel }} (ID: {{ s.id }})
@@ -428,12 +428,12 @@ watch(() => scene.value?.locatie_id, (newId) => {
                     </select>
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Label (Optioneel)</label>
-                    <input v-model="gatewayForm.label" type="text" placeholder="b.v. Naar Hoofd Street" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                    <label class="form-label">Label (Optioneel)</label>
+                    <input v-model="gatewayForm.label" type="text" placeholder="b.v. Naar Hoofd Street" class="form-input">
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showGatewayModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">HMMM...</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">BEWAAR_GATEWAY</button>
+                    <button type="button" @click="showGatewayModal = false" class="btn btn--secondary">HMMM...</button>
+                    <button type="submit" class="btn btn--primary">BEWAAR_GATEWAY</button>
                 </div>
             </form>
         </Modal>

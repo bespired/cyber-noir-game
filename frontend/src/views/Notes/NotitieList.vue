@@ -74,8 +74,8 @@ const deleteNote = async (id) => {
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-white tracking-tight">MYN NOTITIES</h1>
-            <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+            <h1 class="page-header">MIJN NOTITIES</h1>
+            <button @click="openModal" class="btn btn--primary">
                 + NIEUW IDEE
             </button>
         </div>
@@ -86,8 +86,8 @@ const deleteNote = async (id) => {
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="note in notes" :key="note.id"
-                 :class="['bg-noir-panel border p-6 rounded shadow-lg transition-all group relative overflow-hidden',
-                          note.is_afgerond ? 'border-noir-success/50 opacity-75' : 'border-noir-dark hover:border-noir-accent']">
+                 :class="['panel group relative overflow-hidden',
+                          note.is_afgerond ? 'border-noir-success/50 opacity-75' : 'panel--hover']">
 
                 <div class="flex justify-between items-start mb-4 relative z-10">
                     <h2 :class="['text-xl font-bold transition-colors', note.is_afgerond ? 'text-noir-success line-through decoration-2' : 'text-white group-hover:text-noir-accent']">
@@ -118,16 +118,16 @@ const deleteNote = async (id) => {
         <Modal :isOpen="showModal" title="NEW DATA ENTRY" @close="showModal = false">
             <form @submit.prevent="createNote" class="space-y-4">
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Title</label>
-                    <input v-model="form.titel" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none" placeholder="Enter topic...">
+                    <label class="form-label">Title</label>
+                    <input v-model="form.titel" type="text" required class="form-input" placeholder="Enter topic...">
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Content</label>
-                    <textarea v-model="form.inhoud" required rows="5" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none" placeholder="Describe your idea..."></textarea>
+                    <label class="form-label">Content</label>
+                    <textarea v-model="form.inhoud" required rows="5" class="form-input" placeholder="Describe your idea..."></textarea>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">BEWAAR RECORD</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">CANCEL</button>
+                    <button type="submit" class="btn btn--primary">BEWAAR RECORD</button>
                 </div>
             </form>
         </Modal>

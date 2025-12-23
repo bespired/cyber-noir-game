@@ -71,8 +71,8 @@ const getImageUrl = (path) => {
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-white tracking-tight">PERSONAGES</h1>
-            <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+            <h1 class="page-header">PERSONAGES</h1>
+            <button @click="openModal" class="btn btn--primary">
                 + NIEUW PERSOON
             </button>
         </div>
@@ -82,7 +82,7 @@ const getImageUrl = (path) => {
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="personage in personages" :key="personage.id" class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-accent transition-colors group flex gap-4 relative overflow-hidden">
+            <div v-for="personage in personages" :key="personage.id" class="panel panel--hover group flex gap-4 relative overflow-hidden">
                 <!-- Playable Badge -->
                 <div v-if="personage.is_playable" class="absolute -right-6 top-4 bg-noir-accent text-black text-[10px] font-bold px-8 py-1 rotate-45 border-y border-white z-10 shadow-lg">
                     PLAYABLE
@@ -110,7 +110,7 @@ const getImageUrl = (path) => {
 
                     <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                         <span class="text-xs text-noir-muted">ID: {{ String(personage.id).padStart(4, '0') }}</span>
-                        <RouterLink :to="`/personages/${personage.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
+                        <RouterLink :to="`/personages/${personage.id}`" class="btn--link">
                             WIJZIG BESTAND >
                         </RouterLink>
                     </div>
@@ -122,30 +122,30 @@ const getImageUrl = (path) => {
         <Modal :isOpen="showModal" title="NIEUW PERSONAGE" @close="showModal = false">
             <form @submit.prevent="createPersonage" class="space-y-4">
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Naam</label>
-                    <input v-model="form.naam" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                    <label class="form-label">Naam</label>
+                    <input v-model="form.naam" type="text" required class="form-input">
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Rol</label>
-                    <input v-model="form.rol" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                    <label class="form-label">Rol</label>
+                    <input v-model="form.rol" type="text" required class="form-input">
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Beschrijving</label>
-                    <textarea v-model="form.beschrijving" required rows="3" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
+                    <label class="form-label">Beschrijving</label>
+                    <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                      <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Menselijke Status</label>
-                        <input v-model="form.menselijke_status" type="text" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <label class="form-label">Menselijke Status</label>
+                        <input v-model="form.menselijke_status" type="text" class="form-input">
                     </div>
                      <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Replicant Status</label>
-                        <input v-model="form.replicant_status" type="text" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
+                        <label class="form-label">Replicant Status</label>
+                        <input v-model="form.replicant_status" type="text" class="form-input">
                     </div>
                 </div>
                  <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Motief</label>
-                    <textarea v-model="form.motief" rows="2" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
+                    <label class="form-label">Motief</label>
+                    <textarea v-model="form.motief" rows="2" class="form-input"></textarea>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2">
@@ -158,8 +158,8 @@ const getImageUrl = (path) => {
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">AANMAKEN</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">ANNULEREN</button>
+                    <button type="submit" class="btn btn--primary">AANMAKEN</button>
                 </div>
             </form>
         </Modal>

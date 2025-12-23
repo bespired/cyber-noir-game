@@ -97,7 +97,7 @@ const createSector = async () => {
                     
                     <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                         <span class="text-xs text-noir-muted font-mono">COORDS: {{ sector.kaart_coordinaten || 'UNKNOWN' }}</span>
-                        <RouterLink :to="`/map/${sector.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
+                        <RouterLink :to="`/map/${sector.id}`" class="btn--link">
                             ENTER SECTOR >
                         </RouterLink>
                     </div>

@@ -60,8 +60,8 @@ const getImageUrl = (path) => {
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-white tracking-tight">AANWIJZINGEN</h1>
-            <button @click="openModal" class="bg-noir-danger text-white px-4 py-2 rounded hover:bg-red-500 hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+            <h1 class="page-header">AANWIJZINGEN</h1>
+            <button @click="openModal" class="btn btn--danger">
                 + AANWIJZING LOGGEN
             </button>
         </div>
@@ -70,7 +70,7 @@ const getImageUrl = (path) => {
             BESTANDEN ONTSLEUTELEN...
         </div>
 
-        <div v-else class="overflow-x-auto bg-noir-panel border border-noir-dark rounded shadow-lg">
+        <div v-else class="panel overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-noir-dark text-noir-muted uppercase text-xs tracking-wider border-b border-noir-panel">
@@ -97,8 +97,8 @@ const getImageUrl = (path) => {
                             </div>
                         </td>
                         <td class="p-4">
-                            <span v-if="clue.is_kritisch" class="inline-block px-2 py-1 bg-noir-danger/20 text-noir-danger border border-noir-danger rounded text-xs font-bold uppercase">KRITIEK</span>
-                            <span v-else class="inline-block px-2 py-1 bg-noir-muted/20 text-noir-muted border border-noir-muted rounded text-xs font-bold uppercase">STANDAARD</span>
+                            <span v-if="clue.is_kritisch" class="badge badge--locked">KRITIEK</span>
+                            <span v-else class="badge badge--neutral">STANDAARD</span>
                         </td>
                         <td class="p-4 font-bold text-white group-hover:text-noir-accent transition-colors">{{ clue.titel }}</td>
                         <td class="p-4 text-sm text-noir-text">
@@ -110,7 +110,7 @@ const getImageUrl = (path) => {
                             <span v-else class="text-noir-muted italic">--</span>
                         </td>
                         <td class="p-4 text-right">
-                            <RouterLink :to="`/aanwijzingen/${clue.id}`" class="text-noir-muted hover:text-white hover:underline decoration-noir-muted underline-offset-4 uppercase text-xs font-bold transition-all cursor-pointer">
+                            <RouterLink :to="`/aanwijzingen/${clue.id}`" class="btn--link btn--link-muted">
                                 BEWERK
                             </RouterLink>
                         </td>
@@ -123,20 +123,20 @@ const getImageUrl = (path) => {
         <Modal :isOpen="showModal" title="LOG NIEUWE AANWIJZING" @close="showModal = false">
             <form @submit.prevent="createAanwijzing" class="space-y-4">
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Titel</label>
-                    <input v-model="form.titel" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-danger focus:outline-none">
+                    <label class="form-label">Titel</label>
+                    <input v-model="form.titel" type="text" required class="form-input">
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Beschrijving</label>
-                    <textarea v-model="form.beschrijving" required rows="3" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-danger focus:outline-none"></textarea>
+                    <label class="form-label">Beschrijving</label>
+                    <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
                 <div class="flex items-center gap-2">
                     <input v-model="form.is_kritisch" type="checkbox" id="is_kritisch" class="rounded bg-noir-darker border-noir-dark text-noir-danger focus:ring-noir-danger">
                     <label for="is_kritisch" class="text-white text-sm uppercase">Kritieke Aanwijzing?</label>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-danger text-white font-bold rounded hover:bg-red-600 transition-colors">LOG AANWIJZING</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">ANNULEREN</button>
+                    <button type="submit" class="btn btn--danger">LOG AANWIJZING</button>
                 </div>
             </form>
         </Modal>

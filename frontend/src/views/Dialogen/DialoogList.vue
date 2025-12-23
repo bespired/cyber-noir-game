@@ -103,7 +103,7 @@ const createConversation = async () => {
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                     <span class="text-xs text-noir-muted truncate max-w-[100px]">{{ conv.is_active ? 'ACTIEF' : 'INACTIEF' }}</span>
-                    <RouterLink :to="`/dialogen/${conv.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
+                    <RouterLink :to="`/dialogen/${conv.id}`" class="btn--link">
                         EDIT NODE LOGIC >
                     </RouterLink>
                 </div>

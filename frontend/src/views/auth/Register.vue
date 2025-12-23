@@ -32,23 +32,23 @@ const handleRegister = async () => {
         <h2>Register</h2>
         <form @submit.prevent="handleRegister">
             <div class="form-group">
-                <label>Name:</label>
-                <input type="text" v-model="name" required />
+                <label class="form-label">Name:</label>
+                <input type="text" v-model="name" required class="form-input" />
             </div>
             <div class="form-group">
-                <label>Email:</label>
-                <input type="email" v-model="email" required />
+                <label class="form-label">Email:</label>
+                <input type="email" v-model="email" required class="form-input" />
             </div>
             <div class="form-group">
-                <label>Password:</label>
-                <input type="password" v-model="password" required />
+                <label class="form-label">Password:</label>
+                <input type="password" v-model="password" required class="form-input" />
             </div>
             <div class="form-group">
-                <label>Confirm Password:</label>
-                <input type="password" v-model="password_confirmation" required />
+                <label class="form-label">Confirm Password:</label>
+                <input type="password" v-model="password_confirmation" required class="form-input" />
             </div>
             <div v-if="error" class="error">{{ error }}</div>
-            <button type="submit" class="w-full bg-noir-accent text-white font-bold py-2 px-4 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+            <button type="submit" class="btn btn--primary w-full">
                 Register
             </button>
         </form>

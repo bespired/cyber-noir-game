@@ -55,16 +55,16 @@ const handleDeleteSuccess = (deletedId) => {
             <span class="text-white">{{ locatie.naam }}</span>
         </div>
 
-        <div class="bg-noir-panel border border-noir-dark rounded shadow-xl overflow-hidden">
+        <div class="panel overflow-hidden">
             <!-- Header -->
             <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
                 <div>
-                    <h1 class="text-3xl font-bold text-white mb-1">{{ locatie.naam }}</h1>
+                    <h1 class="page-header mb-1">{{ locatie.naam }}</h1>
                     <div class="flex items-center space-x-4">
                         <span class="text-xs text-noir-muted">SECTOR_ID: {{ String(locatie.id).padStart(8, '0') }}</span>
                     </div>
                 </div>
-                <button @click="saveChanges" class="bg-noir-warning/20 text-noir-warning border border-noir-warning px-4 py-2 rounded hover:bg-noir-warning hover:text-black hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                <button @click="saveChanges" class="btn btn--warning">
                     UPDATE_LOCATIE
                 </button>
             </div>
@@ -85,16 +85,16 @@ const handleDeleteSuccess = (deletedId) => {
                 <!-- Right Column: Inputs -->
                 <div class="lg:col-span-2 space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Naam</label>
-                        <input v-model="locatie.naam" type="text" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-warning focus:outline-none transition-colors">
+                        <label class="form-label">Naam</label>
+                        <input v-model="locatie.naam" type="text" class="form-input">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-noir-muted uppercase mb-2">Beschrijving</label>
-                        <textarea v-model="locatie.beschrijving" rows="6" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-warning focus:outline-none transition-colors"></textarea>
+                        <label class="form-label">Beschrijving</label>
+                        <textarea v-model="locatie.beschrijving" rows="6" class="form-input"></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-noir-muted uppercase mb-2">GM Notities (Hidden)</label>
-                        <textarea v-model="locatie.notities" rows="4" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-warning focus:outline-none transition-colors placeholder-gray-700" placeholder="Secret details about this location..."></textarea>
+                        <label class="form-label">GM Notities (Hidden)</label>
+                        <textarea v-model="locatie.notities" rows="4" class="form-input" placeholder="Secret details about this location..."></textarea>
                     </div>
 
                     <!-- Linked Clues -->

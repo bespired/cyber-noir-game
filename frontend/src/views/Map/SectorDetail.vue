@@ -222,7 +222,7 @@ const getImageUrl = (path) => {
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                     <span class="text-xs text-noir-muted">TYPE: {{ scene.type }}</span>
-                    <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-warning text-sm hover:text-white hover:underline decoration-noir-warning underline-offset-4 uppercase font-semibold transition-all">
+                    <RouterLink :to="`/scenes/${scene.id}`" class="btn--link btn--link-warning">
                         BINNENGAAN >
                     </RouterLink>
                 </div>

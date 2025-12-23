@@ -56,17 +56,17 @@ const handleDeleteSuccess = (deletedId) => {
             <span class="text-white">{{ personage.naam }}</span>
         </div>
 
-        <div class="bg-noir-panel border border-noir-dark rounded shadow-xl overflow-hidden">
+        <div class="panel overflow-hidden">
             <!-- Header -->
             <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
                 <div>
-                    <h1 class="text-3xl font-bold text-white mb-1">{{ personage.naam }}</h1>
+                    <h1 class="page-header mb-1">{{ personage.naam }}</h1>
                     <div class="flex items-center space-x-4">
                         <span class="text-noir-accent font-mono text-sm uppercase tracking-wider">{{ personage.rol }}</span>
                         <span class="text-xs text-noir-muted">FILE_ID: {{ String(personage.id).padStart(8, '0') }}</span>
                     </div>
                 </div>
-                <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
+                <button @click="saveChanges" class="btn btn--success">
                     BEWAAR_
                 </button>
             </div>
