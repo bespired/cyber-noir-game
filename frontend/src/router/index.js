@@ -107,6 +107,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/scenes/:id/test-3d',
+            name: 'scene-test-3d',
+            component: () => import('../views/Scenes/ThreeDSceneTester.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/about',
             name: 'about',
             component: () => import('../views/AboutView.vue')

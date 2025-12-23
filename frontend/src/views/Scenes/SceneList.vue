@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
@@ -19,7 +19,16 @@ const form = ref({
     status: 'active'
 });
 
+const sectors = ref([]);
+const selectedSector = ref('');
+
 onMounted(async () => {
+    // Restore filter from sessionStorage
+    const savedFilter = sessionStorage.getItem('scene-sector-filter');
+    if (savedFilter) {
+        selectedSector.value = savedFilter;
+    }
+
     await Promise.all([
         fetchScenes(),
         fetchLocaties(),
@@ -27,13 +36,14 @@ onMounted(async () => {
     ]);
 });
 
-const sectors = ref([]);
-const selectedSector = ref('');
+watch(selectedSector, (newVal) => {
+    sessionStorage.setItem('scene-sector-filter', newVal);
+});
 
 const fetchSectors = async () => {
     try {
         const response = await axios.get('/api/sectoren');
-        sectors.value = response.data;
+        sectors.value = response.data.sort((a, b) => a.naam.localeCompare(b.naam));
     } catch (e) {
         console.error("Failed to fetch sectors", e);
     }
@@ -115,12 +125,17 @@ const getTypeIcon = (type) => {
         <div class="flex justify-between items-center mb-8">
              <div class="flex items-center gap-4">
                 <h1 class="text-3xl font-bold text-white tracking-tight">SCENES</h1>
-                <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-2 text-sm focus:border-noir-accent focus:outline-none">
-                    <option value="">ALLE SECTOREN</option>
-                    <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
-                        {{ sector.naam }}
-                    </option>
-                </select>
+                <div class="flex items-center gap-2">
+                    <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-2 text-sm focus:border-noir-accent focus:outline-none">
+                        <option value="">ALLE SECTOREN</option>
+                        <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
+                            {{ sector.naam }}
+                        </option>
+                    </select>
+                    <button v-if="selectedSector" @click="selectedSector = ''" class="bg-noir-dark border border-noir-dark text-noir-muted hover:text-white px-2 py-2 rounded text-xs transition-colors" title="Clear Filter">
+                        ✕
+                    </button>
+                </div>
             </div>
             <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
                 + NIEUWE SCENE
@@ -160,10 +175,16 @@ const getTypeIcon = (type) => {
                             'bg-noir-muted/20 text-noir-muted border border-noir-muted': scene.status === 'completed',
                             'bg-noir-danger/20 text-noir-danger border border-noir-danger': scene.status === 'locked'
                         }">{{ scene.status }}</span>
+                         <RouterLink :to="`/scenes/${scene.id}/test-3d`" class="text-noir-warning text-[12px] border border-noir-warning/30 px-2 py-0.5 rounded hover:bg-noir-warning hover:text-black transition-all uppercase font-bold tracking-tighter">
+                            TEST_3D_SCENE
+                        </RouterLink>
                     </div>
-                    <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
-                        WIJZIG_SCENE >
-                    </RouterLink>
+                    <div class="flex flex-col items-end gap-2">
+                        <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all">
+                            WIJZIG_SCENE >
+                        </RouterLink>
+                       
+                    </div>
                 </div>
             </div>
         </div>

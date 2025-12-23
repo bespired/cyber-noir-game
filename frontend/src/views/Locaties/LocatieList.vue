@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
@@ -13,18 +13,28 @@ const form = ref({
     notities: ''
 });
 
+const sectors = ref([]);
+const selectedSector = ref('');
+
 onMounted(async () => {
+    // Restore filter from sessionStorage
+    const savedFilter = sessionStorage.getItem('locatie-sector-filter');
+    if (savedFilter) {
+        selectedSector.value = savedFilter;
+    }
+
     await fetchSectors();
     await fetchLocaties();
 });
 
-const sectors = ref([]);
-const selectedSector = ref('');
+watch(selectedSector, (newVal) => {
+    sessionStorage.setItem('locatie-sector-filter', newVal);
+});
 
 const fetchSectors = async () => {
     try {
         const response = await axios.get('/api/sectoren');
-        sectors.value = response.data;
+        sectors.value = response.data.sort((a, b) => a.naam.localeCompare(b.naam));
     } catch (e) {
         console.error("Failed to fetch sectors", e);
     }
@@ -83,12 +93,17 @@ const getImageUrl = (path) => {
         <div class="flex justify-between items-center mb-8">
             <div class="flex items-center gap-4">
                 <h1 class="text-3xl font-bold text-white tracking-tight leading-none">LOCATIES</h1>
-                <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-2 text-sm focus:border-noir-warning focus:outline-none uppercase">
-                    <option value="">ALLE SECTORS</option>
-                    <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
-                        {{ sector.naam }}
-                    </option>
-                </select>
+                <div class="flex items-center gap-2">
+                    <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-2 text-sm focus:border-noir-warning focus:outline-none uppercase">
+                        <option value="">ALLE SECTORS</option>
+                        <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
+                            {{ sector.naam }}
+                        </option>
+                    </select>
+                    <button v-if="selectedSector" @click="selectedSector = ''" class="bg-noir-dark border border-noir-dark text-noir-muted hover:text-white px-2 py-2 rounded text-xs transition-colors" title="Clear Filter">
+                        ✕
+                    </button>
+                </div>
             </div>
             <div class="flex gap-4">
                 <RouterLink to="/reorder/locaties" class="bg-noir-dark border border-noir-accent text-noir-accent px-4 py-2 rounded hover:bg-noir-accent/10 transition-all duration-300 uppercase font-bold text-sm tracking-wider flex items-center gap-2">
