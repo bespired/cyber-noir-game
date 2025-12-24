@@ -3,11 +3,13 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
+import Character3DViewer from '../../components/Character3DViewer.vue';
 
 const route = useRoute();
 const router = useRouter();
 const personage = ref(null);
 const loading = ref(true);
+const uploadingGlb = ref(false);
 const activeTab = ref('public'); // 'public' or 'private'
 
 onMounted(async () => {
@@ -41,6 +43,45 @@ const handleDeleteSuccess = (deletedId) => {
     if (personage.value.artwork) {
         personage.value.artwork = personage.value.artwork.filter(img => img.id !== deletedId);
     }
+};
+
+const getGlbUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    // Ensure it points to :8000 or the VITE_API_URL
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    return `${baseUrl}${cleanPath}`;
+};
+
+const triggerGlbUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.glb';
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('glb', file);
+
+        uploadingGlb.value = true;
+        try {
+            await axios.post(`/api/personages/${personage.value.id}/glb`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            alert('GLB_UPLOAD_SUCCESSFUL');
+            // Refresh character data to update glb_url
+            const response = await axios.get(`/api/personages/${personage.value.id}`);
+            personage.value = response.data;
+        } catch (err) {
+            console.error(err);
+            alert('UPLOAD_FAILED: NEURAL_REJECTION');
+        } finally {
+            uploadingGlb.value = false;
+        }
+    };
+    input.click();
 };
 </script>
 
@@ -93,8 +134,33 @@ const handleDeleteSuccess = (deletedId) => {
             <div class="p-6">
                 <!-- Public Tab -->
                 <div v-if="activeTab === 'public'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column: Artwork -->
-                    <div class="lg:col-span-1">
+                    <!-- Left Column: 3D Preview & Artwork -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <!-- 3D Preview -->
+                        <div class="panel p-4">
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-4 flex justify-between items-center">
+                                <span>3D_CHARACTER_CORE</span>
+                                <button
+                                    @click="triggerGlbUpload"
+                                    class="text-noir-accent hover:text-white transition-colors text-[10px]"
+                                    :disabled="uploadingGlb"
+                                >
+                                    {{ uploadingGlb ? 'SCANNING...' : 'UPLOAD_.GLB' }}
+                                </button>
+                            </h3>
+                            
+                            <div class="aspect-[3/4] w-full bg-black/20 rounded border border-noir-dark relative overflow-hidden">
+                                <Character3DViewer v-if="personage.glb_url" :glb-url="getGlbUrl(personage.glb_url)" />
+                                <div v-else class="w-full h-full flex flex-col items-center justify-center text-noir-muted p-6 text-center">
+                                    <div class="text-4xl mb-4 opacity-50">👤</div>
+                                    <p class="text-[10px] uppercase tracking-widest mb-4">No neural data found</p>
+                                    <button @click="triggerGlbUpload" class="btn btn--small btn--link">
+                                        INITIALIZE_SCAN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <ArtworkManager
                             model-type="personage"
                             :model-id="personage.id"
@@ -134,8 +200,32 @@ const handleDeleteSuccess = (deletedId) => {
 
                 <!-- Private Tab -->
                 <div v-if="activeTab === 'private'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column: Artwork (Same as public, or different if needed, but keeping consistent) -->
-                    <div class="lg:col-span-1">
+                    <!-- Left Column: 3D Preview & Artwork -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="panel p-4">
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-4 flex justify-between items-center">
+                                <span>CLASSIFIED_3D_CORE</span>
+                                <button
+                                    @click="triggerGlbUpload"
+                                    class="text-noir-accent hover:text-white transition-colors text-[10px]"
+                                    :disabled="uploadingGlb"
+                                >
+                                    {{ uploadingGlb ? 'SCANNING...' : 'UPDATE_MODEL' }}
+                                </button>
+                            </h3>
+                            
+                            <div class="aspect-[3/4] w-full bg-black/20 rounded border border-noir-dark relative overflow-hidden">
+                                <Character3DViewer v-if="personage.glb_url" :glb-url="getGlbUrl(personage.glb_url)" />
+                                <div v-else class="w-full h-full flex flex-col items-center justify-center text-noir-muted p-6 text-center">
+                                    <div class="text-4xl mb-4 opacity-50">👤</div>
+                                    <p class="text-[10px] uppercase tracking-widest mb-4">No classified 3D model</p>
+                                    <button @click="triggerGlbUpload" class="btn btn--small btn--link">
+                                        RESTRICTED_UPLOAD
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <ArtworkManager
                             model-type="personage"
                             :model-id="personage.id"

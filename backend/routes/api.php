@@ -17,6 +17,7 @@ Route::get('/test-redis', function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('personages', \App\Http\Controllers\PersonageController::class);
+    Route::post('/personages/{personage}/glb', [\App\Http\Controllers\PersonageController::class, 'uploadGlb']);
     Route::apiResource('locaties', \App\Http\Controllers\LocatieController::class)
         ->parameters(['locaties' => 'locatie']);
     Route::post('/locaties/reorder', [\App\Http\Controllers\LocatieController::class, 'reorder']);

@@ -7,7 +7,7 @@
         "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 1
     },
     {
@@ -18,7 +18,7 @@
         "adres": "Protein Cultivation Zone AGR-9, Plot 47B, Outlands",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 2
     },
     {
@@ -29,7 +29,7 @@
         "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
         "veiligheidsniveau": 4,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 3
     },
     {
@@ -40,7 +40,7 @@
         "adres": "Residential Stack C, Building 36, Level 18, Sector H-3, NT-Megacity",
         "veiligheidsniveau": 2,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 4
     },
     {
@@ -51,7 +51,7 @@
         "adres": "Unit 18-36-C, Residential Stack C, Sector H-3",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 5
     },
     {
@@ -62,7 +62,7 @@
         "adres": "Red Light District, Neon Canal Zone, Sector N-5, NT-Megacity",
         "veiligheidsniveau": 0,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 6
     },
     {
@@ -73,7 +73,7 @@
         "adres": "Protein Market Hall 9, Neon Canal Zone, Sector N-5",
         "veiligheidsniveau": 0,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 7
     },
     {
@@ -84,7 +84,7 @@
         "adres": "Nexus Distribution Complex, Dock Sector D-4, NT-Megacity",
         "veiligheidsniveau": 3,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 8
     },
     {
@@ -95,7 +95,7 @@
         "adres": "Industrial Ruins, Block 77, Sector I-6, NT-Megacity",
         "veiligheidsniveau": 2,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 9
     },
     {
@@ -106,7 +106,7 @@
         "adres": "Sublevel Freight Yard, Block 77A, Sector I-6",
         "veiligheidsniveau": 3,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 10
     },
     {
@@ -117,7 +117,7 @@
         "adres": "Outer Exclusion Zone, Orphanage Block 12, Coastal Ruins",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 11
     },
     {
@@ -128,7 +128,7 @@
         "adres": "Collapsed Skyway 3, Orphanage Block 12",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 12
     },
     {
@@ -139,7 +139,7 @@
         "adres": "Child Processing Hall, Sublevel B, Block 12",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 14
     },
     {
@@ -150,7 +150,7 @@
         "adres": "Administrative Office, Level 2, Block 12",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 15
     },
     {
@@ -161,7 +161,7 @@
         "adres": "Stelline Research Enclave, Bio-Dome Perimeter, Sector R-1",
         "veiligheidsniveau": 4,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 16
     },
     {
@@ -172,7 +172,7 @@
         "adres": "Artificial Forest Dome, Sector R-1, Enclave Interior",
         "veiligheidsniveau": 4,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 17
     },
     {
@@ -183,7 +183,7 @@
         "adres": "Memory Design Laboratory, Dome Core, Sector R-1",
         "veiligheidsniveau": 5,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 18
     },
     {
@@ -194,7 +194,7 @@
         "adres": "Access Stairwell 3, Bio-Dome Core",
         "veiligheidsniveau": 4,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 19
     },
     {
@@ -205,8 +205,8 @@
         "adres": "Data Archive Vault, Sublevel 4, Wallace HQ",
         "veiligheidsniveau": 5,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 24
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 26
     },
     {
         "id": 20,
@@ -216,7 +216,7 @@
         "adres": "Replication Laboratory, Level 6, Wallace HQ",
         "veiligheidsniveau": 5,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 21
     },
     {
@@ -227,7 +227,7 @@
         "adres": "Cognitive Records Library, Level 5",
         "veiligheidsniveau": 5,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 22
     },
     {
@@ -238,7 +238,7 @@
         "adres": "Executive Operations Suite, Level 7",
         "veiligheidsniveau": 5,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 23
     },
     {
@@ -249,8 +249,8 @@
         "adres": "CEO Operations Platform, Level 1",
         "veiligheidsniveau": 5,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 25
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 27
     },
     {
         "id": 24,
@@ -260,7 +260,7 @@
         "adres": "Wallace Corporate HQ, Oceanfront Sector W-9",
         "veiligheidsniveau": 4,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 20
     },
     {
@@ -271,8 +271,8 @@
         "adres": "Las Vegas Dead Zone, Nevada Exclusion Territory",
         "veiligheidsniveau": 2,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 28
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 30
     },
     {
         "id": 26,
@@ -282,8 +282,8 @@
         "adres": "Monument District, Sand Sector V-3, Las Vegas Dead Zone",
         "veiligheidsniveau": 2,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 27
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 29
     },
     {
         "id": 27,
@@ -293,8 +293,8 @@
         "adres": "Flood Barrier Bridge 2, Outer Sea Wall, NT-Megacity",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 30
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 32
     },
     {
         "id": 28,
@@ -304,8 +304,8 @@
         "adres": "Sea Wall Overlook, Barrier Bridge 2",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 31
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 33
     },
     {
         "id": 29,
@@ -315,8 +315,8 @@
         "adres": "Sea Wall Terminus, Sector E-1, Flood Defense Line",
         "veiligheidsniveau": 1,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 32
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 34
     },
     {
         "id": 30,
@@ -326,7 +326,7 @@
         "adres": "Collapsed Skyway 3, Orphanage Block 12",
         "veiligheidsniveau": 0,
         "created_at": "2025-12-22T13:28:57.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
         "volgorde": 13
     },
     {
@@ -337,8 +337,8 @@
         "adres": "Las Vegas Dead Zone Gate 1, Nevada Exclusion Territory",
         "veiligheidsniveau": 0,
         "created_at": "2025-12-22T13:32:25.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 26
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 28
     },
     {
         "id": 32,
@@ -348,7 +348,29 @@
         "adres": "Las Vegas Dead Zone, Nevada Exclusion Territory",
         "veiligheidsniveau": 0,
         "created_at": "2025-12-22T13:35:22.000000Z",
-        "updated_at": "2025-12-22T15:13:49.000000Z",
-        "volgorde": 29
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 31
+    },
+    {
+        "id": 33,
+        "naam": "Radiation street",
+        "beschrijving": "Backally radiation guy",
+        "notities": null,
+        "adres": null,
+        "veiligheidsniveau": 0,
+        "created_at": "2025-12-23T15:38:22.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 24
+    },
+    {
+        "id": 34,
+        "naam": "Radiotion desk",
+        "beschrijving": "Guy testing the radiation of objects",
+        "notities": null,
+        "adres": null,
+        "veiligheidsniveau": 0,
+        "created_at": "2025-12-23T15:38:44.000000Z",
+        "updated_at": "2025-12-23T15:39:15.000000Z",
+        "volgorde": 25
     }
 ]

@@ -18,22 +18,19 @@ class ArtworkBackupCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Zip and backup the artwork folder to Google Drive';
+    protected $description = 'Zip and backup the artwork and glb folders to Google Drive';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Starting Artwork Backup...');
+        $this->info('Starting Asset Backup...');
 
-        $artworkPath = storage_path('app/public/artwork');
-        if (!is_dir($artworkPath)) {
-            $this->error("Artwork directory not found: {$artworkPath}");
-            return Command::FAILURE;
-        }
+        $basePath = storage_path('app/public');
+        $directories = ['artwork', 'glb'];
 
-        $zipFileName = 'artwork-backup-' . now()->format('Y-m-d-H-i-s') . '.zip';
+        $zipFileName = 'assets-backup-' . now()->format('Y-m-d-H-i-s') . '.zip';
         $zipFilePath = storage_path('app/' . $zipFileName);
 
         $this->info("Creating zip archive: {$zipFileName}");
@@ -44,16 +41,27 @@ class ArtworkBackupCommand extends Command
             return Command::FAILURE;
         }
 
-        $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($artworkPath),
-            \RecursiveIteratorIterator::LEAVES_ONLY
-        );
+        foreach ($directories as $dir) {
+            $path = $basePath . '/' . $dir;
+            if (!is_dir($path)) {
+                $this->warn("Directory not found, skipping: {$path}");
+                continue;
+            }
 
-        foreach ($files as $name => $file) {
-            if (!$file->isDir()) {
-                $filePath = $file->getRealPath();
-                $relativePath = substr($filePath, strlen($artworkPath) + 1);
-                $zip->addFile($filePath, $relativePath);
+            $this->info("Adding directory: {$dir}");
+
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($path),
+                \RecursiveIteratorIterator::LEAVES_ONLY
+            );
+
+            foreach ($files as $name => $file) {
+                if (!$file->isDir()) {
+                    $filePath = $file->getRealPath();
+                    // Keep the directory structure (artwork/file.jpg or glb/model.glb)
+                    $relativePath = $dir . '/' . substr($filePath, strlen($path) + 1);
+                    $zip->addFile($filePath, $relativePath);
+                }
             }
         }
 

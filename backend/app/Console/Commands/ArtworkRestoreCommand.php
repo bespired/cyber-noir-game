@@ -18,7 +18,7 @@ class ArtworkRestoreCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Restore the artwork folder from Google Drive';
+    protected $description = 'Restore the artwork and glb folders from Google Drive';
 
     /**
      * Execute the console command.
@@ -32,7 +32,7 @@ class ArtworkRestoreCommand extends Command
             $disk = \Illuminate\Support\Facades\Storage::disk('google');
 
             $fileId = null;
-            $zipFileName = 'artwork_restore.zip';
+            $zipFileName = 'assets_restore.zip';
 
             if ($isInitial) {
                 $fileId = env('GOOGLE_DRIVE_INITIAL_ASSETS_ID');
@@ -40,18 +40,14 @@ class ArtworkRestoreCommand extends Command
                     $this->error('GOOGLE_DRIVE_INITIAL_ASSETS_ID not set in .env');
                     return Command::FAILURE;
                 }
-                // For direct file IDs, masbug/flysystem-google-drive-ext usually needs the ID.
-                // Depending on the driver, we might need to use the ID as the path if it's configured that way,
-                // or use a specific method. However, the standard Flysystem put/get uses paths.
-                // If it's a specific file ID, we might need to handle it differently.
-                // Let's assume the user provides a path or we use the ID as a path.
                 $this->info("Downloading initial assets (ID/Path: {$fileId})...");
             } else {
                 // List files and find the latest backup
                 $files = $disk->listContents('.', false);
                 $backups = [];
                 foreach ($files as $file) {
-                    if ($file['type'] === 'file' && str_starts_with($file['path'], 'artwork-backup-')) {
+                    // Look for assets-backup- or old artwork-backup-
+                    if ($file['type'] === 'file' && (str_starts_with($file['path'], 'assets-backup-') || str_starts_with($file['path'], 'artwork-backup-'))) {
                         $backups[] = $file;
                     }
                 }
@@ -82,12 +78,13 @@ class ArtworkRestoreCommand extends Command
             $this->info("Extracting archive...");
             $zip = new \ZipArchive();
             if ($zip->open($zipFilePath) === true) {
-                $artworkPath = storage_path('app/public/artwork');
-                if (!is_dir($artworkPath)) {
-                    mkdir($artworkPath, 0755, true);
+                // Extract to storage/app/public since the zip now contains folders
+                $publicPath = storage_path('app/public');
+                if (!is_dir($publicPath)) {
+                    mkdir($publicPath, 0755, true);
                 }
 
-                $zip->extractTo($artworkPath);
+                $zip->extractTo($publicPath);
                 $zip->close();
                 $this->info("Extraction successful.");
             } else {

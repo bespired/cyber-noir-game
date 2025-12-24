@@ -12,6 +12,8 @@ const sceneId = route.params.id;
 const sceneData = ref(null);
 const loading = ref(true);
 const error = ref(null);
+const floorDetected = ref(false);
+const lightsDetectedCount = ref(0);
 
 // Three.js refs
 const canvasContainer = ref(null);
@@ -208,14 +210,41 @@ const loadGLB = () => {
         let floorMesh = null;
 
         gltf.scene.traverse((child) => {
+            console.log("Node name:", child.name);
             if (child.name === 'camerafspy' || child.name.includes('fspy')) {
                 if (child.isCamera) fspyCamera = child;
             }
             if (child.name.toLowerCase() === 'sun') {
                 sunLight = child;
             }
-            if (child.name.toLowerCase() === 'floor' && child.isMesh) {
+            if ((child.name === 'floor' || child.name === 'plane') && child.isMesh) {
                 floorMesh = child;
+                floorDetected.value = true;
+            }
+            
+            // Check for specific light nodes point-1 and point-2
+            if (child.name === 'point-1' || child.name === 'point-2') {
+                console.log(`Found node ${child.name} for lighting`);
+                lightsDetectedCount.value++;
+                
+                // If it's not already a light, we should create one at this position
+                if (!child.isLight) {
+                    const pointLight = new THREE.PointLight(0xffffff, 10, 50);
+                    // Use world position
+                    const worldPos = new THREE.Vector3();
+                    child.getWorldPosition(worldPos);
+                    pointLight.position.copy(worldPos);
+                    scene.add(pointLight);
+                    console.log(`Created PointLight at position of ${child.name}:`, worldPos);
+                    
+                    // Add a small helper to see where the light is
+                    const helper = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1),
+                        new THREE.MeshBasicMaterial({ color: 0xffff00 })
+                    );
+                    helper.position.copy(worldPos);
+                    scene.add(helper);
+                }
             }
         });
 
@@ -340,8 +369,7 @@ const onScroll = (e) => {
                     <!-- Overlay Info -->
                     <div class="absolute bottom-4 left-4 z-20 bg-black/60 p-3 rounded border border-white/10 text-xs font-mono text-noir-accent pointer-events-none">
                         RESOLUTION: {{ containerWidth }}x{{ containerHeight }}<br />
-                        GLB: {{ glbUrl.split('/').pop() }}<br />
-                        NODES: [camera.fspy, floor, sun]
+                        GLB: {{ glbUrl.split('/').pop() }}
                     </div>
                 </div>
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
@@ -359,8 +387,8 @@ const onScroll = (e) => {
                         <ul class="text-noir-text text-xs space-y-2">
                             <li :class="sceneData ? 'text-noir-success' : 'text-noir-danger'">• Scene Data: Loaded</li>
                             <li :class="backgroundImageUrl ? 'text-noir-success' : 'text-noir-danger'">• Background Image: {{ backgroundImageUrl ? 'Found' : 'Missing' }}</li>
-                            <li id="floor-status-item">• Floor Mesh: <span class="text-noir-muted">Detecting...</span></li>
-                            <li>• GLB Path: <span class="text-noir-accent underline break-all">{{ glbUrl }}</span></li>
+                            <li :class="floorDetected ? 'text-noir-success' : 'text-noir-danger'">• Floor Mesh: {{ floorDetected ? 'Found' : 'Missing' }}</li>
+                            <li :class="lightsDetectedCount > 0 ? 'text-noir-success' : 'text-noir-muted'">• Lights: {{ lightsDetectedCount > 0 ? `Found ${lightsDetectedCount}` : 'None' }}</li>
                         </ul>
                     </div>
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
