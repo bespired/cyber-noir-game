@@ -20,6 +20,7 @@ class LocatieController extends Controller
 
         return $locaties->map(function ($locatie) {
             $hasGlb = false;
+            $glbSectorId = null;
             foreach ($locatie->scenes as $scene) {
                 if (!$scene->sector)
                     continue;
@@ -27,10 +28,12 @@ class LocatieController extends Controller
                 $locationSlug = Str::slug($locatie->naam);
                 if (Storage::disk('public')->exists("glb/{$sectorSlug}--{$locationSlug}.glb")) {
                     $hasGlb = true;
+                    $glbSectorId = $scene->sector->id;
                     break;
                 }
             }
             $locatie->has_glb = $hasGlb;
+            $locatie->glb_sector_id = $glbSectorId;
             return $locatie;
         });
     }

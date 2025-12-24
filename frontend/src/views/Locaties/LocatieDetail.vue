@@ -142,7 +142,7 @@ const navigateTo3D = (sectorId) => {
                             <span class="flex items-center gap-2 mb-4">
                                 <span :class="['h-2 w-2 rounded-full', status.exists ? 'bg-noir-success' : 'bg-noir-danger']"></span>
                                 <span class="text-xs font-mono" :class="status.exists ? 'text-noir-success' : 'text-noir-danger'">
-                                    {{ status.exists ? 'GLB_DETECTED' : 'NO_GLB_FOUND' }}
+                                    {{ status.exists ? 'GLB_DETECTED' : 'GEEN_GLBS' }}
                                 </span>
                             </span>
                         </div>
@@ -160,13 +160,13 @@ const navigateTo3D = (sectorId) => {
                                 class="btn btn--secondary btn--small flex-grow"
                                 :disabled="isUploadingGlb"
                             >
-                                {{ status.exists ? 'REPLACE' : 'UPLOAD' }}
+                                {{ status.exists ? 'VERVANG' : 'UPLOAD' }}
                             </button>
                         </div>
                     </div>
                 </div>
                 <div v-else class="text-center py-10 bg-noir-darker/30 rounded border border-dashed border-noir-dark text-noir-muted uppercase text-xs tracking-widest">
-                    NO_SECTOR_RELATIONS_FOUND_FOR_3D
+                    LOCATIE ZIT NIET IN EEN SECTOR
                 </div>
             </div>
                 </div>
@@ -183,7 +183,7 @@ const navigateTo3D = (sectorId) => {
                     </div>
                     <div>
                         <label class="form-label">GM Notities (Hidden)</label>
-                        <textarea v-model="locatie.notities" rows="4" class="form-input" placeholder="Secret details about this location..."></textarea>
+                        <textarea v-model="locatie.notities" rows="4" class="form-input" placeholder="Geheime details over deze locatie..."></textarea>
                     </div>
 
                     <!-- Linked Clues -->

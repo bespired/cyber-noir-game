@@ -43,7 +43,7 @@ const fetchSectors = async () => {
 const filteredLocaties = computed(() => {
     if (!selectedSector.value) return locaties.value;
     // Filter locaties that have at least one scene in the selected sector
-    return locaties.value.filter(l => 
+    return locaties.value.filter(l =>
         l.scenes && l.scenes.some(s => s.sector_id == selectedSector.value)
     );
 });
@@ -107,7 +107,7 @@ const getImageUrl = (path) => {
             </div>
             <div class="flex gap-4">
                 <RouterLink to="/reorder/locaties" class="btn btn--accent-outline flex items-center gap-2">
-                    <span class="text-lg leading-none">⇅</span> REORDER_DATA
+                    <span class="text-lg leading-none">⇅</span> VOLGORDE
                 </RouterLink>
                 <button @click="openModal" class="btn btn--warning">
                     + NIEUWE LOCATIE
@@ -123,8 +123,23 @@ const getImageUrl = (path) => {
             <div v-for="locatie in filteredLocaties" :key="locatie.id" class="panel panel--hover group flex flex-col relative overflow-hidden">
                 <!-- Thumbnail -->
                 <div v-if="locatie.artwork && locatie.artwork.length > 0" class="mb-4">
-                    <img 
-                        :src="getImageUrl(locatie.artwork[0].bestandspad)" 
+                    <RouterLink
+                        v-if="locatie.has_glb"
+                        :to="`/locaties/${locatie.id}/sector/${locatie.glb_sector_id}/3d`"
+                        class="block group/thumb relative"
+                    >
+                        <img
+                            :src="getImageUrl(locatie.artwork[0].bestandspad)"
+                            :alt="locatie.naam"
+                            class="w-full aspect-video object-cover rounded border border-noir-dark opacity-80 group-hover:opacity-100 transition-opacity"
+                        >
+                        <div class="absolute inset-0 bg-noir-accent/20 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center rounded">
+                            <span class="btn btn--accent btn--small">VIEW_3D</span>
+                        </div>
+                    </RouterLink>
+                    <img
+                        v-else
+                        :src="getImageUrl(locatie.artwork[0].bestandspad)"
                         :alt="locatie.naam"
                         class="w-full aspect-video object-cover rounded border border-noir-dark opacity-80 group-hover:opacity-100 transition-opacity"
                     >
@@ -140,17 +155,24 @@ const getImageUrl = (path) => {
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-noir-muted font-mono">LOC_ID: {{ String(locatie.id).padStart(4, '0') }}</span>
-                        <span v-if="locatie.has_glb" class="badge badge--accent text-[10px] py-0.5 px-1.5" title="3D Scene Available">3D</span>
+                        <RouterLink
+                            v-if="locatie.has_glb"
+                            :to="`/locaties/${locatie.id}/sector/${locatie.glb_sector_id}/3d`"
+                            class="badge badge--accent text-[10px] py-0.5 px-1.5 hover:bg-noir-accent hover:text-black transition-colors"
+                            title="VIEW_3D_SCENE"
+                        >
+                            3D_VIEW
+                        </RouterLink>
                     </div>
                     <RouterLink :to="`/locaties/${locatie.id}`" class="btn--link btn--link-warning">
-                        INVESTIGATE >
+                        DETAILS >
                     </RouterLink>
                 </div>
             </div>
         </div>
 
         <div v-if="!loading && filteredLocaties.length === 0" class="text-center py-20 border-2 border-dashed border-noir-dark rounded text-noir-muted uppercase tracking-widest bg-noir-darker/30">
-            NO_LOCATIONS_DETECTED_IN_THIS_SECTOR
+            GEEN_LOCATIES_IN_GEKOZEN_SECTOR
         </div>
 
         <!-- Create Modal -->
@@ -158,7 +180,7 @@ const getImageUrl = (path) => {
             <form @submit.prevent="createLocatie" class="space-y-4">
                 <div>
                     <label class="form-label">Location Name</label>
-                    <input v-model="form.naam" type="text" required class="form-input" placeholder="NAME">
+                    <input v-model="form.naam" type="text" required class="form-input" placeholder="NAAM">
                 </div>
                 <div>
                     <label class="form-label">Coordinates / Description</label>

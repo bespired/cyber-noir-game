@@ -209,7 +209,7 @@ const loadGLB = () => {
                 floorMesh = child;
                 floorDetected.value = true;
             }
-            
+
             if (child.name === 'point-1' || child.name === 'point-2') {
                 lightsDetectedCount.value++;
                 if (!child.isLight) {
@@ -218,7 +218,7 @@ const loadGLB = () => {
                     child.getWorldPosition(worldPos);
                     pointLight.position.copy(worldPos);
                     scene.add(pointLight);
-                    
+
                     const helper = new THREE.Mesh(
                         new THREE.SphereGeometry(0.1),
                         new THREE.MeshBasicMaterial({ color: 0xffff00 })
@@ -297,9 +297,11 @@ const onScroll = (e) => {
     <div class="min-h-screen bg-noir-darker p-8">
         <div class="max-w-[1300px] mx-auto">
             <div class="flex items-center text-sm text-noir-muted mb-4">
+                <RouterLink to="/locaties" class="hover:text-white">&lt; LOCATIES</RouterLink>
+                <span class="mx-2">/</span>
                 <RouterLink :to="`/locaties/${locatieId}`" class="hover:text-white">&lt; BACK_TO_LOCATIE</RouterLink>
                 <span class="mx-2">/</span>
-                <span class="text-white">3D_VISUALIZATION</span>
+                <span class="text-white">3D_CONTROLE_VIEUW</span>
             </div>
 
             <div v-if="loading" class="flex items-center justify-center py-40">
@@ -310,8 +312,8 @@ const onScroll = (e) => {
                 <div class="mt-4 text-xs text-noir-muted">Target Path: {{ glbUrl }}</div>
             </div>
             <div v-else class="flex flex-col items-center">
-                <div class="relative border-4 border-noir-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black overflow-hidden" 
-                     :style="{ width: containerWidth + 'px', height: containerHeight + 'px' }" 
+                <div class="relative border-4 border-noir-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black overflow-hidden"
+                     :style="{ width: containerWidth + 'px', height: containerHeight + 'px' }"
                      @wheel="onScroll">
                     <img v-if="backgroundImageUrl" :src="backgroundImageUrl" class="absolute inset-0 w-full h-full object-cover pointer-events-none" alt="Background" />
                     <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
@@ -324,18 +326,18 @@ const onScroll = (e) => {
                         <p class="text-noir-text">SEC: {{ sectorData.naam }}</p>
                     </div>
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">CONTROLS</h3>
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">RODE KUBUS</h3>
                         <ul class="text-noir-text space-y-1">
-                            <li>• Scroll: Z-DEPTH</li>
-                            <li>• Shift + Scroll: X-AXIS</li>
+                            <li>• Scroll: Z-DIEPTE</li>
+                            <li>• Shift + Scroll: X-AS</li>
                         </ul>
                     </div>
                    <div class="bg-noir-panel p-4 border border-noir-dark rounded">
                         <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">DEBUG_CUBE</h3>
                         <div class="flex gap-2">
-                            <span>X: {{ cubePosition.x }}</span>
-                            <span>Y: {{ cubePosition.y }}</span>
-                            <span>Z: {{ cubePosition.z }}</span>
+                            <span>X: {{ cubePosition.x.toFixed(2) }}</span>
+                            <span>Y: {{ cubePosition.y.toFixed(2) }}</span>
+                            <span>Z: {{ cubePosition.z.toFixed(2) }}</span>
                         </div>
                     </div>
                 </div>
