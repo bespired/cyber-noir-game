@@ -3,17 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Locatie;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class LocatieController extends Controller
 {
     public function index()
     {
-        return Locatie::with(['aanwijzingen', 'artwork', 'scenes'])
+        $locaties = Locatie::with(['aanwijzingen', 'artwork', 'scenes.sector'])
             ->orderBy('volgorde')
             ->orderBy('id')
             ->get();
+
+        return $locaties->map(function ($locatie) {
+            $hasGlb = false;
+            foreach ($locatie->scenes as $scene) {
+                if (!$scene->sector)
+                    continue;
+                $sectorSlug = Str::slug($scene->sector->naam);
+                $locationSlug = Str::slug($locatie->naam);
+                if (Storage::disk('public')->exists("glb/{$sectorSlug}--{$locationSlug}.glb")) {
+                    $hasGlb = true;
+                    break;
+                }
+            }
+            $locatie->has_glb = $hasGlb;
+            return $locatie;
+        });
     }
 
     public function store(Request $request)
@@ -32,8 +51,35 @@ class LocatieController extends Controller
 
     public function show(Locatie $locatie)
     {
-        $locatie->load(['aanwijzingen', 'artwork']);
-        return response()->json($locatie);
+        $locatie->load(['aanwijzingen', 'artwork', 'scenes.sector']);
+
+        $locatieData = $locatie->toArray();
+
+        // Check for GLB files for each sector this location is in
+        $sectors = $locatie->scenes->pluck('sector')->unique('id');
+        $glbStatus = [];
+
+        foreach ($sectors as $sector) {
+            if (!$sector)
+                continue;
+
+            $sectorSlug = Str::slug($sector->naam);
+            $locationSlug = Str::slug($locatie->naam);
+            $filename = "{$sectorSlug}--{$locationSlug}.glb";
+            $exists = Storage::disk('public')->exists("glb/{$filename}");
+
+            $glbStatus[] = [
+                'sector_id' => $sector->id,
+                'sector_naam' => $sector->naam,
+                'exists' => $exists,
+                'url' => $exists ? Storage::url("glb/{$filename}") : null,
+                'filename' => $filename
+            ];
+        }
+
+        $locatieData['glb_status'] = $glbStatus;
+
+        return response()->json($locatieData);
     }
 
     public function update(Request $request, Locatie $locatie)
@@ -72,5 +118,29 @@ class LocatieController extends Controller
     {
         $locatie->delete();
         return response()->noContent();
+    }
+
+    public function uploadGlb(Request $request, Locatie $locatie)
+    {
+        $request->validate([
+            'sector_id' => 'required|exists:sectoren,id',
+            'glb' => 'required|file|max:51200', // Max 50MB
+        ]);
+
+        $sector = Sector::findOrFail($request->sector_id);
+        $file = $request->file('glb');
+
+        $sectorSlug = Str::slug($sector->naam);
+        $locationSlug = Str::slug($locatie->naam);
+        $filename = "{$sectorSlug}--{$locationSlug}.glb";
+
+        // Store in public disk
+        Storage::disk('public')->putFileAs('glb', $file, $filename);
+
+        return response()->json([
+            'message' => 'GLB succesvol geüpload!',
+            'path' => Storage::url('glb/' . $filename),
+            'filename' => $filename
+        ]);
     }
 }

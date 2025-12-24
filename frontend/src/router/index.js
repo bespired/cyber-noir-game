@@ -77,6 +77,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/locaties/:id/sector/:sectorId/3d',
+            name: 'locatie-3d',
+            component: () => import('../views/Locaties/LocatieThreeDView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/reorder/locaties',
             name: 'locaties-reorder',
             component: () => import('../views/Locaties/LocatieReorder.vue'),
@@ -104,12 +110,6 @@ const router = createRouter({
             path: '/scenes/:id',
             name: 'scene-detail',
             component: () => import('../views/Scenes/SceneDetail.vue'),
-            meta: { requiresAuth: true }
-        },
-        {
-            path: '/scenes/:id/test-3d',
-            name: 'scene-test-3d',
-            component: () => import('../views/Scenes/ThreeDSceneTester.vue'),
             meta: { requiresAuth: true }
         },
         {

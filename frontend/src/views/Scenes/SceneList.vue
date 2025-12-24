@@ -175,9 +175,6 @@ const getTypeIcon = (type) => {
                             'badge--completed': scene.status === 'completed',
                             'badge--locked': scene.status === 'locked'
                         }">{{ scene.status }}</span>
-                         <RouterLink :to="`/scenes/${scene.id}/test-3d`" class="btn btn--warning btn--small">
-                            3D_SCENE
-                        </RouterLink>
                     </div>
                     <div class="flex flex-col items-end gap-2">
                         <RouterLink :to="`/scenes/${scene.id}`" class="btn--link">

@@ -138,7 +138,10 @@ const getImageUrl = (path) => {
                 <p class="text-noir-text text-sm mb-4 line-clamp-3 flex-grow">{{ locatie.beschrijving }}</p>
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-                    <span class="text-xs text-noir-muted font-mono">LOC_ID: {{ String(locatie.id).padStart(4, '0') }}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-noir-muted font-mono">LOC_ID: {{ String(locatie.id).padStart(4, '0') }}</span>
+                        <span v-if="locatie.has_glb" class="badge badge--accent text-[10px] py-0.5 px-1.5" title="3D Scene Available">3D</span>
+                    </div>
                     <RouterLink :to="`/locaties/${locatie.id}`" class="btn--link btn--link-warning">
                         INVESTIGATE >
                     </RouterLink>

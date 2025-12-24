@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/personages/{personage}/glb', [\App\Http\Controllers\PersonageController::class, 'uploadGlb']);
     Route::apiResource('locaties', \App\Http\Controllers\LocatieController::class)
         ->parameters(['locaties' => 'locatie']);
+    Route::post('/locaties/{locatie}/glb', [\App\Http\Controllers\LocatieController::class, 'uploadGlb']);
     Route::post('/locaties/reorder', [\App\Http\Controllers\LocatieController::class, 'reorder']);
     Route::apiResource('aanwijzingen', \App\Http\Controllers\AanwijzingController::class)
         ->parameters(['aanwijzingen' => 'aanwijzing']);
