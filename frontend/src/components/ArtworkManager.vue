@@ -1,6 +1,9 @@
 <script setup>
 import { ref, defineEmits, computed } from 'vue';
 import axios from '../axios';
+import { useToast } from '../composables/useToast';
+
+const toast = useToast();
 
 const props = defineProps({
     modelType: {
@@ -56,7 +59,7 @@ const handleUpload = async () => {
         isUploadOpen.value = false; // Close form on success
     } catch (error) {
         console.error("Upload failed:", error);
-        alert("UPLOAD_FAILED");
+        toast.error("UPLOAD_FAILED");
     } finally {
         uploading.value = false;
     }
@@ -107,7 +110,7 @@ const deleteImage = async (id) => {
         emit('image-deleted', id);
     } catch (error) {
         console.error("Delete failed:", error);
-        alert("DELETE_FAILED");
+        toast.error("DELETE_FAILED");
     }
 };
 </script>

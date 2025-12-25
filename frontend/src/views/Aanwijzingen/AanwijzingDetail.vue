@@ -3,7 +3,9 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
+import { useToast } from '../../composables/useToast';
 
+const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const aanwijzing = ref(null);
@@ -31,9 +33,9 @@ onMounted(async () => {
 const saveChanges = async () => {
     try {
         await axios.put(`/api/aanwijzingen/${aanwijzing.value.id}`, aanwijzing.value);
-        alert('EVIDENCE_UPDATED');
+        toast.success('EVIDENCE_UPDATED');
     } catch (e) {
-        alert('ERROR_UPDATING');
+        toast.error('ERROR_UPDATING');
     }
 };
 

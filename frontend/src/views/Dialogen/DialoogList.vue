@@ -3,6 +3,9 @@ import { ref, onMounted } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import { useToast } from '../../composables/useToast';
+
+const toast = useToast();
 
 const conversations = ref([]);
 const personages = ref([]);
@@ -63,7 +66,7 @@ const createConversation = async () => {
             try {
                 payload.tree = JSON.parse(payload.tree);
             } catch (e) {
-                alert("Invalid JSON");
+                toast.error("Invalid JSON");
                 return;
             }
         }

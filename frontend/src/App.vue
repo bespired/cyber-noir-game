@@ -2,6 +2,7 @@
 import { RouterView, useRouter, useRoute } from 'vue-router';
 import Sidebar from './components/Sidebar.vue';
 import Header from './components/Header.vue';
+import ToastContainer from './components/ToastContainer.vue';
 import { useStore } from 'vuex';
 import { onMounted, onUnmounted, computed } from 'vue';
 
@@ -41,6 +42,9 @@ onUnmounted(() => {
       <main class="min-h-[calc(100vh-8rem)]">
         <RouterView />
       </main>
+
+      <!-- Toast Notifications Layer -->
+      <ToastContainer />
       
       <!-- Footer -->
       <footer class="bg-noir-dark border-t border-noir-panel p-4 text-center text-xs text-noir-muted">

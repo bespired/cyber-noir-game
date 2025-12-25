@@ -3,7 +3,9 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
+import { useToast } from '../../composables/useToast';
 
+const toast = useToast();
 const route = useRoute();
 const conversation = ref(null);
 const loading = ref(true);
@@ -41,7 +43,7 @@ const saveChanges = async () => {
         };
 
         await axios.put(`/api/dialogen/${conversation.value.id}`, payload);
-        alert('CHANGES_SAVED');
+        toast.success('CHANGES_SAVED');
     } catch (e) {
             if (e instanceof SyntaxError) {
                 error.value = "Invalid JSON Syntax";

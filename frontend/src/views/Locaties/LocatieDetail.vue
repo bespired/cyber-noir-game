@@ -3,7 +3,9 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
+import { useToast } from '../../composables/useToast';
 
+const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const locatie = ref(null);
@@ -40,9 +42,9 @@ onMounted(fetchLocatie);
 const saveChanges = async () => {
     try {
         await axios.put(`/api/locaties/${locatie.value.id}`, locatie.value);
-        alert('SECTOR_UPDATED');
+        toast.success('SECTOR_UPDATED');
     } catch (e) {
-        alert('ERROR_UPDATING');
+        toast.error('ERROR_UPDATING');
     }
 };
 
@@ -78,10 +80,10 @@ const handleGlbFileChange = async (event) => {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
         await fetchLocatie();
-        alert('GLB_UPLOAD_SUCCESS');
+        toast.success('GLB_UPLOAD_SUCCESS');
     } catch (e) {
         console.error(e);
-        alert('ERROR_UPLOADING_GLB');
+        toast.error('ERROR_UPLOADING_GLB');
     } finally {
         isUploadingGlb.value = false;
         uploadingGlbForSectorId.value = null;

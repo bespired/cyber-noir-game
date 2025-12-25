@@ -3,6 +3,9 @@ import { ref, onMounted, computed } from 'vue';
 import axios from '../../axios';
 import { useRouter } from 'vue-router';
 import draggable from 'vuedraggable';
+import { useToast } from '../../composables/useToast';
+
+const toast = useToast();
 
 const router = useRouter();
 const locaties = ref([]);
@@ -74,7 +77,7 @@ const saveOrder = async () => {
         router.push('/locaties');
     } catch (e) {
         console.error("Failed to save order", e);
-        alert("CRITICAL_ERROR: Failed to transmit reorder sequence.");
+        toast.error("CRITICAL_ERROR: Failed to transmit reorder sequence.");
     } finally {
         saving.value = false;
     }

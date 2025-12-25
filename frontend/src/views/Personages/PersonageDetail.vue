@@ -4,7 +4,9 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import Character3DViewer from '../../components/Character3DViewer.vue';
+import { useToast } from '../../composables/useToast';
 
+const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const personage = ref(null);
@@ -26,9 +28,9 @@ onMounted(async () => {
 const saveChanges = async () => {
     try {
         await axios.put(`/api/personages/${personage.value.id}`, personage.value);
-        alert('CHANGES_SAVED');
+        toast.success('CHANGES_SAVED');
     } catch (e) {
-        alert('ERROR_SAVING');
+        toast.error('ERROR_SAVING');
     }
 };
 
@@ -70,13 +72,13 @@ const triggerGlbUpload = () => {
             await axios.post(`/api/personages/${personage.value.id}/glb`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            alert('GLB_UPLOAD_SUCCESSFUL');
+            toast.success('GLB_UPLOAD_SUCCESSFUL');
             // Refresh character data to update glb_url
             const response = await axios.get(`/api/personages/${personage.value.id}`);
             personage.value = response.data;
         } catch (err) {
             console.error(err);
-            alert('UPLOAD_FAILED: NEURAL_REJECTION');
+            toast.error('UPLOAD_FAILED: NEURAL_REJECTION');
         } finally {
             uploadingGlb.value = false;
         }

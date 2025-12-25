@@ -4,7 +4,9 @@ import { useRoute, useRouter } from 'vue-router';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
+import { useToast } from '../../composables/useToast';
 
+const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const scene = ref(null);
@@ -72,9 +74,9 @@ onMounted(async () => {
 const saveChanges = async (silent = false) => {
     try {
         await axios.put(`/api/scenes/${scene.value.id}`, scene.value);
-        if (!silent) alert('CHANGES_SAVED');
+        if (!silent) toast.success('CHANGES_SAVED');
     } catch (e) {
-        alert('ERROR_SAVING');
+        toast.error('ERROR_SAVING');
     }
 };
 
@@ -84,7 +86,7 @@ const deleteScene = async () => {
             await axios.delete(`/api/scenes/${scene.value.id}`);
             router.push('/scenes');
         } catch (e) {
-            alert('ERROR_DELETING');
+            toast.error('ERROR_DELETING');
         }
     }
 };

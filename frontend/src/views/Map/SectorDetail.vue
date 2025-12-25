@@ -4,6 +4,9 @@ import { useRoute } from 'vue-router';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import { useToast } from '../../composables/useToast';
+
+const toast = useToast();
 
 const route = useRoute();
 const sector = ref(null);
@@ -103,7 +106,7 @@ const handleFileUpload = async (event) => {
         await fetchSector(); // Refresh to show new image
     } catch (e) {
         console.error("Upload failed", e);
-        alert("Upload failed: " + (e.response?.data?.message || e.message));
+        toast.error("Upload failed: " + (e.response?.data?.message || e.message));
     } finally {
         uploadLoading.value = false;
     }
