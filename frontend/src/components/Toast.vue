@@ -14,35 +14,35 @@ const emit = defineEmits(['remove']);
 </script>
 
 <template>
-    <div 
+    <div
         class="toast-item relative overflow-hidden mb-3 p-4 rounded border shadow-lg transition-all duration-300 transform"
         :class="{
             'bg-noir-success/10 border-noir-success text-noir-success': props.toast.type === 'success',
-            'bg-noir-danger/10 border-noir-danger text-noir-danger': props.toast.type === 'error',
+            'bg-noir-danger/10 border-noir-danger text-noir-danger':    props.toast.type === 'error',
             'bg-noir-warning/10 border-noir-warning text-noir-warning': props.toast.type === 'warning',
-            'bg-noir-accent/10 border-noir-accent text-noir-accent': props.toast.type === 'info'
+            'bg-noir-accent/10 border-noir-accent text-noir-accent':    props.toast.type === 'info'
         }"
     >
         <!-- Hexagon Decorative Corner -->
         <div class="absolute -top-1 -right-1 w-4 h-4 rotate-45"
             :class="{
                 'bg-noir-success': props.toast.type === 'success',
-                'bg-noir-danger': props.toast.type === 'error',
+                'bg-noir-danger':  props.toast.type === 'error',
                 'bg-noir-warning': props.toast.type === 'warning',
-                'bg-noir-accent': props.toast.type === 'info'
+                'bg-noir-accent':  props.toast.type === 'info'
             }"
         ></div>
 
         <div class="flex items-start gap-3">
             <span class="text-lg">
-                <template v-if="props.toast.type === 'success'">✔️</template>
+                <template v-if="props.toast.type === 'success'">✅</template>
                 <template v-else-if="props.toast.type === 'error'">⚠️</template>
                 <template v-else-if="props.toast.type === 'warning'">⚡</template>
                 <template v-else>ℹ️</template>
             </span>
             <div class="flex-grow">
                 <div class="text-[10px] uppercase tracking-widest font-bold mb-1 opacity-70">
-                    {{ props.toast.type }}_NOTIFICATION
+                    {{ props.toast.type }}_KENNISGEVING
                 </div>
                 <div class="text-sm font-mono whitespace-pre-line leading-snug">
                     {{ props.toast.message }}

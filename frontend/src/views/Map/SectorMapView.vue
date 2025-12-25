@@ -240,7 +240,7 @@ const getLineColor = (conn) => {
             </div>
             <div class="flex gap-4">
                 <span class="text-xs text-noir-muted self-center font-mono uppercase">
-                    DRAG SCENES TO ORGANIZE | CONNECTIONS ARE AUTO-DRAWN
+                    DRAG SCENES | CONNECTIES KOMEN UIT GATEWAYS
                 </span>
             </div>
         </div>

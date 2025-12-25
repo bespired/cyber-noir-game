@@ -141,12 +141,12 @@ const loadModel = () => {
         controls.update();
 
         loading.value = false;
-        console.log('Character GLB loaded successfully');
+        // console.log('Character GLB met succes geladen.');
     }, (progress) => {
         // Handle progress if needed
     }, (err) => {
         console.error('Failed to load character GLB:', err);
-        error.value = 'SCAN_ERROR: TARGET_UNREACHABLE';
+        error.value = 'SCAN_ERROR: TARGET_ARGHH_ONVINDBAAR';
         loading.value = false;
     });
 };
@@ -210,7 +210,7 @@ watch(() => props.glbUrl, () => {
         </div>
 
         <div class="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-noir-muted uppercase font-mono bg-black/70 px-3 py-1 rounded border border-white/5 pointer-events-none z-10 whitespace-nowrap">
-            DRAG_TO_ROTATE // SCROLL_TO_ZOOM
+            DRAG_IS_ROTATE // SCROLL_IS_ZOOM
         </div>
 
         <!-- Scanning Line Effect -->
