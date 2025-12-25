@@ -5,5 +5,26 @@
         "waarde": "artwork\/algemeen\/map-noir.png",
         "created_at": "2025-12-21T18:16:43.000000Z",
         "updated_at": "2025-12-21T18:16:43.000000Z"
+    },
+    {
+        "id": 2,
+        "sleutel": "spinner2049",
+        "waarde": "artwork\/glb\/vehicle--spinner-2049.glb",
+        "created_at": "2025-12-25T14:41:01.000000Z",
+        "updated_at": "2025-12-25T14:41:16.000000Z"
+    },
+    {
+        "id": 3,
+        "sleutel": "playable",
+        "waarde": "Nexus Runner K",
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 4,
+        "sleutel": "spawn_options",
+        "waarde": "[{ \"id\": \"north\", \"label\": \"Noorder waypoint\"},{ \"id\": \"east\",  \"label\": \"Oost waypoint\"},{ \"id\": \"south\", \"label\": \"Zuid waypoint\"},{ \"id\": \"west\",  \"label\": \"West waypoint\"},{ \"id\": \"spinner\", \"label\": \"Spinner\"},{ \"id\": \"landing\", \"label\": \"Landing\"}]",
+        "created_at": null,
+        "updated_at": null
     }
 ]

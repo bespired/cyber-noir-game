@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -11,7 +10,7 @@ class ExportGameData extends Command
      *
      * @var string
      */
-    protected $signature = 'game:backup';
+    protected $signature = 'app:backup';
 
     /**
      * The console command description.
@@ -29,17 +28,18 @@ class ExportGameData extends Command
 
         $exports = [
             'instellingen' => \App\Models\Instelling::all(),
-            'personages' => \App\Models\Personage::all(),
-            'locaties' => \App\Models\Locatie::all(),
+            'personages'   => \App\Models\Personage::all(),
+            'locaties'     => \App\Models\Locatie::all(),
             'aanwijzingen' => \App\Models\Aanwijzing::all(),
-            'sectoren' => \App\Models\Sector::all(),
-            'scenes' => \App\Models\Scene::all(),
-            'notities' => \App\Models\Notitie::all(),
-            'dialogen' => \App\Models\Dialoog::all(),
+            'sectoren'     => \App\Models\Sector::all(),
+            'scenes'       => \App\Models\Scene::all(),
+            'notities'     => \App\Models\Notitie::all(),
+            'dialogen'     => \App\Models\Dialoog::all(),
+            'afbeeldingen' => \App\Models\Afbeelding::all(),
         ];
 
         $directory = database_path('seeders/data');
-        if (!file_exists($directory)) {
+        if (! file_exists($directory)) {
             mkdir($directory, 0755, true);
         }
 
