@@ -205,6 +205,12 @@ const getImageUrl = (path) => {
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-white uppercase tracking-wider">Scenes in Sector</h2>
             <div class="flex gap-2">
+                <RouterLink :to="`/map/${sector.id}/emulate`" class="bg-noir-success text-white px-4 py-2 rounded hover:bg-green-500 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    EMULATE
+                </RouterLink>
                 <RouterLink :to="`/sector-map/${sector.id}`" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
@@ -224,10 +230,19 @@ const getImageUrl = (path) => {
                 <p class="text-noir-text text-sm mb-4 line-clamp-2">{{ scene.beschrijving }}</p>
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-                    <span class="text-xs text-noir-muted">TYPE: {{ scene.type }}</span>
-                    <RouterLink :to="`/scenes/${scene.id}`" class="btn--link btn--link-warning">
-                        BINNENGAAN >
-                    </RouterLink>
+                    <span class="text-xs text-noir-muted uppercase tracking-tight">Type: {{ scene.type }}</span>
+                    <div class="flex gap-4 items-center">
+                        <RouterLink v-if="['3D', 'WALKABLE-AREA'].includes(scene.type?.toUpperCase()) && scene.locatie_id" :to="`/locaties/${scene.locatie_id}/sector/${sector.id}/3d`" title="3D_BEWERKEN" class="text-[#00ffff] hover:text-white transition-all transform hover:scale-110 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </RouterLink>
+                        <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-warning hover:text-white transition-colors text-xs font-bold uppercase tracking-wider">
+                            BEKIJK_DETAILS >
+                        </RouterLink>
+                    </div>
                 </div>
             </div>
 

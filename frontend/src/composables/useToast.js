@@ -32,8 +32,8 @@ export function useToast() {
         addToast,
         removeToast,
         success: (msg, dur) => addToast(msg, 'success', dur),
-        error: (msg, dur) => addToast(msg, 'error', dur),
+        error: (msg, dur)   => addToast(msg, 'error', dur),
         warning: (msg, dur) => addToast(msg, 'warning', dur),
-        info: (msg, dur) => addToast(msg, 'info', dur)
+        info: (msg, dur)    => addToast(msg, 'info', dur)
     };
 }

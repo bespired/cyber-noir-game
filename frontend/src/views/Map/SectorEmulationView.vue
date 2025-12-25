@@ -1,0 +1,613 @@
+<script setup>
+import { ref, onMounted, onUnmounted, computed, reactive, watch } from 'vue';
+import { useRoute, useRouter, RouterLink } from 'vue-router';
+import axios from '../../axios';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useToast } from '../../composables/useToast';
+
+const toast = useToast();
+const route = useRoute();
+const router = useRouter();
+const sectorId = route.params.id;
+
+// Data refs
+const sectorData = ref(null);
+const scenesInSector = ref([]);
+const currentScene = ref(null);
+const settings = ref({});
+const loading = ref(true);
+const error = ref(null);
+
+// Three.js refs
+const canvasContainer = ref(null);
+let renderer, scene, camera, clock;
+let ambientLight, sun;
+let currentGltf = null;
+let animationFrameId = null;
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+// Movement / Character refs
+let playableCharacter = null;
+let vehicle = null;
+const isWalking = ref(false);
+const targetPosition = new THREE.Vector3();
+const characterSpeed = 2.0;
+const landingDone = ref(false);
+let targetPointMesh = null;
+
+// Scaling & Visibility refs
+const characterScale = ref(0.5);
+const vehicleScale = ref(0.5);
+const show3DHelpers = ref(false);
+const ambientIntensity = ref(0.8);
+const sunIntensity = ref(1.0);
+
+const VIEW_WIDTH = 1216;
+const VIEW_HEIGHT = 832;
+const ASPECT_RATIO = VIEW_WIDTH / VIEW_HEIGHT;
+
+const slugify = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '');
+};
+
+const getImageUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage${cleanPath}`;
+};
+
+const getGlbUrl = (location, sector) => {
+    if (!location || !sector) return '';
+    const sectorSlug = slugify(sector.naam);
+    const locationSlug = slugify(location.naam);
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage/glb/${sectorSlug}--${locationSlug}.glb`;
+};
+
+const getCharacterGlbUrl = (name) => {
+    if (!name) return '';
+    const slug = slugify(name);
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage/glb/${slug}.glb`;
+};
+
+const getVehicleGlbUrl = (path) => {
+    if (!path) return '';
+    // Strip 'artwork/' if it's at the start, as 3D is in glb/
+    let cleanPath = path.replace(/^artwork\//, '');
+    cleanPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage${cleanPath}`;
+};
+
+// Responsive Logic
+const containerWidth = ref(VIEW_WIDTH);
+const containerHeight = ref(VIEW_HEIGHT);
+
+const updateDimensions = () => {
+    const verticalOffset = 200;
+    const sidebarWidth = window.innerWidth >= 1024 ? 384 + 32 : 0; // lg:w-96 (384px) + gap (32px)
+    
+    // Respect the max-w-[1300px] constraint
+    const effectiveTotalWidth = Math.min(window.innerWidth, 1300);
+    const maxWidth = effectiveTotalWidth - 64 - sidebarWidth;
+    const maxHeight = window.innerHeight - verticalOffset;
+
+    let newWidth = maxWidth;
+    let newHeight = newWidth / ASPECT_RATIO;
+
+    if (newHeight > maxHeight) {
+        newHeight = maxHeight;
+        newWidth = newHeight * ASPECT_RATIO;
+    }
+
+    if (newWidth > VIEW_WIDTH) {
+        newWidth = VIEW_WIDTH;
+        newHeight = VIEW_HEIGHT;
+    }
+
+    containerWidth.value = Math.floor(newWidth);
+    containerHeight.value = Math.floor(newHeight);
+
+    if (renderer && camera) {
+        camera.aspect = ASPECT_RATIO;
+        camera.updateProjectionMatrix();
+        renderer.setSize(containerWidth.value, containerHeight.value);
+    }
+};
+
+onMounted(async () => {
+    await fetchData();
+    window.addEventListener('resize', updateDimensions);
+    updateDimensions();
+    initThree();
+    if (currentScene.value) {
+        await loadSceneGLB(currentScene.value);
+    }
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', updateDimensions);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (renderer) renderer.dispose();
+});
+
+const fetchData = async () => {
+    try {
+        const [sectorRes, settingsRes] = await Promise.all([
+            axios.get(`/api/sectoren/${sectorId}`),
+            axios.get('/api/instellingen')
+        ]);
+        sectorData.value = sectorRes.data;
+        scenesInSector.value = sectorData.value.scenes || [];
+        settings.value = settingsRes.data;
+
+        // Find start scene (scene with vehicle spawn point)
+        for (const s of scenesInSector.value) {
+            const locRes = await axios.get(`/api/locaties/${s.locatie_id}`);
+            const loc = locRes.data;
+            const allSpawnPoints = loc.spawn_points || {};
+            const spawnPoints = allSpawnPoints[sectorId] || allSpawnPoints[Number(sectorId)] || [];
+            if (spawnPoints.some(p => p.type === 'vehicle')) {
+                currentScene.value = { ...s, location: loc };
+                break;
+            }
+        }
+
+        if (!currentScene.value && scenesInSector.value.length > 0) {
+            // Fallback to first scene
+            const s = scenesInSector.value[0];
+            const locRes = await axios.get(`/api/locaties/${s.locatie_id}`);
+             currentScene.value = { ...s, location: locRes.data };
+        }
+
+    } catch (e) {
+        console.error("Failed to fetch data", e);
+        error.value = "Failed to load sector data.";
+    } finally {
+        loading.value = false;
+    }
+};
+
+const initThree = () => {
+    if (!canvasContainer.value) return;
+
+    scene = new THREE.Scene();
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(containerWidth.value, containerHeight.value);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    canvasContainer.value.appendChild(renderer.domElement);
+
+    camera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 0.1, 1000);
+    camera.position.set(5, 5, 5);
+    camera.lookAt(0, 0, 0);
+
+    clock = new THREE.Clock();
+
+    ambientLight = new THREE.AmbientLight(0xffffff, ambientIntensity.value);
+    scene.add(ambientLight);
+    ambientLight.name = "ambient-light";
+
+    sun = new THREE.DirectionalLight(0xffffff, sunIntensity.value);
+    sun.position.set(5, 10, 5);
+    scene.add(sun);
+    sun.name = "sun-light";
+
+    // Target Marker
+    const markerGeom = new THREE.RingGeometry(0.2, 0.25, 32);
+    markerGeom.rotateX(-Math.PI / 2);
+    targetPointMesh = new THREE.Mesh(markerGeom, new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.8 }));
+    targetPointMesh.visible = false;
+    scene.add(targetPointMesh);
+
+    animate();
+};
+
+const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
+    return new Promise((resolve) => {
+        if (!sceneData || !sceneData.location) {
+            resolve();
+            return;
+        }
+
+        const url = getGlbUrl(sceneData.location, sectorData.value);
+        if (!url) {
+            resolve();
+            return;
+        }
+
+        // 1. Cleanup before loading
+        if (currentGltf) { scene.remove(currentGltf); currentGltf = null; }
+        if (playableCharacter) { scene.remove(playableCharacter); playableCharacter = null; }
+        if (vehicle) { scene.remove(vehicle); vehicle = null; }
+
+        const loader = new GLTFLoader();
+        loader.load(url, (gltf) => {
+            currentGltf = gltf.scene;
+            scene.add(currentGltf);
+
+            let fspyCamera = null;
+            currentGltf.traverse((child) => {
+                if (child.name.includes('fspy') && child.isCamera) fspyCamera = child;
+                if (child.isMesh) {
+                    const isFloor = child.name.toLowerCase() === 'floor' || child.name.toLowerCase() === 'plane';
+                    
+                    if (isFloor) {
+                        child.material = new THREE.MeshBasicMaterial({
+                            color: 0x00ffff,
+                            transparent: true,
+                            opacity: show3DHelpers.value ? 0.3 : 0.001, // Near-invisible floor for raycasting
+                            side: THREE.DoubleSide
+                        });
+                        child.name = 'floor';
+                    } else {
+                        // Occlusion Mask: Write to depth buffer
+                        child.material = new THREE.MeshBasicMaterial({
+                            color: 0xff00ff,
+                            transparent: show3DHelpers.value,
+                            opacity: show3DHelpers.value ? 0.3 : 0,
+                            colorWrite: show3DHelpers.value,
+                        });
+                        // Depth rendering is crucial for masking
+                        child.material.depthWrite = true;
+                        child.material.depthTest = true;
+                    }
+                }
+            });
+
+            if (fspyCamera) {
+                camera = fspyCamera;
+                camera.aspect = ASPECT_RATIO;
+                camera.updateProjectionMatrix();
+            }
+
+            // 2. Identify Spawn Points
+            const currentSectorId = route.params.id;
+            const allSpawnPoints = sceneData.location.spawn_points || {};
+            const spawnPoints = allSpawnPoints[currentSectorId] || allSpawnPoints[Number(currentSectorId)] || [];
+            
+            // Look for specific named spawn point from gateway
+            const specificSpawn = targetSpawnLabel ? spawnPoints.find(p => p.name === targetSpawnLabel || p.personage_id === targetSpawnLabel) : null;
+            
+            // Vehicle: search for waypoint named 'spinner' (user's fixed preference) or old 'vehicle' type
+            const vehicleSpawn = spawnPoints.find(p => p.type === 'waypoint' && p.name === 'spinner') || 
+                                spawnPoints.find(p => p.type === 'vehicle');
+                                
+            // Spawn logic:
+            // 1. If we came through a gateway with a specific label, use that.
+            // 2. If we are landing the vehicle for the first time, look for 'landing' waypoint.
+            // 3. Fallback to 'personage' type.
+            const charSpawnPoint = specificSpawn || 
+                                   (!landingDone.value && spawnPoints.find(p => p.type === 'waypoint' && p.name === 'landing')) ||
+                                   spawnPoints.find(p => p.type === 'personage');
+
+            // 3. Sequentially spawn vehicle then character
+            const vehiclePromise = vehicleSpawn 
+                ? spawnVehicle(vehicleSpawn, !landingDone.value)
+                : Promise.resolve();
+
+            vehiclePromise.then(() => {
+                const charPos = charSpawnPoint || 
+                                (vehicleSpawn ? { x: vehicleSpawn.x + 2, y: vehicleSpawn.y, z: vehicleSpawn.z } : { x: 0, y: 0, z: 0 });
+                
+                spawnCharacter(charPos).then(resolve);
+            });
+        }, undefined, () => resolve());
+    });
+};
+
+const spawnVehicle = (spawnPoint, animate = true) => {
+    return new Promise((resolve) => {
+        const vehicleUrl = getVehicleGlbUrl(settings.value.spinner2049);
+        if (!vehicleUrl) {
+            resolve();
+            return;
+        }
+
+        const loader = new GLTFLoader();
+        loader.load(vehicleUrl, (gltf) => {
+            vehicle = gltf.scene;
+            const targetY = spawnPoint.y;
+            vehicle.scale.set(vehicleScale.value, vehicleScale.value, vehicleScale.value);
+            scene.add(vehicle);
+
+            if (animate) {
+                const startY = 30; // Start a bit higher
+                const duration = 2500; // 2.5 seconds for a graceful descent
+                const startTime = performance.now();
+                vehicle.position.set(spawnPoint.x, startY, spawnPoint.z);
+
+                const animateLanding = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Quadratic ease-out: progress * (2 - progress)
+                    const ease = progress * (2 - progress);
+                    
+                    vehicle.position.y = startY - (startY - targetY) * ease;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateLanding);
+                    } else {
+                        vehicle.position.y = targetY;
+                        landingDone.value = true;
+                        resolve();
+                    }
+                };
+                requestAnimationFrame(animateLanding);
+            } else {
+                vehicle.position.set(spawnPoint.x, targetY, spawnPoint.z);
+                resolve();
+            }
+        });
+    });
+};
+
+const spawnCharacter = (spawnPoint) => {
+    return new Promise((resolve) => {
+        const charUrl = getCharacterGlbUrl(settings.value.playable);
+        if (!charUrl) {
+            resolve();
+            return;
+        }
+
+        const loader = new GLTFLoader();
+        loader.load(charUrl, (gltf) => {
+            if (playableCharacter) scene.remove(playableCharacter);
+            playableCharacter = gltf.scene;
+            playableCharacter.scale.set(characterScale.value, characterScale.value, characterScale.value);
+            playableCharacter.position.set(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+            scene.add(playableCharacter);
+            resolve();
+        });
+    });
+};
+
+// Watchers for real-time scaling
+watch(characterScale, (newScale) => {
+    if (playableCharacter) {
+        playableCharacter.scale.set(newScale, newScale, newScale);
+    }
+});
+
+watch(vehicleScale, (newScale) => {
+    if (vehicle) {
+        vehicle.scale.set(newScale, newScale, newScale);
+    }
+});
+
+const onMapClick = (e) => {
+    if (!playableCharacter || !landingDone.value) return;
+
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children, true);
+    
+    // Check floor or any mesh (fallback)
+    const floorIntersect = intersects.find(i => i.object.name === 'floor' || i.object.name === 'plane' || i.object.isMesh);
+    if (floorIntersect) {
+        targetPosition.copy(floorIntersect.point);
+        isWalking.value = true;
+        if (targetPointMesh) {
+            targetPointMesh.position.copy(floorIntersect.point);
+            targetPointMesh.position.y += 0.01; // Avoid Z-fighting
+            targetPointMesh.visible = true;
+        }
+    }
+};
+
+const swapScene = async (gateway) => {
+    loading.value = true;
+    try {
+        const nextSceneRes = await axios.get(`/api/scenes/${gateway.target_scene_id}`);
+        const nextScene = nextSceneRes.data;
+        const locRes = await axios.get(`/api/locaties/${nextScene.locatie_id}`);
+        
+        currentScene.value = { ...nextScene, location: locRes.data };
+        
+        // Reset states
+        isWalking.value = false;
+        if (targetPointMesh) targetPointMesh.visible = false;
+        
+        // When swapping, landing is already done
+        landingDone.value = true;
+        
+        await loadSceneGLB(currentScene.value, gateway.target_spawn_point);
+    } catch (e) {
+        console.error("Failed to swap scene", e);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const checkGateways = () => {
+    if (!currentScene.value || !currentScene.value.gateways || !playableCharacter) return;
+
+    // Project character position to screen space
+    const vector = playableCharacter.position.clone();
+    vector.project(camera);
+
+    const x = (vector.x + 1) / 2 * 100;
+    const y = -(vector.y - 1) / 2 * 100;
+
+    for (const gw of currentScene.value.gateways) {
+        if (x >= gw.x && x <= gw.x + gw.width && y >= gw.y && y <= gw.y + gw.height) {
+            swapScene(gw);
+            break;
+        }
+    }
+};
+
+const animate = () => {
+    animationFrameId = requestAnimationFrame(animate);
+    const delta = clock ? clock.getDelta() : 0.016;
+    
+    if (isWalking.value && playableCharacter) {
+        const distance = playableCharacter.position.distanceTo(targetPosition);
+        if (distance > 0.1) {
+            // Rotate towards target
+            const lookPos = new THREE.Vector3(targetPosition.x, playableCharacter.position.y, targetPosition.z);
+            playableCharacter.lookAt(lookPos);
+            
+            // Move towards target
+            const direction = new THREE.Vector3().subVectors(targetPosition, playableCharacter.position).normalize();
+            playableCharacter.position.add(direction.multiplyScalar(characterSpeed * delta));
+        } else {
+            isWalking.value = false;
+            if (targetPointMesh) targetPointMesh.visible = false;
+            checkGateways();
+        }
+    }
+    
+    renderer.render(scene, camera);
+};
+
+watch(show3DHelpers, (newVal) => {
+    if (!currentGltf) return;
+    currentGltf.traverse((child) => {
+        if (child.isMesh) {
+            const isFloor = child.name === 'floor';
+            if (isFloor) {
+                child.material.opacity = newVal ? 0.3 : 0.001;
+                child.material.transparent = true;
+                child.material.colorWrite = true;
+            } else {
+                child.material.opacity = newVal ? 0.3 : 0;
+                child.material.transparent = newVal; // Use transparent for helpers, opaque for mask
+                child.material.colorWrite = newVal;
+                // If helpers are off, it's a pure mask
+                if (!newVal) {
+                    child.material.colorWrite = false;
+                }
+            }
+        }
+    });
+});
+
+watch(ambientIntensity, (val) => {
+    if (ambientLight) ambientLight.intensity = val;
+});
+
+watch(sunIntensity, (val) => {
+    if (sun) sun.intensity = val;
+});
+
+const backgroundImageUrl = computed(() => {
+    if (!currentScene.value) return '';
+    
+    // Check for scene-specific artwork first
+    if (currentScene.value.artwork && currentScene.value.artwork.length > 0) {
+        return getImageUrl(currentScene.value.artwork[0].bestandspad);
+    }
+    
+    // Fallback to location artwork
+    if (currentScene.value.location?.artwork && currentScene.value.location.artwork.length > 0) {
+        return getImageUrl(currentScene.value.location.artwork[0].bestandspad);
+    }
+    
+    return '';
+});
+
+</script>
+
+<template>
+    <div class="min-h-screen bg-noir-darker p-8">
+        <div class="max-w-[1300px] mx-auto">
+            <div class="flex items-center text-sm text-noir-muted mb-4">
+                <RouterLink :to="`/map/${sectorId}`" class="hover:text-white">&lt; TERUG_NAAR_SECTOR</RouterLink>
+                <span class="mx-2">/</span>
+                <span class="text-white uppercase">Sector_Emulatie_Mode</span>
+            </div>
+
+            <div v-if="error" class="bg-noir-panel border border-noir-danger p-6 rounded text-noir-danger text-center">
+                {{ error }}
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+                <!-- Loading Overlay -->
+                <div v-if="loading" class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm pointer-events-auto">
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-noir-accent font-mono text-[8px] flex items-center justify-center">LADEN</div>
+                        <div class="text-noir-accent font-mono text-[10px] animate-pulse uppercase tracking-[0.2em]">Data_Transfer_In_Progress...</div>
+                    </div>
+                </div>
+
+                <!-- Left: 3D Scene Area -->
+                <div class="flex-1">
+                    <div class="relative border-4 border-noir-dark shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black overflow-hidden mx-auto"
+                         :style="{ width: containerWidth + 'px', height: containerHeight + 'px' }"
+                         @click="onMapClick">
+                        <img v-if="backgroundImageUrl" :src="backgroundImageUrl" class="absolute inset-0 w-full h-full object-cover pointer-events-none" alt="Background" />
+                        <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
+                        
+                        <div v-if="!landingDone" class="absolute top-4 left-4 bg-black/60 text-noir-accent px-3 py-1 rounded text-xs font-mono border border-noir-accent/30 animate-pulse">
+                            SISTEEM_INITIALISATIE: VEHICLE_LANDING_INGESCHAKELD...
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                         <div class="bg-noir-panel p-4 border border-noir-dark rounded">
+                            <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">SCENE_INFO</h3>
+                            <p class="text-noir-text">SEC: {{ sectorData?.naam }}</p>
+                            <p class="text-noir-text">SCN: {{ currentScene?.titel }}</p>
+                        </div>
+                        <div class="bg-noir-panel p-4 border border-noir-dark rounded">
+                            <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">CHARACTER</h3>
+                            <p class="text-noir-text">PLAYABLE: {{ settings.playable }}</p>
+                            <p class="text-noir-text">MODE: {{ isWalking ? 'WALKING' : 'IDLE' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Info Sidebar -->
+                <div class="w-full lg:w-96 shrink-0 space-y-6">
+                    <div class="bg-noir-panel p-4 border border-noir-dark rounded text-xs space-y-4">
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">BESTURING</h3>
+                        <p class="text-noir-text font-mono mb-2">• CLICK_FLOOR: MOVE_CHARACTER</p>
+                        <p class="text-noir-text font-mono mb-2">• WALK_TO_WAYPOINT: SWAP_SCENE</p>
+                        
+                        <div class="pt-4 border-t border-noir-dark/50 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] text-noir-muted uppercase">3D Helpers</span>
+                                <button @click="show3DHelpers = !show3DHelpers" 
+                                        class="w-8 h-4 rounded-full relative transition-colors duration-200"
+                                        :class="show3DHelpers ? 'bg-noir-accent' : 'bg-noir-dark'">
+                                    <div class="absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200"
+                                         :class="show3DHelpers ? 'translate-x-4' : ''"></div>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] text-noir-muted uppercase">Ambient</span>
+                                <input type="range" v-model.number="ambientIntensity" min="0" max="2" step="0.1" class="w-24 accent-noir-accent" />
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] text-noir-muted uppercase">Sun</span>
+                                <input type="range" v-model.number="sunIntensity" min="0" max="2" step="0.1" class="w-24 accent-noir-accent" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-noir-panel p-4 border border-noir-dark rounded text-[10px] text-noir-muted italic">
+                         <div class="flex items-center gap-2 mb-2">
+                             <div class="w-2 h-2 rounded-full bg-noir-accent animate-pulse"></div>
+                             <span>VLOER_VISIBILITEIT: ACTIEF</span>
+                         </div>
+                         <p>COLLISION_DETECTION: OPTISCH</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+:deep(canvas) {
+    background: transparent !important;
+}
+</style>

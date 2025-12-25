@@ -22,6 +22,8 @@ const lightsDetectedCount = ref(0);
 const isEditingSpawnPoints = ref(false);
 const spawnPoints = ref([]);
 const spawnPointMarkers = []; // Non-reactive array of Three.js objects
+const spawnOptions = ref([]); // From instellingen
+const personages = ref([]); // From api
 
 // Three.js refs
 const canvasContainer = ref(null);
@@ -105,10 +107,14 @@ onMounted(async () => {
     await fetchData();
     window.addEventListener('resize', updateDimensions);
     updateDimensions();
-    initThree();
-    if (glbUrl.value) {
-        loadGLB();
-    }
+
+    // Use setTimeout or nextTick to ensure the DOM has updated after loading is set to false
+    setTimeout(() => {
+        initThree();
+        if (glbUrl.value) {
+            loadGLB();
+        }
+    }, 100);
 });
 
 onUnmounted(() => {
@@ -140,16 +146,29 @@ const cleanMaterial = (material) => {
 
 const fetchData = async () => {
     try {
-        const [locRes, secRes] = await Promise.all([
+        const [locRes, secRes, instRes, persRes] = await Promise.all([
             axios.get(`/api/locaties/${locatieId}`),
-            axios.get(`/api/sectoren/${sectorId}`)
+            axios.get(`/api/sectoren/${sectorId}`),
+            axios.get('/api/instellingen'),
+            axios.get('/api/personages')
         ]);
         locatieData.value = locRes.data;
         sectorData.value = secRes.data;
+        personages.value = persRes.data;
+
+        // Handle object-based response from Instelling pluck
+        const optionsStr = instRes.data.spawn_options;
+        if (optionsStr) {
+            try {
+                spawnOptions.value = JSON.parse(optionsStr);
+            } catch(e) {
+                console.error("Failed to parse spawn_options", e);
+            }
+        }
 
         // Load spawn points for this specific sector
         const allSpawnPoints = locatieData.value.spawn_points || {};
-        spawnPoints.value = allSpawnPoints[sectorId] || [];
+        spawnPoints.value = allSpawnPoints[sectorId] || allSpawnPoints[Number(sectorId)] || [];
 
         if (scene) {
             visualizeSpawnPoints();
@@ -182,8 +201,10 @@ const addSpawnPoint = (type) => {
     const newPoint = {
         id: Date.now(),
         type,
+        name: type === 'waypoint' ? (spawnOptions.value[0]?.id || '') : '',
+        personage_id: type === 'personage' ? (personages.value[0]?.id || null) : null,
         x: pointerPosition.x,
-        y: pointerPosition.y-0.,
+        y: pointerPosition.y,
         z: pointerPosition.z
     };
     spawnPoints.value.push(newPoint);
@@ -196,8 +217,12 @@ const removeSpawnPoint = (id) => {
 };
 
 const visualizeSpawnPoints = () => {
+    if (!scene) return;
     // Clear old markers
-    spawnPointMarkers.forEach(m => scene.remove(m));
+    spawnPointMarkers.forEach(m => {
+        if (m.parent) m.parent.remove(m);
+        else scene.remove(m);
+    });
     spawnPointMarkers.length = 0;
 
     const VISUAL_OFFSET = 0.6; // Float markers above the ground point
@@ -205,7 +230,8 @@ const visualizeSpawnPoints = () => {
     spawnPoints.value.forEach(p => {
         let color = 0x00ff00; // Personage
         if (p.type === 'aanwijzing') color = 0xffff00;
-        if (p.type === 'vehicle') color = 0x0000ff;
+        if (p.type === 'waypoint') color = 0x00ffff;
+        if (p.name === 'spinner' || p.name === 'landing') color = 0x0000ff;
 
         const geometry = new THREE.SphereGeometry(0.15, 16, 16);
         const material = new THREE.MeshStandardMaterial({
@@ -237,7 +263,33 @@ const visualizeSpawnPoints = () => {
 
         scene.add(marker);
         spawnPointMarkers.push(marker);
+
+        // Add Label
+        const labelText = p.type === 'waypoint' ? p.name : (p.type === 'personage' ? getPersonageName(p.personage_id) : 'PROP');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = 256;
+        canvas.height = 64;
+        context.fillStyle = 'rgba(0,0,0,0.6)';
+        context.fillRect(0, 0, 256, 64);
+        context.font = 'Bold 32px Arial';
+        context.fillStyle = 'white';
+        context.textAlign = 'center';
+        context.fillText(labelText.toUpperCase(), 128, 44);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.position.set(p.x, p.y + VISUAL_OFFSET + 0.4, p.z);
+        sprite.scale.set(1.5, 0.375, 1);
+        scene.add(sprite);
+        spawnPointMarkers.push(sprite);
     });
+};
+
+const getPersonageName = (id) => {
+    const p = personages.value.find(pers => pers.id === id);
+    return p ? p.naam : 'UNKNOWN';
 };
 
 const initThree = () => {
@@ -284,10 +336,15 @@ const initThree = () => {
 };
 
 const loadGLB = () => {
+    if (!scene) {
+        console.error("Cannot load GLB: Scene is not initialized.");
+        return;
+    }
     const loader = new GLTFLoader();
-    loader.setCrossOrigin('anonymous');
+    // Remove crossOrigin as it can break loading if server headers aren't perfect
 
     loader.load(glbUrl.value, (gltf) => {
+        if (!scene) return;
         currentGltf = gltf.scene;
         scene.add(currentGltf);
 
@@ -378,6 +435,10 @@ watch(pointerPosition, () => {
     updateCubePos();
 });
 
+watch(spawnPoints, () => {
+    visualizeSpawnPoints();
+}, { deep: true });
+
 const onScroll = (e) => {
     e.preventDefault();
     if (e.shiftKey) {
@@ -436,26 +497,49 @@ const onScroll = (e) => {
                         <div class="flex gap-2">
                             <button @click="addSpawnPoint('personage')" class="btn btn--small btn--success">+ PERSONAGE</button>
                             <button @click="addSpawnPoint('aanwijzing')" class="btn btn--small btn--warning">+ PROP</button>
-                            <button @click="addSpawnPoint('vehicle')" class="btn btn--small btn--primary">+ VEHICLE</button>
+                            <button @click="addSpawnPoint('waypoint')" class="btn btn--small btn--primary">+ WAYPOINT</button>
                         </div>
                     </div>
 
                     <div v-if="spawnPoints.length === 0" class="text-center py-4 text-noir-muted italic">
-                        NO_SPAWNPOINTS_DEFINED
+                        GEEN_SPAWNPOINTS
                     </div>
-                    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                        <div v-for="point in spawnPoints" :key="point.id" class="flex items-center justify-between bg-noir-panel p-2 rounded border border-noir-dark text-[10px]">
-                            <div class="flex items-center gap-2">
-                                <span :class="{
-                                    'text-noir-success': point.type === 'personage',
-                                    'text-noir-warning': point.type === 'aanwijzing',
-                                    'text-noir-accent': point.type === 'vehicle'
-                                }">⬤</span>
-                                <span class="uppercase font-bold">{{ point.type }}</span>
-                                <span class="text-noir-muted">({{ point.x.toFixed(1) }}, {{ point.y.toFixed(1) }}, {{ point.z.toFixed(1) }})</span>
+                    <div v-else class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div v-for="point in spawnPoints" :key="point.id" class="bg-noir-panel p-4 rounded border border-noir-dark shadow-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="flex items-center gap-2">
+                                    <span :class="{
+                                        'text-noir-success': point.type === 'personage',
+                                        'text-noir-warning': point.type === 'aanwijzing',
+                                        'text-noir-accent':  point.type === 'waypoint'
+                                    }">⬤</span>
+                                    <span class="uppercase font-bold text-xs tracking-tighter">{{ point.type }}</span>
+                                </div>
+                                <button @click="removeSpawnPoint(point.id)" class="text-noir-danger hover:text-white transition-colors">✕</button>
                             </div>
-                            <div class="flex gap-1">
-                                <button @click="removeSpawnPoint(point.id)" class="text-noir-danger hover:text-white">✕</button>
+
+                            <div class="space-y-3">
+                                <!-- Waypoint Name Selector -->
+                                <div v-if="point.type === 'waypoint'">
+                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">Identificatie</label>
+                                    <select v-model="point.name" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
+                                        <option v-for="opt in spawnOptions" :key="opt.id" :value="opt.id">{{ opt.label }} ({{ opt.id }})</option>
+                                    </select>
+                                </div>
+
+                                <!-- Personage Selector -->
+                                <div v-if="point.type === 'personage'">
+                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">Selecteer Personage</label>
+                                    <select v-model="point.personage_id" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
+                                        <option v-for="pers in personages" :key="pers.id" :value="pers.id">{{ pers.naam }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex gap-2 text-[9px] font-mono text-noir-muted bg-black/30 p-1 rounded">
+                                    <span>X:{{ point.x.toFixed(1) }}</span>
+                                    <span>Y:{{ point.y.toFixed(1) }}</span>
+                                    <span>Z:{{ point.z.toFixed(1) }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>

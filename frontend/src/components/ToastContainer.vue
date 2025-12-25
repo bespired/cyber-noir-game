@@ -9,10 +9,10 @@ const { toasts, removeToast } = useToast();
     <div class="fixed top-20 right-6 z-[9999] flex flex-col items-end pointer-events-none">
         <div class="w-full pointer-events-auto">
             <TransitionGroup name="list">
-                <Toast 
-                    v-for="toast in toasts" 
-                    :key="toast.id" 
-                    :toast="toast" 
+                <Toast
+                    v-for="toast in toasts"
+                    :key="toast.id"
+                    :toast="toast"
                     @remove="removeToast"
                 />
             </TransitionGroup>
@@ -27,11 +27,11 @@ const { toasts, removeToast } = useToast();
 }
 .list-enter-from {
   opacity: 0;
-  transform: translateX(30px) scale(0.9);
+  transform: translateX(60px) scale(0.9);
 }
 .list-leave-to {
   opacity: 0;
-  transform: translateX(30px) scale(0.9);
+  transform: translateX(60px) scale(0.9);
 }
 .list-leave-active {
   position: absolute;

@@ -53,6 +53,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/map/:id/emulate',
+            name: 'sector-emulate',
+            component: () => import('../views/Map/SectorEmulationView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/sector-map/:id',
             name: 'sector-map',
             component: () => import('../views/Map/SectorMapView.vue'),

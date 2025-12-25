@@ -21,6 +21,16 @@ const availableTargetScenes = computed(() => {
     return allScenes.value.filter(s => s.sector_id === currentSectorId && s.id !== scene.value.id);
 });
 
+const targetSceneSpawnPoints = computed(() => {
+    if (!gatewayForm.value.target_scene_id) return [];
+    const targetScene = allScenes.value.find(s => s.id === gatewayForm.value.target_scene_id);
+    if (!targetScene || !targetScene.locatie || !targetScene.locatie.spawn_points) return [];
+    
+    const sectorId = scene.value.sector_id;
+    const spawnPoints = targetScene.locatie.spawn_points[sectorId] || targetScene.locatie.spawn_points[Number(sectorId)] || [];
+    return spawnPoints;
+});
+
 const activeArtwork = computed(() => {
     if (scene.value?.artwork && scene.value.artwork.length > 0) {
         return scene.value.artwork;
@@ -40,6 +50,7 @@ const showGatewayModal = ref(false);
 const editingGatewayIndex = ref(null);
 const gatewayForm = ref({
     target_scene_id: null,
+    target_spawn_point: null,
     label: ''
 });
 
@@ -187,7 +198,7 @@ const stopDrawing = () => {
     // Only add if size is significant (> 1%)
     if (previewBox.value.width > 1 && previewBox.value.height > 1) {
         editingGatewayIndex.value = null; // New gateway
-        gatewayForm.value = { target_scene_id: null, label: '' };
+        gatewayForm.value = { target_scene_id: null, target_spawn_point: null, label: '' };
         showGatewayModal.value = true;
     }
 };
@@ -213,9 +224,11 @@ const saveGateway = () => {
 const editGateway = (index) => {
     if (justDragged.value) return;
     editingGatewayIndex.value = index;
+    const g = scene.value.gateways[index];
     gatewayForm.value = {
-        target_scene_id: scene.value.gateways[index].target_scene_id,
-        label: scene.value.gateways[index].label || ''
+        target_scene_id: g.target_scene_id,
+        target_spawn_point: g.target_spawn_point || null,
+        label: g.label || ''
     };
     showGatewayModal.value = true;
 };
@@ -229,6 +242,14 @@ const removeGateway = (index) => {
 const getSceneName = (id) => {
     const s = allScenes.value.find(s => s.id === id);
     return s ? s.titel : 'Unknown Scene';
+};
+
+const getPersonageName = (id) => {
+    const p = allScenes.value.find(s => s.id === scene.value?.id)?.locatie?.personages?.find(pers => pers.id === id) || 
+              allScenes.value.flatMap(s => s.locatie?.personages || []).find(pers => pers.id === id);
+    // Note: Actually, it's better to fetch from a dedicated personages ref if we had one, 
+    // but we can try to find it in the loaded allScenes.
+    return p ? p.naam : `ID: ${id}`;
 };
 
 watch(() => scene.value?.locatie_id, (newId) => {
@@ -285,6 +306,14 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
                         </svg>
                         GATEWAY_OVERZICHT
+                    </RouterLink>
+                    <RouterLink v-if="scene.locatie_id && scene.sector_id" :to="`/locaties/${scene.locatie_id}/sector/${scene.sector_id}/3d`" class="btn btn--primary flex items-center justify-center gap-2 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                        3D_BEWERKEN
                     </RouterLink>
                     </div>
                 </div>
@@ -429,6 +458,24 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         </option>
                     </select>
                 </div>
+                
+                <div v-if="gatewayForm.target_scene_id">
+                    <label class="form-label">Spawn Point in Doel Scene</label>
+                    <select v-model="gatewayForm.target_spawn_point" class="form-input">
+                        <option :value="null">-- STANDAARD (PERSONAGE) --</option>
+                        <optgroup label="Waypoints">
+                           <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'waypoint')" :key="sp.id" :value="sp.name">
+                               {{ sp.name }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
+                           </option>
+                        </optgroup>
+                        <optgroup label="Personages">
+                            <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'personage')" :key="sp.id" :value="sp.personage_id">
+                               {{ getPersonageName(sp.personage_id) }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
+                            </option>
+                        </optgroup>
+                    </select>
+                </div>
+
                 <div>
                     <label class="form-label">Label (Optioneel)</label>
                     <input v-model="gatewayForm.label" type="text" placeholder="b.v. Naar Hoofd Street" class="form-input">

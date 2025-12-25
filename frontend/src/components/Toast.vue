@@ -35,8 +35,8 @@ const emit = defineEmits(['remove']);
 
         <div class="flex items-start gap-3">
             <span class="text-lg">
-                <template v-if="props.toast.type === 'success'">✅</template>
-                <template v-else-if="props.toast.type === 'error'">⚠️</template>
+                <template v-if="props.toast.type      === 'success'">✅</template>
+                <template v-else-if="props.toast.type === 'error'"  >⚠️</template>
                 <template v-else-if="props.toast.type === 'warning'">⚡</template>
                 <template v-else>ℹ️</template>
             </span>
@@ -71,7 +71,7 @@ const emit = defineEmits(['remove']);
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateX(100%) scale(0.9);
+        transform: translateX(150%) scale(0.9);
     }
     to {
         opacity: 1;
