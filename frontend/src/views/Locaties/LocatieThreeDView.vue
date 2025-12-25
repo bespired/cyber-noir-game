@@ -4,6 +4,9 @@ import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useToast } from '../../composables/useToast';
+
+const toast = useToast();
 
 const route = useRoute();
 const router = useRouter();
@@ -16,20 +19,25 @@ const loading = ref(true);
 const error = ref(null);
 const floorDetected = ref(false);
 const lightsDetectedCount = ref(0);
+const isEditingSpawnPoints = ref(false);
+const spawnPoints = ref([]);
+const spawnPointMarkers = []; // Non-reactive array of Three.js objects
 
 // Three.js refs
 const canvasContainer = ref(null);
 let renderer, scene, camera, clock;
 let currentGltf = null;
 let animationFrameId = null;
-let testCubeMesh = null;
+let testPointerMesh = null;
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
 const VIEW_WIDTH = 1216;
 const VIEW_HEIGHT = 832;
 const ASPECT_RATIO = VIEW_WIDTH / VIEW_HEIGHT;
 
 // Cube Controls
-const cubePosition = reactive({ x: 0, y: 0.5, z: 0 });
+const pointerPosition = reactive({ x: 0, y: 0, z: 0 });
 
 const slugify = (str) => {
     if (!str) return '';
@@ -138,12 +146,98 @@ const fetchData = async () => {
         ]);
         locatieData.value = locRes.data;
         sectorData.value = secRes.data;
+
+        // Load spawn points for this specific sector
+        const allSpawnPoints = locatieData.value.spawn_points || {};
+        spawnPoints.value = allSpawnPoints[sectorId] || [];
+
+        if (scene) {
+            visualizeSpawnPoints();
+        }
     } catch (e) {
         console.error("Failed to fetch data", e);
         error.value = "Failed to load location or sector data.";
     } finally {
         loading.value = false;
     }
+};
+
+const saveSpawnPoints = async () => {
+    try {
+        const allSpawnPoints = locatieData.value.spawn_points || {};
+        allSpawnPoints[sectorId] = spawnPoints.value;
+
+        await axios.put(`/api/locaties/${locatieId}`, {
+            spawn_points: allSpawnPoints
+        });
+
+        toast.success('SPAWN_POINTS_SAVED');
+    } catch (e) {
+        console.error(e);
+        toast.error('FAILED_TO_SAVE_SPAWN_POINTS');
+    }
+};
+
+const addSpawnPoint = (type) => {
+    const newPoint = {
+        id: Date.now(),
+        type,
+        x: pointerPosition.x,
+        y: pointerPosition.y-0.,
+        z: pointerPosition.z
+    };
+    spawnPoints.value.push(newPoint);
+    visualizeSpawnPoints();
+};
+
+const removeSpawnPoint = (id) => {
+    spawnPoints.value = spawnPoints.value.filter(p => p.id !== id);
+    visualizeSpawnPoints();
+};
+
+const visualizeSpawnPoints = () => {
+    // Clear old markers
+    spawnPointMarkers.forEach(m => scene.remove(m));
+    spawnPointMarkers.length = 0;
+
+    const VISUAL_OFFSET = 0.6; // Float markers above the ground point
+
+    spawnPoints.value.forEach(p => {
+        let color = 0x00ff00; // Personage
+        if (p.type === 'aanwijzing') color = 0xffff00;
+        if (p.type === 'vehicle') color = 0x0000ff;
+
+        const geometry = new THREE.SphereGeometry(0.15, 16, 16);
+        const material = new THREE.MeshStandardMaterial({
+            color,
+            emissive: color,
+            emissiveIntensity: 0.5,
+            transparent: true,
+            opacity: 0.8
+        });
+        const marker = new THREE.Mesh(geometry, material);
+        // Position the sphere floating above the saved coordinate
+        marker.position.set(p.x, p.y + VISUAL_OFFSET, p.z);
+        marker.name = `spawnpoint-${p.id}`;
+
+        // Add a line pointing down to the actual ground coordinate
+        const lineGeom = new THREE.CylinderGeometry(0.01, 0.01, VISUAL_OFFSET);
+        const lineMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 });
+        const line = new THREE.Mesh(lineGeom, lineMat);
+        line.position.y = -VISUAL_OFFSET / 2;
+        marker.add(line);
+
+        // Add a ground ring target for better reference
+        const ringGeom = new THREE.RingGeometry(0.15, 0.18, 32);
+        ringGeom.rotateX(-Math.PI / 2);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
+        const ring = new THREE.Mesh(ringGeom, ringMat);
+        ring.position.y = -VISUAL_OFFSET;
+        marker.add(ring);
+
+        scene.add(marker);
+        spawnPointMarkers.push(marker);
+    });
 };
 
 const initThree = () => {
@@ -169,20 +263,23 @@ const initThree = () => {
     defaultSun.name = "default-sun";
     scene.add(defaultSun);
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.ConeGeometry(0.3, 1, 16);
+    geometry.rotateX(Math.PI); // Point peak down
+    geometry.translate(0, 0.5, 0); // Move peak to local origin
     const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    testCubeMesh = new THREE.Mesh(geometry, material);
-    testCubeMesh.position.set(0, 0.5, 0);
-    testCubeMesh.name = "test-cube";
-    scene.add(testCubeMesh);
+    testPointerMesh = new THREE.Mesh(geometry, material);
+    testPointerMesh.position.set(0, 0, 0);
+    testPointerMesh.name = "test-cone";
+    scene.add(testPointerMesh);
 
-    cubePosition.x = testCubeMesh.position.x;
-    cubePosition.y = testCubeMesh.position.y;
-    cubePosition.z = testCubeMesh.position.z;
+    pointerPosition.x = testPointerMesh.position.x;
+    pointerPosition.y = testPointerMesh.position.y;
+    pointerPosition.z = testPointerMesh.position.z;
 
     const gridHelper = new THREE.GridHelper(10, 10);
     scene.add(gridHelper);
 
+    visualizeSpawnPoints();
     animate();
 };
 
@@ -241,11 +338,11 @@ const loadGLB = () => {
             const center = new THREE.Vector3();
             box.getCenter(center);
 
-            if (testCubeMesh) {
-                testCubeMesh.position.set(center.x, box.max.y + 0.5, center.z);
-                cubePosition.x = testCubeMesh.position.x;
-                cubePosition.y = testCubeMesh.position.y;
-                cubePosition.z = testCubeMesh.position.z;
+            if (testPointerMesh) {
+                testPointerMesh.position.set(center.x, box.max.y, center.z);
+                pointerPosition.x = testPointerMesh.position.x;
+                pointerPosition.y = testPointerMesh.position.y;
+                pointerPosition.z = testPointerMesh.position.z;
             }
         }
 
@@ -272,12 +369,12 @@ const animate = () => {
 };
 
 const updateCubePos = () => {
-    if (testCubeMesh) {
-        testCubeMesh.position.set(cubePosition.x, cubePosition.y, cubePosition.z);
+    if (testPointerMesh) {
+        testPointerMesh.position.set(pointerPosition.x, pointerPosition.y, pointerPosition.z);
     }
 };
 
-watch(cubePosition, () => {
+watch(pointerPosition, () => {
     updateCubePos();
 });
 
@@ -285,10 +382,10 @@ const onScroll = (e) => {
     e.preventDefault();
     if (e.shiftKey) {
         const delta = e.deltaX > 0 ? 0.5 : -0.5;
-        cubePosition.x += delta;
+        pointerPosition.x += delta;
     } else {
         const delta = e.deltaY > 0 ? 0.5 : -0.5;
-        cubePosition.z += delta;
+        pointerPosition.z += delta;
     }
 };
 </script>
@@ -299,9 +396,22 @@ const onScroll = (e) => {
             <div class="flex items-center text-sm text-noir-muted mb-4">
                 <RouterLink to="/locaties" class="hover:text-white">&lt; LOCATIES</RouterLink>
                 <span class="mx-2">/</span>
-                <RouterLink :to="`/locaties/${locatieId}`" class="hover:text-white">&lt; BACK_TO_LOCATIE</RouterLink>
+                <RouterLink :to="`/locaties/${locatieId}`" class="hover:text-white">&lt;TERUG_NAAR_LOCATIE</RouterLink>
                 <span class="mx-2">/</span>
                 <span class="text-white">3D_CONTROLE_VIEUW</span>
+
+                <div class="ml-auto flex gap-4">
+                    <button
+                        @click="isEditingSpawnPoints = !isEditingSpawnPoints"
+                        class="btn btn--small"
+                        :class="isEditingSpawnPoints ? 'btn--warning' : 'btn--secondary'"
+                    >
+                        {{ isEditingSpawnPoints ? 'KLAAR' : 'WIJZIG_SPAWNPOINTS' }}
+                    </button>
+                    <button v-if="isEditingSpawnPoints" @click="saveSpawnPoints" class="btn btn--small btn--success">
+                        BEWAAR_WIJZIGINGEN
+                    </button>
+                </div>
             </div>
 
             <div v-if="loading" class="flex items-center justify-center py-40">
@@ -319,6 +429,38 @@ const onScroll = (e) => {
                     <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
                 </div>
 
+                <!-- Spawnpoint Editor Panel -->
+                <div v-if="isEditingSpawnPoints" class="mt-6 w-full panel bg-noir-darker/50 border-noir-warning/30">
+                    <div class="flex justify-between items-center mb-4 border-b border-noir-dark pb-2">
+                        <h3 class="text-noir-warning font-bold uppercase tracking-widest text-sm">Spawnpoint_Editor</h3>
+                        <div class="flex gap-2">
+                            <button @click="addSpawnPoint('personage')" class="btn btn--small btn--success">+ PERSONAGE</button>
+                            <button @click="addSpawnPoint('aanwijzing')" class="btn btn--small btn--warning">+ PROP</button>
+                            <button @click="addSpawnPoint('vehicle')" class="btn btn--small btn--primary">+ VEHICLE</button>
+                        </div>
+                    </div>
+
+                    <div v-if="spawnPoints.length === 0" class="text-center py-4 text-noir-muted italic">
+                        NO_SPAWNPOINTS_DEFINED
+                    </div>
+                    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <div v-for="point in spawnPoints" :key="point.id" class="flex items-center justify-between bg-noir-panel p-2 rounded border border-noir-dark text-[10px]">
+                            <div class="flex items-center gap-2">
+                                <span :class="{
+                                    'text-noir-success': point.type === 'personage',
+                                    'text-noir-warning': point.type === 'aanwijzing',
+                                    'text-noir-accent': point.type === 'vehicle'
+                                }">⬤</span>
+                                <span class="uppercase font-bold">{{ point.type }}</span>
+                                <span class="text-noir-muted">({{ point.x.toFixed(1) }}, {{ point.y.toFixed(1) }}, {{ point.z.toFixed(1) }})</span>
+                            </div>
+                            <div class="flex gap-1">
+                                <button @click="removeSpawnPoint(point.id)" class="text-noir-danger hover:text-white">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-xs">
                      <div class="bg-noir-panel p-4 border border-noir-dark rounded">
                         <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">INFO</h3>
@@ -326,21 +468,23 @@ const onScroll = (e) => {
                         <p class="text-noir-text">SEC: {{ sectorData.naam }}</p>
                     </div>
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">RODE KUBUS</h3>
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">RODE KEGEL</h3>
                         <ul class="text-noir-text space-y-1">
                             <li>• Scroll: Z-DIEPTE</li>
                             <li>• Shift + Scroll: X-AS</li>
                         </ul>
                     </div>
-                   <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">DEBUG_CUBE</h3>
+                    <div class="bg-noir-panel p-4 border border-noir-dark rounded">
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">DEBUG_POINTER</h3>
                         <div class="flex gap-2">
-                            <span>X: {{ cubePosition.x.toFixed(2) }}</span>
-                            <span>Y: {{ cubePosition.y.toFixed(2) }}</span>
-                            <span>Z: {{ cubePosition.z.toFixed(2) }}</span>
+                            <span>X: {{ pointerPosition.x.toFixed(2) }}</span>
+                            <span>Y: {{ pointerPosition.y.toFixed(2) }}</span>
+                            <span>Z: {{ pointerPosition.z.toFixed(2) }}</span>
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

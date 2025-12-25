@@ -14,10 +14,12 @@ class Locatie extends Model
         'beschrijving',
         'notities',
         'volgorde',
+        'spawn_points',
     ];
 
     protected $casts = [
         'volgorde' => 'integer',
+        'spawn_points' => 'array',
     ];
 
     public function scenes()

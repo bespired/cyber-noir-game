@@ -158,7 +158,7 @@ watch(isAuthenticated, (newVal) => {
             <div class="bg-noir-panel border border-noir-dark p-6 rounded">
                 <h2 class="text-xl font-bold text-white mb-4 border-b border-noir-dark pb-2">SPEL_DOEL</h2>
                 <p class="text-noir-text text-lg">
-                    > Vind de bron van het gestolen data-bestand. Of iets.
+                    > Vind de bron van het gestolen DNA-bestand. Of iets.
                     <span class="animate-pulse inline-block w-2 h-4 bg-noir-accent ml-1 align-middle"></span>
                 </p>
             </div>
@@ -167,9 +167,9 @@ watch(isAuthenticated, (newVal) => {
         <div v-else class="flex flex-col items-center justify-center min-h-[60vh] text-center">
             <div class="bg-noir-panel border border-noir-dark p-8 rounded-lg shadow-2xl max-w-md w-full">
                 <h1 class="text-3xl font-bold text-white mb-4">Cyber Noir Reference</h1>
-                <p class="text-noir-muted mb-8">Access restricted. Authorization required to view case files.</p>
+                <p class="text-noir-muted mb-8">Toegang beperkt. Autorisatie vereist om dossiers te bekijken.</p>
                 <RouterLink :to="{ name: 'login' }" class="inline-block px-6 py-3 bg-noir-accent hover:bg-opacity-80 text-white font-bold rounded transition-colors duration-200">
-                    Login to Terminal
+                    Login in Terminal
                 </RouterLink>
             </div>
         </div>

@@ -92,6 +92,7 @@ class LocatieController extends Controller
             'beschrijving' => 'string',
             'notities' => 'nullable|string',
             'volgorde' => 'integer',
+            'spawn_points' => 'nullable|array',
         ]);
 
         $locatie->update($validated);
