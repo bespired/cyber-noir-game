@@ -11,7 +11,7 @@ class PersonageController extends Controller
 {
     public function index()
     {
-        return Personage::with(['aanwijzingen', 'artwork'])->get();
+        return Personage::with(['aanwijzingen', 'artwork'])->orderBy('naam', 'asc')->get();
     }
 
     public function store(Request $request)

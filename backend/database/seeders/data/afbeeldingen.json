@@ -493,5 +493,95 @@
         "imageable_id": 5,
         "created_at": "2025-12-24T15:39:16.000000Z",
         "updated_at": "2025-12-24T15:39:16.000000Z"
+    },
+    {
+        "id": 69,
+        "bestandspad": "artwork\/personage\/ATGdjDix469ONSMewfuxn3jF1tDOGy9gWpRCggE4.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 6,
+        "created_at": "2025-12-26T12:20:56.000000Z",
+        "updated_at": "2025-12-26T12:20:56.000000Z"
+    },
+    {
+        "id": 70,
+        "bestandspad": "artwork\/personage\/FtrsZ18sqrZ0QS5fp3RDc3Mf8DtPAeCOgmJfL8Fk.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 7,
+        "created_at": "2025-12-26T12:34:36.000000Z",
+        "updated_at": "2025-12-26T12:34:36.000000Z"
+    },
+    {
+        "id": 71,
+        "bestandspad": "artwork\/personage\/fNKiM5f7gxkURQe1sAGPuC6fpUYkHT8IHruTvh7g.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 8,
+        "created_at": "2025-12-26T12:35:04.000000Z",
+        "updated_at": "2025-12-26T12:35:04.000000Z"
+    },
+    {
+        "id": 72,
+        "bestandspad": "artwork\/personage\/mArBGSC5UmSH6vdnmN2Cu6NxT7D3qt3saCYS9IcL.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 9,
+        "created_at": "2025-12-26T12:36:00.000000Z",
+        "updated_at": "2025-12-26T12:36:00.000000Z"
+    },
+    {
+        "id": 73,
+        "bestandspad": "artwork\/personage\/9SIiguPQbA6JPtiH5rN5dJHUcPBLOaHbJjJ0flZ5.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 10,
+        "created_at": "2025-12-26T12:37:00.000000Z",
+        "updated_at": "2025-12-26T12:37:00.000000Z"
+    },
+    {
+        "id": 74,
+        "bestandspad": "artwork\/personage\/kptlB35bfpM5vN2Sq2Kq5IkNPlA4TwnRt2ouaCQV.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 11,
+        "created_at": "2025-12-26T12:44:37.000000Z",
+        "updated_at": "2025-12-26T12:44:37.000000Z"
+    },
+    {
+        "id": 75,
+        "bestandspad": "artwork\/personage\/Awbo0vaazKjYo1KHMyI7X9ceFQAklGAntnr5lAlK.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 12,
+        "created_at": "2025-12-26T12:45:35.000000Z",
+        "updated_at": "2025-12-26T12:45:35.000000Z"
+    },
+    {
+        "id": 76,
+        "bestandspad": "artwork\/personage\/Dok3ratclWXtXoC4KA9p4WWeNPb0d5i1sbagUPe2.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 13,
+        "created_at": "2025-12-26T12:46:49.000000Z",
+        "updated_at": "2025-12-26T12:46:49.000000Z"
+    },
+    {
+        "id": 77,
+        "bestandspad": "artwork\/personage\/GDv8bMNLobTRcCBZ1sRGTGzpYI9zCUViFjgBfmuJ.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 14,
+        "created_at": "2025-12-26T12:53:01.000000Z",
+        "updated_at": "2025-12-26T12:53:01.000000Z"
+    },
+    {
+        "id": 78,
+        "bestandspad": "artwork\/personage\/xGyLPkww4wbmQeDbZ8yHIKyYw7rBDq5g6BFwdd4y.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 15,
+        "created_at": "2025-12-26T12:53:44.000000Z",
+        "updated_at": "2025-12-26T12:53:44.000000Z"
     }
 ]

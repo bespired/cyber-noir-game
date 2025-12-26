@@ -203,9 +203,12 @@ const addSpawnPoint = (type) => {
         type,
         name: type === 'waypoint' ? (spawnOptions.value[0]?.id || '') : '',
         personage_id: type === 'personage' ? (personages.value[0]?.id || null) : null,
+        aanwijzing_id: type === 'aanwijzing' ? (locatieData.value?.aanwijzingen?.[0]?.id || null) : null,
         x: pointerPosition.x,
         y: pointerPosition.y,
-        z: pointerPosition.z
+        z: pointerPosition.z,
+        direction: 0,
+        scale: 1.0
     };
     spawnPoints.value.push(newPoint);
     visualizeSpawnPoints();
@@ -246,19 +249,29 @@ const visualizeSpawnPoints = () => {
         marker.position.set(p.x, p.y + VISUAL_OFFSET, p.z);
         marker.name = `spawnpoint-${p.id}`;
 
+        // Apply direction and scale
+        const scaleValue = p.scale || 1.0;
+        marker.scale.set(scaleValue, scaleValue, scaleValue);
+        marker.rotation.y = THREE.MathUtils.degToRad(p.direction || 0);
+
+        // Add a direction indicator (arrow) pointing forward (+Z)
+        const arrowDir = new THREE.Vector3(0, 0, 1);
+        const arrowHelper = new THREE.ArrowHelper(arrowDir, new THREE.Vector3(0, 0, 0), 0.5, 0xffffff);
+        marker.add(arrowHelper);
+
         // Add a line pointing down to the actual ground coordinate
-        const lineGeom = new THREE.CylinderGeometry(0.01, 0.01, VISUAL_OFFSET);
+        const lineGeom = new THREE.CylinderGeometry(0.01 / scaleValue, 0.01 / scaleValue, VISUAL_OFFSET / scaleValue);
         const lineMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 });
         const line = new THREE.Mesh(lineGeom, lineMat);
-        line.position.y = -VISUAL_OFFSET / 2;
+        line.position.y = -VISUAL_OFFSET / 2 / scaleValue;
         marker.add(line);
 
         // Add a ground ring target for better reference
-        const ringGeom = new THREE.RingGeometry(0.15, 0.18, 32);
+        const ringGeom = new THREE.RingGeometry(0.15 / scaleValue, 0.18 / scaleValue, 32);
         ringGeom.rotateX(-Math.PI / 2);
         const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
         const ring = new THREE.Mesh(ringGeom, ringMat);
-        ring.position.y = -VISUAL_OFFSET;
+        ring.position.y = -VISUAL_OFFSET / scaleValue;
         marker.add(ring);
 
         scene.add(marker);
@@ -533,6 +546,36 @@ const onScroll = (e) => {
                                     <select v-model="point.personage_id" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
                                         <option v-for="pers in personages" :key="pers.id" :value="pers.id">{{ pers.naam }}</option>
                                     </select>
+                                </div>
+
+                                <!-- Aanwijzing Selector -->
+                                <div v-if="point.type === 'aanwijzing'">
+                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">Selecteer Prop</label>
+                                    <select v-model="point.aanwijzing_id" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
+                                        <option v-for="aan in locatieData.aanwijzingen" :key="aan.id" :value="aan.id">{{ aan.titel }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[10px] text-noir-muted uppercase mb-1">Richting</label>
+                                        <select v-model="point.direction" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
+                                            <option :value="0">0° (N)</option>
+                                            <option :value="45">45° (NE)</option>
+                                            <option :value="90">90° (E)</option>
+                                            <option :value="135">135° (SE)</option>
+                                            <option :value="180">180° (S)</option>
+                                            <option :value="225">225° (SW)</option>
+                                            <option :value="270">270° (W)</option>
+                                            <option :value="315">315° (NW)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] text-noir-muted uppercase mb-1">Schaal</label>
+                                        <select v-model="point.scale" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
+                                            <option v-for="s in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 2.0]" :key="s" :value="s">{{ s.toFixed(1) }}x</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="flex gap-2 text-[9px] font-mono text-noir-muted bg-black/30 p-1 rounded">

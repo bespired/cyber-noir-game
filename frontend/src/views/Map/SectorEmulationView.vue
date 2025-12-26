@@ -282,7 +282,7 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
                                    (!landingDone.value && spawnPoints.find(p => p.type === 'waypoint' && p.name === 'landing')) ||
                                    spawnPoints.find(p => p.type === 'personage');
 
-            // 3. Sequentially spawn vehicle then character
+            // 3. Sequentially spawn vehicle then character then props
             const vehiclePromise = vehicleSpawn 
                 ? spawnVehicle(vehicleSpawn, !landingDone.value)
                 : Promise.resolve();
@@ -291,7 +291,9 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
                 const charPos = charSpawnPoint || 
                                 (vehicleSpawn ? { x: vehicleSpawn.x + 2, y: vehicleSpawn.y, z: vehicleSpawn.z } : { x: 0, y: 0, z: 0 });
                 
-                spawnCharacter(charPos).then(resolve);
+                spawnCharacter(charPos).then(() => {
+                    spawnProps(spawnPoints).then(resolve);
+                });
             });
         }, undefined, () => resolve());
     });
@@ -309,7 +311,9 @@ const spawnVehicle = (spawnPoint, animate = true) => {
         loader.load(vehicleUrl, (gltf) => {
             vehicle = gltf.scene;
             const targetY = spawnPoint.y;
-            vehicle.scale.set(vehicleScale.value, vehicleScale.value, vehicleScale.value);
+            const scale = spawnPoint.scale || vehicleScale.value;
+            vehicle.scale.set(scale, scale, scale);
+            vehicle.rotation.y = THREE.MathUtils.degToRad(spawnPoint.direction || 0);
             scene.add(vehicle);
 
             if (animate) {
@@ -356,12 +360,51 @@ const spawnCharacter = (spawnPoint) => {
         loader.load(charUrl, (gltf) => {
             if (playableCharacter) scene.remove(playableCharacter);
             playableCharacter = gltf.scene;
-            playableCharacter.scale.set(characterScale.value, characterScale.value, characterScale.value);
+            const scale = spawnPoint.scale || characterScale.value;
+            playableCharacter.scale.set(scale, scale, scale);
             playableCharacter.position.set(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+            playableCharacter.rotation.y = THREE.MathUtils.degToRad(spawnPoint.direction || 0);
             scene.add(playableCharacter);
             resolve();
         });
     });
+};
+
+const props = []; // Track spawned props for cleanup
+
+const spawnProps = async (spawnPoints) => {
+    // Cleanup old props
+    props.forEach(p => scene.remove(p));
+    props.length = 0;
+
+    const propSpawnPoints = spawnPoints.filter(p => p.type === 'aanwijzing');
+    if (propSpawnPoints.length === 0) return;
+
+    const loader = new GLTFLoader();
+    
+    for (const p of propSpawnPoints) {
+        // Find the aanwijzing data to get its GLB or visual representation
+        try {
+            // Ideally we have the aanwijzingen loaded or can fetch by ID
+            // For now, let's assume we might need to fetch it or it's provided
+            // If we don't have a specific GLB for each prop yet, we might skip or use a placeholder
+            // But let's check if currentScene.location.aanwijzingen is available
+            const aanwijzing = currentScene.value.location.aanwijzingen?.find(a => a.id === p.aanwijzing_id);
+            if (aanwijzing && aanwijzing.glb_pad) {
+                const url = getImageUrl(aanwijzing.glb_pad);
+                const gltf = await new Promise((res, rej) => loader.load(url, res, undefined, rej));
+                const propMesh = gltf.scene;
+                const scale = p.scale || 1.0;
+                propMesh.scale.set(scale, scale, scale);
+                propMesh.position.set(p.x, p.y, p.z);
+                propMesh.rotation.y = THREE.MathUtils.degToRad(p.direction || 0);
+                scene.add(propMesh);
+                props.push(propMesh);
+            }
+        } catch (e) {
+            console.warn("Failed to spawn prop", p.id, e);
+        }
+    }
 };
 
 // Watchers for real-time scaling
@@ -520,7 +563,16 @@ const backgroundImageUrl = computed(() => {
             <div class="flex items-center text-sm text-noir-muted mb-4">
                 <RouterLink :to="`/map/${sectorId}`" class="hover:text-white">&lt; TERUG_NAAR_SECTOR</RouterLink>
                 <span class="mx-2">/</span>
-                <span class="text-white uppercase">Sector_Emulatie_Mode</span>
+                <span class="text-white uppercase mr-4">Sector_Emulatie_Mode</span>
+
+                <div v-if="currentScene" class="ml-auto">
+                    <RouterLink 
+                        :to="`/locaties/${currentScene.locatie_id}/sector/${sectorId}/3d`"
+                        class="btn btn--small btn--primary"
+                    >
+                        WIJZIG_3D_SCENE
+                    </RouterLink>
+                </div>
             </div>
 
             <div v-if="error" class="bg-noir-panel border border-noir-danger p-6 rounded text-noir-danger text-center">
