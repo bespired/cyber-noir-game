@@ -15,6 +15,8 @@
                     "id": 1766701056831,
                     "name": "landing",
                     "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 270,
                     "personage_id": null
                 },
                 {
@@ -24,6 +26,8 @@
                     "id": 1766701072321,
                     "name": "west",
                     "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 45,
                     "personage_id": null
                 },
                 {
@@ -33,12 +37,26 @@
                     "id": 1766702358698,
                     "name": "spinner",
                     "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 90,
                     "personage_id": null
+                },
+                {
+                    "x": -5.277722537003905,
+                    "y": 1.6435764774149986e-6,
+                    "z": -8.049322545014768,
+                    "id": 1766788329516,
+                    "name": "north",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 90,
+                    "personage_id": null,
+                    "aanwijzing_id": null
                 }
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T22:39:22.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
         "volgorde": 1
     },
     {
@@ -57,17 +75,19 @@
                     "id": 1766700593620,
                     "name": "east",
                     "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 270,
                     "personage_id": null
                 }
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T22:10:10.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
         "volgorde": 2
     },
     {
         "id": 3,
-        "naam": "NTPD Hoofdkantoor",
+        "naam": "NTPD Landing platform",
         "beschrijving": "Centraal commandocentrum van de Neo Tokyo Police Directorate. Verticale megastructuur met civiele en geheime afdelingen.",
         "notities": null,
         "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
@@ -84,8 +104,8 @@
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T12:29:18.000000Z",
-        "volgorde": 3
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 5
     },
     {
         "id": 4,
@@ -106,8 +126,8 @@
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T12:29:55.000000Z",
-        "volgorde": 4
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 11
     },
     {
         "id": 5,
@@ -128,8 +148,8 @@
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T12:30:28.000000Z",
-        "volgorde": 5
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 12
     },
     {
         "id": 6,
@@ -140,8 +160,8 @@
         "veiligheidsniveau": 0,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 6
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 13
     },
     {
         "id": 7,
@@ -162,8 +182,8 @@
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T12:31:42.000000Z",
-        "volgorde": 7
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 14
     },
     {
         "id": 8,
@@ -174,8 +194,8 @@
         "veiligheidsniveau": 3,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 8
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 15
     },
     {
         "id": 9,
@@ -217,8 +237,8 @@
             ]
         },
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-25T12:32:25.000000Z",
-        "volgorde": 9
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 16
     },
     {
         "id": 10,
@@ -229,8 +249,8 @@
         "veiligheidsniveau": 3,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 10
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 17
     },
     {
         "id": 11,
@@ -241,8 +261,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 11
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 18
     },
     {
         "id": 12,
@@ -253,8 +273,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 12
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 19
     },
     {
         "id": 13,
@@ -265,8 +285,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 14
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 21
     },
     {
         "id": 14,
@@ -277,8 +297,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 15
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 22
     },
     {
         "id": 15,
@@ -289,8 +309,8 @@
         "veiligheidsniveau": 4,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 16
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 23
     },
     {
         "id": 16,
@@ -301,8 +321,8 @@
         "veiligheidsniveau": 4,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 17
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 24
     },
     {
         "id": 17,
@@ -313,8 +333,8 @@
         "veiligheidsniveau": 5,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 18
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 25
     },
     {
         "id": 18,
@@ -325,8 +345,8 @@
         "veiligheidsniveau": 4,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 19
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 26
     },
     {
         "id": 19,
@@ -337,8 +357,8 @@
         "veiligheidsniveau": 5,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 26
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 33
     },
     {
         "id": 20,
@@ -349,8 +369,8 @@
         "veiligheidsniveau": 5,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 21
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 28
     },
     {
         "id": 21,
@@ -361,8 +381,8 @@
         "veiligheidsniveau": 5,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 22
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 29
     },
     {
         "id": 22,
@@ -373,8 +393,8 @@
         "veiligheidsniveau": 5,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 23
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 30
     },
     {
         "id": 23,
@@ -385,8 +405,8 @@
         "veiligheidsniveau": 5,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 27
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 34
     },
     {
         "id": 24,
@@ -397,20 +417,20 @@
         "veiligheidsniveau": 4,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 20
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 27
     },
     {
         "id": 25,
         "naam": "Casino toegang",
         "beschrijving": "Controlepunt aan de rand van de Las Vegas Dead Zone. Officieel verboden gebied.",
         "notities": null,
-        "adres": "Las Vegas Dead Zone, Nevada Exclusion Territory",
+        "adres": "Dead Zone, Nedada Exclusion Territory",
         "veiligheidsniveau": 2,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 30
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 37
     },
     {
         "id": 26,
@@ -421,8 +441,8 @@
         "veiligheidsniveau": 2,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 29
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 36
     },
     {
         "id": 27,
@@ -433,8 +453,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 32
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 39
     },
     {
         "id": 28,
@@ -445,8 +465,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 33
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 40
     },
     {
         "id": 29,
@@ -457,8 +477,8 @@
         "veiligheidsniveau": 1,
         "spawn_points": null,
         "created_at": "2025-12-22T12:20:03.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 34
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 41
     },
     {
         "id": 30,
@@ -469,32 +489,32 @@
         "veiligheidsniveau": 0,
         "spawn_points": null,
         "created_at": "2025-12-22T13:28:57.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 13
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 20
     },
     {
         "id": 31,
         "naam": "Vegas toegang",
         "beschrijving": "Controlepunt aan de rand van de Las Vegas Dead Zone. Officieel verboden gebied.",
         "notities": null,
-        "adres": "Las Vegas Dead Zone Gate 1, Nevada Exclusion Territory",
+        "adres": "Dead Zone Gate 1, Nedada Exclusion Territory",
         "veiligheidsniveau": 0,
         "spawn_points": null,
         "created_at": "2025-12-22T13:32:25.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 28
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 35
     },
     {
         "id": 32,
         "naam": "Casino zolder",
         "beschrijving": "Waar de oude spinner staat.",
         "notities": null,
-        "adres": "Las Vegas Dead Zone, Nevada Exclusion Territory",
+        "adres": "Dead Zone, Nedada Exclusion Territory",
         "veiligheidsniveau": 0,
         "spawn_points": null,
         "created_at": "2025-12-22T13:35:22.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 31
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 38
     },
     {
         "id": 33,
@@ -505,8 +525,8 @@
         "veiligheidsniveau": 0,
         "spawn_points": null,
         "created_at": "2025-12-23T15:38:22.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 24
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 31
     },
     {
         "id": 34,
@@ -517,7 +537,106 @@
         "veiligheidsniveau": 0,
         "spawn_points": null,
         "created_at": "2025-12-23T15:38:44.000000Z",
-        "updated_at": "2025-12-23T15:39:15.000000Z",
-        "volgorde": 25
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 32
+    },
+    {
+        "id": 35,
+        "naam": "Sapper kamer",
+        "beschrijving": "Donkere ruimte met piano",
+        "notities": null,
+        "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": {
+            "1": [
+                {
+                    "x": -2.9749129523344013,
+                    "y": 5.732548984661359e-6,
+                    "z": 2.3294026643760697,
+                    "id": 1766788207445,
+                    "name": "north",
+                    "type": "waypoint",
+                    "scale": 1.5,
+                    "direction": 90,
+                    "personage_id": null,
+                    "aanwijzing_id": null
+                }
+            ]
+        },
+        "created_at": "2025-12-26T21:56:31.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 3
+    },
+    {
+        "id": 36,
+        "naam": "NTPD Hoofdkantoor",
+        "beschrijving": "Kantoor van Yoshi",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:54:18.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 7
+    },
+    {
+        "id": 37,
+        "naam": "NTPD gang",
+        "beschrijving": "witte politie gang",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:54:38.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 6
+    },
+    {
+        "id": 38,
+        "naam": "NTPD Lift",
+        "beschrijving": "Politie Lift",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:57:32.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 4
+    },
+    {
+        "id": 39,
+        "naam": "NTPD Baseline Kamer",
+        "beschrijving": "Hier hebben de nexus runners hun baseline test",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:58:07.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 8
+    },
+    {
+        "id": 41,
+        "naam": "NTPD Lab",
+        "beschrijving": "Wit lab gedeelte",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T12:18:34.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 9
+    },
+    {
+        "id": 42,
+        "naam": "NTPD Mortuarium",
+        "beschrijving": "Mortuarium",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T12:19:38.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 10
     }
 ]

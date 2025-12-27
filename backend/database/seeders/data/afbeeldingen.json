@@ -583,5 +583,68 @@
         "imageable_id": 15,
         "created_at": "2025-12-26T12:53:44.000000Z",
         "updated_at": "2025-12-26T12:53:44.000000Z"
+    },
+    {
+        "id": 79,
+        "bestandspad": "artwork\/locatie\/m4j5gocbX39nryRYUZRUknvUB2lB3ZFrlintHf6p.jpg",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 35,
+        "created_at": "2025-12-26T22:00:26.000000Z",
+        "updated_at": "2025-12-26T22:00:26.000000Z"
+    },
+    {
+        "id": 80,
+        "bestandspad": "artwork\/locatie\/d5tKwoowK35fOYAlPZa2SraZOJkVgN6eJU4cFkaG.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 37,
+        "created_at": "2025-12-27T11:56:01.000000Z",
+        "updated_at": "2025-12-27T11:56:01.000000Z"
+    },
+    {
+        "id": 81,
+        "bestandspad": "artwork\/locatie\/v689YxuvkEGzdnVEvN5x6PnGOUXmi71jc6sbxeKI.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 36,
+        "created_at": "2025-12-27T11:56:36.000000Z",
+        "updated_at": "2025-12-27T11:56:36.000000Z"
+    },
+    {
+        "id": 82,
+        "bestandspad": "artwork\/locatie\/KWgcNlfwXaG2LGFjKyQiSlPC325ZiOJtRSTtkMKf.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 39,
+        "created_at": "2025-12-27T11:58:46.000000Z",
+        "updated_at": "2025-12-27T11:58:46.000000Z"
+    },
+    {
+        "id": 83,
+        "bestandspad": "artwork\/locatie\/xLGYKPePUfH8cpSRACdiFROPqMVbAz50qRho1TKC.jpg",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 38,
+        "created_at": "2025-12-27T11:59:08.000000Z",
+        "updated_at": "2025-12-27T11:59:08.000000Z"
+    },
+    {
+        "id": 84,
+        "bestandspad": "artwork\/locatie\/75s6qFU7tYlVir3GO6AXOvwq2ziBOwmKsXaYBiFF.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 41,
+        "created_at": "2025-12-27T16:39:36.000000Z",
+        "updated_at": "2025-12-27T16:39:36.000000Z"
+    },
+    {
+        "id": 85,
+        "bestandspad": "artwork\/locatie\/tLjxb5NCjEIoZOREmxq1O24vfBGJhm6xtl09nDyM.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Locatie",
+        "imageable_id": 42,
+        "created_at": "2025-12-27T16:39:53.000000Z",
+        "updated_at": "2025-12-27T16:39:53.000000Z"
     }
 ]
