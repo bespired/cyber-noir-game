@@ -162,9 +162,41 @@ const getTypeIcon = (type) => {
                 <p class="text-noir-text text-sm mb-4 line-clamp-3">{{ scene.beschrijving }}</p>
 
                 <!-- Location Info -->
-                <div v-if="scene.locatie" class="mb-4 p-3 bg-noir-dark/30 rounded border border-noir-dark">
-                    <div class="text-xs text-noir-muted uppercase mb-1">Location</div>
-                    <div class="text-sm text-white font-semibold">{{ scene.locatie.naam }}</div>
+                <div v-if="scene.locatie" class="mb-4 flex justify-between items-center p-3 bg-noir-dark/30 rounded border border-noir-dark">
+                    <div>
+                        <div class="text-[9px] text-noir-muted uppercase mb-1">Location</div>
+                        <div class="text-sm text-white font-semibold">{{ scene.locatie.naam }}</div>
+                    </div>
+                    <div v-if="scene.sector" class="text-right">
+                        <div class="text-[9px] text-noir-muted uppercase mb-1">Sector</div>
+                        <div class="text-xs text-noir-accent">{{ scene.sector.naam }}</div>
+                    </div>
+                </div>
+
+                <!-- Attached NPCs & Behaviors -->
+                <div v-if="scene.scene_personages && scene.scene_personages.length > 0" class="mb-4">
+                    <div class="text-[9px] text-noir-muted uppercase mb-2 tracking-widest px-1">GAMEPLAY</div>
+                    <div class="flex flex-col gap-1.5">
+                        <div
+                            v-for="sp in scene.scene_personages"
+                            :key="sp.id"
+                            class="flex items-center justify-between p-2 bg-noir-dark/50 rounded border border-noir-dark/50 hover:border-noir-accent/30 transition-colors"
+                        >
+                            <div class="flex items-center gap-2 overflow-hidden">
+                                <span class="text-sm shrink-0">
+                                    <img src="/icons/vehicle.svg"   class="h-[20px]" v-if="sp.personage?.type === 'voertuig'">
+                                    <img src="/icons/personage.svg" class="h-[20px]" v-else>
+                                </span>
+                                <span class="text-[10px] text-white font-bold uppercase truncate">{{ sp.personage?.naam }}</span>
+                            </div>
+                            <div v-if="sp.gedrag" class="flex items-center gap-1 shrink-0">
+                                <span class="text-[8px] text-noir-muted">
+                                    <img src="/icons/behavior.svg" class="h-[20px]">
+                                </span>
+                                <span class="text-[9px] text-noir-accent font-mono uppercase">{{ sp.gedrag.naam }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">

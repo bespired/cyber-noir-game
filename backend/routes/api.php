@@ -39,6 +39,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/dialogen/{dialoog}/check-options', [\App\Http\Controllers\DialoogController::class, 'checkOptions']);
     Route::post('/dialogen/{dialoog}/perform-action', [\App\Http\Controllers\DialoogController::class, 'performAction']);
 
+    Route::apiResource('gedrag', \App\Http\Controllers\GedragController::class)
+        ->parameters(['gedrag' => 'gedrag']);
+
+    Route::apiResource('scene-personages', \App\Http\Controllers\ScenePersonageController::class);
+
     Route::delete('/artwork/{afbeelding}', [\App\Http\Controllers\AfbeeldingController::class, 'destroy']);
 
     Route::post('/upload/{modelType}/{modelId}', [\App\Http\Controllers\AfbeeldingUploadController::class, 'upload']);

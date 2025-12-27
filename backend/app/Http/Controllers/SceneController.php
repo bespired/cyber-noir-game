@@ -9,7 +9,7 @@ class SceneController extends Controller
 {
     public function index()
     {
-        return Scene::with(['locatie', 'sector'])->get();
+        return Scene::with(['locatie', 'sector', 'scenePersonages.personage', 'scenePersonages.gedrag'])->get();
     }
 
     public function store(Request $request)

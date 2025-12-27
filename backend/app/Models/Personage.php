@@ -35,4 +35,9 @@ class Personage extends Model
     {
         return $this->morphMany(Afbeelding::class, 'imageable');
     }
+
+    public function scenePersonages()
+    {
+        return $this->hasMany(ScenePersonage::class);
+    }
 }
