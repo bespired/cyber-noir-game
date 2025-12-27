@@ -23,7 +23,7 @@
     {
         "id": 4,
         "sleutel": "spawn_options",
-        "waarde": "[{ \"id\": \"north\", \"label\": \"Noorder waypoint\"},{ \"id\": \"east\",  \"label\": \"Oost waypoint\"},{ \"id\": \"south\", \"label\": \"Zuid waypoint\"},{ \"id\": \"west\",  \"label\": \"West waypoint\"},{ \"id\": \"spinner\", \"label\": \"Spinner\"},{ \"id\": \"landing\", \"label\": \"Landing\"}]",
+        "waarde": "[\n{\n    \"id\": \"north\",\n    \"label\": \"Noorder waypoint\"\n},\n{\n    \"id\": \"east\",\n    \"label\": \"Oost waypoint\"\n},\n{\n    \"id\": \"south\",\n    \"label\": \"Zuid waypoint\"\n},\n{\n    \"id\": \"west\",\n    \"label\": \"West waypoint\"\n},\n{\n    \"id\": \"npc\",\n    \"label\": \"Non playable\"\n},\n{\n    \"id\": \"sit\",\n    \"label\": \"Sit position\"\n},\n{\n    \"id\": \"spinner\",\n    \"label\": \"Spinner\"\n},\n{\n    \"id\": \"landing\",\n    \"label\": \"Detective\"\n}\n]",
         "created_at": null,
         "updated_at": null
     }

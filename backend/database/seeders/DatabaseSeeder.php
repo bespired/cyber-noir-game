@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     {
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name'     => 'Test User',
+            'email'    => 'test@example.com',
             'password' => 'testL33uw',
 
             // Will be hashed by the User model mutator or factory if set up,
@@ -26,16 +26,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-                // De volgorde is BELANGRIJK: Personages en Locaties eerst
+            // De volgorde is BELANGRIJK: Personages en Locaties eerst
+            NotitieSeeder::class,
             PersonageSeeder::class,
-            SectorSeeder::class,
             LocatieSeeder::class,
+            DialoogSeeder::class,
             AanwijzingSeeder::class,
             SceneSeeder::class,
+            SectorSeeder::class,
             AfbeeldingenSeeder::class,
-            NotitieSeeder::class,
+            Gedrag::class,
+            ScenePersonage::class,
             InstellingSeeder::class,
-            DialoogSeeder::class,
         ]);
     }
 }

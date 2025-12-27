@@ -27,15 +27,18 @@ class ExportGameData extends Command
         $this->info('Starting Game Data Backup...');
 
         $exports = [
-            'instellingen' => \App\Models\Instelling::all(),
-            'personages'   => \App\Models\Personage::all(),
-            'locaties'     => \App\Models\Locatie::all(),
-            'aanwijzingen' => \App\Models\Aanwijzing::all(),
-            'sectoren'     => \App\Models\Sector::all(),
-            'scenes'       => \App\Models\Scene::all(),
-            'notities'     => \App\Models\Notitie::all(),
-            'dialogen'     => \App\Models\Dialoog::all(),
-            'afbeeldingen' => \App\Models\Afbeelding::all(),
+            'instellingen'     => \App\Models\Instelling::all(),
+            'personages'       => \App\Models\Personage::all(),
+            'locaties'         => \App\Models\Locatie::all(),
+            'aanwijzingen'     => \App\Models\Aanwijzing::all(),
+            'sectoren'         => \App\Models\Sector::all(),
+            'scenes'           => \App\Models\Scene::all(),
+            'notities'         => \App\Models\Notitie::all(),
+            'dialogen'         => \App\Models\Dialoog::all(),
+            'afbeeldingen'     => \App\Models\Afbeelding::all(),
+            'gedragingen'      => \App\Models\Gedrag::all(),
+            'scene_personages' => \App\Models\ScenePersonage::all(),
+
         ];
 
         $directory = database_path('seeders/data');
