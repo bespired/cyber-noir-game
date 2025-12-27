@@ -24,6 +24,8 @@ const spawnPoints = ref([]);
 const spawnPointMarkers = []; // Non-reactive array of Three.js objects
 const spawnOptions = ref([]); // From instellingen
 const personages = ref([]); // From api
+const projectedLabels = ref([]); // For HTML labels
+const VISUAL_OFFSET = 0.6; // Constant for label/marker height
 
 // Three.js refs
 const canvasContainer = ref(null);
@@ -76,8 +78,8 @@ const containerWidth = ref(VIEW_WIDTH);
 const containerHeight = ref(VIEW_HEIGHT);
 
 const updateDimensions = () => {
-    const verticalOffset = 380;
-    const maxWidth = window.innerWidth - 64;
+    const verticalOffset = 420;
+    const maxWidth  = window.innerWidth - 64;
     const maxHeight = window.innerHeight - verticalOffset;
 
     let newWidth = maxWidth;
@@ -93,7 +95,7 @@ const updateDimensions = () => {
         newHeight = VIEW_HEIGHT;
     }
 
-    containerWidth.value = Math.floor(newWidth);
+    containerWidth.value  = Math.floor(newWidth);
     containerHeight.value = Math.floor(newHeight);
 
     if (renderer && camera) {
@@ -277,26 +279,8 @@ const visualizeSpawnPoints = () => {
         scene.add(marker);
         spawnPointMarkers.push(marker);
 
-        // Add Label
-        const labelText = p.type === 'waypoint' ? p.name : (p.type === 'personage' ? getPersonageName(p.personage_id) : 'PROP');
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = 256;
-        canvas.height = 64;
-        context.fillStyle = 'rgba(0,0,0,0.6)';
-        context.fillRect(0, 0, 256, 64);
-        context.font = 'Bold 32px Arial';
-        context.fillStyle = 'white';
-        context.textAlign = 'center';
-        context.fillText(labelText.toUpperCase(), 128, 44);
-
-        const texture = new THREE.CanvasTexture(canvas);
-        const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
-        const sprite = new THREE.Sprite(spriteMaterial);
-        sprite.position.set(p.x, p.y + VISUAL_OFFSET + 0.4, p.z);
-        sprite.scale.set(1.5, 0.375, 1);
-        scene.add(sprite);
-        spawnPointMarkers.push(sprite);
+        scene.add(marker);
+        spawnPointMarkers.push(marker);
     });
 };
 
@@ -435,7 +419,35 @@ const loadGLB = () => {
 
 const animate = () => {
     animationFrameId = requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+
+    if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+
+        // Update HTML Label Projections
+        const tempLabels = [];
+        spawnPoints.value.forEach(p => {
+            const vector = new THREE.Vector3(p.x, p.y + VISUAL_OFFSET + 0.4, p.z);
+            
+            // Project to NDC
+            vector.project(camera);
+
+            // Check if point is in front of camera
+            if (vector.z < 1) {
+                // Map NDC to screen coordinates
+                const x = (vector.x * 0.5 + 0.5) * containerWidth.value;
+                const y = (-vector.y * 0.5 + 0.5) * containerHeight.value;
+
+                tempLabels.push({
+                    id: p.id,
+                    text: p.type === 'waypoint' ? p.name : (p.type === 'personage' ? getPersonageName(p.personage_id) : 'PROP'),
+                    type: p.type,
+                    x,
+                    y
+                });
+            }
+        });
+        projectedLabels.value = tempLabels;
+    }
 };
 
 const updateCubePos = () => {
@@ -501,6 +513,26 @@ const onScroll = (e) => {
                      @wheel="onScroll">
                     <img v-if="backgroundImageUrl" :src="backgroundImageUrl" class="absolute inset-0 w-full h-full object-cover pointer-events-none" alt="Background" />
                     <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
+
+                    <!-- HTML 3D Labels -->
+                    <div class="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+                        <div 
+                            v-for="label in projectedLabels" 
+                            :key="label.id"
+                            class="absolute -translate-x-1/2 -translate-y-full px-2 py-0.5 pointer-events-none"
+                            :style="{ left: label.x + 'px', top: label.y + 'px' }"
+                        >
+                            <div class="bg-black/70 border border-noir-dark text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded shadow-[0_0_10px_rgba(0,0,0,0.5)] whitespace-nowrap transition-all duration-300 group-hover:border-noir-accent"
+                                 :class="{
+                                    'border-noir-success/50 text-noir-success': label.type === 'personage',
+                                    'border-noir-warning/50 text-noir-warning': label.type === 'aanwijzing',
+                                    'border-noir-accent/50 text-noir-accent': label.type === 'waypoint'
+                                 }">
+                                {{ label.text }}
+                                <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-black/70"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Spawnpoint Editor Panel -->
