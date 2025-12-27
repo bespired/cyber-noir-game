@@ -9,14 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class PersonageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Personage::with(['aanwijzingen', 'artwork'])->orderBy('naam', 'asc')->get();
+        $query = Personage::with(['aanwijzingen', 'artwork'])->orderBy('naam', 'asc');
+
+        if ($request->has('type')) {
+            $query->where('type', $request->type);
+        }
+
+        return $query->get();
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'type' => 'nullable|string|in:persoon,voertuig',
             'naam' => 'required|string|max:255',
             'rol' => 'required|string|max:255',
             'beschrijving' => 'required|string',
@@ -35,7 +42,8 @@ class PersonageController extends Controller
         $personage->load(['aanwijzingen', 'artwork']);
 
         $slug = Str::slug($personage->naam);
-        $filename = $slug . '.glb';
+        $prefix = $personage->type === 'voertuig' ? 'vehicle--' : '';
+        $filename = $prefix . $slug . '.glb';
         $exists = Storage::disk('public')->exists('glb/' . $filename);
 
         $data = $personage->toArray();
@@ -48,6 +56,7 @@ class PersonageController extends Controller
     public function update(Request $request, Personage $personage)
     {
         $validated = $request->validate([
+            'type' => 'nullable|string|in:persoon,voertuig',
             'naam' => 'string|max:255',
             'rol' => 'string|max:255',
             'beschrijving' => 'string',
@@ -77,7 +86,8 @@ class PersonageController extends Controller
 
         $file = $request->file('glb');
         $slug = Str::slug($personage->naam);
-        $filename = $slug . '.glb';
+        $prefix = $personage->type === 'voertuig' ? 'vehicle--' : '';
+        $filename = $prefix . $slug . '.glb';
 
         // Store in public disk
         Storage::disk('public')->putFileAs('glb', $file, $filename);

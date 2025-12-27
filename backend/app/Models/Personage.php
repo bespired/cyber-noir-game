@@ -10,6 +10,7 @@ class Personage extends Model
     use HasFactory;
 
     protected $fillable = [
+        'type',
         'naam',
         'rol',
         'beschrijving',

@@ -19,7 +19,15 @@ const router = createRouter({
             path: '/personages',
             name: 'personages',
             component: () => import('../views/Personages/PersonageList.vue'),
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: true },
+            props: () => ({ type: 'persoon' })
+        },
+        {
+            path: '/voertuigen',
+            name: 'voertuigen',
+            component: () => import('../views/Personages/PersonageList.vue'),
+            meta: { requiresAuth: true },
+            props: () => ({ type: 'voertuig' })
         },
         {
             path: '/personages/:id',

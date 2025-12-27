@@ -17,6 +17,10 @@ const props = defineProps({
     artwork: {
         type: Array,
         default: () => []
+    },
+    assetType: {
+        type: String,
+        default: 'persoon'
     }
 });
 
@@ -84,6 +88,7 @@ const getImageUrl = (path) => {
 const aspectRatioClass = computed(() => {
     switch (props.modelType) {
         case 'personage':
+            if (props.assetType === 'voertuig') return 'aspect-video';
             return 'aspect-[2/3]'; // Portrait
 
         case 'aanwijzing':
@@ -96,7 +101,7 @@ const aspectRatioClass = computed(() => {
 });
 
 const gridClass = computed(() => {
-    if (props.modelType === 'locatie') {
+    if (props.modelType === 'locatie' || props.assetType === 'voertuig') {
         return 'grid-cols-1';
     }
     return 'grid-cols-2';

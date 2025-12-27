@@ -9,6 +9,7 @@ const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
 const navItems = [
     { path: '/',             svg: 'dashboard', icon: '📊', label: 'Dashboard',    title: 'DASHBOARD'    },
     { path: '/personages',   svg: 'personage', icon: '👤', label: 'Personages',   title: 'PERSONAGES'   },
+    { path: '/voertuigen',   svg: 'vehicle',   icon: '🚗', label: 'Voertuigen',   title: 'VOERTUIGEN'   },
     { path: '/locaties',     svg: 'location',  icon: '📍', label: 'Locaties',     title: 'LOCATIES'     },
     { path: '/aanwijzingen', svg: 'clue',      icon: '🔍', label: 'Aanwijzingen', title: 'AANWIJZINGEN' },
     { path: '/scenes',       svg: 'scene',     icon: '🎬', label: 'Scenes',       title: 'SCENES'       },

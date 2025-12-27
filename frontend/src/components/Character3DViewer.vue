@@ -9,6 +9,10 @@ const props = defineProps({
     glbUrl: {
         type: String,
         required: true
+    },
+    type: {
+        type: String,
+        default: 'persoon'
     }
 });
 
@@ -128,15 +132,28 @@ const loadModel = () => {
         currentModel.position.x = -center.x;
         currentModel.position.z = -center.z;
 
-        // Dynamic Closeup Framing: Frame the top 1/4 of the subject (Head/Bust area)
-        const frameHeight = size.y / 4;
-        const targetY = size.y * 0.85; // Roughly head level
-
+        // Dynamic Framing
+        let targetY, cameraDistance;
         const fov = camera.fov * (Math.PI / 180);
-        // Calculate distance to frame the vertical size (frameHeight)
-        const cameraDistance = (frameHeight / 2) / Math.tan(fov / 2);
 
-        camera.position.set(0, targetY, cameraDistance * 1.5); // 1.5x buffer for horizontal fit
+        if (props.type === 'voertuig') {
+            // Frame the entire vehicle (1/1)
+            targetY = center.y;
+            // Calculate distance to frame the whole height
+            cameraDistance = (size.y / 2) / Math.tan(fov / 2);
+            // Vehicles are often wider than they are tall, so we add a generous buffer
+            cameraDistance = Math.max(cameraDistance, (size.x / 2) / Math.tan(fov / 2)) * 1.5;
+        } else {
+            // Dynamic Closeup Framing: Frame the top 1/4 of the subject (Head/Bust area)
+            const frameHeight = size.y / 4;
+            targetY = size.y * 0.85; // Roughly head level
+            
+            // Calculate distance to frame the vertical size (frameHeight)
+            cameraDistance = (frameHeight / 2) / Math.tan(fov / 2);
+            cameraDistance *= 1.5; // 1.5x buffer for horizontal fit
+        }
+
+        camera.position.set(0, targetY, cameraDistance);
         controls.target.set(0, targetY, 0);
         controls.update();
 
@@ -206,7 +223,7 @@ watch(() => props.glbUrl, () => {
 
         <!-- UI Decorators -->
         <div class="absolute top-2 left-2 text-[10px] text-noir-muted uppercase font-mono bg-black/70 px-2 py-0.5 rounded border border-white/5 pointer-events-none z-10 transition-opacity group-hover:opacity-100">
-            <!-- [CHARACTER_CORE_v1.0] -->
+            [{{ props.type === 'voertuig' ? 'VEHICLE_DRIVE_v1.0' : 'CHARACTER_CORE_v1.0' }}]
         </div>
 
         <div class="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-noir-muted uppercase font-mono bg-black/70 px-3 py-1 rounded border border-white/5 pointer-events-none z-10 whitespace-nowrap">

@@ -1,6 +1,7 @@
 [
     {
         "id": 1,
+        "type": "persoon",
         "naam": "Elias Vane",
         "rol": "Antiquair",
         "beschrijving": "Eigenaar van een stoffige, donkere winkel vol pre-oorlogse analoge technologie. Spreekt traag en is obsessief nostalgisch.",
@@ -14,6 +15,7 @@
     },
     {
         "id": 2,
+        "type": "persoon",
         "naam": "Kaelen \"Kae\" Rui",
         "rol": "Nachtclubzangeres",
         "beschrijving": "Vurige, chaotische performer in een underground club. Cynisch, maar heeft een diep emotioneel bereik op het podium.",
@@ -27,6 +29,7 @@
     },
     {
         "id": 3,
+        "type": "persoon",
         "naam": "Nexus Runner K",
         "rol": "Inspecteur",
         "beschrijving": "Je nummer \u00e9\u00e9n go to voor speurwerk.",
@@ -40,6 +43,7 @@
     },
     {
         "id": 4,
+        "type": "persoon",
         "naam": "Elia Spindex",
         "rol": "Nexus Runner",
         "beschrijving": "Je go to detective als K opeens niet te vinden is.",
@@ -53,6 +57,7 @@
     },
     {
         "id": 5,
+        "type": "persoon",
         "naam": "Regina D",
         "rol": "Nexus Runner",
         "beschrijving": "Zou een android kunnen zijn, maar is een prima detective",
@@ -66,6 +71,7 @@
     },
     {
         "id": 6,
+        "type": "persoon",
         "naam": "Deckard",
         "rol": "Verdachte",
         "beschrijving": "Vind deze man",
@@ -79,6 +85,7 @@
     },
     {
         "id": 7,
+        "type": "persoon",
         "naam": "Wander Mallace",
         "rol": "verdachte",
         "beschrijving": "Zien we hem wel?",
@@ -92,6 +99,7 @@
     },
     {
         "id": 8,
+        "type": "persoon",
         "naam": "Yoshi",
         "rol": "geeft aanwijzingen",
         "beschrijving": "Hoofd van NT PD",
@@ -105,6 +113,7 @@
     },
     {
         "id": 9,
+        "type": "persoon",
         "naam": "Dear",
         "rol": "geeft aanwijzingen",
         "beschrijving": "Hulp van Mallace",
@@ -118,6 +127,7 @@
     },
     {
         "id": 10,
+        "type": "persoon",
         "naam": "JOi",
         "rol": "hologram",
         "beschrijving": "Speeltje",
@@ -131,6 +141,7 @@
     },
     {
         "id": 11,
+        "type": "persoon",
         "naam": "Dr Stellina",
         "rol": "geeft aanwijzingen",
         "beschrijving": "Dokter in Stellina institute",
@@ -144,6 +155,7 @@
     },
     {
         "id": 12,
+        "type": "persoon",
         "naam": "Sapper",
         "rol": "verdachte",
         "beschrijving": "Openings replicant",
@@ -157,6 +169,7 @@
     },
     {
         "id": 13,
+        "type": "persoon",
         "naam": "Freya Sadeyour",
         "rol": "Rebelion leider",
         "beschrijving": "tbd",
@@ -170,6 +183,7 @@
     },
     {
         "id": 14,
+        "type": "persoon",
         "naam": "Zhora",
         "rol": "verdachte",
         "beschrijving": "tbd",
@@ -183,6 +197,7 @@
     },
     {
         "id": 15,
+        "type": "persoon",
         "naam": "Marianna",
         "rol": "verdachte",
         "beschrijving": "tbd",
@@ -193,5 +208,75 @@
         "is_playable": false,
         "created_at": "2025-12-26T12:53:26.000000Z",
         "updated_at": "2025-12-26T12:53:26.000000Z"
+    },
+    {
+        "id": 16,
+        "type": "voertuig",
+        "naam": "Spinner 2049",
+        "rol": "Spel start",
+        "beschrijving": "Spinner van de speler",
+        "menselijke_status": null,
+        "replicant_status": null,
+        "motief": null,
+        "is_replicant": false,
+        "is_playable": false,
+        "created_at": "2025-12-27T18:49:55.000000Z",
+        "updated_at": "2025-12-27T18:52:27.000000Z"
+    },
+    {
+        "id": 17,
+        "type": "voertuig",
+        "naam": "Spinner 44",
+        "rol": "vliegen",
+        "beschrijving": "Spinner van Deckard",
+        "menselijke_status": null,
+        "replicant_status": null,
+        "motief": null,
+        "is_replicant": false,
+        "is_playable": false,
+        "created_at": "2025-12-27T19:17:31.000000Z",
+        "updated_at": "2025-12-27T19:17:31.000000Z"
+    },
+    {
+        "id": 18,
+        "type": "voertuig",
+        "naam": "Spinner Wallace",
+        "rol": "vliegen",
+        "beschrijving": "Spinner van Luv",
+        "menselijke_status": null,
+        "replicant_status": null,
+        "motief": null,
+        "is_replicant": false,
+        "is_playable": false,
+        "created_at": "2025-12-27T19:17:54.000000Z",
+        "updated_at": "2025-12-27T19:17:54.000000Z"
+    },
+    {
+        "id": 19,
+        "type": "voertuig",
+        "naam": "Straatcar",
+        "rol": "decor",
+        "beschrijving": "Gek autotje",
+        "menselijke_status": null,
+        "replicant_status": null,
+        "motief": null,
+        "is_replicant": false,
+        "is_playable": false,
+        "created_at": "2025-12-27T19:37:17.000000Z",
+        "updated_at": "2025-12-27T19:37:17.000000Z"
+    },
+    {
+        "id": 20,
+        "type": "voertuig",
+        "naam": "Sneeuwploeg",
+        "rol": "decor",
+        "beschrijving": "Gele sneeuwploeg",
+        "menselijke_status": null,
+        "replicant_status": null,
+        "motief": null,
+        "is_replicant": false,
+        "is_playable": false,
+        "created_at": "2025-12-27T19:38:20.000000Z",
+        "updated_at": "2025-12-27T19:38:20.000000Z"
     }
 ]
