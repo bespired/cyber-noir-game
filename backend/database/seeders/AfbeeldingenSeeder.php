@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class AfbeeldingenSeeder extends Seeder
 {
+    use LoadsJsonData;
+
     /**
      * Run the database seeds.
      */

@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\Gedrag;
 use Illuminate\Database\Seeder;
 
 class GedragSeeder extends Seeder

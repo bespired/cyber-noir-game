@@ -32,11 +32,11 @@ class DatabaseSeeder extends Seeder
             LocatieSeeder::class,
             DialoogSeeder::class,
             AanwijzingSeeder::class,
-            SceneSeeder::class,
             SectorSeeder::class,
+            SceneSeeder::class,
             AfbeeldingenSeeder::class,
-            Gedrag::class,
-            ScenePersonage::class,
+            GedragSeeder::class,
+            ScenePersonageSeeder::class,
             InstellingSeeder::class,
         ]);
     }

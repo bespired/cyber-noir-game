@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\ScenePersonage;
 use Illuminate\Database\Seeder;
 
 class ScenePersonageSeeder extends Seeder
