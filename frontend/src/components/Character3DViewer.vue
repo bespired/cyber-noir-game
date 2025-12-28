@@ -20,8 +20,12 @@ const canvasContainer = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-let renderer, scene, camera, controls, animationFrameId;
+let renderer, scene, camera, controls, animationFrameId, clock;
 let currentModel = null;
+let mixer = null;
+const actions = {};
+let activeAction = null;
+const currentAnim = ref('idle');
 
 const initThree = () => {
     if (!canvasContainer.value) return;
@@ -87,8 +91,25 @@ const initThree = () => {
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
     scene.add(hemiLight);
 
+    clock = new THREE.Clock();
+
     loadModel();
     animate();
+};
+
+const playAnimation = (name) => {
+    const nextAction = actions[name];
+    if (!nextAction || nextAction === activeAction) return;
+
+    if (activeAction) {
+        nextAction.reset();
+        nextAction.crossFadeFrom(activeAction, 0.5, true);
+        nextAction.play();
+    } else {
+        nextAction.play();
+    }
+    activeAction = nextAction;
+    currentAnim.value = name;
 };
 
 const loadModel = () => {
@@ -157,6 +178,28 @@ const loadModel = () => {
         controls.target.set(0, targetY, 0);
         controls.update();
 
+        // Setup Animations
+        if (gltf.animations && gltf.animations.length > 0) {
+            mixer = new THREE.AnimationMixer(currentModel);
+            
+            gltf.animations.forEach(clip => {
+                const name = clip.name.toLowerCase();
+                if (name.startsWith('walk')) actions['walk'] = mixer.clipAction(clip);
+                else if (name.startsWith('idle')) actions['idle'] = mixer.clipAction(clip);
+                else if (name.startsWith('caut')) actions['caution'] = mixer.clipAction(clip);
+            });
+
+            if (actions['idle']) playAnimation('idle');
+            else if (Object.keys(actions).length > 0) playAnimation(Object.keys(actions)[0]);
+        }
+
+        // Strip lights from character GLB
+        currentModel.traverse(child => {
+            if (child.isLight) {
+                child.visible = false;
+            }
+        });
+
         loading.value = false;
         // console.log('Character GLB met succes geladen.');
     }, (progress) => {
@@ -170,6 +213,9 @@ const loadModel = () => {
 
 const animate = () => {
     animationFrameId = requestAnimationFrame(animate);
+    const delta = clock ? clock.getDelta() : 0.016;
+
+    if (mixer) mixer.update(delta);
     if (controls) controls.update();
     if (renderer && scene && camera) renderer.render(scene, camera);
 };
@@ -228,6 +274,17 @@ watch(() => props.glbUrl, () => {
 
         <div class="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-noir-muted uppercase font-mono bg-black/70 px-3 py-1 rounded border border-white/5 pointer-events-none z-10 whitespace-nowrap">
             DRAG_IS_ROTATE // SCROLL_IS_ZOOM
+        </div>
+
+        <!-- Animation Toggles -->
+        <div v-if="Object.keys(actions).length > 0" class="absolute top-2 right-2 flex flex-col gap-1 z-30">
+            <button v-for="(action, name) in actions" 
+                    :key="name"
+                    @click="playAnimation(name)"
+                    class="px-2 py-0.5 text-[8px] font-mono border transition-colors uppercase"
+                    :class="currentAnim === name ? 'bg-noir-accent text-black border-noir-accent' : 'bg-black/50 text-noir-muted border-white/10 hover:border-white/30'">
+                {{ name }}
+            </button>
         </div>
 
         <!-- Scanning Line Effect -->

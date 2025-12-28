@@ -37,6 +37,12 @@ const characterSpeed = 2.0;
 const landingDone = ref(false);
 let targetPointMesh = null;
 
+// Animation refs
+let characterMixer = null;
+const characterActions = {};
+let activeAction = null;
+const isCaution = ref(false);
+
 // Scaling & Visibility refs
 const characterScale = ref(0.5);
 const vehicleScale = ref(0.5);
@@ -88,7 +94,7 @@ const containerHeight = ref(VIEW_HEIGHT);
 const updateDimensions = () => {
     const verticalOffset = 200;
     const sidebarWidth = window.innerWidth >= 1024 ? 384 + 32 : 0; // lg:w-96 (384px) + gap (32px)
-    
+
     // Respect the max-w-[1300px] constraint
     const effectiveTotalWidth = Math.min(window.innerWidth, 1300);
     const maxWidth = effectiveTotalWidth - 64 - sidebarWidth;
@@ -232,7 +238,7 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
                 if (child.name.includes('fspy') && child.isCamera) fspyCamera = child;
                 if (child.isMesh) {
                     const isFloor = child.name.toLowerCase() === 'floor' || child.name.toLowerCase() === 'plane';
-                    
+
                     if (isFloor) {
                         child.material = new THREE.MeshBasicMaterial({
                             color: 0x00ffff,
@@ -266,31 +272,31 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
             const currentSectorId = route.params.id;
             const allSpawnPoints = sceneData.location.spawn_points || {};
             const spawnPoints = allSpawnPoints[currentSectorId] || allSpawnPoints[Number(currentSectorId)] || [];
-            
+
             // Look for specific named spawn point from gateway
             const specificSpawn = targetSpawnLabel ? spawnPoints.find(p => p.name === targetSpawnLabel || p.personage_id === targetSpawnLabel) : null;
-            
+
             // Vehicle: search for waypoint named 'spinner' (user's fixed preference) or old 'vehicle' type
-            const vehicleSpawn = spawnPoints.find(p => p.type === 'waypoint' && p.name === 'spinner') || 
+            const vehicleSpawn = spawnPoints.find(p => p.type === 'waypoint' && p.name === 'spinner') ||
                                 spawnPoints.find(p => p.type === 'vehicle');
-                                
+
             // Spawn logic:
             // 1. If we came through a gateway with a specific label, use that.
             // 2. If we are landing the vehicle for the first time, look for 'landing' waypoint.
             // 3. Fallback to 'personage' type.
-            const charSpawnPoint = specificSpawn || 
+            const charSpawnPoint = specificSpawn ||
                                    (!landingDone.value && spawnPoints.find(p => p.type === 'waypoint' && p.name === 'landing')) ||
                                    spawnPoints.find(p => p.type === 'personage');
 
             // 3. Sequentially spawn vehicle then character then props
-            const vehiclePromise = vehicleSpawn 
+            const vehiclePromise = vehicleSpawn
                 ? spawnVehicle(vehicleSpawn, !landingDone.value)
                 : Promise.resolve();
 
             vehiclePromise.then(() => {
-                const charPos = charSpawnPoint || 
+                const charPos = charSpawnPoint ||
                                 (vehicleSpawn ? { x: vehicleSpawn.x + 2, y: vehicleSpawn.y, z: vehicleSpawn.z } : { x: 0, y: 0, z: 0 });
-                
+
                 spawnCharacter(charPos).then(() => {
                     spawnProps(spawnPoints).then(resolve);
                 });
@@ -325,10 +331,10 @@ const spawnVehicle = (spawnPoint, animate = true) => {
                 const animateLanding = (currentTime) => {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    
+
                     // Quadratic ease-out: progress * (2 - progress)
                     const ease = progress * (2 - progress);
-                    
+
                     vehicle.position.y = startY - (startY - targetY) * ease;
 
                     if (progress < 1) {
@@ -358,17 +364,82 @@ const spawnCharacter = (spawnPoint) => {
 
         const loader = new GLTFLoader();
         loader.load(charUrl, (gltf) => {
-            if (playableCharacter) scene.remove(playableCharacter);
+            if (playableCharacter) {
+                scene.remove(playableCharacter);
+                if (characterMixer) characterMixer = null;
+            }
+            
             playableCharacter = gltf.scene;
-            const scale = spawnPoint.scale || characterScale.value;
+            let scale = spawnPoint.scale || characterScale.value;
+            scale = scale * .01;
             playableCharacter.scale.set(scale, scale, scale);
             playableCharacter.position.set(spawnPoint.x, spawnPoint.y, spawnPoint.z);
             playableCharacter.rotation.y = THREE.MathUtils.degToRad(spawnPoint.direction || 0);
             scene.add(playableCharacter);
+
+            // Setup Animations
+            if (gltf.animations && gltf.animations.length > 0) {
+                characterMixer = new THREE.AnimationMixer(playableCharacter);
+                
+                gltf.animations.forEach(clip => {
+                    const name = clip.name.toLowerCase();
+                    let actionKey = null;
+                    
+                    if (name.startsWith('walk')) actionKey = 'walk';
+                    else if (name.startsWith('idle')) actionKey = 'idle';
+                    else if (name.startsWith('caut')) actionKey = 'caution';
+                    
+                    if (actionKey) {
+                        characterActions[actionKey] = characterMixer.clipAction(clip);
+                    }
+                });
+
+                // Default to Idle
+                if (characterActions['idle']) {
+                    playAnimation('idle');
+                }
+            }
+
+            // Strip lights from character GLB
+            playableCharacter.traverse(child => {
+                if (child.isLight) {
+                    child.visible = false; // Or remove it
+                }
+            });
+
             resolve();
         });
     });
 };
+
+const playAnimation = (name, duration = 0.5) => {
+    const nextAction = characterActions[name];
+    if (!nextAction || nextAction === activeAction) return;
+
+    if (activeAction) {
+        nextAction.reset();
+        nextAction.setEffectiveTimeScale(1);
+        nextAction.setEffectiveWeight(1);
+        nextAction.crossFadeFrom(activeAction, duration, true);
+        nextAction.play();
+    } else {
+        nextAction.play();
+    }
+    activeAction = nextAction;
+};
+
+// Animation Watchers
+watch([isWalking, isCaution], ([walking, caution]) => {
+    if (!characterMixer) return;
+
+    if (walking) {
+        playAnimation('walk');
+    } else if (caution) {
+        playAnimation('caution');
+    } else {
+        playAnimation('idle');
+    }
+});
 
 const props = []; // Track spawned props for cleanup
 
@@ -381,7 +452,7 @@ const spawnProps = async (spawnPoints) => {
     if (propSpawnPoints.length === 0) return;
 
     const loader = new GLTFLoader();
-    
+
     for (const p of propSpawnPoints) {
         // Find the aanwijzing data to get its GLB or visual representation
         try {
@@ -429,7 +500,7 @@ const onMapClick = (e) => {
 
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(scene.children, true);
-    
+
     // Check floor or any mesh (fallback)
     const floorIntersect = intersects.find(i => i.object.name === 'floor' || i.object.name === 'plane' || i.object.isMesh);
     if (floorIntersect) {
@@ -449,16 +520,16 @@ const swapScene = async (gateway) => {
         const nextSceneRes = await axios.get(`/api/scenes/${gateway.target_scene_id}`);
         const nextScene = nextSceneRes.data;
         const locRes = await axios.get(`/api/locaties/${nextScene.locatie_id}`);
-        
+
         currentScene.value = { ...nextScene, location: locRes.data };
-        
+
         // Reset states
         isWalking.value = false;
         if (targetPointMesh) targetPointMesh.visible = false;
-        
+
         // When swapping, landing is already done
         landingDone.value = true;
-        
+
         await loadSceneGLB(currentScene.value, gateway.target_spawn_point);
     } catch (e) {
         console.error("Failed to swap scene", e);
@@ -488,14 +559,18 @@ const checkGateways = () => {
 const animate = () => {
     animationFrameId = requestAnimationFrame(animate);
     const delta = clock ? clock.getDelta() : 0.016;
-    
+
+    if (characterMixer) {
+        characterMixer.update(delta);
+    }
+
     if (isWalking.value && playableCharacter) {
         const distance = playableCharacter.position.distanceTo(targetPosition);
         if (distance > 0.1) {
             // Rotate towards target
             const lookPos = new THREE.Vector3(targetPosition.x, playableCharacter.position.y, targetPosition.z);
             playableCharacter.lookAt(lookPos);
-            
+
             // Move towards target
             const direction = new THREE.Vector3().subVectors(targetPosition, playableCharacter.position).normalize();
             playableCharacter.position.add(direction.multiplyScalar(characterSpeed * delta));
@@ -505,7 +580,7 @@ const animate = () => {
             checkGateways();
         }
     }
-    
+
     renderer.render(scene, camera);
 };
 
@@ -541,17 +616,17 @@ watch(sunIntensity, (val) => {
 
 const backgroundImageUrl = computed(() => {
     if (!currentScene.value) return '';
-    
+
     // Check for scene-specific artwork first
     if (currentScene.value.artwork && currentScene.value.artwork.length > 0) {
         return getImageUrl(currentScene.value.artwork[0].bestandspad);
     }
-    
+
     // Fallback to location artwork
     if (currentScene.value.location?.artwork && currentScene.value.location.artwork.length > 0) {
         return getImageUrl(currentScene.value.location.artwork[0].bestandspad);
     }
-    
+
     return '';
 });
 
@@ -566,7 +641,7 @@ const backgroundImageUrl = computed(() => {
                 <span class="text-white uppercase mr-4">Sector_Emulatie_Mode</span>
 
                 <div v-if="currentScene" class="ml-auto">
-                    <RouterLink 
+                    <RouterLink
                         :to="`/locaties/${currentScene.locatie_id}/sector/${sectorId}/3d`"
                         class="btn btn--small btn--primary"
                     >
@@ -578,7 +653,7 @@ const backgroundImageUrl = computed(() => {
             <div v-if="error" class="bg-noir-panel border border-noir-danger p-6 rounded text-noir-danger text-center">
                 {{ error }}
             </div>
-            
+
             <div class="flex flex-col lg:flex-row gap-8 items-start relative">
                 <!-- Loading Overlay -->
                 <div v-if="loading" class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm pointer-events-auto">
@@ -595,7 +670,7 @@ const backgroundImageUrl = computed(() => {
                          @click="onMapClick">
                         <img v-if="backgroundImageUrl" :src="backgroundImageUrl" class="absolute inset-0 w-full h-full object-cover pointer-events-none" alt="Background" />
                         <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
-                        
+
                         <div v-if="!landingDone" class="absolute top-4 left-4 bg-black/60 text-noir-accent px-3 py-1 rounded text-xs font-mono border border-noir-accent/30 animate-pulse">
                             SISTEEM_INITIALISATIE: VEHICLE_LANDING_INGESCHAKELD...
                         </div>
@@ -621,15 +696,25 @@ const backgroundImageUrl = computed(() => {
                         <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">BESTURING</h3>
                         <p class="text-noir-text font-mono mb-2">• CLICK_FLOOR: MOVE_CHARACTER</p>
                         <p class="text-noir-text font-mono mb-2">• WALK_TO_WAYPOINT: SWAP_SCENE</p>
-                        
+
                         <div class="pt-4 border-t border-noir-dark/50 space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-[10px] text-noir-muted uppercase">3D Helpers</span>
-                                <button @click="show3DHelpers = !show3DHelpers" 
+                                <button @click="show3DHelpers = !show3DHelpers"
                                         class="w-8 h-4 rounded-full relative transition-colors duration-200"
                                         :class="show3DHelpers ? 'bg-noir-accent' : 'bg-noir-dark'">
                                     <div class="absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200"
                                          :class="show3DHelpers ? 'translate-x-4' : ''"></div>
+                                </button>
+                            </div>
+
+                            <div v-if="characterActions['caution']" class="flex items-center justify-between">
+                                <span class="text-[10px] text-noir-muted uppercase">Caution Mode</span>
+                                <button @click="isCaution = !isCaution"
+                                        class="w-8 h-4 rounded-full relative transition-colors duration-200"
+                                        :class="isCaution ? 'bg-noir-danger' : 'bg-noir-dark'">
+                                    <div class="absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200"
+                                         :class="isCaution ? 'translate-x-4' : ''"></div>
                                 </button>
                             </div>
 
