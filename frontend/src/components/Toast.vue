@@ -15,7 +15,7 @@ const emit = defineEmits(['remove']);
 
 <template>
     <div
-        class="toast-item relative overflow-hidden mb-3 p-4 rounded border shadow-lg transition-all duration-300 transform"
+        class="toast-item relative overflow-hidden mb-3 p-4 rounded border shadow-lg transition-all"
         :class="{
             'bg-noir-success/10 border-noir-success text-noir-success': props.toast.type === 'success',
             'bg-noir-danger/10 border-noir-danger text-noir-danger':    props.toast.type === 'error',
@@ -65,18 +65,6 @@ const emit = defineEmits(['remove']);
     min-width: 300px;
     max-width: 450px;
     backdrop-filter: blur(8px);
-    animation: slideIn 0.3s ease-out forwards;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(150%) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-    }
 }
 
 .scan-move {

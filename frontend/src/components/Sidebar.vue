@@ -15,8 +15,8 @@ const navItems = [
     { path: '/aanwijzingen', svg: 'clue',      icon: '🔍', label: 'Aanwijzingen', title: 'AANWIJZINGEN' },
     { path: '/scenes',       svg: 'scene',     icon: '🎬', label: 'Scenes',       title: 'SCENES'       },
     { path: '/map',          svg: 'map',       icon: '🗺️', label: 'Map',          title: 'SECTOR MAP'   },
-    { path: '/notities',     svg: 'note',      icon: '📝', label: 'Notities',     title: 'MYN NOTITIES' },
     { path: '/dialogen',     svg: 'dialogue',  icon: '💬', label: 'Dialogen',     title: 'DIALOGEN'     },
+    { path: '/notities',     svg: 'note',      icon: '📝', label: 'Notities',     title: 'MYN NOTITIES' },
     { path: '/help',         svg: 'help',      icon: '?',  label: 'Help',         title: 'HELP'         },
     { path: '/about',        svg: 'about',     icon: 'i',  label: 'About',        title: 'ABOUT'        },
 ];
