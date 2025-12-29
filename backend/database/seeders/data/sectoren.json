@@ -204,14 +204,14 @@
         "naam": "Vegas",
         "beschrijving": "\u7802\u7981\u533a Sa-Kinku (Sand Exclusion Zone)",
         "ontdek_condities": null,
-        "x": 191,
-        "y": 506,
+        "x": 186,
+        "y": 514,
         "width": 150,
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
         "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-22T12:10:08.000000Z",
+        "updated_at": "2025-12-29T21:22:47.000000Z",
         "artwork": [
             {
                 "id": 19,

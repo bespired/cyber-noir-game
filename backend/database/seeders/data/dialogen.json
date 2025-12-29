@@ -4,57 +4,89 @@
         "personage_id": 1,
         "titel": "Introductie Barman",
         "tree": {
-            "end": {
-                "text": "[Einde gesprek]",
-                "options": []
-            },
-            "info": {
-                "text": "Informatie is niet gratis, vriend.",
-                "options": [
-                    {
-                        "next": "paid",
-                        "text": "Hier is 50 credits."
-                    },
-                    {
-                        "next": "end",
-                        "text": "Laat maar."
-                    }
-                ]
-            },
-            "paid": {
-                "text": "Er is een hacker in Sector 4.",
-                "options": [
-                    {
-                        "next": "end",
-                        "text": "Interessant."
-                    }
-                ]
-            },
-            "root": {
-                "text": "Wat kan ik voor je inschenken?",
-                "options": [
-                    {
-                        "next": "info",
-                        "text": "Geef me informatie."
-                    },
-                    {
-                        "next": "drink",
-                        "text": "Gewoon een drankje."
-                    }
-                ]
-            },
-            "drink": {
-                "text": "Komt eraan.",
-                "options": [
-                    {
-                        "next": "end",
-                        "text": "Bedankt."
-                    }
-                ]
+            "nodes": {
+                "info": {
+                    "x": 360,
+                    "y": 211,
+                    "text": "Informatie is niet gratis vriend",
+                    "options": [
+                        {
+                            "next": "[end]",
+                            "text": "Laat maar",
+                            "actions": [
+                                {
+                                    "type": "END TALK",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        {
+                            "next": "hacker",
+                            "text": "Hier heb je 50 credits",
+                            "actions": [
+                                {
+                                    "type": "SET GAME TAG",
+                                    "value": "sector  4"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "root": {
+                    "x": 80,
+                    "y": 41,
+                    "text": "Wat kan ik voor je inschenken?",
+                    "options": [
+                        {
+                            "next": "drankje",
+                            "text": "Gewoon een drankje",
+                            "actions": []
+                        },
+                        {
+                            "next": "info",
+                            "text": "Geef me informatie",
+                            "actions": []
+                        }
+                    ]
+                },
+                "hacker": {
+                    "x": 640,
+                    "y": 240,
+                    "text": "De hacker is in sector 4",
+                    "options": [
+                        {
+                            "next": null,
+                            "text": "Was nou zo moeilijk?",
+                            "actions": [
+                                {
+                                    "type": "END TALK",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "drankje": {
+                    "x": 364,
+                    "y": 38,
+                    "text": "Hier je drankje",
+                    "options": [
+                        {
+                            "next": "[END]",
+                            "text": "dank je",
+                            "actions": [
+                                {
+                                    "type": "END TALK",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         },
         "is_active": true,
         "created_at": "2025-12-17T13:23:18.000000Z",
-        "updated_at": "2025-12-17T13:23:18.000000Z"
+        "updated_at": "2025-12-29T22:30:23.000000Z"
     }
 ]
