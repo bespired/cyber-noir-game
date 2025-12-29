@@ -3,3 +3,4 @@
 backend/.env.docker
 backend/.env.docker
 frontend/assets
+electron/node_modules
