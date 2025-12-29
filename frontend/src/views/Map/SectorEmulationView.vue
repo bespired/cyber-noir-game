@@ -36,6 +36,7 @@ const targetPosition = new THREE.Vector3();
 const characterSpeed = 2.0;
 const landingDone = ref(false);
 let targetPointMesh = null;
+const pendingGateway = ref(null);
 
 // Animation refs
 let characterMixer = null;
@@ -368,10 +369,25 @@ const spawnCharacter = (spawnPoint) => {
                 scene.remove(playableCharacter);
                 if (characterMixer) characterMixer = null;
             }
-            
+
             playableCharacter = gltf.scene;
+
+            // Dynamic Scaling Logic: Measure model height
+            const bbox = new THREE.Box3().setFromObject(playableCharacter);
+            const size = new THREE.Vector3();
+            bbox.getSize(size);
+            const rawHeight = size.y;
+
             let scale = spawnPoint.scale || characterScale.value;
-            scale = scale * .01;
+
+            // If the model is huge (e.g. > 20 units), it's likely the animated version needing 0.01 multiplier
+            if (rawHeight > 20) {
+                console.log(`Dynamic scaling: Huge model detected (height: ${rawHeight.toFixed(2)}). Applying 0.01 correction.`);
+                scale = scale * 0.01;
+            } else {
+                console.log(`Dynamic scaling: Standard model detected (height: ${rawHeight.toFixed(2)}). Using base scale: ${scale}.`);
+            }
+
             playableCharacter.scale.set(scale, scale, scale);
             playableCharacter.position.set(spawnPoint.x, spawnPoint.y, spawnPoint.z);
             playableCharacter.rotation.y = THREE.MathUtils.degToRad(spawnPoint.direction || 0);
@@ -380,15 +396,15 @@ const spawnCharacter = (spawnPoint) => {
             // Setup Animations
             if (gltf.animations && gltf.animations.length > 0) {
                 characterMixer = new THREE.AnimationMixer(playableCharacter);
-                
+
                 gltf.animations.forEach(clip => {
                     const name = clip.name.toLowerCase();
                     let actionKey = null;
-                    
+
                     if (name.startsWith('walk')) actionKey = 'walk';
                     else if (name.startsWith('idle')) actionKey = 'idle';
                     else if (name.startsWith('caut')) actionKey = 'caution';
-                    
+
                     if (actionKey) {
                         characterActions[actionKey] = characterMixer.clipAction(clip);
                     }
@@ -495,10 +511,60 @@ const onMapClick = (e) => {
     if (!playableCharacter || !landingDone.value) return;
 
     const rect = renderer.domElement.getBoundingClientRect();
-    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
+    // 1. Check for Gateway Click (Screen Space)
+    const screenX = (mouseX + 1) / 2 * 100;
+    const screenY = -(mouseY - 1) / 2 * 100;
+
+    const clickedGateway = currentScene.value?.gateways?.find(gw =>
+        screenX >= gw.x && screenX <= gw.x + gw.width &&
+        screenY >= gw.y && screenY <= gw.y + gw.height
+    );
+
+    if (clickedGateway) {
+        // Find nearest waypoint to the gateway
+        const currentSectorId = route.params.id;
+        const allSpawnPoints = currentScene.value.location?.spawn_points || {};
+        const spawnPoints = allSpawnPoints[currentSectorId] || allSpawnPoints[Number(currentSectorId)] || [];
+        const waypoints = spawnPoints.filter(p => p.type === 'waypoint');
+
+        if (waypoints.length > 0) {
+            let nearest = null;
+            let minDist = Infinity;
+
+            waypoints.forEach(wp => {
+                // Project waypoint to screen space to find one closest to click
+                const vec = new THREE.Vector3(wp.x, wp.y, wp.z);
+                vec.project(camera);
+                const wpX = (vec.x + 1) / 2 * 100;
+                const wpY = -(vec.y - 1) / 2 * 100;
+
+                const d = Math.sqrt(Math.pow(screenX - wpX, 2) + Math.pow(screenY - wpY, 2));
+                if (d < minDist) {
+                    minDist = d;
+                    nearest = wp;
+                }
+            });
+
+            if (nearest) {
+                pendingGateway.value = clickedGateway;
+                targetPosition.set(nearest.x, nearest.y, nearest.z);
+                isWalking.value = true;
+                if (targetPointMesh) {
+                    targetPointMesh.position.copy(targetPosition);
+                    targetPointMesh.position.y += 0.01;
+                    targetPointMesh.visible = true;
+                }
+                return;
+            }
+        }
+    }
+
+    // 2. Standard Floor Raycasting
+    pendingGateway.value = null; // Reset if floor clicked
+    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
     const intersects = raycaster.intersectObjects(scene.children, true);
 
     // Check floor or any mesh (fallback)
@@ -577,7 +643,13 @@ const animate = () => {
         } else {
             isWalking.value = false;
             if (targetPointMesh) targetPointMesh.visible = false;
-            checkGateways();
+            
+            if (pendingGateway.value) {
+                swapScene(pendingGateway.value);
+                pendingGateway.value = null;
+            } else {
+                checkGateways();
+            }
         }
     }
 
