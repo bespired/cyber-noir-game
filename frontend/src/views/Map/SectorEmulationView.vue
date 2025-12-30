@@ -693,7 +693,9 @@ watch(vehicleScale, (newScale) => {
 });
 
 const onMapClick = (e) => {
+    if (activeDialogue.value) return;
     if (!playableCharacter || !landingDone.value) return;
+
 
     const rect = renderer.domElement.getBoundingClientRect();
     const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -782,8 +784,19 @@ const startDialogue = (dialoogId) => {
             const res = await axios.get(`/api/dialogen/${dialoogId}`);
             activeDialogue.value = res.data;
             dialogueNPCName.value = activeDialogue.value.personage?.naam || 'NPC';
-            currentNodeId.value = 'start';
-            playNode(currentNodeId.value);
+            
+            // Default to 'root', or fallback to first key
+            const nodeKeys = Object.keys(activeDialogue.value.tree?.nodes || {});
+            currentNodeId.value = nodeKeys.includes('root') ? 'root' : nodeKeys[0];
+
+            console.log(`[DIALOGUE] Starting dialogue ${dialoogId} at node: ${currentNodeId.value}`);
+
+            if (currentNodeId.value) {
+                playNode(currentNodeId.value);
+            } else {
+                console.warn("[DIALOGUE] No nodes found in dialogue tree.");
+                closeDialogue();
+            }
         } catch (e) {
             console.error("Failed to load dialogue", e);
             resolve();
@@ -792,10 +805,20 @@ const startDialogue = (dialoogId) => {
 };
 
 const playNode = (nodeId) => {
+    if (nodeId === '[END]' || nodeId === 'END') {
+        closeDialogue();
+        return;
+    }
+
     const node = activeDialogue.value.tree.nodes[nodeId];
-    if (!node) return;
+    if (!node) {
+        console.warn(`[DIALOGUE] Node ${nodeId} not found.`);
+        return;
+    }
+
     currentNodeId.value = nodeId;
     showDialogueOptions.value = false;
+
     typewriterText.value = '';
     if (typewriterInterval.value) clearInterval(typewriterInterval.value);
     let charIndex = 0;
