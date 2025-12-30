@@ -257,6 +257,7 @@ const initThree = () => {
     const markerGeom = new THREE.RingGeometry(0.2, 0.25, 32);
     markerGeom.rotateX(-Math.PI / 2);
     targetPointMesh = new THREE.Mesh(markerGeom, new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.8 }));
+    targetPointMesh.userData.isHelper = true; // Tag as helper
     targetPointMesh.visible = false;
     scene.add(targetPointMesh);
 
@@ -332,6 +333,7 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
                         // Depth rendering is crucial for masking
                         child.material.depthWrite = true;
                         child.material.depthTest = true;
+                        child.userData.isHelper = true; // Tag as helper so we don't walk on it
                     }
                 }
             });
@@ -717,8 +719,11 @@ const onMapClick = (e) => {
     raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
     const intersects = raycaster.intersectObjects(scene.children, true);
     
-    // Filter out characters
-    const validIntersects = intersects.filter(i => !i.object.userData.isCharacter);
+    // Filter out characters AND helpers
+    const validIntersects = intersects.filter(i => 
+        !i.object.userData.isCharacter && 
+        !i.object.userData.isHelper
+    );
     
     const floorIntersect = validIntersects.find(i => 
         i.object.name.toLowerCase().includes('floor') || 
