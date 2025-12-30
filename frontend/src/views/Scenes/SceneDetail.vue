@@ -64,11 +64,13 @@ const previewBox = ref({ x: 0, y: 0, width: 0, height: 0 });
 const showGatewayModal = ref(false);
 const editingGatewayIndex = ref(null);
 const gatewayForm = ref({
+    type: 'gateway', // 'gateway' or 'trigger'
     target_scene_id: null,
     target_spawn_point: null,
     gedrag_id: null,
     label: ''
 });
+
 
 
 // Dragging State
@@ -223,9 +225,16 @@ const stopDrawing = () => {
     // Only add if size is significant (> 1%)
     if (previewBox.value.width > 1 && previewBox.value.height > 1) {
         editingGatewayIndex.value = null; // New gateway
-        gatewayForm.value = { target_scene_id: null, target_spawn_point: null, gedrag_id: null, label: '' };
+        gatewayForm.value = {
+            type: 'gateway',
+            target_scene_id: null,
+            target_spawn_point: null,
+            gedrag_id: null,
+            label: ''
+        };
         showGatewayModal.value = true;
     }
+
 
 };
 
@@ -252,16 +261,17 @@ const editGateway = (index) => {
     editingGatewayIndex.value = index;
     const g = scene.value.gateways[index];
     gatewayForm.value = {
+        type: g.type || (g.target_scene_id ? 'gateway' : 'trigger'),
         target_scene_id: g.target_scene_id,
         target_spawn_point: g.target_spawn_point || null,
         gedrag_id: g.gedrag_id || null,
         label: g.label || ''
     };
     showGatewayModal.value = true;
-
 };
 
 const removeGateway = (index) => {
+
     if (confirm('DELETE_GATEWAY?')) {
         scene.value.gateways.splice(index, 1);
     }
@@ -443,13 +453,18 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                     <div
                                         v-for="(gateway, index) in scene.gateways"
                                         :key="index"
-                                        class="absolute border-2 border-noir-accent bg-noir-accent/20 hover:bg-noir-accent/40 transition-colors cursor-pointer flex items-center justify-center"
+                                        class="absolute border-2 transition-colors cursor-pointer flex items-center justify-center shadow-lg"
+                                        :class="{
+                                            'border-noir-accent bg-noir-accent/20 hover:bg-noir-accent/40': (gateway.type || (gateway.target_scene_id ? 'gateway' : 'trigger')) === 'gateway',
+                                            'border-noir-warning bg-noir-warning/20 hover:bg-noir-warning/40': (gateway.type || (gateway.target_scene_id ? 'gateway' : 'trigger')) === 'trigger'
+                                        }"
                                         :style="{
                                             left: `${gateway.x}%`,
                                             top: `${gateway.y}%`,
                                             width: `${gateway.width}%`,
                                             height: `${gateway.height}%`
                                         }"
+
                                         @click.stop="editGateway(index)"
                                         @mousedown="startDrag(index, $event)"
                                     >
@@ -526,12 +541,12 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         </div> -->
 
                         <!-- Personages & Voertuigen in Scene -->
-                        <div class="panel border-noir-accent/30">
+                        <div class=" border-noir-accent/30 ">
                             <div class="p-4 border-b border-noir-dark flex justify-between items-center bg-noir-dark/50">
                                 <h3 class="text-xs font-bold text-noir-accent uppercase">Personages & Voertuigen</h3>
                                 <button @click="openNPCModal()" class="btn btn--small btn--success text-[10px] px-2 py-0.5">+ TOEVOEGEN</button>
                             </div>
-                            <div class="p-4 space-y-3">
+                            <div class="pt-1 space-y-3">
                                 <div v-if="scenePersonages.length === 0" class="text-center py-4 text-noir-muted italic text-[10px] uppercase">
                                     GEEN_PERSONAGES_GEKOPPELD
                                 </div>
@@ -559,7 +574,8 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                             <span class="text-noir-muted">SPAWN:</span>
                                             <span class="text-noir-accent truncate">{{ npc.spawn_point_name || 'DEFAULT' }}</span>
                                         </div>
-                                        <div class="flex gap-2">
+                                        <!--
+                                            <div class="flex gap-2">
                                             <span class="text-noir-muted">GEDRAG:</span>
                                             <span class="text-noir-warning truncate">{{ getGedragName(npc.gedrag_id) }}</span>
                                         </div>
@@ -567,6 +583,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                             <span class="text-noir-muted">DIALOG:</span>
                                             <span class="text-noir-success truncate">{{ getDialoogName(npc.dialoog_id) }}</span>
                                         </div>
+                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -575,53 +592,77 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
             </div>
         </div>
-        <!-- Gateway Modal -->
-        <Modal :isOpen="showGatewayModal" title="PLAATS GATEWAY" @close="showGatewayModal = false">
+        <Modal :isOpen="showGatewayModal" :title="gatewayForm.type === 'gateway' ? 'PLAATS GATEWAY_TRAVERSAL' : 'PLAATS SYSTEM_TRIGGER'" @close="showGatewayModal = false">
             <form @submit.prevent="saveGateway" class="space-y-4">
-                <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
-                    SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
+                <div class="flex gap-4 p-2 bg-black/30 rounded border border-noir-dark mb-4">
+                    <button
+                        type="button"
+                        class="flex-1 py-2 px-3 rounded text-[10px] font-bold transition-all border"
+                        :class="gatewayForm.type === 'gateway' ? 'bg-noir-accent text-black border-noir-accent' : 'bg-transparent text-noir-muted border-noir-dark hover:border-noir-accent/50'"
+                        @click="gatewayForm.type = 'gateway'"
+                    >
+                        TRAVERSAL_GATEWAY
+                    </button>
+                    <button
+                        type="button"
+                        class="flex-1 py-2 px-3 rounded text-[10px] font-bold transition-all border"
+                        :class="gatewayForm.type === 'trigger' ? 'bg-noir-warning text-black border-noir-warning' : 'bg-transparent text-noir-muted border-noir-dark hover:border-noir-warning/50'"
+                        @click="gatewayForm.type = 'trigger'"
+                    >
+                        SYSTEM_TRIGGER
+                    </button>
                 </div>
 
-                <div>
-                    <label class="form-label">Doel Scene (Optioneel)</label>
-                    <select v-model="gatewayForm.target_scene_id" class="form-input">
-                        <option :value="null">-- GEEN SCENE SWAP --</option>
-                        <option v-for="s in availableTargetScenes" :key="s.id" :value="s.id">
-                            {{ s.titel }} (ID: {{ s.id }})
-                        </option>
-                    </select>
+                <div v-if="scene.sector" class="mt-1 text-[10px] text-noir-muted uppercase">
+                    CONTXT_SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
                 </div>
 
-
-                <div v-if="gatewayForm.target_scene_id">
-                    <label class="form-label">Spawn Point in Doel Scene</label>
-                    <select v-model="gatewayForm.target_spawn_point" class="form-input">
-                        <option :value="null">-- STANDAARD (PERSONAGE) --</option>
-                        <optgroup label="Waypoints">
-                           <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'waypoint')" :key="sp.id" :value="sp.name">
-                               {{ sp.name }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
-                           </option>
-                        </optgroup>
-                        <optgroup label="Personages">
-                            <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'personage')" :key="sp.id" :value="sp.personage_id">
-                               {{ getPersonageName(sp.personage_id) }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
+                <div v-if="gatewayForm.type === 'gateway'" class="space-y-4">
+                    <div>
+                        <label class="form-label">Doel Scene</label>
+                        <select v-model="gatewayForm.target_scene_id" class="form-input" required>
+                            <option :value="null">-- SELECTEER DOEL --</option>
+                            <option v-for="s in availableTargetScenes" :key="s.id" :value="s.id">
+                                {{ s.titel }} (ID: {{ s.id }})
                             </option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="border-t border-noir-dark pt-4">
-                    <label class="form-label text-noir-warning">Trigger Gedrag (Optioneel)</label>
-                    <select v-model="gatewayForm.gedrag_id" class="form-input">
-                        <option :value="null">-- GEEN GEDRAG --</option>
-                        <option v-for="g in gedragingen" :key="g.id" :value="g.id">{{ g.naam }}</option>
-                    </select>
-                    <p class="text-[10px] text-noir-muted mt-1 uppercase">Wordt uitgevoerd wanneer personage het gebied bereikt.</p>
+                        </select>
+                    </div>
+
+                    <div v-if="gatewayForm.target_scene_id">
+                        <label class="form-label">Spawn Point in Doel Scene</label>
+                        <select v-model="gatewayForm.target_spawn_point" class="form-input">
+                            <option :value="null">-- STANDAARD (PERSONAGE) --</option>
+                            <optgroup label="Waypoints">
+                               <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'waypoint')" :key="sp.id" :value="sp.name">
+                                   {{ sp.name }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
+                               </option>
+                            </optgroup>
+                            <optgroup label="Personages">
+                                <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'personage')" :key="sp.id" :value="sp.personage_id">
+                                   {{ getPersonageName(sp.personage_id) }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
+                                </option>
+                            </optgroup>
+                        </select>
+                    </div>
                 </div>
 
+                <div v-if="gatewayForm.type === 'trigger'" class="space-y-4">
+                    <div>
+                        <label class="form-label text-noir-warning">Actie / Gedrag</label>
+                        <select v-model="gatewayForm.gedrag_id" class="form-input" required>
+                            <option :value="null">-- SELECTEER GEDRAG --</option>
+                            <option v-for="g in gedragingen" :key="g.id" :value="g.id">{{ g.naam }}</option>
+                        </select>
+                        <p class="text-[10px] text-noir-muted mt-1 uppercase">Wordt gelanceerd bij contact met gebied.</p>
+                    </div>
+                </div>
+
+                <!--
                 <div>
                     <label class="form-label">Label (Optioneel)</label>
                     <input v-model="gatewayForm.label" type="text" placeholder="b.v. Naar Hoofd Street" class="form-input">
                 </div>
+                -->
                 <div class="pt-4 flex justify-end gap-2 text-sm">
                     <button type="button" @click="showGatewayModal = false" class="btn btn--secondary">HMMM...</button>
                     <button type="submit" class="btn btn--primary">BEWAAR_GATEWAY</button>
@@ -643,9 +684,9 @@ watch(() => scene.value?.locatie_id, (newId) => {
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="form-label">Spawn Point</label>
+                        <label class="form-label text-noir-accent">Entry / Spawn Point</label>
                         <select v-model="npcForm.spawn_point_name" class="form-input">
-                            <option value="">STANDAARD</option>
+                            <option value="">-- DEFAULT_SPAWN --</option>
                             <option v-for="sp in scene.locatie?.spawn_points?.[scene.sector_id] || []" :key="sp.id" :value="sp.name || sp.id">
                                 {{ sp.name || 'SPAWN_' + sp.id }}
                             </option>
@@ -661,26 +702,14 @@ watch(() => scene.value?.locatie_id, (newId) => {
                     </div>
                 </div>
 
+
                 <div v-if="npcForm.spawn_condition.type === 'flag'">
                     <label class="form-label">Flag Naam (Boolean)</label>
                     <input v-model="npcForm.spawn_condition.flag" type="text" placeholder="b.v. bartender_alerted" class="form-input">
                 </div>
 
-                <div class="border-t border-noir-dark pt-4">
-                    <label class="form-label text-noir-warning">Initiëel Gedrag</label>
-                    <select v-model="npcForm.gedrag_id" class="form-input">
-                        <option :value="null">GEEN_STRICT_GEDRAG (IDLE)</option>
-                        <option v-for="g in gedragingen" :key="g.id" :value="g.id">{{ g.naam }}</option>
-                    </select>
-                </div>
+                <!-- Initial behavior and dialogue removed - now handled via global behaviors -->
 
-                <div>
-                    <label class="form-label text-noir-success">Start Dialoog</label>
-                    <select v-model="npcForm.dialoog_id" class="form-input">
-                        <option :value="null">GEEN_START_DIALOGOOG</option>
-                        <option v-for="d in dialogen" :key="d.id" :value="d.id">{{ d.titel }}</option>
-                    </select>
-                </div>
 
                 <div class="pt-4 flex justify-end gap-2 text-sm">
                     <button type="button" @click="showNPCModal = false" class="btn btn--secondary">ANNULEREN</button>

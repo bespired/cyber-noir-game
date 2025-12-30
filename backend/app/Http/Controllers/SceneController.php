@@ -28,9 +28,10 @@ class SceneController extends Controller
 
     public function show(Scene $scene)
     {
-        $scene->load(['locatie.artwork', 'sector', 'artwork']);
+        $scene->load(['locatie.artwork', 'sector', 'artwork', 'scenePersonages.personage.artwork', 'scenePersonages.gedrag']);
         return response()->json($scene);
     }
+
 
     public function update(Request $request, Scene $scene)
     {

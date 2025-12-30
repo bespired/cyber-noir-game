@@ -23,6 +23,22 @@ const gameState = reactive({
 const loading = ref(true);
 const error = ref(null);
 
+// Dialogue & Behavior System
+const activeDialogue = ref(null);
+const currentNodeId = ref('start');
+const typewriterText = ref('');
+const showDialogueOptions = ref(false);
+const typewriterInterval = ref(null);
+const dialogueNPCName = ref('');
+let dialogueResolve = null;
+
+const spawnedNPCs = reactive({});
+const npcModes = reactive({}); // Stores: 'HIDDEN', 'IDLE', 'SEQUENCE'
+const isBehaviorActive = ref(false); // Global behavior lock
+const lastTriggeredGateway = ref(null);
+const lastExecutedBehaviorGateway = ref(null);
+
+
 
 // Three.js refs
 const canvasContainer = ref(null);
@@ -42,6 +58,20 @@ const characterSpeed = 2.0;
 const landingDone = ref(false);
 let targetPointMesh = null;
 const pendingGateway = ref(null);
+const currentLoadingSceneId = ref(null);
+
+const activeGateway = computed(() => getGatewayAtPosition());
+
+const sceneTriggers = computed(() => currentScene.value?.gateways || []);
+const behaviorLog = ref([]);
+
+const activeBehaviors = computed(() => {
+    if (!currentScene.value?.gateways) return [];
+    const behaviorIds = [...new Set(currentScene.value.gateways.map(gw => gw.gedrag_id).filter(id => id))];
+    return gedragingen.value.filter(g => behaviorIds.includes(g.id));
+});
+
+
 
 // Animation refs
 let characterMixer = null;
@@ -165,7 +195,8 @@ const fetchData = async () => {
             const allSpawnPoints = loc.spawn_points || {};
             const spawnPoints = allSpawnPoints[sectorId] || allSpawnPoints[Number(sectorId)] || [];
             if (spawnPoints.some(p => p.type === 'vehicle')) {
-                currentScene.value = { ...s, location: loc };
+                const scRes = await axios.get(`/api/scenes/${s.id}`);
+                currentScene.value = { ...scRes.data, location: loc };
                 break;
             }
         }
@@ -174,8 +205,10 @@ const fetchData = async () => {
             // Fallback to first scene
             const s = scenesInSector.value[0];
             const locRes = await axios.get(`/api/locaties/${s.locatie_id}`);
-             currentScene.value = { ...s, location: locRes.data };
+            const scRes = await axios.get(`/api/scenes/${s.id}`);
+            currentScene.value = { ...scRes.data, location: locRes.data };
         }
+
 
     } catch (e) {
         console.error("Failed to fetch data", e);
@@ -243,10 +276,33 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
             return;
         }
 
+        currentLoadingSceneId.value = sceneData.id;
+
         // 1. Cleanup before loading
         if (currentGltf) { scene.remove(currentGltf); currentGltf = null; }
         if (playableCharacter) { scene.remove(playableCharacter); playableCharacter = null; }
         if (vehicle) { scene.remove(vehicle); vehicle = null; }
+        
+        // Remove all NPCs
+        Object.values(spawnedNPCs).forEach(npc => {
+            if (npc.mesh) scene.remove(npc.mesh);
+            if (npc.mixer) npc.mixer = null;
+        });
+        for (const key in spawnedNPCs) delete spawnedNPCs[key];
+        for (const key in npcModes) delete npcModes[key];
+
+        // Thorough cleanup: remove anything that isn't a core light
+        for (let i = scene.children.length - 1; i >= 0; i--) {
+            const child = scene.children[i];
+            if (child.name !== 'ambient-light' && child.name !== 'sun-light' && child.name !== 'target-marker' && child !== targetPointMesh && child !== currentGltf) {
+                if (child.isMesh || child.isGroup) {
+                    scene.remove(child);
+                }
+            }
+        }
+
+
+
 
         const loader = new GLTFLoader();
         loader.load(url, (gltf) => {
@@ -312,13 +368,22 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
                 : Promise.resolve();
 
             vehiclePromise.then(() => {
+                if (currentLoadingSceneId.value !== sceneData.id) return resolve();
+
                 const charPos = charSpawnPoint ||
                                 (vehicleSpawn ? { x: vehicleSpawn.x + 2, y: vehicleSpawn.y, z: vehicleSpawn.z } : { x: 0, y: 0, z: 0 });
 
-                spawnCharacter(charPos).then(() => {
-                    spawnProps(spawnPoints).then(resolve);
+                spawnCharacter(charPos, sceneData.id).then(() => {
+                    if (currentLoadingSceneId.value !== sceneData.id) return resolve();
+                    const spList = sceneData.scene_personages || sceneData.scenePersonages || [];
+                    spawnNPCs(spList, sceneData.id).then(() => {
+                        if (currentLoadingSceneId.value !== sceneData.id) return resolve();
+                        spawnProps(spawnPoints, sceneData.id).then(resolve);
+                    });
                 });
             });
+
+
         }, undefined, () => resolve());
     });
 };
@@ -333,7 +398,12 @@ const spawnVehicle = (spawnPoint, animate = true) => {
 
         const loader = new GLTFLoader();
         loader.load(vehicleUrl, (gltf) => {
+            if (currentLoadingSceneId.value !== currentScene.value.id) {
+                resolve();
+                return;
+            }
             vehicle = gltf.scene;
+
             const targetY = spawnPoint.y;
             const scale = spawnPoint.scale || vehicleScale.value;
             vehicle.scale.set(scale, scale, scale);
@@ -372,7 +442,7 @@ const spawnVehicle = (spawnPoint, animate = true) => {
     });
 };
 
-const spawnCharacter = (spawnPoint) => {
+const spawnCharacter = (spawnPoint, sceneId) => {
     return new Promise((resolve) => {
         const charUrl = getCharacterGlbUrl(settings.value.playable);
         if (!charUrl) {
@@ -382,6 +452,11 @@ const spawnCharacter = (spawnPoint) => {
 
         const loader = new GLTFLoader();
         loader.load(charUrl, (gltf) => {
+            if (currentLoadingSceneId.value !== sceneId) {
+                resolve();
+                return;
+            }
+
             if (playableCharacter) {
                 scene.remove(playableCharacter);
                 if (characterMixer) characterMixer = null;
@@ -434,7 +509,9 @@ const spawnCharacter = (spawnPoint) => {
             }
 
             // Strip lights and set shadow casting
+            playableCharacter.userData.isCharacter = true;
             playableCharacter.traverse(child => {
+                child.userData.isCharacter = true;
                 if (child.isLight) {
                     child.visible = false;
                 }
@@ -442,6 +519,7 @@ const spawnCharacter = (spawnPoint) => {
                     child.castShadow = true;
                 }
             });
+
 
             resolve();
         });
@@ -479,7 +557,7 @@ watch([isWalking, isCaution], ([walking, caution]) => {
 
 const props = []; // Track spawned props for cleanup
 
-const spawnProps = async (spawnPoints) => {
+const spawnProps = async (spawnPoints, sceneId) => {
     // Cleanup old props
     props.forEach(p => scene.remove(p));
     props.length = 0;
@@ -490,6 +568,8 @@ const spawnProps = async (spawnPoints) => {
     const loader = new GLTFLoader();
 
     for (const p of propSpawnPoints) {
+        if (currentLoadingSceneId.value !== sceneId) break;
+
         // Find the aanwijzing data to get its GLB or visual representation
         try {
             // Ideally we have the aanwijzingen loaded or can fetch by ID
@@ -514,7 +594,92 @@ const spawnProps = async (spawnPoints) => {
     }
 };
 
+const spawnNPCs = async (scenePersonages, sceneId) => {
+    // Cleanup old NPCs (redundant but safe)
+    if (sceneId === currentLoadingSceneId.value) {
+        // ... cleanup already happened in loadSceneGLB
+    }
+
+    if (!scenePersonages || scenePersonages.length === 0) return;
+
+    const currentSectorId = route.params.id;
+    const allSpawnPoints = currentScene.value.location?.spawn_points || {};
+    const spawnPoints = allSpawnPoints[currentSectorId] || allSpawnPoints[Number(currentSectorId)] || [];
+
+    for (const sp of scenePersonages) {
+        try {
+            if (currentLoadingSceneId.value !== sceneId) break;
+            const p = sp.personage;
+            if (!p) continue;
+            
+            // Find assigned spawn point
+            const spawnPos = spawnPoints.find(point => point.name === sp.spawn_point_name || point.id === sp.spawn_point_name) 
+                          || spawnPoints.find(point => point.type === 'personage') 
+                          || { x: 0, y: 0, z: 0 };
+
+            const charUrl = getCharacterGlbUrl(p.naam);
+            if (!charUrl) continue;
+
+            const loader = new GLTFLoader();
+            const gltf = await new Promise((res, rej) => loader.load(charUrl, res, undefined, rej));
+            
+            if (currentLoadingSceneId.value !== sceneId) break;
+
+            const mesh = gltf.scene;
+
+
+            // Apply scaling
+            const bbox = new THREE.Box3().setFromObject(mesh);
+            const size = new THREE.Vector3();
+            bbox.getSize(size);
+            let scale = spawnPos.scale || characterScale.value;
+            if (size.y > 20) scale *= 0.01;
+            mesh.scale.set(scale, scale, scale);
+            mesh.position.set(spawnPos.x, spawnPos.y, spawnPos.z);
+            mesh.rotation.y = THREE.MathUtils.degToRad(spawnPos.direction || 0);
+
+            scene.add(mesh);
+
+            let mixer = null;
+            let actions = {};
+            if (gltf.animations?.length > 0) {
+                mixer = new THREE.AnimationMixer(mesh);
+                gltf.animations.forEach(clip => {
+                    const name = clip.name.toLowerCase();
+                    if (name.startsWith('walk')) actions.walk = mixer.clipAction(clip);
+                    if (name.startsWith('idle')) actions.idle = mixer.clipAction(clip);
+                });
+                if (actions.idle) actions.idle.play();
+            }
+
+            spawnedNPCs[p.id] = {
+                id: p.id,
+                name: p.naam,
+                mesh: mesh,
+                mixer: mixer,
+                actions: actions,
+                gedrag_id: sp.gedrag_id || sp.gedragId || null,
+                targetPos: new THREE.Vector3(spawnPos.x, spawnPos.y, spawnPos.z),
+                isWalking: false
+            };
+            npcModes[p.id] = 'IDLE';
+
+
+            mesh.traverse(child => {
+                child.userData.isCharacter = true;
+                if (child.isLight) child.visible = false;
+                if (child.isMesh) child.castShadow = true;
+            });
+
+
+        } catch (e) {
+            console.error("Failed to spawn NPC", sp.personage?.naam, e);
+        }
+    }
+};
+
 // Watchers for real-time scaling
+
 watch(characterScale, (newScale) => {
     if (playableCharacter) {
         playableCharacter.scale.set(newScale, newScale, newScale);
@@ -534,7 +699,7 @@ const onMapClick = (e) => {
     const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-    // 1. Check for Gateway Click (Screen Space)
+    // 1. Detect Gateway Click (Screen Space)
     const screenX = (mouseX + 1) / 2 * 100;
     const screenY = -(mouseY - 1) / 2 * 100;
 
@@ -543,8 +708,27 @@ const onMapClick = (e) => {
         screenY >= gw.y && screenY <= gw.y + gw.height
     );
 
-    if (clickedGateway) {
-        // Find nearest waypoint to the gateway
+    // 2. Navigation Target Detection
+    let moveTarget = null;
+
+    // A. Priority: Floor Raycasting
+    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
+    const intersects = raycaster.intersectObjects(scene.children, true);
+    
+    // Filter out characters
+    const validIntersects = intersects.filter(i => !i.object.userData.isCharacter);
+    
+    const floorIntersect = validIntersects.find(i => 
+        i.object.name.toLowerCase().includes('floor') || 
+        i.object.name.toLowerCase().includes('plane') || 
+        i.object.isMesh
+    );
+
+    if (floorIntersect) {
+
+        moveTarget = floorIntersect.point.clone();
+    } else if (clickedGateway) {
+        // B. Fallback: Waypoints (ONLY if a gateway was clicked but no floor detected)
         const currentSectorId = route.params.id;
         const allSpawnPoints = currentScene.value.location?.spawn_points || {};
         const spawnPoints = allSpawnPoints[currentSectorId] || allSpawnPoints[Number(currentSectorId)] || [];
@@ -553,127 +737,319 @@ const onMapClick = (e) => {
         if (waypoints.length > 0) {
             let nearest = null;
             let minDist = Infinity;
-
             waypoints.forEach(wp => {
-                // Project waypoint to screen space to find one closest to click
                 const vec = new THREE.Vector3(wp.x, wp.y, wp.z);
                 vec.project(camera);
                 const wpX = (vec.x + 1) / 2 * 100;
                 const wpY = -(vec.y - 1) / 2 * 100;
-
                 const d = Math.sqrt(Math.pow(screenX - wpX, 2) + Math.pow(screenY - wpY, 2));
                 if (d < minDist) {
                     minDist = d;
                     nearest = wp;
                 }
             });
-
             if (nearest) {
-                pendingGateway.value = clickedGateway;
-                targetPosition.set(nearest.x, nearest.y, nearest.z);
-                isWalking.value = true;
-                if (targetPointMesh) {
-                    targetPointMesh.position.copy(targetPosition);
-                    targetPointMesh.position.y += 0.01;
-                    targetPointMesh.visible = true;
-                }
-                return;
+                moveTarget = new THREE.Vector3(nearest.x, nearest.y, nearest.z);
             }
         }
     }
 
-    // 2. Standard Floor Raycasting
-    pendingGateway.value = null; // Reset if floor clicked
-    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera);
-    const intersects = raycaster.intersectObjects(scene.children, true);
 
-    // Check floor or any mesh (fallback)
-    const floorIntersect = intersects.find(i => i.object.name === 'floor' || i.object.name === 'plane' || i.object.isMesh);
-    if (floorIntersect) {
-        targetPosition.copy(floorIntersect.point);
+    // 3. Apply Navigation & Gateway logic
+    if (moveTarget) {
+        targetPosition.copy(moveTarget);
         isWalking.value = true;
+        pendingGateway.value = clickedGateway || null;
+
         if (targetPointMesh) {
-            targetPointMesh.position.copy(floorIntersect.point);
-            targetPointMesh.position.y += 0.01; // Avoid Z-fighting
+            targetPointMesh.position.copy(targetPosition);
+            targetPointMesh.position.y += 0.01;
             targetPointMesh.visible = true;
         }
+    } else {
+        // Explicitly clear if clicking "outside" everything
+        pendingGateway.value = null;
     }
 };
 
-const triggerGateway = async (gateway) => {
-    // 1. Run Behavior if present
-    if (gateway.gedrag_id) {
-        const gedrag = gedragingen.value.find(g => g.id === gateway.gedrag_id);
-        if (gedrag && gedrag.acties) {
-            console.log("Triggering behavior:", gedrag.naam);
-            for (const action of gedrag.acties) {
-                await runAction(action);
-            }
+
+
+const startDialogue = (dialoogId) => {
+
+    return new Promise(async (resolve) => {
+        try {
+            dialogueResolve = resolve;
+            const res = await axios.get(`/api/dialogen/${dialoogId}`);
+            activeDialogue.value = res.data;
+            dialogueNPCName.value = activeDialogue.value.personage?.naam || 'NPC';
+            currentNodeId.value = 'start';
+            playNode(currentNodeId.value);
+        } catch (e) {
+            console.error("Failed to load dialogue", e);
+            resolve();
+        }
+    });
+};
+
+const playNode = (nodeId) => {
+    const node = activeDialogue.value.tree.nodes[nodeId];
+    if (!node) return;
+    currentNodeId.value = nodeId;
+    showDialogueOptions.value = false;
+    typewriterText.value = '';
+    if (typewriterInterval.value) clearInterval(typewriterInterval.value);
+    let charIndex = 0;
+    const fullText = node.text;
+    typewriterInterval.value = setInterval(() => {
+        typewriterText.value += fullText[charIndex];
+        charIndex++;
+        if (charIndex >= fullText.length) {
+            clearInterval(typewriterInterval.value);
+            showDialogueOptions.value = true;
+        }
+    }, 30);
+};
+
+const selectOption = async (option, actorId = null) => {
+    if (option.actions?.length > 0) {
+        for (const action of option.actions) {
+            await runAction(action, actorId);
+        }
+    }
+    if (option.actions?.some(a => a.type === 'END TALK')) {
+        closeDialogue();
+        return;
+    }
+    if (option.next) playNode(option.next);
+    else closeDialogue();
+};
+
+const closeDialogue = () => {
+    activeDialogue.value = null;
+    currentNodeId.value = 'start';
+    typewriterText.value = '';
+    showDialogueOptions.value = false;
+    if (typewriterInterval.value) clearInterval(typewriterInterval.value);
+    if (dialogueResolve) {
+        dialogueResolve();
+        dialogueResolve = null;
+    }
+};
+
+const isSwapping = ref(false);
+
+const triggerGateway = async (gateway, isForced = false) => {
+    if (isSwapping.value) return;
+
+    const type = gateway.type || (gateway.target_scene_id ? 'gateway' : 'trigger');
+    
+    // 1. Behavioral Logic (SYSTEM_TRIGGER or Gateway with behavior)
+    if (gateway.gedrag_id && (!isBehaviorActive.value || isForced)) {
+        if (isForced || lastExecutedBehaviorGateway.value !== gateway) {
+
+             const gedrag = gedragingen.value.find(g => g.id === gateway.gedrag_id);
+             
+             // Find matching spawned NPCs
+             const spRelation = currentScene.value?.scene_personages || currentScene.value?.scenePersonages || [];
+             const targetGedragId = String(gateway.gedrag_id);
+             
+             const sceneP = spRelation.filter(sp => String(sp.gedrag_id || sp.gedragId) === targetGedragId);
+             const targetIds = sceneP.map(sp => String(sp.personage_id || sp.personageId));
+             
+             let actors = Object.values(spawnedNPCs).filter(n => 
+                targetIds.includes(String(n.id)) || 
+                String(n.gedrag_id) === targetGedragId
+             );
+
+             // FUZZY MATCH FALLBACK: If no actors found by ID, try matching NPC name into behavior name
+             if (actors.length === 0 && gedrag) {
+                 const behaviorName = gedrag.naam.toLowerCase();
+                 actors = Object.values(spawnedNPCs).filter(n => 
+                     behaviorName.includes(n.name.toLowerCase())
+                 );
+                 if (actors.length > 0) {
+                     console.log(`[TRIGGER] Fuzzy-matched actors by name:`, actors.map(a => a.name));
+                 }
+             }
+
+
+             
+             if (gedrag && actors.length > 0) {
+                 console.log(`[TRIGGER] Executing ${gedrag.naam} for actors:`, actors.map(a => a.name));
+                 isBehaviorActive.value = true;
+                 lastExecutedBehaviorGateway.value = gateway;
+
+                 const logMsg = `${isForced ? 'MANUAL' : 'TRG'}: ${gateway.label || 'SYSTEM'} -> ${gedrag.naam}`;
+
+                 behaviorLog.value.unshift({ time: new Date().toLocaleTimeString(), msg: logMsg });
+                 if (behaviorLog.value.length > 5) behaviorLog.value.pop();
+
+                 for (const actor of actors) {
+                     npcModes[actor.id] = 'SEQUENCE';
+                     actor.currentGedrag = gedrag.naam;
+                     actor.activeGedragId = gedrag.id;
+                 }
+
+                 for (const [index, action] of (gedrag.acties || []).entries()) {
+                     for (const actor of actors) {
+                         actor.currentActionIndex = index;
+                     }
+                     const actionLog = `ACT [${index + 1}/${gedrag.acties.length}]: ${action.type}`;
+                     behaviorLog.value.unshift({ time: new Date().toLocaleTimeString(), msg: actionLog });
+                     if (behaviorLog.value.length > 8) behaviorLog.value.pop();
+
+                     await Promise.all(actors.map(actor => runAction(action, actor.id)));
+                 }
+
+                 for (const actor of actors) {
+                     npcModes[actor.id] = 'IDLE';
+                     actor.currentGedrag = null;
+                     actor.activeGedragId = null;
+                     actor.currentActionIndex = -1;
+                 }
+
+                 isBehaviorActive.value = false;
+             } else {
+                 console.warn(`[TRIGGER] Failed to start behavior ${gateway.gedrag_id}:`, {
+                     gedragFound: !!gedrag,
+                     actorsFound: actors.length,
+                     availableNPCs: Object.values(spawnedNPCs).map(n => ({ id: n.id, name: n.name, gedragId: n.gedrag_id }))
+                 });
+             }
         }
     }
 
-    // 2. Swap scene if present
-    if (gateway.target_scene_id) {
+
+    // 2. Scene Traversal Logic (Gateways)
+    if (type === 'gateway' && gateway.target_scene_id) {
+        if (!isForced && lastTriggeredGateway.value === gateway) return;
+        
+        isSwapping.value = true;
+        lastTriggeredGateway.value = gateway;
         await swapScene(gateway);
+        isSwapping.value = false;
+        return;
     }
+
+    lastTriggeredGateway.value = gateway;
 };
 
-const runAction = async (action) => {
-    console.log("Running action:", action.type, action.value);
-    switch (action.type) {
+
+
+
+
+const runAction = async (action, actorId = null) => {
+    const type = action.type;
+    const params = action.params || {};
+    const value = action.value;
+    const targetActor = actorId ? spawnedNPCs[actorId] : null;
+
+    console.log(`Running action ${type} for ${actorId || 'player'}`);
+
+    switch (type) {
         case 'SET GAME TAG':
-            if (!gameState.tags.includes(action.value)) {
-                gameState.tags.push(action.value);
-                toast.success(`TAG_ACQUIRED: ${action.value}`);
+            const tag = value || params.tag;
+            if (tag && !gameState.tags.includes(tag)) {
+                gameState.tags.push(tag);
+                toast.success(`TAG_ACQUIRED: ${tag}`);
             }
             break;
         case 'REMOVE GAME TAG':
-            gameState.tags = gameState.tags.filter(t => t !== action.value);
+            const rtag = value || params.tag;
+            gameState.tags = gameState.tags.filter(t => t !== rtag);
             break;
-        case 'GOTO SCENE':
-            // Recursive scene swap if target is ID
-            if (!isNaN(action.value)) {
-                await swapScene({ target_scene_id: parseInt(action.value) });
+        case 'WAIT':
+        case 'WAIT x SECONDS':
+        case 'idle':
+            const duration = parseFloat(params.duration || value || 2);
+            await new Promise(res => setTimeout(res, duration * 1000));
+            break;
+        case 'WALK TO SPAWNPOINT':
+        case 'walk_to':
+        case 'WALK_TO':
+            const spName = params.spawn_point || value;
+            if (spName) {
+                const currentSectorId = route.params.id;
+                const locSpawnPoints = currentScene.value.location?.spawn_points || {};
+                const spawnPoints = locSpawnPoints[currentSectorId] || locSpawnPoints[Number(currentSectorId)] || [];
+                const sp = spawnPoints.find(p => p.name === spName || p.id === spName);
+                if (sp) {
+                    if (targetActor) {
+                        targetActor.targetPos.set(sp.x, sp.y, sp.z);
+                        targetActor.isWalking = true;
+                        await new Promise(resolve => {
+                            const check = setInterval(() => {
+                                if (!targetActor.isWalking) { clearInterval(check); resolve(); }
+                            }, 100);
+                        });
+                    } else if (actorId === null && playableCharacter) {
+                        targetPosition.set(sp.x, sp.y, sp.z);
+                        isWalking.value = true;
+                        await new Promise(resolve => {
+                            const check = setInterval(() => {
+                                if (!isWalking.value) { clearInterval(check); resolve(); }
+                            }, 100);
+                        });
+                    }
+                }
             }
             break;
-        case 'WAIT x SECONDS':
-            await new Promise(res => setTimeout(res, parseFloat(action.value) * 1000));
-            break;
+        case 'START DIALOG':
         case 'START_DIALOGUE':
-             // If we have a dialogue ID, we could show an overlay or redirect
-             // For now just log it
-             toast.info(`DIALOGUE_REQUESTED: ${action.value}`);
-             break;
+        case 'talk':
+            const dialId = params.dialoog_id || value;
+            if (dialId) await startDialogue(dialId);
+            break;
+        case 'PLAY_ANIMATION':
+        case 'ANIMATION':
+            const animName = params.animation || value;
+            if (targetActor && targetActor.actions[animName]) {
+                const nextAction = targetActor.actions[animName];
+                nextAction.reset().play();
+                // Wait for animation? For now just play
+                await new Promise(res => setTimeout(res, 500));
+            }
+            break;
+        case 'LOOK_AT_TARGET':
+        case 'LOOK_AT':
+        case 'look_at':
+            const lookTargetName = params.target || value || 'player';
+            let lookAtPos = null;
+
+            if (lookTargetName === 'player' && playableCharacter) {
+                lookAtPos = playableCharacter.position.clone();
+            } else {
+                // Find NPC by name or ID
+                const otherNpc = Object.values(spawnedNPCs).find(n => 
+                    n.name.toLowerCase() === lookTargetName.toLowerCase() || 
+                    String(n.id) === String(lookTargetName)
+                );
+                if (otherNpc && otherNpc.mesh) {
+                    lookAtPos = otherNpc.mesh.position.clone();
+                }
+            }
+
+            if (targetActor && targetActor.mesh && lookAtPos) {
+                // Only rotate on Y axis
+                const normalizedLookAt = new THREE.Vector3(lookAtPos.x, targetActor.mesh.position.y, lookAtPos.z);
+                targetActor.mesh.lookAt(normalizedLookAt);
+                // Sub-wait to ensure rotation is "seen" before next action
+                await new Promise(res => setTimeout(res, 300));
+            }
+            break;
+
+
+        case 'GOTO SCENE':
+            const scId = value || params.scene_id;
+            if (scId) await swapScene({ target_scene_id: parseInt(scId) });
+            break;
     }
 };
 
-const swapScene = async (gateway) => {
 
-    loading.value = true;
-    try {
-        const nextSceneRes = await axios.get(`/api/scenes/${gateway.target_scene_id}`);
-        const nextScene = nextSceneRes.data;
-        const locRes = await axios.get(`/api/locaties/${nextScene.locatie_id}`);
 
-        currentScene.value = { ...nextScene, location: locRes.data };
-
-        // Reset states
-        isWalking.value = false;
-        if (targetPointMesh) targetPointMesh.visible = false;
-
-        // When swapping, landing is already done
-        landingDone.value = true;
-
-        await loadSceneGLB(currentScene.value, gateway.target_spawn_point);
-    } catch (e) {
-        console.error("Failed to swap scene", e);
-    } finally {
-        loading.value = false;
-    }
-};
-
-const checkGateways = () => {
-    if (!currentScene.value || !currentScene.value.gateways || !playableCharacter) return;
+const getGatewayAtPosition = () => {
+    if (!currentScene.value || !currentScene.value.gateways || !playableCharacter) return null;
 
     // Project character position to screen space
     const vector = playableCharacter.position.clone();
@@ -684,44 +1060,132 @@ const checkGateways = () => {
 
     for (const gw of currentScene.value.gateways) {
         if (x >= gw.x && x <= gw.x + gw.width && y >= gw.y && y <= gw.y + gw.height) {
-            triggerGateway(gw);
-            break;
+            return gw;
+        }
+    }
+    return null;
+};
+
+const swapScene = async (gateway) => {
+    loading.value = true;
+    try {
+        const nextSceneRes = await axios.get(`/api/scenes/${gateway.target_scene_id}`);
+        const nextScene = nextSceneRes.data;
+        const locRes = await axios.get(`/api/locaties/${nextScene.locatie_id}`);
+
+        currentScene.value = { ...nextScene, location: locRes.data };
+
+        // Reset states
+        isWalking.value = false;
+        pendingGateway.value = null;
+        lastTriggeredGateway.value = null;
+        if (targetPointMesh) targetPointMesh.visible = false;
+
+        // When swapping, landing is already done
+        landingDone.value = true;
+
+        await loadSceneGLB(currentScene.value, gateway.target_spawn_point);
+        
+        // Anti-loop: check if we spawned inside a gateway in the new scene
+        const entryGw = getGatewayAtPosition();
+        if (entryGw) {
+            console.log("Anti-loop: spawned inside gateway", entryGw);
+            lastTriggeredGateway.value = entryGw;
+        }
+    } catch (e) {
+        console.error("Failed to swap scene", e);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const checkGateways = () => {
+    if (!currentScene.value || !currentScene.value.gateways || !playableCharacter || isSwapping.value) return;
+
+    const found = getGatewayAtPosition();
+
+    if (found) {
+        triggerGateway(found);
+    } else {
+        // Only reset if we were previously in a gateway or if it's not the forced pending one
+        if (!pendingGateway.value) {
+            lastTriggeredGateway.value = null;
+            lastExecutedBehaviorGateway.value = null;
         }
     }
 };
 
 
+
+
+
+const isActionActive = (gateway, actionIndex) => {
+    return Object.values(spawnedNPCs).some(n => 
+        String(n.activeGedragId) === String(gateway.gedrag_id) && 
+        n.currentActionIndex === actionIndex
+    );
+};
+
 const animate = () => {
+
     animationFrameId = requestAnimationFrame(animate);
     const delta = clock ? clock.getDelta() : 0.016;
 
     if (characterMixer) {
         characterMixer.update(delta);
     }
+    
+    // Update NPC mixers
+    Object.values(spawnedNPCs).forEach(npc => {
+        if (npc.mixer) npc.mixer.update(delta);
+        
+        // Handle NPC movement interpolation
+        if (npc.isWalking && npc.mesh) {
+            const dist = npc.mesh.position.distanceTo(npc.targetPos);
+            if (dist > 0.1) {
+                const lookPos = new THREE.Vector3(npc.targetPos.x, npc.mesh.position.y, npc.targetPos.z);
+                npc.mesh.lookAt(lookPos);
+                const dir = new THREE.Vector3().subVectors(npc.targetPos, npc.mesh.position).normalize();
+                npc.mesh.position.add(dir.multiplyScalar(characterSpeed * delta));
+                if (npc.actions.walk && !npc.actions.walk.isRunning()) {
+                    if (npc.actions.idle) npc.actions.idle.stop();
+                    npc.actions.walk.play();
+                }
+            } else {
+                npc.isWalking = false;
+                if (npc.actions.walk) npc.actions.walk.stop();
+                if (npc.actions.idle) npc.actions.idle.play();
+            }
+        }
+    });
 
     if (isWalking.value && playableCharacter) {
+
         const distance = playableCharacter.position.distanceTo(targetPosition);
         if (distance > 0.1) {
-            // Rotate towards target
             const lookPos = new THREE.Vector3(targetPosition.x, playableCharacter.position.y, targetPosition.z);
             playableCharacter.lookAt(lookPos);
-
-            // Move towards target
             const direction = new THREE.Vector3().subVectors(targetPosition, playableCharacter.position).normalize();
             playableCharacter.position.add(direction.multiplyScalar(characterSpeed * delta));
+            
+            // Continuous check while walking
+            checkGateways();
         } else {
             isWalking.value = false;
             if (targetPointMesh) targetPointMesh.visible = false;
             
             if (pendingGateway.value) {
-                triggerGateway(pendingGateway.value);
+                triggerGateway(pendingGateway.value, true); // Force trigger on explicit arrival
                 pendingGateway.value = null;
             } else {
-
                 checkGateways();
             }
         }
+    } else {
+        // Check even when standing if just standing in a gateway
+        checkGateways();
     }
+
 
     renderer.render(scene, camera);
 };
@@ -781,24 +1245,10 @@ const backgroundImageUrl = computed(() => {
 <template>
     <div class="min-h-screen bg-noir-darker p-8">
         <div class="max-w-[1300px] mx-auto">
-            <div class="flex items-center text-sm text-noir-muted mb-4">
-                <RouterLink :to="`/map/${sectorId}`" class="hover:text-white">&lt; TERUG_NAAR_SECTOR</RouterLink>
-                <span class="mx-2">/</span>
-                <span class="text-white uppercase mr-4">Sector_Emulatie_Mode</span>
-
-                <div v-if="currentScene" class="ml-auto">
-                    <RouterLink
-                        :to="`/locaties/${currentScene.locatie_id}/sector/${sectorId}/3d`"
-                        class="btn btn--small btn--primary"
-                    >
-                        WIJZIG_3D_SCENE
-                    </RouterLink>
-                </div>
-            </div>
-
             <div v-if="error" class="bg-noir-panel border border-noir-danger p-6 rounded text-noir-danger text-center">
                 {{ error }}
             </div>
+
 
             <div class="flex flex-col lg:flex-row gap-8 items-start relative">
                 <!-- Loading Overlay -->
@@ -820,14 +1270,55 @@ const backgroundImageUrl = computed(() => {
                         <div v-if="!landingDone" class="absolute top-4 left-4 bg-black/60 text-noir-accent px-3 py-1 rounded text-xs font-mono border border-noir-accent/30 animate-pulse">
                             SISTEEM_INITIALISATIE: VEHICLE_LANDING_INGESCHAKELD...
                         </div>
-                    </div>
 
+                        <div v-if="activeDialogue" class="absolute inset-x-0 bottom-4 z-40 flex flex-col items-center pointer-events-none px-12 pb-8">
+                            <div class="max-w-3xl w-full flex flex-col items-center gap-6">
+                                <!-- NPC Dialogue Box -->
+                                <transition name="fade">
+                                    <div v-if="typewriterText" class="w-full bg-noir-panel/85 backdrop-blur-md border border-noir-accent/30 p-6 rounded-lg pointer-events-auto shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+                                        <div class="text-[10px] font-mono text-noir-accent mb-2 uppercase tracking-[0.2em]">
+                                            {{ dialogueNPCName || 'CONTACT' }}
+                                        </div>
+                                        <div class="text-white text-xl leading-relaxed font-light italic">
+                                            {{ typewriterText }}<span class="animate-pulse opacity-50">_</span>
+                                        </div>
+                                    </div>
+                                </transition>
+
+                                <!-- Player Options -->
+                                <transition name="slide-up">
+                                    <div v-if="showDialogueOptions" class="flex flex-col items-stretch gap-2 w-full max-w-xl pointer-events-auto">
+                                        <button
+                                            v-for="(option, idx) in activeDialogue.tree.nodes[currentNodeId].options"
+                                            :key="idx"
+                                            @click="selectOption(option)"
+                                            class="group w-full bg-black/60 hover:bg-noir-accent/20 border border-noir-accent/20 hover:border-noir-accent/60 px-6 py-3 rounded text-left transition-all duration-300 flex justify-between items-center"
+                                        >
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-xs font-mono text-noir-accent/40 group-hover:text-noir-accent">[{{ String(idx + 1).padStart(2, '0') }}]</span>
+                                                <span class="text-white group-hover:text-white text-sm font-medium uppercase tracking-wider">{{ option.text }}</span>
+                                            </div>
+                                            <span class="text-[8px] text-noir-accent opacity-0 group-hover:opacity-100 transition-opacity font-mono text-right">SELECT_RESPONSE >></span>
+                                        </button>
+                                    </div>
+                                </transition>
+
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+
                          <div class="bg-noir-panel p-4 border border-noir-dark rounded">
                             <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">SCENE_INFO</h3>
                             <p class="text-noir-text">SEC: {{ sectorData?.naam }}</p>
                             <p class="text-noir-text">SCN: {{ currentScene?.titel }}</p>
+                            <div v-if="activeBehaviors.length" class="mt-2 pt-2 border-t border-noir-dark/50">
+                                <p class="text-noir-warning font-bold text-[8px] uppercase">ACTIEVE_GEDRAGINGEN:</p>
+                                <p v-for="b in activeBehaviors" :key="b.id" class="text-noir-warning/80 text-[9px]">• {{ b.naam }}</p>
+                            </div>
                         </div>
+
                         <div class="bg-noir-panel p-4 border border-noir-dark rounded">
                             <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">CHARACTER</h3>
                             <p class="text-noir-text">PLAYABLE: {{ settings.playable }}</p>
@@ -836,16 +1327,86 @@ const backgroundImageUrl = computed(() => {
                     </div>
                 </div>
 
+
                 <!-- Right: Info Sidebar -->
                 <div class="w-full lg:w-96 shrink-0 space-y-6">
+                    <!-- NPC Status -->
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded text-xs space-y-4">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">BESTURING</h3>
-                        <p class="text-noir-text font-mono mb-2">• CLICK_FLOOR: MOVE_CHARACTER</p>
-                        <p class="text-noir-text font-mono mb-2">• WALK_TO_WAYPOINT: SWAP_SCENE</p>
+                        <div class="space-y-2">
+                             <div v-for="npc in Object.values(spawnedNPCs)" :key="npc.id" class="flex items-center justify-between p-2 bg-black/20 rounded border border-noir-dark/50">
+                                 <div class="flex items-center gap-2">
+                                     <div class="w-2 h-2 rounded-full" :class="(npcModes[npc.id] || 'IDLE') === 'IDLE' ? 'bg-noir-accent' : 'bg-noir-warning animate-pulse'"></div>
+                                     <div class="flex flex-col">
+                                         <span class="text-[10px] text-white font-mono uppercase leading-tight">{{ npc.name }}</span>
+                                         <span v-if="npc.currentGedrag" class="text-[7px] text-noir-warning animate-pulse uppercase">{{ npc.currentGedrag }}</span>
+                                         <span v-else class="text-[7px] text-noir-muted uppercase">ACTIVE_UNIT</span>
+                                     </div>
+                                 </div>
+
+                                 <span class="px-2 py-0.5 rounded text-[8px] font-bold" :class="{
+                                     'bg-noir-accent text-black': (npcModes[npc.id] || 'IDLE') === 'IDLE',
+                                     'bg-noir-warning text-black animate-pulse': (npcModes[npc.id] || 'IDLE') === 'SEQUENCE'
+                                 }">
+                                     {{ npcModes[npc.id] || 'IDLE' }}
+                                 </span>
+                             </div>
+                        </div>
+
+                        <!-- Analysis Panel -->
+                        <div class="pt-4 border-t border-noir-dark/50 space-y-4">
+                            <h4 class="text-white font-bold uppercase text-[9px] mb-2 tracking-widest text-noir-muted">SCENE_ANALYSIS</h4>
+                            
+                            <div class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                                <div v-for="gw in sceneTriggers" :key="gw.label" 
+                                     @click="gw.gedrag_id ? triggerGateway(gw, true) : null"
+                                     class="p-2 bg-black/40 rounded border transition-all duration-300 group"
+                                     :class="[
+                                         activeGateway === gw ? 'border-noir-accent bg-noir-accent/10' : 'border-noir-dark/30',
+                                         gw.gedrag_id ? 'border-l-2 border-l-noir-warning cursor-pointer hover:bg-black/60 hover:border-noir-warning' : 'border-l-2 border-l-noir-accent opacity-60'
+                                     ]">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[9px] text-white font-mono uppercase">{{ gw.label || 'AREA' }}</span>
+                                            <div v-if="gw.gedrag_id" class="px-1.5 py-0.5 rounded-full bg-noir-warning/20 border border-noir-warning/30 text-[6px] text-noir-warning font-bold">TRIGGER</div>
+                                        </div>
+                                        <span v-if="activeGateway === gw" class="text-[7px] text-noir-accent animate-pulse font-bold">ACTIVE</span>
+                                        <span v-else-if="gw.gedrag_id" class="text-[6px] text-noir-muted group-hover:text-noir-warning opacity-0 group-hover:opacity-100 transition-opacity uppercase font-mono">Manual_Start</span>
+                                    </div>
+
+                                    <div v-if="gw.gedrag_id" class="text-[7px] text-noir-warning mt-1 font-mono uppercase flex flex-col gap-1">
+                                        <div class="flex items-center justify-between border-b border-noir-warning/20 pb-1">
+                                            <span>LINKED_BEHAVIOR: {{ gedragingen.find(g => g.id === gw.gedrag_id)?.naam || 'UNKNOWN' }}</span>
+                                            <span class="opacity-50">({{ gedragingen.find(g => g.id === gw.gedrag_id)?.acties?.length || 0 }} ACTS)</span>
+                                        </div>
+                                        <div class="pl-2 pt-1 space-y-0.5 opacity-60 group-hover:opacity-90">
+                                            <div v-for="(act, ai) in (gedragingen.find(g => g.id === gw.gedrag_id)?.acties || [])" :key="ai" 
+                                                 class="flex gap-2 transition-all duration-300"
+                                                 :class="{ 'text-noir-warning font-bold scale-105 translate-x-1 opacity-100': isActionActive(gw, ai) }">
+                                                <span class="opacity-40" :class="{ 'opacity-100': isActionActive(gw, ai) }">[{{ ai + 1 }}]</span>
+                                                <span :class="isActionActive(gw, ai) ? 'text-noir-warning' : 'text-white/80'">{{ act.type }}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div v-if="behaviorLog.length > 0" class="pt-4 border-t border-noir-dark/30">
+                                <h4 class="text-[9px] text-noir-muted uppercase mb-2">BEHAVIOR_LOG</h4>
+                                <div class="space-y-1">
+                                    <div v-for="(log, i) in behaviorLog" :key="i" class="text-[8px] font-mono text-noir-warning/70 border-l border-noir-warning/20 pl-2">
+                                        [{{ log.time }}] {{ log.msg }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="pt-4 border-t border-noir-dark/50 space-y-3">
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] text-noir-muted uppercase">3D Helpers</span>
+                                <span class="text-[10px] text-noir-muted uppercase">Helpers</span>
+
                                 <button @click="show3DHelpers = !show3DHelpers"
                                         class="w-8 h-4 rounded-full relative transition-colors duration-200"
                                         :class="show3DHelpers ? 'bg-noir-accent' : 'bg-noir-dark'">
@@ -855,7 +1416,7 @@ const backgroundImageUrl = computed(() => {
                             </div>
 
                             <div v-if="characterActions['caution']" class="flex items-center justify-between">
-                                <span class="text-[10px] text-noir-muted uppercase">Caution Mode</span>
+                                <span class="text-[10px] text-noir-muted uppercase">Caution</span>
                                 <button @click="isCaution = !isCaution"
                                         class="w-8 h-4 rounded-full relative transition-colors duration-200"
                                         :class="isCaution ? 'bg-noir-danger' : 'bg-noir-dark'">
@@ -875,15 +1436,8 @@ const backgroundImageUrl = computed(() => {
                             </div>
                         </div>
                     </div>
-
-                    <div class="bg-noir-panel p-4 border border-noir-dark rounded text-[10px] text-noir-muted italic">
-                         <div class="flex items-center gap-2 mb-2">
-                             <div class="w-2 h-2 rounded-full bg-noir-accent animate-pulse"></div>
-                             <span>VLOER_VISIBILITEIT: ACTIEF</span>
-                         </div>
-                         <p>COLLISION_DETECTION: OPTISCH</p>
-                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -893,4 +1447,28 @@ const backgroundImageUrl = computed(() => {
 :deep(canvas) {
     background: transparent !important;
 }
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+}
+
+.slide-up-enter-active, .slide-up-leave-active {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.slide-up-enter-from {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.slide-up-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.bg-noir-panel {
+    background-color: #0a0a0a;
+}
+
 </style>
