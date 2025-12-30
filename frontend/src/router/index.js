@@ -55,6 +55,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/dialogen/:id/emulate',
+            name: 'dialoog-emulate',
+            component: () => import('../views/Dialogen/DialoogEmulatieView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/map/:id',
             name: 'sector-detail',
             component: () => import('../views/Map/SectorDetail.vue'),

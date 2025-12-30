@@ -28,7 +28,7 @@ class DialoogController extends Controller
 
     public function show(Dialoog $dialoog)
     {
-        $dialoog->load('personage');
+        $dialoog->load(['personage.artwork']);
         return response()->json($dialoog);
     }
 

@@ -16,8 +16,13 @@ const sectorData = ref(null);
 const scenesInSector = ref([]);
 const currentScene = ref(null);
 const settings = ref({});
+const gedragingen = ref([]);
+const gameState = reactive({
+    tags: []
+});
 const loading = ref(true);
 const error = ref(null);
+
 
 // Three.js refs
 const canvasContainer = ref(null);
@@ -142,13 +147,16 @@ onUnmounted(() => {
 
 const fetchData = async () => {
     try {
-        const [sectorRes, settingsRes] = await Promise.all([
+        const [sectorRes, settingsRes, gedragRes] = await Promise.all([
             axios.get(`/api/sectoren/${sectorId}`),
-            axios.get('/api/instellingen')
+            axios.get('/api/instellingen'),
+            axios.get('/api/gedrag')
         ]);
         sectorData.value = sectorRes.data;
         scenesInSector.value = sectorData.value.scenes || [];
         settings.value = settingsRes.data;
+        gedragingen.value = gedragRes.data;
+
 
         // Find start scene (scene with vehicle spawn point)
         for (const s of scenesInSector.value) {
@@ -592,7 +600,55 @@ const onMapClick = (e) => {
     }
 };
 
+const triggerGateway = async (gateway) => {
+    // 1. Run Behavior if present
+    if (gateway.gedrag_id) {
+        const gedrag = gedragingen.value.find(g => g.id === gateway.gedrag_id);
+        if (gedrag && gedrag.acties) {
+            console.log("Triggering behavior:", gedrag.naam);
+            for (const action of gedrag.acties) {
+                await runAction(action);
+            }
+        }
+    }
+
+    // 2. Swap scene if present
+    if (gateway.target_scene_id) {
+        await swapScene(gateway);
+    }
+};
+
+const runAction = async (action) => {
+    console.log("Running action:", action.type, action.value);
+    switch (action.type) {
+        case 'SET GAME TAG':
+            if (!gameState.tags.includes(action.value)) {
+                gameState.tags.push(action.value);
+                toast.success(`TAG_ACQUIRED: ${action.value}`);
+            }
+            break;
+        case 'REMOVE GAME TAG':
+            gameState.tags = gameState.tags.filter(t => t !== action.value);
+            break;
+        case 'GOTO SCENE':
+            // Recursive scene swap if target is ID
+            if (!isNaN(action.value)) {
+                await swapScene({ target_scene_id: parseInt(action.value) });
+            }
+            break;
+        case 'WAIT x SECONDS':
+            await new Promise(res => setTimeout(res, parseFloat(action.value) * 1000));
+            break;
+        case 'START_DIALOGUE':
+             // If we have a dialogue ID, we could show an overlay or redirect
+             // For now just log it
+             toast.info(`DIALOGUE_REQUESTED: ${action.value}`);
+             break;
+    }
+};
+
 const swapScene = async (gateway) => {
+
     loading.value = true;
     try {
         const nextSceneRes = await axios.get(`/api/scenes/${gateway.target_scene_id}`);
@@ -628,11 +684,12 @@ const checkGateways = () => {
 
     for (const gw of currentScene.value.gateways) {
         if (x >= gw.x && x <= gw.x + gw.width && y >= gw.y && y <= gw.y + gw.height) {
-            swapScene(gw);
+            triggerGateway(gw);
             break;
         }
     }
 };
+
 
 const animate = () => {
     animationFrameId = requestAnimationFrame(animate);
@@ -657,9 +714,10 @@ const animate = () => {
             if (targetPointMesh) targetPointMesh.visible = false;
             
             if (pendingGateway.value) {
-                swapScene(pendingGateway.value);
+                triggerGateway(pendingGateway.value);
                 pendingGateway.value = null;
             } else {
+
                 checkGateways();
             }
         }

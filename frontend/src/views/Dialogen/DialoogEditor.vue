@@ -226,6 +226,9 @@ const getLineColor = (conn) => {
                 <button @click="openNewNodeModal" class="bg-noir-accent/10 text-noir-accent border border-noir-accent/30 px-4 py-2 rounded hover:bg-noir-accent hover:text-black transition-all text-xs font-bold uppercase tracking-widest">
                     + Nieuw Praatje
                 </button>
+                <RouterLink :to="`/dialogen/${conversation.id}/emulate`" class="bg-noir-accent/10 text-noir-accent border border-noir-accent/30 px-4 py-2 rounded hover:bg-noir-accent hover:text-black transition-all text-xs font-bold uppercase tracking-widest">
+                    Emuleer 3D
+                </RouterLink>
                 <button @click="saveChanges" class="bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black transition-all text-xs font-bold uppercase tracking-widest">
                     Save Tree
                 </button>

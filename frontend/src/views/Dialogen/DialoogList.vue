@@ -106,9 +106,14 @@ const createConversation = async () => {
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                     <span class="text-xs text-noir-muted truncate max-w-[100px]">{{ conv.is_active ? 'ACTIEF' : 'INACTIEF' }}</span>
-                    <RouterLink :to="`/dialogen/${conv.id}`" class="btn--link">
-                        EDIT NODE LOGIC >
-                    </RouterLink>
+                    <div class="flex flex-col gap-2 items-end">
+                        <RouterLink :to="`/dialogen/${conv.id}`" class="btn--link">
+                            EDIT NODE LOGICA >
+                        </RouterLink>
+                        <RouterLink :to="`/dialogen/${conv.id}/emulate`" class="btn--link text-noir-accent">
+                            EMULATE DIALOOG >
+                        </RouterLink>
+                    </div>
                 </div>
             </div>
         </div>

@@ -66,8 +66,10 @@ const editingGatewayIndex = ref(null);
 const gatewayForm = ref({
     target_scene_id: null,
     target_spawn_point: null,
+    gedrag_id: null,
     label: ''
 });
+
 
 // Dragging State
 const draggingGatewayIndex = ref(null);
@@ -221,9 +223,10 @@ const stopDrawing = () => {
     // Only add if size is significant (> 1%)
     if (previewBox.value.width > 1 && previewBox.value.height > 1) {
         editingGatewayIndex.value = null; // New gateway
-        gatewayForm.value = { target_scene_id: null, target_spawn_point: null, label: '' };
+        gatewayForm.value = { target_scene_id: null, target_spawn_point: null, gedrag_id: null, label: '' };
         showGatewayModal.value = true;
     }
+
 };
 
 const saveGateway = () => {
@@ -251,9 +254,11 @@ const editGateway = (index) => {
     gatewayForm.value = {
         target_scene_id: g.target_scene_id,
         target_spawn_point: g.target_spawn_point || null,
+        gedrag_id: g.gedrag_id || null,
         label: g.label || ''
     };
     showGatewayModal.value = true;
+
 };
 
 const removeGateway = (index) => {
@@ -449,8 +454,9 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                         @mousedown="startDrag(index, $event)"
                                     >
                                         <span class="text-xs font-bold text-white bg-black/50 px-1 rounded truncate max-w-full">
-                                            {{ getSceneName(gateway.target_scene_id) }}
+                                            {{ gateway.label || (gateway.target_scene_id ? getSceneName(gateway.target_scene_id) : (gateway.gedrag_id ? getGedragName(gateway.gedrag_id) : 'ACTION')) }}
                                         </span>
+
                                         <button
                                             @click.stop="removeGateway(index)"
                                             class="absolute -top-2 -right-2 bg-noir-danger text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hover:scale-110 transition-transform"
@@ -577,14 +583,15 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
 
                 <div>
-                    <label class="form-label">Doel Scene</label>
-                    <select v-model="gatewayForm.target_scene_id" required class="form-input">
-                        <option :value="null">-- KIES SCENE --</option>
+                    <label class="form-label">Doel Scene (Optioneel)</label>
+                    <select v-model="gatewayForm.target_scene_id" class="form-input">
+                        <option :value="null">-- GEEN SCENE SWAP --</option>
                         <option v-for="s in availableTargetScenes" :key="s.id" :value="s.id">
                             {{ s.titel }} (ID: {{ s.id }})
                         </option>
                     </select>
                 </div>
+
 
                 <div v-if="gatewayForm.target_scene_id">
                     <label class="form-label">Spawn Point in Doel Scene</label>
@@ -601,6 +608,14 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             </option>
                         </optgroup>
                     </select>
+                </div>
+                <div class="border-t border-noir-dark pt-4">
+                    <label class="form-label text-noir-warning">Trigger Gedrag (Optioneel)</label>
+                    <select v-model="gatewayForm.gedrag_id" class="form-input">
+                        <option :value="null">-- GEEN GEDRAG --</option>
+                        <option v-for="g in gedragingen" :key="g.id" :value="g.id">{{ g.naam }}</option>
+                    </select>
+                    <p class="text-[10px] text-noir-muted mt-1 uppercase">Wordt uitgevoerd wanneer personage het gebied bereikt.</p>
                 </div>
 
                 <div>
