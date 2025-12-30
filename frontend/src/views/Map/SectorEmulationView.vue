@@ -184,6 +184,8 @@ const initThree = () => {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(containerWidth.value, containerHeight.value);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     canvasContainer.value.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 0.1, 1000);
@@ -198,6 +200,15 @@ const initThree = () => {
 
     sun = new THREE.DirectionalLight(0xffffff, sunIntensity.value);
     sun.position.set(5, 10, 5);
+    sun.castShadow = true;
+    sun.shadow.mapSize.width = 1024;
+    sun.shadow.mapSize.height = 1024;
+    sun.shadow.camera.near = 0.5;
+    sun.shadow.camera.far = 50;
+    sun.shadow.camera.left = -10;
+    sun.shadow.camera.right = 10;
+    sun.shadow.camera.top = 10;
+    sun.shadow.camera.bottom = -10;
     scene.add(sun);
     sun.name = "sun-light";
 
@@ -241,12 +252,10 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
                     const isFloor = child.name.toLowerCase() === 'floor' || child.name.toLowerCase() === 'plane';
 
                     if (isFloor) {
-                        child.material = new THREE.MeshBasicMaterial({
-                            color: 0x00ffff,
-                            transparent: true,
-                            opacity: show3DHelpers.value ? 0.3 : 0.001, // Near-invisible floor for raycasting
-                            side: THREE.DoubleSide
+                        child.material = new THREE.ShadowMaterial({
+                            opacity: show3DHelpers.value ? 0.3 : 0.4
                         });
+                        child.receiveShadow = true;
                         child.name = 'floor';
                     } else {
                         // Occlusion Mask: Write to depth buffer
@@ -416,10 +425,13 @@ const spawnCharacter = (spawnPoint) => {
                 }
             }
 
-            // Strip lights from character GLB
+            // Strip lights and set shadow casting
             playableCharacter.traverse(child => {
                 if (child.isLight) {
-                    child.visible = false; // Or remove it
+                    child.visible = false;
+                }
+                if (child.isMesh) {
+                    child.castShadow = true;
                 }
             });
 
@@ -662,7 +674,11 @@ watch(show3DHelpers, (newVal) => {
         if (child.isMesh) {
             const isFloor = child.name === 'floor';
             if (isFloor) {
-                child.material.opacity = newVal ? 0.3 : 0.001;
+                if (child.material.isShadowMaterial) {
+                    child.material.opacity = newVal ? 0.3 : 0.4;
+                } else {
+                    child.material.opacity = newVal ? 0.3 : 0.001;
+                }
                 child.material.transparent = true;
                 child.material.colorWrite = true;
             } else {
