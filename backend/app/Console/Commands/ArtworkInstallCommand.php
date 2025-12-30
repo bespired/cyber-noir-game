@@ -25,10 +25,12 @@ class ArtworkInstallCommand extends Command
      */
     public function handle()
     {
-        $fileId = env('GOOGLE_DRIVE_INITIAL_ASSETS_ID');
+        $fileId = \App\Models\Instelling::getWaarde('asset_install_id', env('GOOGLE_DRIVE_INITIAL_ASSETS_ID'));
 
         if (!$fileId) {
-            $this->error('GOOGLE_DRIVE_INITIAL_ASSETS_ID is not set in .env');
+            $this->error('Asset Install ID not found.');
+            $this->error('Please ensure the "asset_install_id" is set in the "instellingen" table');
+            $this->error('or GOOGLE_DRIVE_INITIAL_ASSETS_ID is set in .env');
             return Command::FAILURE;
         }
 

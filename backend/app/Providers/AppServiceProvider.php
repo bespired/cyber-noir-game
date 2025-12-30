@@ -26,9 +26,19 @@ class AppServiceProvider extends ServiceProvider
     {
         Storage::extend('google', function ($app, $config) {
             $client = new \Google\Client();
-            $client->setClientId($config['clientId']);
-            $client->setClientSecret($config['clientSecret']);
-            $client->fetchAccessTokenWithRefreshToken($config['refreshToken']);
+            $client->setClientId($config['clientId'] ?? '');
+            $client->setClientSecret($config['clientSecret'] ?? '');
+            
+            $refreshToken = $config['refreshToken'] ?? null;
+            if (!$refreshToken) {
+                throw new \Exception('Google Drive configuration error: "refreshToken" is missing.');
+            }
+            
+            $token = $client->fetchAccessTokenWithRefreshToken($refreshToken);
+            if (isset($token['error'])) {
+                throw new \Exception('Google Drive Auth Error: ' . ($token['error_description'] ?? $token['error']));
+            }
+            $client->setAccessToken($token);
 
             $service = new \Google\Service\Drive($client);
             $adapter = new GoogleDriveAdapter($service, $config['folderId'] ?? '/');

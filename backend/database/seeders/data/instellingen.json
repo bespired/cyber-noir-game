@@ -26,5 +26,12 @@
         "waarde": "[\n{\n    \"id\": \"north\",\n    \"label\": \"Noorder waypoint\"\n},\n{\n    \"id\": \"east\",\n    \"label\": \"Oost waypoint\"\n},\n{\n    \"id\": \"south\",\n    \"label\": \"Zuid waypoint\"\n},\n{\n    \"id\": \"west\",\n    \"label\": \"West waypoint\"\n},\n{\n    \"id\": \"npc\",\n    \"label\": \"Non playable\"\n},\n{\n    \"id\": \"sit\",\n    \"label\": \"Sit position\"\n},\n{\n    \"id\": \"spinner\",\n    \"label\": \"Spinner\"\n},\n{\n    \"id\": \"landing\",\n    \"label\": \"Detective\"\n}\n]",
         "created_at": null,
         "updated_at": null
+    },
+    {
+        "id": 5,
+        "sleutel": "asset_install_id",
+        "waarde": "1HfyrkjVeiInTutmav2jXUTh4_jaQAPSP",
+        "created_at": null,
+        "updated_at": "2025-12-30T13:19:46.000000Z"
     }
 ]
