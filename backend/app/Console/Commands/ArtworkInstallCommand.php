@@ -44,18 +44,62 @@ class ArtworkInstallCommand extends Command
             if (!$response->successful()) {
                 $this->error('Failed to download from Google Drive.');
                 $this->error('Status Code: ' . $response->status());
-                $this->error('Please ensure the file is shared on Google Drive as "Anyone with the link".');
                 return Command::FAILURE;
             }
 
             $zipContent = $response->body();
 
-            // Basic check if we got HTML instead of ZIP
+            // If Google Drive returns an HTML page, it's likely a "large file" warning
             if (str_contains($zipContent, '<!DOCTYPE html>') || str_contains($zipContent, '<html>')) {
-                $this->error('It seems Google Drive returned a web page instead of a file.');
-                $this->error('This usually happens for very large files or if the link is not shared publicly.');
-                $this->line('Try copying the link into a private browser window to verify it downloads directly.');
-                return Command::FAILURE;
+                $this->info("Large file detected, fetching confirmation token and UUID...");
+
+                // Try to find the tokens in hidden inputs
+                preg_match('/name="confirm" value="([^"]+)"/', $zipContent, $confirmMatches);
+                $confirmToken = $confirmMatches[1] ?? null;
+
+                preg_match('/name="uuid" value="([^"]+)"/', $zipContent, $uuidMatches);
+                $uuidToken = $uuidMatches[1] ?? null;
+
+                if (!$confirmToken) {
+                    // Fallback for older pattern if hidden input not found
+                    if (preg_match('/confirm=([0-9A-Za-z_]+)/', $zipContent, $matches)) {
+                        $confirmToken = $matches[1];
+                    }
+                }
+
+                if ($confirmToken) {
+                    $this->info("Token found: {$confirmToken}");
+                    if ($uuidToken) {
+                        $this->info("UUID found: {$uuidToken}");
+                    }
+                    $this->info("Retrying download from drive.usercontent.google.com...");
+
+                    // Construct the retry URL with all necessary parameters
+                    $retryUrl = "https://drive.usercontent.google.com/download";
+                    $queryParams = [
+                        'id' => $fileId,
+                        'export' => 'download',
+                        'confirm' => $confirmToken,
+                    ];
+                    if ($uuidToken) {
+                        $queryParams['uuid'] = $uuidToken;
+                    }
+
+                    $response = \Illuminate\Support\Facades\Http::timeout(600)->get($retryUrl, $queryParams);
+
+                    if (!$response->successful()) {
+                        $this->error('Failed to download from Google Drive on retry.');
+                        $this->error('Status Code: ' . $response->status());
+                        return Command::FAILURE;
+                    }
+
+                    $zipContent = $response->body();
+                } else {
+                    $this->error('It seems Google Drive returned a web page instead of a file, and no confirmation token was found.');
+                    $this->error('This usually happens if the link is not shared publicly.');
+                    $this->line('Try copying the link into a private browser window to verify it downloads directly.');
+                    return Command::FAILURE;
+                }
             }
 
             $zipPath = storage_path('app/assets_install_temp.zip');
