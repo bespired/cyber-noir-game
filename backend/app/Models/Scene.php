@@ -17,10 +17,7 @@ class Scene extends Model
         'beschrijving',
         'status',
         'gateways',
-        'x',
-        'y',
-        'width',
-        'height',
+        'data',
     ];
 
     public function locatie()
@@ -45,5 +42,6 @@ class Scene extends Model
 
     protected $casts = [
         'gateways' => 'array',
+        'data' => 'array',
     ];
 }

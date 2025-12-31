@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Scene;
@@ -9,18 +8,20 @@ class SceneController extends Controller
 {
     public function index()
     {
-        return Scene::with(['locatie', 'sector', 'scenePersonages.personage', 'scenePersonages.gedrag'])->get();
+        $select = ['locatie', 'sector', 'scenePersonages.personage', 'scenePersonages.gedrag'];
+        return Scene::with($select)->get();
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'locatie_id' => 'required|exists:locaties,id',
-            'sector_id' => 'nullable|exists:sectoren,id',
-            'titel' => 'required|string|max:255',
-            'type' => 'required|string',
+            'locatie_id'   => 'nullable',
+            'sector_id'    => 'nullable',
+            'titel'        => 'required|string|max:255',
+            'type'         => 'required|string',
             'beschrijving' => 'required|string',
-            'status' => 'required|string',
+            'status'       => 'required|string',
+            'data'         => 'nullable|array',
         ]);
 
         return Scene::create($validated);
@@ -32,21 +33,17 @@ class SceneController extends Controller
         return response()->json($scene);
     }
 
-
     public function update(Request $request, Scene $scene)
     {
         $validated = $request->validate([
-            'locatie_id' => 'exists:locaties,id',
-            'sector_id' => 'nullable|exists:sectoren,id',
-            'titel' => 'string|max:255',
-            'type' => 'string',
+            'locatie_id'   => 'nullable',
+            'sector_id'    => 'nullable',
+            'titel'        => 'string|max:255',
+            'type'         => 'string',
             'beschrijving' => 'string',
-            'status' => 'string',
-            'gateways' => 'nullable|array',
-            'x' => 'integer',
-            'y' => 'integer',
-            'width' => 'integer',
-            'height' => 'integer',
+            'status'       => 'string',
+            'gateways'     => 'nullable|array',
+            'data'         => 'nullable|array',
         ]);
         $scene->update($validated);
 

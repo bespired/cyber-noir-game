@@ -4,12 +4,17 @@
   "description": "the game",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite --mode web",
+    "build": "vite build --mode electron",
+    "preview": "vite preview --mode electron",
+    "start": "vite build --mode electron && electron ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^39.2.7"
+    "@vitejs/plugin-vue": "^6.0.3",
+    "electron": "^39.2.7",
+    "vite": "^7.3.0",
+    "vue": "^3.5.26"
   }
 }

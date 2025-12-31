@@ -18,7 +18,18 @@ const loading = ref(true);
 const allPersonages = ref([]);
 const gedragingen = ref([]);
 const dialogen = ref([]);
-const scenePersonages = ref([]); // Assignments for this scene
+const scenePersonages = ref([]); // assignments for this scene
+
+const sceneTypes = [
+    { value: 'outside', label: 'Walkable Area (Outside)' },
+    { value: 'inside', label: 'Walkable Area (Inside)' },
+    { value: 'walkable-area', label: 'Walkable Area (Legacy)' },
+    { value: 'investigation', label: 'Investigation' },
+    { value: 'interrogation', label: 'Interrogation' },
+    { value: 'combat', label: 'Combat' },
+    { value: 'practice', label: 'Practice' },
+    { value: 'vue-component', label: 'Custom Vue Component' }
+];
 
 const showNPCModal = ref(false);
 const editingNPC = ref(null);
@@ -28,6 +39,21 @@ const npcForm = ref({
     gedrag_id: null,
     dialoog_id: null,
     spawn_condition: { type: 'on_enter', flag: '' }
+});
+
+const componentParams = computed({
+    get: () => {
+        if (!scene.value?.data?.props) return '{}';
+        return JSON.stringify(scene.value.data.props, null, 2);
+    },
+    set: (val) => {
+        try {
+            if (!scene.value.data) scene.value.data = {};
+            scene.value.data.props = JSON.parse(val);
+        } catch (e) {
+            // ignore
+        }
+    }
 });
 
 const availableTargetScenes = computed(() => {
@@ -94,6 +120,7 @@ onMounted(async () => {
         ]);
         scene.value = sceneResponse.data;
         if (!scene.value.gateways) scene.value.gateways = [];
+        if (!scene.value.data) scene.value.data = {};
 
         locaties.value = locatiesResponse.data;
         allScenes.value = scenesResponse.data;
@@ -379,7 +406,9 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 <div>
                     <h1 class="page-header mb-1">{{ scene.titel }}</h1>
                     <div class="flex items-center space-x-4">
-                        <span class="text-noir-accent font-mono text-sm uppercase tracking-wider">{{ scene.type }}</span>
+                        <select v-model="scene.type" class="form-input text-xs w-auto py-1 px-2 h-8">
+                            <option v-for="t in sceneTypes" :key="t.value" :value="t.value">{{ t.label }}</option>
+                        </select>
                         <span class="text-xs text-noir-muted">SCENE_ID: {{ String(scene.id).padStart(8, '0') }}</span>
                         <span class="px-2 py-1 rounded text-xs font-bold uppercase border" :class="getStatusColor(scene.status)">
                             {{ scene.status }}
@@ -430,7 +459,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         />
 
                         <!-- Visual Gateway Editor -->
-                        <div v-if="scene.type === 'walkable-area'">
+                        <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)">
                             <div v-if="activeArtwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
                                 <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none flex items-center gap-2">
                                     <span class="text-noir-warning">⚡</span> KLIK & SLEEP OM GATEWAY TE MAKEN
@@ -499,49 +528,68 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                 <div class="text-[10px] max-w-xs">Upload een achtergrond voor de scene of koppel een locatie met artwork om gateways te kunnen plaatsen.</div>
                             </div>
                         </div>
+                        <!-- Vue Component Configuration -->
+                        <div v-if="scene.type === 'vue-component'" class="p-4 bg-noir-dark/30 rounded border border-noir-dark space-y-4">
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">VUE_COMPONENT_CONFIG</h3>
+                            
+                            <div>
+                                <label class="form-label">Component Name</label>
+                                <input v-model="scene.data.component" type="text" class="form-input font-mono" placeholder="e.g. 'DemoTitleScene'">
+                                <p class="text-[10px] text-noir-muted mt-1">Ensure this component is registered in the Game Engine.</p>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Parameters / Props (JSON)</label>
+                                <textarea v-model="componentParams" rows="6" class="form-input font-mono text-xs"></textarea>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Right Column: Metadata & Form -->
                     <div class="space-y-6">
-                        <div>
-                            <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
-                                SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
+                        <!-- Location & Sector (Only for Walkable Areas) -->
+                        <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)">
+                            <div>
+                                <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
+                                    SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
+                                </div>
+                                <label class="form-label">Locatie</label>
+                                <select v-model="scene.locatie_id" class="form-input">
+                                    <option :value="null">-- GEEN LOCATIE --</option>
+                                    <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
+                                </select>
                             </div>
-                            <label class="form-label">Locatie</label>
-                            <select v-model="scene.locatie_id" class="form-input">
-                                <option :value="null">-- GEEN LOCATIE --</option>
-                                <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
-                            </select>
+                            <div class="mt-4">
+                                <label class="form-label">Sector</label>
+                                <select v-model="scene.sector_id" class="form-input">
+                                    <option :value="null">-- GEEN SECTOR --</option>
+                                    <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
+                                </select>
+                            </div>
                         </div>
+
                         <div>
-                            <label class="form-label">Sector</label>
-                            <select v-model="scene.sector_id" class="form-input">
-                                <option :value="null">-- GEEN SECTOR --</option>
-                                <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="form-label">Beschrijving</label>
                             <textarea v-model="scene.beschrijving" rows="3" class="form-input" placeholder="Describe what happens in this scene..."></textarea>
                         </div>
-
-                        <!-- Scene Metadata -->
-                        <!-- <div class="p-4 bg-noir-dark/30 rounded border border-noir-dark">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-3">Scene Metadata</h3>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-noir-muted">Created:</span>
-                                    <span class="text-white">{{ new Date(scene.created_at).toLocaleString() }}</span>
+                        
+                        <!-- Area Dimensions (Right Column Context) -->
+                        <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)" class="p-4 bg-noir-dark/30 rounded border border-noir-dark space-y-4">
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">AREA_DIMENSIONS</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="form-label">Map Width</label>
+                                    <input v-model="scene.data.width" type="number" class="form-input">
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-noir-muted">Last Updated:</span>
-                                    <span class="text-white">{{ new Date(scene.updated_at).toLocaleString() }}</span>
+                                <div>
+                                    <label class="form-label">Map Height</label>
+                                    <input v-model="scene.data.height" type="number" class="form-input">
                                 </div>
                             </div>
-                        </div> -->
+                            <p class="text-[10px] text-noir-muted">Coordinates (X: {{scene.data?.x}}, Y: {{scene.data?.y}}) are managed via the Sector Map.</p>
+                        </div>
 
-                        <!-- Personages & Voertuigen in Scene -->
-                        <div class=" border-noir-accent/30 ">
+                        <!-- Personages & Voertuigen in Scene (Hidden for Component Scenes) -->
+                        <div v-if="scene.type !== 'vue-component'" class="border-noir-accent/30">
                             <div class="p-4 border-b border-noir-dark flex justify-between items-center bg-noir-dark/50">
                                 <h3 class="text-xs font-bold text-noir-accent uppercase">Personages & Voertuigen</h3>
                                 <button @click="openNPCModal()" class="btn btn--small btn--success text-[10px] px-2 py-0.5">+ TOEVOEGEN</button>

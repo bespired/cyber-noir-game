@@ -23,13 +23,26 @@ const form = ref({
 
 const sectors = ref([]);
 const selectedSector = ref('');
+const selectedType = ref('');
+
+const types = [
+    { value: 'outside', label: 'Walkable Area (Outside)' },
+    { value: 'inside', label: 'Walkable Area (Inside)' },
+    { value: 'walkable-area', label: 'Walkable Area (Legacy)' },
+    { value: 'investigation', label: 'Investigation' },
+    { value: 'interrogation', label: 'Interrogation' },
+    { value: 'combat', label: 'Combat' },
+    { value: 'practice', label: 'Practice' },
+    { value: 'vue-component', label: 'Custom Vue Component' }
+];
 
 onMounted(async () => {
-    // Restore filter from sessionStorage
-    const savedFilter = sessionStorage.getItem('scene-sector-filter');
-    if (savedFilter) {
-        selectedSector.value = savedFilter;
-    }
+    // Restore filters from sessionStorage
+    const savedSectorFilter = sessionStorage.getItem('scene-sector-filter');
+    if (savedSectorFilter) selectedSector.value = savedSectorFilter;
+
+    const savedTypeFilter = sessionStorage.getItem('scene-type-filter');
+    if (savedTypeFilter) selectedType.value = savedTypeFilter;
 
     await Promise.all([
         fetchScenes(),
@@ -38,9 +51,8 @@ onMounted(async () => {
     ]);
 });
 
-watch(selectedSector, (newVal) => {
-    sessionStorage.setItem('scene-sector-filter', newVal);
-});
+watch(selectedSector, (newVal) => sessionStorage.setItem('scene-sector-filter', newVal));
+watch(selectedType, (newVal) => sessionStorage.setItem('scene-type-filter', newVal));
 
 const fetchSectors = async () => {
     try {
@@ -52,8 +64,11 @@ const fetchSectors = async () => {
 }
 
 const filteredScenes = computed(() => {
-    if (!selectedSector.value) return scenes.value;
-    return scenes.value.filter(s => s.sector_id == selectedSector.value);
+    return scenes.value.filter(s => {
+        const matchSector = !selectedSector.value || s.sector_id == selectedSector.value;
+        const matchType = !selectedType.value || s.type === selectedType.value;
+        return matchSector && matchType;
+    });
 });
 
 const fetchScenes = async () => {
@@ -114,7 +129,15 @@ const createScene = async () => {
                             {{ sector.naam }}
                         </option>
                     </select>
-                    <click-button v-if="selectedSector" icon="✕" buttonType="black" @click="selectedSector = ''" />
+                    
+                    <select v-model="selectedType" class="form-input text-sm w-auto">
+                        <option value="">ALLE TYPES</option>
+                        <option v-for="t in types" :key="t.value" :value="t.value">
+                            {{ t.label }}
+                        </option>
+                    </select>
+
+                    <click-button v-if="selectedSector || selectedType" icon="✕" buttonType="black" @click="{ selectedSector = ''; selectedType = ''; }" />
                 </div>
             </div>
             <click-button label="NIEUWE SCENE" icon="+" buttonType="add" @click="openModal" />
@@ -135,7 +158,27 @@ const createScene = async () => {
                     <label class="form-label">Titel</label>
                     <input v-model="form.titel" type="text" required class="form-input">
                 </div>
-                 <div class="grid grid-cols-2 gap-4">
+
+                <div class="grid grid-cols-2 gap-4">
+                     <div>
+                        <label class="form-label">Type</label>
+                        <select v-model="form.type" required class="form-input">
+                            <option v-for="t in types" :key="t.value" :value="t.value">
+                                {{ t.label }}
+                            </option>
+                        </select>
+                    </div>
+                     <div>
+                        <label class="form-label">Status</label>
+                        <select v-model="form.status" required class="form-input">
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="locked">Locked</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4" v-if="['outside', 'inside'].includes(form.type)">
                     <div>
                         <label class="form-label">Sector</label>
                         <select v-model="form.sector_id" required class="form-input">
@@ -151,31 +194,13 @@ const createScene = async () => {
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                     <div>
-                        <label class="form-label">Type</label>
-                        <select v-model="form.type" required class="form-input">
-                            <option value="walkable-area">Walkable Area (Outside)</option>
-                            <option value="investigation">Investigation (Inside)</option>
-                            <option value="interrogation">Interrogation</option>
-                            <option value="combat">Combat</option>
-                            <option value="practice">Practice</option>
-                        </select>
-                    </div>
-                     <div>
-                        <label class="form-label">Status</label>
-                        <select v-model="form.status" required class="form-input">
-                            <option value="active">Active</option>
-                            <option value="completed">Completed</option>
-                            <option value="locked">Locked</option>
-                        </select>
-                    </div>
-                </div>
+
                 <div>
                     <label class="form-label">Beschrijving</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
-                 <div class="grid grid-cols-2 gap-4">
+                <!--
+                    <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="form-label">Entry Point</label>
                         <textarea v-model="form.entry_point" rows="2" class="form-input"></textarea>
@@ -185,6 +210,7 @@ const createScene = async () => {
                         <textarea v-model="form.exit_point" rows="2" class="form-input"></textarea>
                     </div>
                 </div>
+                -->
                 <div class="pt-4 flex justify-end gap-2 text-sm">
                     <button type="button" @click="showModal = false" class="btn btn--secondary">CANCEL</button>
                     <button type="submit" class="btn btn--primary">MAAK_RECORD</button>

@@ -1,4 +1,6 @@
+
 console.log('Hello from Electron 👋')
+
 const { app, BrowserWindow } = require('electron')
 
 const createWindow = () => {
@@ -7,7 +9,9 @@ const createWindow = () => {
     height: 600
   })
 
-  win.loadFile('index.html')
+  // In production/simulated mode, we load the built file
+  // Make sure to run 'npm run build' before 'npm start'
+  win.loadFile('dist/index.html')
 }
 
 app.whenReady().then(() => {

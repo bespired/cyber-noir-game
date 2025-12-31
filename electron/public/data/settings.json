@@ -1,0 +1,7 @@
+{
+    "map_background": "artwork/algemeen/map-noir.png",
+    "spinner2049": "artwork/glb/vehicle--spinner-2049.glb",
+    "playable": "Nexus Runner K",
+    "spawn_options": "[\n{\n    \"id\": \"north\",\n    \"label\": \"Noorder waypoint\"\n},\n{\n    \"id\": \"east\",\n    \"label\": \"Oost waypoint\"\n},\n{\n    \"id\": \"south\",\n    \"label\": \"Zuid waypoint\"\n},\n{\n    \"id\": \"west\",\n    \"label\": \"West waypoint\"\n},\n{\n    \"id\": \"npc\",\n    \"label\": \"Non playable\"\n},\n{\n    \"id\": \"sit\",\n    \"label\": \"Sit position\"\n},\n{\n    \"id\": \"spinner\",\n    \"label\": \"Spinner\"\n},\n{\n    \"id\": \"landing\",\n    \"label\": \"Detective\"\n}\n]",
+    "asset_install_id": "1XS3OGTDDENDdnh9ziFawLLHvF4VsE73I"
+}

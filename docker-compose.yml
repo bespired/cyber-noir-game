@@ -24,6 +24,7 @@ services:
             APP_SERVICE: backend
         volumes:
             - ./backend:/var/www/html
+            - ./electron:/electron
         networks:
             - cyber-noir-network
 

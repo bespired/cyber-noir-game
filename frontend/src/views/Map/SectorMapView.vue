@@ -95,8 +95,8 @@ const onMouseDown = (event, scene) => {
         scene: scene,
         startX: event.clientX,
         startY: event.clientY,
-        initialX: scene.x || 100,
-        initialY: scene.y || 100
+        initialX: scene.data?.x ?? 100,
+        initialY: scene.data?.y ?? 100
     };
 };
 
@@ -106,8 +106,10 @@ const onMouseMove = (event) => {
     const dx = (event.clientX - dragging.value.startX) / mapGeometry.value.scale;
     const dy = (event.clientY - dragging.value.startY) / mapGeometry.value.scale;
 
-    dragging.value.scene.x = Math.max(0, dragging.value.initialX + dx);
-    dragging.value.scene.y = Math.max(0, dragging.value.initialY + dy);
+    if (!dragging.value.scene.data) dragging.value.scene.data = {};
+
+    dragging.value.scene.data.x = Math.round(Math.max(0, dragging.value.initialX + dx));
+    dragging.value.scene.data.y = Math.round(Math.max(0, dragging.value.initialY + dy));
 };
 
 const onMouseUp = async () => {
@@ -118,17 +120,14 @@ const onMouseUp = async () => {
 
     try {
         await axios.put(`/api/scenes/${scene.id}`, {
-            x: Math.round(scene.x),
-            y: Math.round(scene.y),
             titel: scene.titel,
-            width: scene.width,
-            height: scene.height,
             locatie_id: scene.locatie_id,
             sector_id: scene.sector_id,
             type: scene.type,
             beschrijving: scene.beschrijving,
             status: scene.status,
-            gateways: scene.gateways
+            gateways: scene.gateways,
+            data: scene.data // Save the data object
         });
     } catch (e) {
         console.error("Failed to save scene position", e);
@@ -178,10 +177,10 @@ const getLineCoords = (conn) => {
     const t = conn.target;
 
     // Internal coordinates
-    const sx = (s.x || 100) + (s.width || 200); // Right edge
-    const sy = (s.y || 100) + (s.height || 150) / 2; // Middle Y
-    const tx = (t.x || 100); // Left edge
-    const ty = (t.y || 100) + (t.height || 150) / 2; // Middle Y
+    const sx = (s.data?.x ?? 100) + (s.data?.width ?? 200); // Right edge
+    const sy = (s.data?.y ?? 100) + (s.data?.height ?? 150) / 2; // Middle Y
+    const tx = (t.data?.x ?? 100); // Left edge
+    const ty = (t.data?.y ?? 100) + (t.data?.height ?? 150) / 2; // Middle Y
 
     // Convert to screen coordinates
     return {
@@ -211,7 +210,7 @@ const getLineColor = (conn) => {
     const s = conn.source;
     const t = conn.target;
     // Determine "Back" connection if target is significantly to the left of source
-    if ((t.x || 0) < (s.x || 0) - 50) {
+    if ((t.data?.x ?? 0) < (s.data?.x ?? 0) - 50) {
         return {
             stroke: 'rgba(255, 60, 150, 0.5)', // Neon Pink/Magenta for "Back"
             filter: 'glow-back'
@@ -295,10 +294,10 @@ const getLineColor = (conn) => {
             <div v-for="scene in scenes" :key="scene.id"
                  @mousedown="onMouseDown($event, scene)"
                  :style="{
-                     left: `${mapGeometry.offsetX + ((scene.x || 100) * mapGeometry.scale)}px`,
-                     top: `${mapGeometry.offsetY + ((scene.y || 100) * mapGeometry.scale)}px`,
-                     width: `${(scene.width || 200) * mapGeometry.scale}px`,
-                     height: `${(scene.height || 150) * mapGeometry.scale}px`
+                     left: `${mapGeometry.offsetX + ((scene.data?.x ?? 100) * mapGeometry.scale)}px`,
+                     top: `${mapGeometry.offsetY + ((scene.data?.y ?? 100) * mapGeometry.scale)}px`,
+                     width: `${(scene.data?.width ?? 200) * mapGeometry.scale}px`,
+                     height: `${(scene.data?.height ?? 150) * mapGeometry.scale}px`
                  }"
                  class="absolute bg-noir-panel/90 border border-noir-dark group hover:border-noir-accent z-20 hover:z-50 shadow-2xl flex flex-col select-none transition-shadow backdrop-blur-sm"
                  :class="{ 'border-noir-accent z-50 ring-2 ring-noir-accent/50': dragging?.scene?.id === scene.id }">
