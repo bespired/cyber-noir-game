@@ -4,6 +4,7 @@ import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
 import { useToast } from '../../composables/useToast';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const toast = useToast();
 
@@ -83,10 +84,8 @@ const createConversation = async () => {
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-white tracking-tight">DIALOGUE DATABASE</h1>
-            <button @click="openModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                + NEW SEQUENCE
-            </button>
+            <h1 class="text-3xl font-bold text-white tracking-tight">DIALOOG DATABASE</h1>
+            <click-button label="NIEUWE SEQUENCE" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">

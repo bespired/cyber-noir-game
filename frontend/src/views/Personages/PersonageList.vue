@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const props = defineProps({
     type: {
@@ -80,15 +81,15 @@ const getImageUrl = (path) => {
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     return `http://localhost:8000/storage${cleanPath}`;
 };
+
+
 </script>
 
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
             <h1 class="page-header">{{ props.type === 'voertuig' ? 'VOERTUIGEN' : 'PERSONAGES' }}</h1>
-            <button @click="openModal" :class="['btn', props.type === 'voertuig' ? 'btn--warning' : 'btn--primary']">
-                + NIEUW {{ props.type === 'voertuig' ? 'VOERTUIG' : 'PERSOON' }}
-            </button>
+            <click-button icon="+" :label="`NIEUW ${props.type === 'voertuig' ? 'VOERTUIG' : 'PERSOON'}`" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
@@ -96,7 +97,7 @@ const getImageUrl = (path) => {
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="personage in personages" :key="personage.id" 
+            <div v-for="personage in personages" :key="personage.id"
                  :class="[
                      'panel panel--hover group relative overflow-hidden flex',
                      props.type === 'voertuig' ? 'flex-col' : 'gap-4'
@@ -136,9 +137,9 @@ const getImageUrl = (path) => {
                             </h2>
                             <span class="text-xs text-noir-muted uppercase tracking-wider">{{ personage.rol }}</span>
                         </div>
-                        <div class="h-2 w-2 rounded-full" 
+                        <div class="h-2 w-2 rounded-full"
                              v-if="props.type === 'persoon'"
-                             :class="personage.is_replicant ? 'bg-noir-danger' : 'bg-noir-success'" 
+                             :class="personage.is_replicant ? 'bg-noir-danger' : 'bg-noir-success'"
                              :title="personage.is_replicant ? 'Replicant Gedetecteerd' : 'Mens Geverifieerd'">
                         </div>
                     </div>
@@ -149,7 +150,7 @@ const getImageUrl = (path) => {
                         <span class="text-xs text-noir-muted font-mono">
                             {{ props.type === 'voertuig' ? 'VEH_ID' : 'ID' }}: {{ String(personage.id).padStart(4, '0') }}
                         </span>
-                        <RouterLink :to="`/personages/${personage.id}`" 
+                        <RouterLink :to="`/personages/${personage.id}`"
                                     :class="['btn--link', props.type === 'voertuig' ? 'btn--link-warning' : 'btn--link-accent']">
                             DETAILS >
                         </RouterLink>

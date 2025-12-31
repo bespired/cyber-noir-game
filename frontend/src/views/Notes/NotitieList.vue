@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const notes = ref([]);
 const loading = ref(true);
@@ -75,9 +76,7 @@ const deleteNote = async (id) => {
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
             <h1 class="page-header">MIJN NOTITIES</h1>
-            <button @click="openModal" class="btn btn--primary">
-                + NIEUW IDEE
-            </button>
+            <click-button label="NIEUW IDEE" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">

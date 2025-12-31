@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const aanwijzingen = ref([]);
 const loading = ref(true);
@@ -61,9 +62,7 @@ const getImageUrl = (path) => {
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
             <h1 class="page-header">AANWIJZINGEN</h1>
-            <button @click="openModal" class="btn btn--danger">
-                + AANWIJZING LOGGEN
-            </button>
+            <click-button label="AANWIJZING TOEVOEGEN" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">

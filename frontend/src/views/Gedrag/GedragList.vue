@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import axios from '../../axios';
 import { useToast } from '../../composables/useToast';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const toast = useToast();
 const gedragingen = ref([]);
@@ -42,9 +43,7 @@ onMounted(fetchGedragingen);
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-6">
             <h1 class="page-header">GEDRAG</h1>
-            <button @click="createGedrag" class="btn btn--success">
-                + NIEUW_GEDRAG
-            </button>
+            <click-button label="NIEUW GEDRAG" icon="+" buttonType="add" @click="createGedrag" />
         </div>
 
         <div v-if="loading" class="text-center py-20 text-noir-muted animate-pulse">

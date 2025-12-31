@@ -3,6 +3,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const scenes = ref([]);
 const locaties = ref([]);
@@ -132,14 +133,10 @@ const getTypeIcon = (type) => {
                             {{ sector.naam }}
                         </option>
                     </select>
-                    <button v-if="selectedSector" @click="selectedSector = ''" class="btn btn--secondary p-2 text-xs" title="Clear Filter">
-                        ✕
-                    </button>
+                    <click-button v-if="selectedSector" icon="✕" buttonType="black" @click="selectedSector = ''" />
                 </div>
             </div>
-            <button @click="openModal" class="btn btn--primary">
-                + NIEUWE SCENE
-            </button>
+            <click-button label="NIEUWE SCENE" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">

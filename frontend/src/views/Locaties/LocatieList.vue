@@ -3,6 +3,8 @@ import { ref, onMounted, computed, watch } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
+import LinkButton  from '../../components/inputs/LinkButton.vue';
 
 const locaties = ref([]);
 const loading = ref(true);
@@ -100,18 +102,12 @@ const getImageUrl = (path) => {
                             {{ sector.naam }}
                         </option>
                     </select>
-                    <button v-if="selectedSector" @click="selectedSector = ''" class="btn btn--secondary p-2 text-xs" title="Clear Filter">
-                        ✕
-                    </button>
+                    <click-button v-if="selectedSector" icon="✕" buttonType="black" @click="selectedSector = ''" />
                 </div>
             </div>
             <div class="flex gap-4">
-                <RouterLink to="/reorder/locaties" class="btn btn--accent-outline flex items-center gap-2">
-                    <span class="text-lg leading-none">⇅</span> VOLGORDE
-                </RouterLink>
-                <button @click="openModal" class="btn btn--warning">
-                    + NIEUWE LOCATIE
-                </button>
+                <link-button label="VOLGORDE" icon="⇅" name="locaties-reorder" buttonType="blue" />
+                <click-button label="NIEUWE LOCATIE" icon="+" buttonType="add" @click="openModal"  />
             </div>
         </div>
 
