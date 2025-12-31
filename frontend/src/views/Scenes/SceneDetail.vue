@@ -21,9 +21,7 @@ const dialogen = ref([]);
 const scenePersonages = ref([]); // assignments for this scene
 
 const sceneTypes = [
-    { value: 'outside', label: 'Walkable Area (Outside)' },
-    { value: 'inside', label: 'Walkable Area (Inside)' },
-    { value: 'walkable-area', label: 'Walkable Area (Legacy)' },
+    { value: 'walkable-area', label: 'Walkable Area' },
     { value: 'investigation', label: 'Investigation' },
     { value: 'interrogation', label: 'Interrogation' },
     { value: 'combat', label: 'Combat' },
@@ -431,6 +429,12 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         </svg>
                         GATEWAY_OVERZICHT
                     </RouterLink>
+                    <RouterLink v-if="scene.type === 'vue-component'" :to="`/scenes/${scene.id}/emulate`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                        TEST COMPONENT
+                    </RouterLink>
                     <RouterLink v-if="scene.locatie_id && scene.sector_id" :to="`/locaties/${scene.locatie_id}/sector/${scene.sector_id}/3d`" class="btn btn--primary flex items-center justify-center gap-2 w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -531,7 +535,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <!-- Vue Component Configuration -->
                         <div v-if="scene.type === 'vue-component'" class="p-4 bg-noir-dark/30 rounded border border-noir-dark space-y-4">
                             <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">VUE_COMPONENT_CONFIG</h3>
-                            
+
                             <div>
                                 <label class="form-label">Component Name</label>
                                 <input v-model="scene.data.component" type="text" class="form-input font-mono" placeholder="e.g. 'DemoTitleScene'">
@@ -571,7 +575,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <div>
                             <textarea v-model="scene.beschrijving" rows="3" class="form-input" placeholder="Describe what happens in this scene..."></textarea>
                         </div>
-                        
+
                         <!-- Area Dimensions (Right Column Context) -->
                         <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)" class="p-4 bg-noir-dark/30 rounded border border-noir-dark space-y-4">
                             <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">AREA_DIMENSIONS</h3>

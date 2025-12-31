@@ -26,9 +26,7 @@ const selectedSector = ref('');
 const selectedType = ref('');
 
 const types = [
-    { value: 'outside', label: 'Walkable Area (Outside)' },
-    { value: 'inside', label: 'Walkable Area (Inside)' },
-    { value: 'walkable-area', label: 'Walkable Area (Legacy)' },
+    { value: 'walkable-area', label: 'Walkable Area' },
     { value: 'investigation', label: 'Investigation' },
     { value: 'interrogation', label: 'Interrogation' },
     { value: 'combat', label: 'Combat' },
@@ -129,7 +127,7 @@ const createScene = async () => {
                             {{ sector.naam }}
                         </option>
                     </select>
-                    
+
                     <select v-model="selectedType" class="form-input text-sm w-auto">
                         <option value="">ALLE TYPES</option>
                         <option v-for="t in types" :key="t.value" :value="t.value">

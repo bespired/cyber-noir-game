@@ -145,6 +145,12 @@ const router = createRouter({
             meta: { requiresAuth: true }
         },
         {
+            path: '/scenes/:id/emulate',
+            name: 'scene-emulate',
+            component: () => import('../views/Scenes/ScenePlayerView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/about',
             name: 'about',
             component: () => import('../views/AboutView.vue')
