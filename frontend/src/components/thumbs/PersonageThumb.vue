@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import LinkButton from "../inputs/LinkButton.vue";
 
 defineProps({
     personage: {
@@ -44,7 +45,7 @@ const getImageUrl = (path) => {
         </div>
 
         <!-- Thumbnail (Personage Mode: Left, fixed width) -->
-        <div v-else-if="personage.artwork && personage.artwork.length > 0" class="flex-shrink-0 w-20">
+        <div v-else-if="personage.artwork && personage.artwork.length > 0" class="flex-shrink-0 w-30">
             <img
                 :src="getImageUrl(personage.artwork[0].bestandspad)"
                 :alt="personage.naam"
@@ -74,10 +75,7 @@ const getImageUrl = (path) => {
                 <span class="text-xs text-noir-muted font-mono">
                     {{ type === 'voertuig' ? 'VEH_ID' : 'ID' }}: {{ String(personage.id).padStart(4, '0') }}
                 </span>
-                <RouterLink :to="`/personages/${personage.id}`"
-                            :class="['btn--link', type === 'voertuig' ? 'btn--link-warning' : 'btn--link-accent']">
-                    DETAILS >
-                </RouterLink>
+                <link-button name="personage-detail" :params="{id: personage.id}" label="BEWERKEN" buttonType="link" />
             </div>
         </div>
     </div>

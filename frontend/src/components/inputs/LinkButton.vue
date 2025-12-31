@@ -35,16 +35,3 @@ const props = defineProps({
         <ClickButton :label="label" :buttonType="buttonType" :icon="icon" />
     </RouterLink>
 </template>
-
-<style>
-/*
-    .link-button  ~ .click-button,
-    .click-button ~ .link-button,
-    .link-button  ~ .link-button {
-        margin-left: 10px;
-    }
-*/
-</style>
-
-
-

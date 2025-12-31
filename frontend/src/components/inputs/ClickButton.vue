@@ -26,6 +26,7 @@ const handleClick = (event) => {
         <slot>
             <span v-if="icon" :class="{ label }">{{ icon }}</span>
             <span>{{ label }}</span>
+            <span v-if="buttonType==='link'">&nbsp;&nbsp;&gt;</span>
         </slot>
     </div>
 </template>
@@ -76,6 +77,17 @@ const handleClick = (event) => {
         color: white;
     }
 
+    .click-button[class*="link"] {
+        background-color: rgba(245, 158, 11,0.15);
+        color: rgb(245, 158, 11);
+        border: 1px solid rgba(245, 158, 11, 0.5);
+    }
+    .click-button[class*="link"]:hover {
+        background-color: rgb(245, 158, 11);
+        color: white;
+    }
+
+
     .click-button[class*="black"] {
         background-color:black;
         color: white;
@@ -121,5 +133,8 @@ const handleClick = (event) => {
         background-color: rgb(16, 185, 129);
         color: white;
     }
+
+
+
 
 </style>

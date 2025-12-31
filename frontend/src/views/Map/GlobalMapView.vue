@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 
 const sectors = ref([]);
 const loading = ref(true);
@@ -185,9 +186,8 @@ const createSector = async () => {
             <h1 class="text-2xl font-bold text-white tracking-tight">DE SECTOR MAP</h1>
             <div class="flex gap-4">
                 <span class="text-xs text-noir-muted self-center">SLEEP SECTOREN | KLIK NAAM OM TE BEWERKEN</span>
-                <button @click="openCreateModal" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 uppercase font-bold text-xs tracking-wider">
-                    + SECTOR TOEVOEGEN
-                </button>
+                <click-button icon="+" label="SECTOR TOEVOEGEN" buttonType="add" @click="openCreateModal" />
+
             </div>
         </div>
 
