@@ -549,15 +549,6 @@
         "updated_at": "2025-12-26T12:44:37.000000Z"
     },
     {
-        "id": 75,
-        "bestandspad": "artwork\/personage\/Awbo0vaazKjYo1KHMyI7X9ceFQAklGAntnr5lAlK.png",
-        "titel": null,
-        "imageable_type": "App\\Models\\Personage",
-        "imageable_id": 12,
-        "created_at": "2025-12-26T12:45:35.000000Z",
-        "updated_at": "2025-12-26T12:45:35.000000Z"
-    },
-    {
         "id": 76,
         "bestandspad": "artwork\/personage\/Dok3ratclWXtXoC4KA9p4WWeNPb0d5i1sbagUPe2.png",
         "titel": null,
@@ -691,5 +682,14 @@
         "imageable_id": 19,
         "created_at": "2025-12-27T19:48:26.000000Z",
         "updated_at": "2025-12-27T19:48:26.000000Z"
+    },
+    {
+        "id": 93,
+        "bestandspad": "artwork\/personage\/8G8aNzQ2j6hnht1qkXq6GaKxXYfhcXQv1kbi9IY7.png",
+        "titel": null,
+        "imageable_type": "App\\Models\\Personage",
+        "imageable_id": 12,
+        "created_at": "2025-12-30T19:49:21.000000Z",
+        "updated_at": "2025-12-30T19:49:21.000000Z"
     }
 ]
