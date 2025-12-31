@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
+import NotitieThumb from '../../components/thumbs/NotitieThumb.vue';
 
 const notes = ref([]);
 const loading = ref(true);
@@ -84,33 +85,13 @@ const deleteNote = async (id) => {
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="note in notes" :key="note.id"
-                 :class="['panel group relative overflow-hidden',
-                          note.is_afgerond ? 'border-noir-success/50 opacity-75' : 'panel--hover']">
-
-                <div class="flex justify-between items-start mb-4 relative z-10">
-                    <h2 :class="['text-xl font-bold transition-colors', note.is_afgerond ? 'text-noir-success line-through decoration-2' : 'text-white group-hover:text-noir-accent']">
-                        {{ note.titel }}
-                    </h2>
-                    <div class="flex gap-2">
-                        <button @click="toggleNote(note)"
-                            :class="['btn btn--success cursor-pointer w-1 p-1 rounded border transition-colors', note.is_afgerond ? 'bg-noir-success text-black border-noir-success' : 'border-noir-muted text-noir-muted hover:text-noir-success hover:border-noir-success']" title="Toggle Status">
-                            ✓
-                        </button>
-                        <button @click="deleteNote(note.id)"
-                        class="btn btn--danger cursor-pointer w-1 p-1 rounded border border-noir-muted text-noir-muted hover:text-noir-danger hover:border-noir-danger transition-colors" title="Delete">
-                            🗑️
-                        </button>
-                    </div>
-                </div>
-
-                <p :class="['text-sm mb-4 whitespace-pre-wrap max-h-[7.5rem] overflow-y-auto noir-scrollbar', note.is_afgerond ? 'text-noir-muted' : 'text-noir-text']">{{ note.inhoud }}</p>
-
-                <div class="text-xs text-noir-muted border-t border-noir-dark pt-4 mt-auto flex justify-between">
-                    <span>{{ new Date(note.created_at).toLocaleDateString() }}</span>
-                    <span>{{ note.is_afgerond ? 'ARCHIEF' : 'ACTIEF' }}</span>
-                </div>
-            </div>
+            <NotitieThumb
+                v-for="note in notes"
+                :key="note.id"
+                :note="note"
+                @toggle="toggleNote"
+                @delete="deleteNote"
+            />
         </div>
 
         <!-- Create Modal -->
