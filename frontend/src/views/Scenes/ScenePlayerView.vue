@@ -2,19 +2,14 @@
 import { ref, onMounted, defineAsyncComponent, shallowRef } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from '../../axios';
-import DemoTitleScene from '../../components/game_scenes/DemoTitleScene.vue'; // Direct import for fallback/demo
+// Scan all components in the game_scenes directory
+const availableScenes = import.meta.glob('../../components/game_scenes/*.vue');
 
 const route = useRoute();
 const scene = ref(null);
 const loading = ref(true);
 const currentComponent = shallowRef(null);
 const eventLog = ref([]);
-
-// Registry of available game scenes
-// In a real app, this might be auto-imported or more dynamic
-const componentRegistry = {
-    'DemoTitleScene': DemoTitleScene
-};
 
 onMounted(async () => {
     try {
@@ -23,12 +18,12 @@ onMounted(async () => {
         
         if (scene.value.type === 'vue-component' && scene.value.data?.component) {
             const compName = scene.value.data.component;
+            const path = `../../components/game_scenes/${compName}.vue`;
             
-            if (componentRegistry[compName]) {
-                currentComponent.value = componentRegistry[compName];
+            if (availableScenes[path]) {
+                currentComponent.value = defineAsyncComponent(availableScenes[path]);
             } else {
-                console.warn(`Component ${compName} not found in registry.`);
-                // Try dynamic import if strictly needed, but registry is safer for explicit control
+                console.warn(`Component ${compName} not found in @/components/game_scenes/`);
             }
         }
     } catch (e) {
@@ -80,7 +75,7 @@ const handleSceneComplete = (payload) => {
             <div v-else class="text-center p-8 border-2 border-noir-danger text-noir-danger">
                 <h2 class="text-xl font-bold mb-2">COMPONENT NOT FOUND</h2>
                 <p>Could not load component: "{{ scene?.data?.component }}"</p>
-                <p class="text-xs mt-4 text-white">Available: {{ Object.keys(componentRegistry).join(', ') }}</p>
+                <p class="text-xs mt-4 text-white">Available in @/components/game_scenes/: {{ Object.keys(availableScenes).map(k => k.split('/').pop().replace('.vue', '')).join(', ') }}</p>
             </div>
         </div>
 

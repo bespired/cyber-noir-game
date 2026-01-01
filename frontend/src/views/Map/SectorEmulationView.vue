@@ -5,6 +5,9 @@ import axios from '../../axios';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useToast } from '../../composables/useToast';
+import { useDataRobustness } from '../../composables/useDataRobustness';
+
+const { fetchData: fetchRobustData, resolveAssetUrl, slugify, getCharacterGlbUrl } = useDataRobustness();
 
 const toast = useToast();
 const route = useRoute();
@@ -90,37 +93,26 @@ const VIEW_WIDTH = 1216;
 const VIEW_HEIGHT = 832;
 const ASPECT_RATIO = VIEW_WIDTH / VIEW_HEIGHT;
 
-const slugify = (str) => {
-    if (!str) return '';
-    return str.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '');
-};
+// slugify and getCharacterGlbUrl are now imported from useDataRobustness
 
 const getImageUrl = (path) => {
-    if (!path) return '';
-    if (path.startsWith('http')) return path;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage${cleanPath}`;
+    return resolveAssetUrl(path);
 };
 
 const getGlbUrl = (location, sector) => {
     if (!location || !sector) return '';
     const sectorSlug = slugify(sector.naam);
     const locationSlug = slugify(location.naam);
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage/glb/${sectorSlug}--${locationSlug}.glb`;
+    return resolveAssetUrl(`glb/${sectorSlug}--${locationSlug}.glb`);
 };
 
-const getCharacterGlbUrl = (name) => {
-    if (!name) return '';
-    const slug = slugify(name);
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage/glb/${slug}.glb`;
-};
+// getCharacterGlbUrl is now imported from useDataRobustness
 
 const getVehicleGlbUrl = (path) => {
     if (!path) return '';
     // Strip 'artwork/' if it's at the start, as 3D is in glb/
     let cleanPath = path.replace(/^artwork\//, '');
-    cleanPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage${cleanPath}`;
+    return resolveAssetUrl(cleanPath);
 };
 
 // Responsive Logic

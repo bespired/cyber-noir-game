@@ -47,7 +47,8 @@ const componentParams = computed({
     set: (val) => {
         try {
             if (!scene.value.data) scene.value.data = {};
-            scene.value.data.props = JSON.parse(val);
+            const parsed = JSON.parse(val);
+            scene.value.data = { ...scene.value.data, props: parsed };
         } catch (e) {
             // ignore
         }
@@ -136,7 +137,17 @@ onMounted(async () => {
 
 const saveChanges = async (silent = false) => {
     try {
-        await axios.put(`/api/scenes/${scene.value.id}`, scene.value);
+        const payload = {
+            titel: scene.value.titel,
+            locatie_id: scene.value.locatie_id,
+            sector_id: scene.value.sector_id,
+            type: scene.value.type,
+            beschrijving: scene.value.beschrijving,
+            status: scene.value.status,
+            gateways: scene.value.gateways,
+            data: scene.value.data
+        };
+        await axios.put(`/api/scenes/${scene.value.id}`, payload);
         if (!silent) toast.success('CHANGES_SAVED');
     } catch (e) {
         toast.error('ERROR_SAVING');

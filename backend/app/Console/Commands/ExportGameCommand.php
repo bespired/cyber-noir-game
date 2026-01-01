@@ -10,6 +10,7 @@ use App\Models\Aanwijzing;
 use App\Models\Dialoog;
 use App\Models\Sector;
 use App\Models\Instelling;
+use App\Models\Scene;
 
 class ExportGameCommand extends Command
 {
@@ -76,7 +77,8 @@ class ExportGameCommand extends Command
 
         $this->exportJson($dataPath, 'sectors.json', Sector::with('scenes')->get());
         $this->exportJson($dataPath, 'locations.json', Locatie::with('scenes')->get());
-        $this->exportJson($dataPath, 'personages.json', Personage::all());
+        $this->exportJson($dataPath, 'scenes.json', Scene::all());
+        $this->exportJson($dataPath, 'personages.json', Personage::with('artwork')->get());
         $this->exportJson($dataPath, 'items.json', Aanwijzing::all());
         $this->exportJson($dataPath, 'dialogues.json', Dialoog::all()); // Depending on structure, might need processing
 
@@ -158,6 +160,38 @@ class ExportGameCommand extends Command
             }
         } else {
             $this->warn("Game Scenes components directory not found: $compSourcePath");
+        }
+
+        // 5.1 Export Input Components
+        $this->info('Exporting Input Components...');
+        $inputSourcePath = $frontendPath . '/src/components/inputs';
+        $inputDestPath = $electronPath . '/src/components/inputs';
+
+        if (!File::exists($inputDestPath)) {
+            File::makeDirectory($inputDestPath, 0755, true);
+        }
+
+        if (File::exists($inputSourcePath)) {
+            File::copyDirectory($inputSourcePath, $inputDestPath);
+            $this->info("Input components exported to $inputDestPath");
+        } else {
+            $this->warn("Input components directory not found: $inputSourcePath");
+        }
+
+        // 5.2 Export Composables
+        $this->info('Exporting Composables...');
+        $compSourcePath = $frontendPath . '/src/composables';
+        $compDestPath = $electronPath . '/src/composables';
+
+        if (!File::exists($compDestPath)) {
+            File::makeDirectory($compDestPath, 0755, true);
+        }
+
+        if (File::exists($compSourcePath)) {
+            File::copyDirectory($compSourcePath, $compDestPath);
+            $this->info("Composables exported to $compDestPath");
+        } else {
+            $this->warn("Composables directory not found: $compSourcePath");
         }
 
         $this->info('Game Export Completed Successfully!');

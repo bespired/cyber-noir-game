@@ -5,6 +5,9 @@ import axios from '../../axios';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useToast } from '../../composables/useToast';
+import { useDataRobustness } from '../../composables/useDataRobustness';
+
+const { resolveAssetUrl, getCharacterGlbUrl } = useDataRobustness();
 
 const toast = useToast();
 const route = useRoute();
@@ -38,23 +41,13 @@ const currentNode = computed(() => {
     return dialoogData.value.tree.nodes[currentNodeId.value];
 });
 
-const slugify = (str) => {
-    if (!str) return '';
-    return str.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '');
-};
+// slugify is now imported from useDataRobustness
 
 const getImageUrl = (path) => {
-    if (!path) return '';
-    if (path.startsWith('http')) return path;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage${cleanPath}`;
+    return resolveAssetUrl(path);
 };
 
-const getCharacterGlbUrl = (name) => {
-    if (!name) return '';
-    const slug = slugify(name);
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/storage/glb/${slug}.glb`;
-};
+// getCharacterGlbUrl is now imported from useDataRobustness
 
 onMounted(async () => {
     await fetchData();
