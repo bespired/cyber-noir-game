@@ -6,10 +6,17 @@ export function useDataRobustness() {
 
     /**
      * Determines if we are in the Electron/Engine environment.
-     * We assume if we're not on port 3000 (frontend emulation), we're in the engine.
      */
     const isEngine = computed(() => {
-        return window.location.protocol === 'file:' || !window.location.host.includes('3000');
+        // 1. Check for Electron-specific renderer globals
+        const isElectron = window.process?.versions?.electron ||
+            window.navigator.userAgent.toLowerCase().includes('electron') ||
+            window.location.protocol === 'file:';
+
+        // 2. Fallback check for port mismatch (if not on 3000, we're likely in the built app)
+        const isNotDev = !window.location.host.includes('3000') && window.location.host !== '';
+
+        return isElectron || isNotDev;
     });
 
     /**

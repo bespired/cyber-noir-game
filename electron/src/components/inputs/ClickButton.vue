@@ -120,6 +120,7 @@ const handleClick = (event) => {
     .click-button[class*="red"]:hover {
         background-color: rgb(239, 68, 68);
         color: white;
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
     }
 
 
@@ -133,7 +134,6 @@ const handleClick = (event) => {
         background-color: rgb(16, 185, 129);
         color: white;
     }
-
 
 
 

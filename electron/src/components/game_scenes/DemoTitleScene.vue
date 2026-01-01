@@ -23,7 +23,7 @@ const start = () => {
         text-transform: uppercase;
         letter-spacing: 2px;
         line-height: 1.6;
-        padding: 60px 10%;
+        padding: 0 10%;
         background-color: #000;
         color: #fff;
         min-height: 100vh;
@@ -37,10 +37,10 @@ const start = () => {
     }
 
     h1 {
-        font-size: 4rem;
+        font-size: 8vh;
         font-weight: 800;
         letter-spacing: 0.3em;
-        margin-bottom: 2rem;
+        margin-bottom: 3vh;
         display: block;
     }
 
@@ -127,7 +127,6 @@ const start = () => {
                 label="INITIALIZE_SEQUENCE"
                 buttonType="red"
                 @click="start"
-                style="padding: 12px 30px; font-weight: bold;"
             />
         </div>
     </div>

@@ -85,7 +85,7 @@ onMounted(() => {
             </div>
 
             <!-- 3D View Card -->
-            <div class="character-card">
+            <div class="character-card landscape">
                 <div class="viewer-wrapper">
                     <Character3DViewer 
                         v-if="getGlbUrl(currentCharacter)"
@@ -103,6 +103,17 @@ onMounted(() => {
                     <p class="role">{{ currentCharacter.rol }}</p>
                     <div class="description custom-scrollbar">
                         {{ currentCharacter.beschrijving }}
+                    </div>
+                    
+                    <div class="stats-panel">
+                        <div class="stat-row">
+                            <span class="stat-label">STATUS:</span>
+                            <span class="stat-value">ACTIVE</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">ORIGIN:</span>
+                            <span class="stat-value">NEO-TOKYO</span>
+                        </div>
                     </div>
                 </div>
 
@@ -186,11 +197,12 @@ onMounted(() => {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
-    max-width: 1100px;
-    height: 65vh;
+    max-width: 1200px;
+    height: 55vh;
     z-index: 10;
+    gap: 30px;
 }
 
 .nav-control {
@@ -198,38 +210,44 @@ onMounted(() => {
     padding: 20px;
     transition: all 0.3s;
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-arrow {
-    font-size: 3rem;
-    color: rgba(255, 0, 0, 0.5);
+    font-size: 4rem;
+    color: rgba(255, 0, 0, 0.3);
     transition: transform 0.3s, color 0.3s;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
 .nav-control:hover .nav-arrow {
     color: #ff0000;
-    transform: scale(1.2);
+    transform: scale(1.1);
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }
 
 .character-card {
     position: relative;
-    width: 380px;
+    width: 850px;
     height: 100%;
     border: 1px solid rgba(255, 0, 0, 0.3);
     background: rgba(127, 0, 0, 0.05);
-    padding: 20px;
+    padding: 30px;
     display: flex;
-    flex-direction: column;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(255, 0, 0, 0.1);
+    flex-direction: row;
+    backdrop-filter: blur(15px);
+    box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.05), 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .viewer-wrapper {
-    flex-grow: 1;
+    width: 45%;
+    height: 100%;
     position: relative;
     overflow: hidden;
-    margin-bottom: 20px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 0, 0, 0.1);
 }
 
 .viewer-component {
@@ -248,37 +266,71 @@ onMounted(() => {
 }
 
 .character-info {
-    border-top: 1px solid rgba(255, 0, 0, 0.3);
-    padding-top: 20px;
+    width: 55%;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
 }
 
 .name {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
-    color: #ff5555;
-    margin: 0 0 5px 0;
+    color: #ff0000;
+    margin: 0 0 8px 0;
     text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 
 .role {
-    font-size: 0.7rem;
-    color: rgba(255, 100, 100, 0.6);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    margin-bottom: 12px;
+    letter-spacing: 0.3em;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+    padding-bottom: 10px;
+    display: inline-block;
 }
 
 .description {
-    font-size: 0.8rem;
-    color: #ccc;
-    line-height: 1.5;
-    height: 60px;
+    font-size: 0.95rem;
+    color: #bbb;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-height: 180px;
     overflow-y: auto;
-    padding-right: 5px;
+    padding-right: 15px;
+}
+
+.stats-panel {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat-row {
+    display: flex;
+    gap: 15px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+}
+
+.stat-label {
+    color: rgba(255, 0, 0, 0.5);
+    width: 80px;
+}
+
+.stat-value {
+    color: #fff;
+    font-weight: bold;
 }
 
 .action-wrapper {
-    margin-top: 50px;
+    margin-top: 40px;
     z-index: 10;
 }
 

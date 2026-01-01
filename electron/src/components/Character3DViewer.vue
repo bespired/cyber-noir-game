@@ -76,19 +76,19 @@ const initThree = () => {
     // loadModel();
 
     // 5. Lighting setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
-    const mainLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
     mainLight.position.set(2, 4, 4);
     scene.add(mainLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
     fillLight.position.set(-2, 2, -4);
     scene.add(fillLight);
 
-    // 6. Global base light (Slightly reduced since we now have Scene Environment)
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
+    // 6. Global base light
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.4);
     scene.add(hemiLight);
 
     clock = new THREE.Clock();
@@ -115,7 +115,7 @@ const playAnimation = (name) => {
 const loadModel = () => {
     if (!props.glbUrl) return;
 
-    loading.ref = true;
+    loading.value = true;
     error.value = null;
 
     // Clean up existing model
@@ -134,12 +134,25 @@ const loadModel = () => {
     }
 
     const loader = new GLTFLoader();
-    // Match the scene tester's cross-origin setting
-    loader.setCrossOrigin('anonymous');
+    
+    // NOTE: Removed setCrossOrigin('anonymous') to avoid issues with file:// protocol in Electron
 
     loader.load(props.glbUrl, (gltf) => {
         currentModel = gltf.scene;
         scene.add(currentModel);
+
+        // Ensure materials are reacting to environment map and have correct color space
+        currentModel.traverse(child => {
+            if (child.isMesh) {
+                if (child.material) {
+                    child.material.envMapIntensity = 1.0;
+                    child.material.needsUpdate = true;
+                }
+            }
+            if (child.isLight) {
+                child.visible = false;
+            }
+        });
 
         // Compute bounding box to center and scale correctly
         const box = new THREE.Box3().setFromObject(currentModel);
@@ -193,20 +206,12 @@ const loadModel = () => {
             else if (Object.keys(actions).length > 0) playAnimation(Object.keys(actions)[0]);
         }
 
-        // Strip lights from character GLB
-        currentModel.traverse(child => {
-            if (child.isLight) {
-                child.visible = false;
-            }
-        });
-
         loading.value = false;
-        // console.log('Character GLB met succes geladen.');
     }, (progress) => {
         // Handle progress if needed
     }, (err) => {
         console.error('Failed to load character GLB:', err);
-        error.value = 'SCAN_ERROR: TARGET_ARGHH_ONVINDBAAR';
+        error.value = 'SCAN_ERROR: TARGET_DATA_ONVINDBAAR';
         loading.value = false;
     });
 };

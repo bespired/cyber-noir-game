@@ -19,6 +19,23 @@ const allPersonages = ref([]);
 const gedragingen = ref([]);
 const dialogen = ref([]);
 const scenePersonages = ref([]); // assignments for this scene
+const openingSceneId = ref(null);
+
+const isStartingScene = computed(() => {
+    return openingSceneId.value == route.params.id;
+});
+
+const setAsStartingScene = async () => {
+    try {
+        await axios.put(`/api/instellingen/opening_scene`, {
+            waarde: route.params.id
+        });
+        openingSceneId.value = route.params.id;
+        toast.success('STARTING_SCENE_UPDATED');
+    } catch (e) {
+        toast.error('FAILED_TO_UPDATE_STARTING_SCENE');
+    }
+};
 
 const sceneTypes = [
     { value: 'walkable-area', label: 'Walkable Area' },
@@ -107,7 +124,7 @@ const justDragged = ref(false);
 
 onMounted(async () => {
     try {
-        const [sceneResponse, locatiesResponse, scenesResponse, sectorsResponse, persResponse, gedragResponse, dialoogResponse, assignmentsResponse] = await Promise.all([
+        const [sceneResponse, locatiesResponse, scenesResponse, sectorsResponse, persResponse, gedragResponse, dialoogResponse, assignmentsResponse, openingSceneResponse] = await Promise.all([
             axios.get(`/api/scenes/${route.params.id}`),
             axios.get('/api/locaties'),
             axios.get('/api/scenes'),
@@ -115,7 +132,8 @@ onMounted(async () => {
             axios.get('/api/personages'),
             axios.get('/api/gedrag'),
             axios.get('/api/dialogen'),
-            axios.get(`/api/scene-personages?scene_id=${route.params.id}`)
+            axios.get(`/api/scene-personages?scene_id=${route.params.id}`),
+            axios.get('/api/instellingen/opening_scene')
         ]);
         scene.value = sceneResponse.data;
         if (!scene.value.gateways) scene.value.gateways = [];
@@ -128,6 +146,7 @@ onMounted(async () => {
         gedragingen.value = gedragResponse.data;
         dialogen.value = dialoogResponse.data;
         scenePersonages.value = assignmentsResponse.data;
+        openingSceneId.value = openingSceneResponse.data.waarde;
     } catch (e) {
         console.error(e);
     } finally {
@@ -426,6 +445,10 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
                 <div class="flex flex-col gap-2 items-end">
                     <div class="flex gap-2">
+                        <button @click="setAsStartingScene" class="btn" :class="isStartingScene ? 'btn--accent' : 'btn--accent-outline'">
+                            <span v-if="isStartingScene">✓ STARTING_SCENE</span>
+                            <span v-else>SET_AS_STARTING_SCENE</span>
+                        </button>
                         <button @click="saveChanges" class="btn btn--success">
                             BEWAREN
                         </button>

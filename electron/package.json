@@ -7,7 +7,7 @@
     "dev": "vite --mode web",
     "build": "vite build --mode electron",
     "preview": "vite preview --mode electron",
-    "start": "vite build --mode electron && electron ."
+    "start": "electron ."
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "@vitejs/plugin-vue": "^6.0.3",
     "electron": "^39.2.7",
     "vite": "^7.3.0",
-    "vue": "^3.5.26"
+    "vue": "^3.5.26",
+    "vue-router": "^4.5.0"
   }
 }

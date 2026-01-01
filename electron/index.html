@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: blob:; font-src 'self' data:;" />
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' blob: http://localhost:8000;" />
   <!-- Valid CSP for development. In production we might want to be stricter. -->
 
   <title>Nexus Runner</title>

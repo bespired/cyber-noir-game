@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use App\Models\Locatie;
-use App\Models\Personage;
 use App\Models\Aanwijzing;
 use App\Models\Dialoog;
-use App\Models\Sector;
 use App\Models\Instelling;
+use App\Models\Locatie;
+use App\Models\Personage;
 use App\Models\Scene;
+use App\Models\Sector;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class ExportGameCommand extends Command
 {
@@ -40,23 +39,23 @@ class ExportGameCommand extends Command
         $electronPath = File::exists('/electron') ? '/electron' : base_path('../electron');
         $frontendPath = File::exists('/frontend') ? '/frontend' : base_path('../frontend');
 
-        $publicPath = $electronPath . '/public';
-        $dataPath = $publicPath . '/data';
-        $assetsPath = $publicPath . '/assets';
+        $publicPath       = $electronPath . '/public';
+        $dataPath         = $publicPath . '/data';
+        $assetsPath       = $publicPath . '/assets';
         $sourceAssetsPath = storage_path('app/public');
 
         // Check if Electron project exists
-        if (!File::exists($electronPath)) {
+        if (! File::exists($electronPath)) {
             $this->error("Electron project not found at: $electronPath");
             return 1;
         }
 
         // 1. Prepare Directories
         $this->info('Preparing directories...');
-        if (!File::exists($dataPath)) {
+        if (! File::exists($dataPath)) {
             File::makeDirectory($dataPath, 0755, true);
         }
-        if (!File::exists($assetsPath)) {
+        if (! File::exists($assetsPath)) {
             File::makeDirectory($assetsPath, 0755, true);
         }
 
@@ -89,16 +88,21 @@ class ExportGameCommand extends Command
         // 3.1 Export Dynamic CSS
         if (isset($settings['game_css'])) {
             $this->info('Exporting game.css...');
-            File::put($publicPath . '/game.css', $settings['game_css']);
-            $this->line("exported: game.css");
+            $css = $settings['game_css'];
+            // Fix absolute font paths for Electron file:// protocol
+            $css = str_replace("url('/font/", "url('./font/", $css);
+            $css = str_replace('url("/font/', 'url("./font/', $css);
+
+            File::put($publicPath . '/game.css', $css);
+            $this->line("exported: game.css (fixed font paths)");
         }
 
         // 4. Export Fonts
         $this->info('Exporting fonts...');
         $fontSourcePath = $frontendPath . '/public/font';
-        $fontDestPath = $publicPath . '/font';
+        $fontDestPath   = $publicPath . '/font';
 
-        if (!File::exists($fontDestPath)) {
+        if (! File::exists($fontDestPath)) {
             File::makeDirectory($fontDestPath, 0755, true);
         }
 
@@ -109,7 +113,7 @@ class ExportGameCommand extends Command
         $fonts = json_decode($fontSetting, true);
 
         // If not valid JSON or result is not an array, try comma fallback (legacy support)
-        if (!is_array($fonts)) {
+        if (! is_array($fonts)) {
             $fonts = array_filter(array_map('trim', explode(',', $fontSetting)));
         }
 
@@ -117,11 +121,11 @@ class ExportGameCommand extends Command
         // User said: "the needed fonts are defined in 'game_fonts'... and can be found as ttf"
         // Let's try to copy specific files first.
         if (File::exists($fontSourcePath)) {
-            if (!empty($fonts)) {
+            if (! empty($fonts)) {
                 foreach ($fonts as $fontName) {
                     // Try exact match or append .ttf
                     $srcFile = $fontSourcePath . '/' . $fontName;
-                    if (!File::exists($srcFile) && !str_ends_with($fontName, '.ttf')) {
+                    if (! File::exists($srcFile) && ! str_ends_with($fontName, '.ttf')) {
                         $srcFile .= '.ttf';
                     }
 
@@ -143,9 +147,9 @@ class ExportGameCommand extends Command
         // 5. Export Vue Components (Game Scenes)
         $this->info('Exporting Vue Game Components...');
         $compSourcePath = $frontendPath . '/src/components/game_scenes';
-        $compDestPath = $electronPath . '/src/components/game_scenes';
+        $compDestPath   = $electronPath . '/src/components/game_scenes';
 
-        if (!File::exists($compDestPath)) {
+        if (! File::exists($compDestPath)) {
             File::makeDirectory($compDestPath, 0755, true);
         }
 
@@ -165,9 +169,9 @@ class ExportGameCommand extends Command
         // 5.1 Export Input Components
         $this->info('Exporting Input Components...');
         $inputSourcePath = $frontendPath . '/src/components/inputs';
-        $inputDestPath = $electronPath . '/src/components/inputs';
+        $inputDestPath   = $electronPath . '/src/components/inputs';
 
-        if (!File::exists($inputDestPath)) {
+        if (! File::exists($inputDestPath)) {
             File::makeDirectory($inputDestPath, 0755, true);
         }
 
@@ -181,9 +185,9 @@ class ExportGameCommand extends Command
         // 5.2 Export Composables
         $this->info('Exporting Composables...');
         $compSourcePath = $frontendPath . '/src/composables';
-        $compDestPath = $electronPath . '/src/composables';
+        $compDestPath   = $electronPath . '/src/composables';
 
-        if (!File::exists($compDestPath)) {
+        if (! File::exists($compDestPath)) {
             File::makeDirectory($compDestPath, 0755, true);
         }
 
@@ -192,6 +196,77 @@ class ExportGameCommand extends Command
             $this->info("Composables exported to $compDestPath");
         } else {
             $this->warn("Composables directory not found: $compSourcePath");
+        }
+
+        // 5.3 Export Core JS/Vue files
+        $this->info('Exporting core engine files (axios, etc.)...');
+        $coreFiles = ['src/axios.js'];
+        foreach ($coreFiles as $file) {
+            $srcFile = $frontendPath . '/' . $file;
+            $dstFile = $electronPath . '/' . $file;
+            if (File::exists($srcFile)) {
+                File::copy($srcFile, $dstFile);
+                $this->line("Synced core file: $file");
+            }
+        }
+
+        // Add App.vue and main.js only if missing (initial setup)
+        foreach (['src/App.vue', 'src/main.js'] as $file) {
+            $dstFile = $electronPath . '/' . $file;
+            if (! File::exists($dstFile)) {
+                $srcFile = $frontendPath . '/' . $file;
+                if (File::exists($srcFile)) {
+                    File::copy($srcFile, $dstFile);
+                    $this->line("Initialized missing engine file: $file");
+                }
+            }
+        }
+
+        // 5.4 Export Services
+        $this->info('Exporting Services...');
+        $serviceSourcePath = $frontendPath . '/src/services';
+        $serviceDestPath   = $electronPath . '/src/services';
+        if (File::exists($serviceSourcePath)) {
+            File::copyDirectory($serviceSourcePath, $serviceDestPath);
+            $this->info("Services exported to $serviceDestPath");
+        }
+
+        // 6. Build Electron App
+        $this->info('Building Electron App (Vite)...');
+        // Ensure node_modules exists
+        if (! File::exists($electronPath . '/node_modules')) {
+            $this->info('Installing dependencies...');
+            $installOutput = shell_exec("cd $electronPath && npm install 2>&1");
+            $this->line($installOutput);
+        }
+
+        // Run build
+        $output = shell_exec("cd $electronPath && npm run build 2>&1");
+
+        // Handle platform mismatch (common with Docker shared volumes)
+        if (str_contains($output, 'MODULE_NOT_FOUND') && (str_contains($output, 'rollup-linux') || str_contains($output, 'vite'))) {
+            $this->warn("Detected platform mismatch for Rollup/Vite. Attempting to install missing native binaries...");
+            $this->line(shell_exec("cd $electronPath && npm install 2>&1"));
+            // Retry build
+            $this->info("Retrying build...");
+            $output = shell_exec("cd $electronPath && npm run build 2>&1");
+        }
+
+        $this->line($output);
+
+        if (str_contains($output, 'built in') || str_contains($output, '✓ built in')) {
+            $this->info('Electron build completed successfully.');
+
+            if ($this->option('dist-only')) {
+                $this->info('Cleaning up source folders (dist-only mode)...');
+                File::deleteDirectory($electronPath . '/src');
+                File::deleteDirectory($electronPath . '/public');
+                File::deleteDirectory($electronPath . '/node_modules');
+                File::delete($electronPath . '/vite.config.js');
+                $this->info('Source folders and node_modules removed. Ready for distribution.');
+            }
+        } else {
+            $this->error('Electron build might have failed. Check output above.');
         }
 
         $this->info('Game Export Completed Successfully!');

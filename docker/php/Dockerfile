@@ -18,6 +18,10 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libgd-dev
 
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
 RUN pecl install redis && docker-php-ext-enable redis
 
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl

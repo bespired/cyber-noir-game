@@ -21,4 +21,17 @@ class InstellingController extends Controller
         }
         return response()->json(['waarde' => $instelling->waarde]);
     }
+
+    public function update(Request $request, $sleutel)
+    {
+        $instelling = Instelling::where('sleutel', $sleutel)->first();
+        if (!$instelling) {
+            $instelling = new Instelling(['sleutel' => $sleutel]);
+        }
+
+        $instelling->waarde = $request->waarde;
+        $instelling->save();
+
+        return response()->json(['message' => 'INSTELLING_UPDATED', 'waarde' => $instelling->waarde]);
+    }
 }
