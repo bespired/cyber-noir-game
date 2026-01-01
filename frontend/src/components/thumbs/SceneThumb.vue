@@ -24,6 +24,7 @@ const getTypeIcon = (type) => {
         case 'investigation': return '🔍';
         case 'walkable-area': return '👣';
         case 'practice': return '🎯';
+        case 'vue-component': return '🎯';
         default: return '📍';
     }
 };

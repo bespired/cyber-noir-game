@@ -89,12 +89,14 @@
                         "target_spawn_point": "north"
                     }
                 ],
+                "data": {
+                    "x": 443,
+                    "y": 390,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:14:53.000000Z",
-                "updated_at": "2025-12-30T21:47:50.000000Z",
-                "x": 422,
-                "y": 347,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:11:09.000000Z"
             }
         ]
     },
@@ -145,12 +147,14 @@
                         "target_spawn_point": "west"
                     }
                 ],
+                "data": {
+                    "x": 136,
+                    "y": 161,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-30T22:09:26.000000Z",
-                "x": 136,
-                "y": 161,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -202,12 +206,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -251,12 +257,14 @@
                         "target_scene_id": 7
                     }
                 ],
+                "data": {
+                    "x": 132,
+                    "y": 132,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-23T15:47:20.000000Z",
-                "x": 132,
-                "y": 132,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -300,12 +308,14 @@
                         "target_scene_id": 6
                     }
                 ],
+                "data": {
+                    "x": 458,
+                    "y": 290,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-23T15:47:22.000000Z",
-                "x": 458,
-                "y": 290,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -339,12 +349,14 @@
                         "target_scene_id": 9
                     }
                 ],
+                "data": {
+                    "x": 179,
+                    "y": 253,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T16:15:00.000000Z",
-                "x": 179,
-                "y": 253,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -388,12 +400,14 @@
                         "target_scene_id": 8
                     }
                 ],
+                "data": {
+                    "x": 428,
+                    "y": 499,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-24T20:02:48.000000Z",
-                "x": 428,
-                "y": 499,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -418,12 +432,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -479,12 +495,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -509,12 +527,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -539,12 +559,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -569,12 +591,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -599,12 +623,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -629,12 +655,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -659,12 +687,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -689,12 +719,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -719,12 +751,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -749,12 +783,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -779,12 +815,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -809,12 +847,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -839,12 +879,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -869,12 +911,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -899,12 +943,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -929,12 +975,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -976,12 +1024,14 @@
                         "target_scene_id": 31
                     }
                 ],
+                "data": {
+                    "x": 610,
+                    "y": 241,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-25T14:30:52.000000Z",
-                "x": 610,
-                "y": 241,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1023,12 +1073,14 @@
                         "target_scene_id": 30
                     }
                 ],
+                "data": {
+                    "x": 608,
+                    "y": 449,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-25T14:30:54.000000Z",
-                "x": 608,
-                "y": 449,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1053,12 +1105,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1083,12 +1137,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 350,
+                    "y": 99,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-23T21:29:13.000000Z",
-                "x": 350,
-                "y": 99,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1113,12 +1169,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1143,12 +1201,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-22T15:50:19.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1182,12 +1242,14 @@
                         "target_scene_id": 29
                     }
                 ],
+                "data": {
+                    "x": 609,
+                    "y": 639,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-25T21:24:41.000000Z",
-                "x": 609,
-                "y": 639,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1212,12 +1274,14 @@
                 "beschrijving": "tbd",
                 "status": "active",
                 "gateways": [],
+                "data": {
+                    "x": 896,
+                    "y": 146,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-29T21:23:46.000000Z",
-                "x": 896,
-                "y": 146,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1242,12 +1306,14 @@
                 "beschrijving": "Waar je naar je radiation mannetje toe kunt",
                 "status": "active",
                 "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-23T15:43:08.000000Z",
-                "updated_at": "2025-12-23T15:43:08.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1272,12 +1338,14 @@
                 "beschrijving": "Je radiation mannetje",
                 "status": "active",
                 "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-23T15:43:40.000000Z",
-                "updated_at": "2025-12-23T15:43:40.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1361,12 +1429,14 @@
                         "target_spawn_point": null
                     }
                 ],
+                "data": {
+                    "x": 738,
+                    "y": 177,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-26T22:20:43.000000Z",
-                "updated_at": "2025-12-30T20:45:56.000000Z",
-                "x": 678,
-                "y": 156,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:11:03.000000Z"
             }
         ]
     },
@@ -1391,12 +1461,14 @@
                 "beschrijving": "Yoshi kamer",
                 "status": "active",
                 "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-27T12:05:35.000000Z",
-                "updated_at": "2025-12-27T12:05:35.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1421,12 +1493,14 @@
                 "beschrijving": "Gang",
                 "status": "active",
                 "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-27T12:16:39.000000Z",
-                "updated_at": "2025-12-27T12:16:39.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1451,12 +1525,14 @@
                 "beschrijving": "Lift",
                 "status": "active",
                 "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-27T12:16:02.000000Z",
-                "updated_at": "2025-12-27T12:16:02.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },
@@ -1481,12 +1557,14 @@
                 "beschrijving": "Kamer voor baseline",
                 "status": "active",
                 "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
                 "created_at": "2025-12-27T12:05:08.000000Z",
-                "updated_at": "2025-12-27T12:05:08.000000Z",
-                "x": 100,
-                "y": 100,
-                "width": 200,
-                "height": 150
+                "updated_at": "2025-12-31T19:00:01.000000Z"
             }
         ]
     },

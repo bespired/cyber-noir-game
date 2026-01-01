@@ -22,7 +22,7 @@ onMounted(() => {
   <div class="container">
     <h1>{{ message }}</h1>
     <p>Mode: {{ mode }}</p>
-    
+
     <div class="card">
       <button @click="loadGameData" :disabled="loading">
         {{ loading ? 'Loading...' : 'Load Game Data' }}
@@ -50,7 +50,6 @@ onMounted(() => {
   height: 100vh;
   color: #fff;
   background-color: #1a1a1a;
-  font-family: 'Courier New', Courier, monospace;
 }
 
 .card {

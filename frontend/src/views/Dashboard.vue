@@ -1,12 +1,14 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { RouterLink } from 'vue-router';
 import axios from '../axios';
-
-import { watch } from 'vue';
+import Modal from '../components/Modal.vue';
+import ClickButton from '../components/inputs/ClickButton.vue';
+import { useToast } from '../composables/useToast';
 
 const store = useStore();
+const toast = useToast();
 const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
 
 const stats = ref({
@@ -20,6 +22,27 @@ const stats = ref({
 });
 
 const loading = ref(true);
+const exporting = ref(false);
+const showExportModal = ref(false);
+
+const openExportModal = () => {
+    showExportModal.value = true;
+};
+
+const confirmExport = async () => {
+    showExportModal.value = false;
+    exporting.value = true;
+
+    try {
+        const response = await axios.post('/api/game/export');
+        toast.success(response.data.message || 'Spel export succes!');
+    } catch (e) {
+        console.error("Export failed", e);
+        toast.error('Export failed. Check console for details.');
+    } finally {
+        exporting.value = false;
+    }
+};
 
 const fetchStats = async () => {
     if (!isAuthenticated.value) return;
@@ -45,6 +68,7 @@ const fetchStats = async () => {
         };
     } catch (e) {
         console.error("Failed to load stats", e);
+        toast.error("Failed to load dashboard statistics.");
     } finally {
         loading.value = false;
     }
@@ -155,12 +179,31 @@ watch(isAuthenticated, (newVal) => {
                 </div>
             </div>
 
-            <div class="bg-noir-panel border border-noir-dark p-6 rounded">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-noir-dark pb-2">SPEL_DOEL</h2>
-                <p class="text-noir-text text-lg">
-                    > Vind de bron van het gestolen DNA-bestand. Of iets.
-                    <span class="animate-pulse inline-block w-2 h-4 bg-noir-accent ml-1 align-middle"></span>
-                </p>
+            <div class="bg-noir-panel border border-noir-dark p-6 rounded mb-8">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-2 pb-2">SPEL_DOEL</h2>
+                        <p class="text-noir-text text-lg">
+                            > Vind de bron van het gestolen DNA-bestand. Of iets.
+                            <span class="animate-pulse inline-block w-2 h-4 bg-noir-accent ml-1 align-middle"></span>
+                        </p>
+                    </div>
+                    <div>
+                        <click-button
+                            @click="openExportModal"
+                            :disabled="exporting"
+                            buttonType="blue"
+                            :label="`${!exporting?'EXPORT NAAR ELECTRON':'EXPORT BEZIG..'}`"
+                        />
+                            <!-- <svg v-if="exporting" class="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span v-if="!exporting">GAME EXPORT TO ELECTRON</span>
+                            <span v-else>EXPORTING...</span>
+                        </button> -->
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -173,5 +216,23 @@ watch(isAuthenticated, (newVal) => {
                 </RouterLink>
             </div>
         </div>
+
+        <!-- Export Confirmation Modal -->
+        <Modal :isOpen="showExportModal" title="CONFIRM EXPORT" @close="showExportModal = false">
+            <div class="space-y-4">
+                <div class="bg-noir-warning/10 border border-noir-warning p-4 rounded text-noir-warning flex items-start gap-4">
+                    <span class="text-2xl">⚠️</span>
+                    <div>
+                        <p class="font-bold">LET OP: OVERSCHRIJVEN</p>
+                        <p class="text-sm mt-1">Dit zal alle bestaande gamedata, assets, lettertypen en componenten in het Electron-project overschrijven.</p>
+                        <p class="text-sm mt-2"><strong>Target:</strong> /electron/public/data</p>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button @click="showExportModal = false" class="btn btn--secondary">NEE DOE MAAR NIET</button>
+                    <button @click="confirmExport" class="btn btn--success">JA IS DE BEDOELING</button>
+                </div>
+            </div>
+        </Modal>
     </div>
 </template>

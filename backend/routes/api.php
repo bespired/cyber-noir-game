@@ -49,4 +49,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/upload/{modelType}/{modelId}', [\App\Http\Controllers\AfbeeldingUploadController::class, 'upload']);
 
     Route::apiResource('instellingen', \App\Http\Controllers\Api\InstellingController::class)->only(['index', 'show']);
+
+    Route::post('/game/export', [\App\Http\Controllers\SystemController::class, 'exportGame']);
 });

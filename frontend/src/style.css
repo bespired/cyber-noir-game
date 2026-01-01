@@ -7,6 +7,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Wallace';
+  src: url('/font/wallace-semibold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @theme {
   --color-noir-bg: #111827;
   --color-noir-dark: #0B0F19;
