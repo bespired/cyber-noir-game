@@ -10,6 +10,8 @@ defineProps({
     }
 });
 
+defineEmits(['delete']);
+
 const { t } = useI18n();
 </script>
 
@@ -40,6 +42,13 @@ const { t } = useI18n();
                     :label="t('common.emulate')"
                     buttonType="blue"
                 />
+
+                <button 
+                    @click="$emit('delete', conv.id)" 
+                    class="btn btn--danger btn--small py-1 px-3 text-[10px]"
+                >
+                    {{ t('common.delete') }}
+                </button>
 
 
                 <!-- <RouterLink :to="`/dialogen/${conv.id}/emulate`" class="btn--link text-noir-accent">

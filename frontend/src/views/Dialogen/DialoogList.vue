@@ -77,7 +77,18 @@ const createConversation = async () => {
         showModal.value = false;
         await fetchConversations();
     } catch (e) {
-        console.error("Failed to create conversation", e);
+    }
+};
+
+const deleteConversation = async (id) => {
+    if (!window.confirm("CONFIRM DELETION?")) return;
+
+    try {
+        await axios.delete(`/api/dialogen/${id}`);
+        await fetchConversations();
+    } catch (e) {
+        console.error("Failed to delete conversation", e);
+        toast.error("DELETE FAILED");
     }
 };
 </script>
@@ -94,7 +105,12 @@ const createConversation = async () => {
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DialoogThumb v-for="conv in conversations" :key="conv.id" :conv="conv" />
+            <DialoogThumb 
+                v-for="conv in conversations" 
+                :key="conv.id" 
+                :conv="conv" 
+                @delete="deleteConversation" 
+            />
         </div>
 
         <!-- Create Modal -->

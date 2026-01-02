@@ -1,12 +1,12 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import axios from '../../axios';
-import { RouterLink } from 'vue-router';
-import Modal from '../../components/Modal.vue';
-import ClickButton from '../../components/inputs/ClickButton.vue';
-import LinkButton  from '../../components/inputs/LinkButton.vue';
-import LocatieThumb from '../../components/thumbs/LocatieThumb.vue';
 import { useI18n } from 'vue-i18n';
+import Modal from '../../components/Modal.vue';
+import ClickButton  from '../../components/inputs/ClickButton.vue';
+import LinkButton   from '../../components/inputs/LinkButton.vue';
+import LocatieThumb from '../../components/thumbs/LocatieThumb.vue';
+import HeaderBar from '../../components/bars/HeaderBar.vue';
 
 const { t } = useI18n();
 const locaties = ref([]);
@@ -87,7 +87,8 @@ const createLocatie = async () => {
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
+        <header-bar :label="t('locations.title')" />
+        <!-- <div class="flex justify-between items-center mb-8">
             <div class="flex items-center gap-4">
                 <h1 class="page-header">{{ t('locations.title') }}</h1>
                 <div class="flex items-center gap-2">
@@ -104,7 +105,7 @@ const createLocatie = async () => {
                 <link-button :label="t('locations.order')" icon="⇅" name="locaties-reorder" buttonType="blue" />
                 <click-button :label="t('locations.new_location')" icon="+" buttonType="add" @click="openModal"  />
             </div>
-        </div>
+        </div> -->
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse font-mono tracking-widest text-lg py-20">
             {{ t('locations.loading') }}

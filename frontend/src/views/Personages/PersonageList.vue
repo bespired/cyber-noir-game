@@ -35,8 +35,8 @@ const fetchPersonages = async () => {
     loading.value = true;
     try {
         const response = await axios.get('/api/personages');
-        // Filter client-side if the API returns all, or rely on API if it filters? 
-        // Assuming API returns all, we filter here for display if needed, 
+        // Filter client-side if the API returns all, or rely on API if it filters?
+        // Assuming API returns all, we filter here for display if needed,
         // OR we just show all if the backend doesn't support filtering.
         // Given 'type' prop usage, let's filter if 'type' is strict?
         // Actually, PersonageThumb handles styling based on type.
@@ -94,11 +94,11 @@ onMounted(() => {
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <PersonageThumb 
-                v-for="personage in filteredPersonages" 
-                :key="personage.id" 
-                :personage="personage" 
-                :type="props.type" 
+            <PersonageThumb
+                v-for="personage in filteredPersonages"
+                :key="personage.id"
+                :personage="personage"
+                :type="props.type"
             />
         </div>
 
