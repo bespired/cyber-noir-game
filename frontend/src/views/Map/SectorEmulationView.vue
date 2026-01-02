@@ -6,6 +6,9 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useToast } from '../../composables/useToast';
 import { useDataRobustness } from '../../composables/useDataRobustness';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const { fetchData: fetchRobustData, resolveAssetUrl, slugify, getCharacterGlbUrl } = useDataRobustness();
 
@@ -204,7 +207,7 @@ const fetchData = async () => {
 
     } catch (e) {
         console.error("Failed to fetch data", e);
-        error.value = "Failed to load sector data.";
+        error.value = t('map.load_error');
     } finally {
         loading.value = false;
     }
@@ -971,7 +974,7 @@ const runAction = async (action, actorId = null) => {
             const tag = value || params.tag;
             if (tag && !gameState.tags.includes(tag)) {
                 gameState.tags.push(tag);
-                toast.success(`TAG_ACQUIRED: ${tag}`);
+                toast.success(`${t('map.tag_acquired')}: ${tag}`);
             }
             break;
         case 'REMOVE GAME TAG':
@@ -1274,8 +1277,8 @@ const backgroundImageUrl = computed(() => {
                 <!-- Loading Overlay -->
                 <div v-if="loading" class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm pointer-events-auto">
                     <div class="flex flex-col items-center gap-4">
-                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-noir-accent font-mono text-[8px] flex items-center justify-center">LADEN</div>
-                        <div class="text-noir-accent font-mono text-[10px] animate-pulse uppercase tracking-[0.2em]">Data_Transfer_In_Progress...</div>
+                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-noir-accent font-mono text-[8px] flex items-center justify-center">{{ t('map.loading') }}</div>
+                        <div class="text-noir-accent font-mono text-[10px] animate-pulse uppercase tracking-[0.2em]">{{ t('map.data_transfer') }}</div>
                     </div>
                 </div>
 
@@ -1288,7 +1291,7 @@ const backgroundImageUrl = computed(() => {
                         <div ref="canvasContainer" class="absolute inset-0 pointer-events-auto z-10"></div>
 
                         <div v-if="!landingDone" class="absolute top-4 left-4 bg-black/60 text-noir-accent px-3 py-1 rounded text-xs font-mono border border-noir-accent/30 animate-pulse">
-                            SISTEEM_INITIALISATIE: VEHICLE_LANDING_INGESCHAKELD...
+                            {{ t('map.system_init_landing') }}
                         </div>
 
                         <div v-if="activeDialogue" class="absolute inset-x-0 bottom-4 z-40 flex flex-col items-center pointer-events-none px-12 pb-8">
@@ -1297,7 +1300,7 @@ const backgroundImageUrl = computed(() => {
                                 <transition name="fade">
                                     <div v-if="typewriterText" class="w-full bg-noir-panel/85 backdrop-blur-md border border-noir-accent/30 p-6 rounded-lg pointer-events-auto shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
                                         <div class="text-[10px] font-mono text-noir-accent mb-2 uppercase tracking-[0.2em]">
-                                            {{ dialogueNPCName || 'CONTACT' }}
+                                            {{ dialogueNPCName || t('map.contact') }}
                                         </div>
                                         <div class="text-white text-xl leading-relaxed font-light italic">
                                             {{ typewriterText }}<span class="animate-pulse opacity-50">_</span>
@@ -1318,7 +1321,7 @@ const backgroundImageUrl = computed(() => {
                                                 <span class="text-xs font-mono text-noir-accent/40 group-hover:text-noir-accent">[{{ String(idx + 1).padStart(2, '0') }}]</span>
                                                 <span class="text-white group-hover:text-white text-sm font-medium uppercase tracking-wider">{{ option.text }}</span>
                                             </div>
-                                            <span class="text-[8px] text-noir-accent opacity-0 group-hover:opacity-100 transition-opacity font-mono text-right">SELECT_RESPONSE >></span>
+                                            <span class="text-[8px] text-noir-accent opacity-0 group-hover:opacity-100 transition-opacity font-mono text-right">{{ t('map.select_response') }} >></span>
                                         </button>
                                     </div>
                                 </transition>
@@ -1330,19 +1333,19 @@ const backgroundImageUrl = computed(() => {
                     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
 
                          <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                            <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">SCENE_INFO</h3>
-                            <p class="text-noir-text">SEC: {{ sectorData?.naam }}</p>
-                            <p class="text-noir-text">SCN: {{ currentScene?.titel }}</p>
+                            <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">{{ t('map.scene_info') }}</h3>
+                            <p class="text-noir-text">{{ t('map.sec') }} {{ sectorData?.naam }}</p>
+                            <p class="text-noir-text">{{ t('map.scn') }} {{ currentScene?.titel }}</p>
                             <div v-if="activeBehaviors.length" class="mt-2 pt-2 border-t border-noir-dark/50">
-                                <p class="text-noir-warning font-bold text-[8px] uppercase">ACTIEVE_GEDRAGINGEN:</p>
+                                <p class="text-noir-warning font-bold text-[8px] uppercase">{{ t('map.active_behaviors') }}</p>
                                 <p v-for="b in activeBehaviors" :key="b.id" class="text-noir-warning/80 text-[9px]">• {{ b.naam }}</p>
                             </div>
                         </div>
 
                         <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                            <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">CHARACTER</h3>
-                            <p class="text-noir-text">PLAYABLE: {{ settings.playable }}</p>
-                            <p class="text-noir-text">MODE: {{ isWalking ? 'WALKING' : 'IDLE' }}</p>
+                            <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">{{ t('map.character') }}</h3>
+                            <p class="text-noir-text">{{ t('map.playable') }} {{ settings.playable }}</p>
+                            <p class="text-noir-text">{{ t('map.mode') }} {{ isWalking ? t('map.walking') : t('map.idle') }}</p>
                         </div>
                     </div>
                 </div>
@@ -1359,7 +1362,7 @@ const backgroundImageUrl = computed(() => {
                                      <div class="flex flex-col">
                                          <span class="text-[10px] text-white font-mono uppercase leading-tight">{{ npc.name }}</span>
                                          <span v-if="npc.currentGedrag" class="text-[7px] text-noir-warning animate-pulse uppercase">{{ npc.currentGedrag }}</span>
-                                         <span v-else class="text-[7px] text-noir-muted uppercase">ACTIVE_UNIT</span>
+                                         <span v-else class="text-[7px] text-noir-muted uppercase">{{ t('map.active_unit') }}</span>
                                      </div>
                                  </div>
 
@@ -1374,7 +1377,7 @@ const backgroundImageUrl = computed(() => {
 
                         <!-- Analysis Panel -->
                         <div class="pt-4 border-t border-noir-dark/50 space-y-4">
-                            <h4 class="text-white font-bold uppercase text-[9px] mb-2 tracking-widest text-noir-muted">SCENE_ANALYSIS</h4>
+                            <h4 class="text-white font-bold uppercase text-[9px] mb-2 tracking-widest text-noir-muted">{{ t('map.scene_analysis') }}</h4>
                             
                             <div class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
                                 <div v-for="gw in sceneTriggers" :key="gw.label" 
@@ -1387,15 +1390,15 @@ const backgroundImageUrl = computed(() => {
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-2">
                                             <span class="text-[9px] text-white font-mono uppercase">{{ gw.label || 'AREA' }}</span>
-                                            <div v-if="gw.gedrag_id" class="px-1.5 py-0.5 rounded-full bg-noir-warning/20 border border-noir-warning/30 text-[6px] text-noir-warning font-bold">TRIGGER</div>
+                                            <div v-if="gw.gedrag_id" class="px-1.5 py-0.5 rounded-full bg-noir-warning/20 border border-noir-warning/30 text-[6px] text-noir-warning font-bold">{{ t('map.trigger') }}</div>
                                         </div>
-                                        <span v-if="activeGateway === gw" class="text-[7px] text-noir-accent animate-pulse font-bold">ACTIVE</span>
-                                        <span v-else-if="gw.gedrag_id" class="text-[6px] text-noir-muted group-hover:text-noir-warning opacity-0 group-hover:opacity-100 transition-opacity uppercase font-mono">Manual_Start</span>
+                                        <span v-if="activeGateway === gw" class="text-[7px] text-noir-accent animate-pulse font-bold">{{ t('map.active') }}</span>
+                                        <span v-else-if="gw.gedrag_id" class="text-[6px] text-noir-muted group-hover:text-noir-warning opacity-0 group-hover:opacity-100 transition-opacity uppercase font-mono">{{ t('map.manual_start') }}</span>
                                     </div>
 
                                     <div v-if="gw.gedrag_id" class="text-[7px] text-noir-warning mt-1 font-mono uppercase flex flex-col gap-1">
                                         <div class="flex items-center justify-between border-b border-noir-warning/20 pb-1">
-                                            <span>LINKED_BEHAVIOR: {{ gedragingen.find(g => g.id === gw.gedrag_id)?.naam || 'UNKNOWN' }}</span>
+                                            <span>{{ t('map.linked_behavior') }} {{ gedragingen.find(g => g.id === gw.gedrag_id)?.naam || t('map.unknown') }}</span>
                                             <span class="opacity-50">({{ gedragingen.find(g => g.id === gw.gedrag_id)?.acties?.length || 0 }} ACTS)</span>
                                         </div>
                                         <div class="pl-2 pt-1 space-y-0.5 opacity-60 group-hover:opacity-90">
@@ -1414,7 +1417,7 @@ const backgroundImageUrl = computed(() => {
 
 
                             <div v-if="behaviorLog.length > 0" class="pt-4 border-t border-noir-dark/30">
-                                <h4 class="text-[9px] text-noir-muted uppercase mb-2">BEHAVIOR_LOG</h4>
+                                <h4 class="text-[9px] text-noir-muted uppercase mb-2">{{ t('map.behavior_log') }}</h4>
                                 <div class="space-y-1">
                                     <div v-for="(log, i) in behaviorLog" :key="i" class="text-[8px] font-mono text-noir-warning/70 border-l border-noir-warning/20 pl-2">
                                         [{{ log.time }}] {{ log.msg }}
@@ -1425,7 +1428,7 @@ const backgroundImageUrl = computed(() => {
 
                         <div class="pt-4 border-t border-noir-dark/50 space-y-3">
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] text-noir-muted uppercase">Helpers</span>
+                                <span class="text-[10px] text-noir-muted uppercase">{{ t('map.helpers') }}</span>
 
                                 <button @click="show3DHelpers = !show3DHelpers"
                                         class="w-8 h-4 rounded-full relative transition-colors duration-200"
@@ -1436,7 +1439,7 @@ const backgroundImageUrl = computed(() => {
                             </div>
 
                             <div v-if="characterActions['caution']" class="flex items-center justify-between">
-                                <span class="text-[10px] text-noir-muted uppercase">Caution</span>
+                                <span class="text-[10px] text-noir-muted uppercase">{{ t('map.caution') }}</span>
                                 <button @click="isCaution = !isCaution"
                                         class="w-8 h-4 rounded-full relative transition-colors duration-200"
                                         :class="isCaution ? 'bg-noir-danger' : 'bg-noir-dark'">
@@ -1446,12 +1449,12 @@ const backgroundImageUrl = computed(() => {
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] text-noir-muted uppercase">Ambient</span>
+                                <span class="text-[10px] text-noir-muted uppercase">{{ t('map.ambient') }}</span>
                                 <input type="range" v-model.number="ambientIntensity" min="0" max="2" step="0.1" class="w-24 accent-noir-accent" />
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] text-noir-muted uppercase">Sun</span>
+                                <span class="text-[10px] text-noir-muted uppercase">{{ t('map.sun') }}</span>
                                 <input type="range" v-model.number="sunIntensity" min="0" max="2" step="0.1" class="w-24 accent-noir-accent" />
                             </div>
                         </div>

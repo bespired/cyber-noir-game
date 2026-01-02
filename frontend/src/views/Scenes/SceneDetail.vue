@@ -5,7 +5,9 @@ import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
 import { useToast } from '../../composables/useToast';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 const route = useRoute();
 const router = useRouter();
@@ -31,9 +33,9 @@ const setAsStartingScene = async () => {
             waarde: route.params.id
         });
         openingSceneId.value = route.params.id;
-        toast.success('STARTING_SCENE_UPDATED');
+        toast.success(t('scenes.starting_updated'));
     } catch (e) {
-        toast.error('FAILED_TO_UPDATE_STARTING_SCENE');
+        toast.error(t('scenes.starting_failed'));
     }
 };
 
@@ -167,19 +169,19 @@ const saveChanges = async (silent = false) => {
             data: scene.value.data
         };
         await axios.put(`/api/scenes/${scene.value.id}`, payload);
-        if (!silent) toast.success('CHANGES_SAVED');
+        if (!silent) toast.success(t('scenes.changes_saved'));
     } catch (e) {
-        toast.error('ERROR_SAVING');
+        toast.error(t('scenes.error_saving'));
     }
 };
 
 const deleteScene = async () => {
-    if (confirm('DELETE_SCENE? This action cannot be undone.')) {
+    if (confirm(t('scenes.delete_confirm'))) {
         try {
             await axios.delete(`/api/scenes/${scene.value.id}`);
             router.push('/scenes');
         } catch (e) {
-            toast.error('ERROR_DELETING');
+            toast.error(t('scenes.error_deleting'));
         }
     }
 };
@@ -327,7 +329,7 @@ const editGateway = (index) => {
 
 const removeGateway = (index) => {
 
-    if (confirm('DELETE_GATEWAY?')) {
+    if (confirm(t('scenes.delete_gateway_confirm'))) {
         scene.value.gateways.splice(index, 1);
     }
 };
@@ -378,11 +380,11 @@ const saveNPC = async () => {
             const res = await axios.put(`/api/scene-personages/${editingNPC.value.id}`, npcForm.value);
             const index = scenePersonages.value.findIndex(p => p.id === editingNPC.value.id);
             scenePersonages.value[index] = { ...scenePersonages.value[index], ...res.data };
-            toast.success('NPC_UPDATED');
+            toast.success(t('scenes.npc_updated'));
         } else {
             const res = await axios.post('/api/scene-personages', npcForm.value);
             scenePersonages.value.push(res.data);
-            toast.success('NPC_ADDED_TO_SCENE');
+            toast.success(t('scenes.npc_added'));
         }
         showNPCModal.value = false;
     } catch (e) {
@@ -391,11 +393,11 @@ const saveNPC = async () => {
 };
 
 const removeNPC = async (id) => {
-    if (confirm('REMOVE_NPC_FROM_SCENE?')) {
+    if (confirm(t('scenes.remove_npc_confirm'))) {
         try {
             await axios.delete(`/api/scene-personages/${id}`);
             scenePersonages.value = scenePersonages.value.filter(p => p.id !== id);
-            toast.success('NPC_REMOVED');
+            toast.success(t('scenes.npc_removed'));
         } catch (e) {
             toast.error('FAILED_TO_REMOVE');
         }
@@ -418,12 +420,12 @@ watch(() => scene.value?.locatie_id, (newId) => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        LADEN_SCENE_DATA...
+        {{ t('scenes.loading_data') }}
     </div>
 
     <div v-else-if="scene" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/scenes" class="hover:text-white">&lt; NAAR_OVERZICHT</RouterLink>
+            <RouterLink to="/scenes" class="hover:text-white">{{ t('scenes.back_to_overview') }}</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ scene.titel }}</span>
         </div>
@@ -437,7 +439,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <select v-model="scene.type" class="form-input text-xs w-auto py-1 px-2 h-8">
                             <option v-for="t in sceneTypes" :key="t.value" :value="t.value">{{ t.label }}</option>
                         </select>
-                        <span class="text-xs text-noir-muted">SCENE_ID: {{ String(scene.id).padStart(8, '0') }}</span>
+                        <span class="text-xs text-noir-muted">{{ t('scenes.id') }}: {{ String(scene.id).padStart(8, '0') }}</span>
                         <span class="px-2 py-1 rounded text-xs font-bold uppercase border" :class="getStatusColor(scene.status)">
                             {{ scene.status }}
                         </span>
@@ -446,14 +448,14 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 <div class="flex flex-col gap-2 items-end">
                     <div class="flex gap-2">
                         <button @click="setAsStartingScene" class="btn" :class="isStartingScene ? 'btn--accent' : 'btn--accent-outline'">
-                            <span v-if="isStartingScene">✓ STARTING_SCENE</span>
-                            <span v-else>SET_AS_STARTING_SCENE</span>
+                            <span v-if="isStartingScene">✓ {{ t('scenes.starting_scene') }}</span>
+                            <span v-else>{{ t('scenes.set_starting') }}</span>
                         </button>
                         <button @click="saveChanges" class="btn btn--success">
-                            BEWAREN
+                            {{ t('scenes.save') }}
                         </button>
                         <button @click="deleteScene" class="btn btn--danger">
-                            VERWIJDEREN
+                            {{ t('scenes.delete') }}
                         </button>
                     </div>
                     <div class="flex gap-2">
@@ -461,13 +463,13 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
                         </svg>
-                        GATEWAY_OVERZICHT
+                        {{ t('scenes.gateway_overview') }}
                     </RouterLink>
                     <RouterLink v-if="scene.type === 'vue-component'" :to="`/scenes/${scene.id}/emulate`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
                         </svg>
-                        TEST COMPONENT
+                        {{ t('scenes.test_component') }}
                     </RouterLink>
                     <RouterLink v-if="scene.locatie_id && scene.sector_id" :to="`/locaties/${scene.locatie_id}/sector/${scene.sector_id}/3d`" class="btn btn--primary flex items-center justify-center gap-2 w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -475,7 +477,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                             <line x1="12" y1="22.08" x2="12" y2="12"></line>
                         </svg>
-                        3D_BEWERKEN
+                        {{ t('scenes.edit_3d') }}
                     </RouterLink>
                     </div>
                 </div>
@@ -500,8 +502,8 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)">
                             <div v-if="activeArtwork.length > 0" class="bg-noir-dark border border-noir-panel rounded overflow-hidden relative group select-none">
                                 <div class="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none flex items-center gap-2">
-                                    <span class="text-noir-warning">⚡</span> KLIK & SLEEP OM GATEWAY TE MAKEN
-                                    <span v-if="scene.artwork.length === 0" class="ml-2 text-[10px] text-noir-accent bg-noir-accent/10 px-1 rounded border border-noir-accent/30 font-mono">LOCATIE_VISUAL_IN_GEBRUIK</span>
+                                    <span class="text-noir-warning">⚡</span> {{ t('scenes.click_drag_gateway') }}
+                                    <span v-if="scene.artwork.length === 0" class="ml-2 text-[10px] text-noir-accent bg-noir-accent/10 px-1 rounded border border-noir-accent/30 font-mono">{{ t('scenes.location_visual_used') }}</span>
                                 </div>
 
                                 <div
@@ -562,22 +564,22 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             </div>
                             <div v-else class="p-12 text-center border-2 border-dashed border-noir-dark rounded text-noir-muted bg-noir-darker/30 flex flex-col items-center justify-center gap-3">
                                 <span class="text-3xl">⚠️</span>
-                                <div class="uppercase tracking-widest font-mono text-sm">NO_VISUAL_DATA_AVAILABLE</div>
-                                <div class="text-[10px] max-w-xs">Upload een achtergrond voor de scene of koppel een locatie met artwork om gateways te kunnen plaatsen.</div>
+                                <div class="uppercase tracking-widest font-mono text-sm">{{ t('scenes.no_visual_data') }}</div>
+                                <div class="text-[10px] max-w-xs">{{ t('scenes.upload_hint') }}</div>
                             </div>
                         </div>
                         <!-- Vue Component Configuration -->
                         <div v-if="scene.type === 'vue-component'" class="p-4 bg-noir-dark/30 rounded border border-noir-dark space-y-4">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">VUE_COMPONENT_CONFIG</h3>
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">{{ t('scenes.vue_config') }}</h3>
 
                             <div>
-                                <label class="form-label">Component Name</label>
+                                <label class="form-label">{{ t('scenes.comp_name') }}</label>
                                 <input v-model="scene.data.component" type="text" class="form-input font-mono" placeholder="e.g. 'DemoTitleScene'">
-                                <p class="text-[10px] text-noir-muted mt-1">Ensure this component is registered in the Game Engine.</p>
+                                <p class="text-[10px] text-noir-muted mt-1">{{ t('scenes.ensure_registered') }}</p>
                             </div>
 
                             <div>
-                                <label class="form-label">Parameters / Props (JSON)</label>
+                                <label class="form-label">{{ t('scenes.props_json') }}</label>
                                 <textarea v-model="componentParams" rows="6" class="form-input font-mono text-xs"></textarea>
                             </div>
                         </div>
@@ -589,18 +591,18 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)">
                             <div>
                                 <div v-if="scene.sector" class="mt-1 text-xs text-noir-muted">
-                                    SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
+                                    {{ t('scenes.form_sector') }}: <span class="text-white">{{ scene.sector.naam }}</span>
                                 </div>
-                                <label class="form-label">Locatie</label>
+                                <label class="form-label">{{ t('scenes.form_location') }}</label>
                                 <select v-model="scene.locatie_id" class="form-input">
-                                    <option :value="null">-- GEEN LOCATIE --</option>
+                                    <option :value="null">-- {{ t('scenes.form_location') }} --</option>
                                     <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
                                 </select>
                             </div>
                             <div class="mt-4">
-                                <label class="form-label">Sector</label>
+                                <label class="form-label">{{ t('scenes.form_sector') }}</label>
                                 <select v-model="scene.sector_id" class="form-input">
-                                    <option :value="null">-- GEEN SECTOR --</option>
+                                    <option :value="null">-- {{ t('scenes.form_sector') }} --</option>
                                     <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
                                 </select>
                             </div>
@@ -612,29 +614,29 @@ watch(() => scene.value?.locatie_id, (newId) => {
 
                         <!-- Area Dimensions (Right Column Context) -->
                         <div v-if="['outside', 'inside', 'walkable-area'].includes(scene.type)" class="p-4 bg-noir-dark/30 rounded border border-noir-dark space-y-4">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">AREA_DIMENSIONS</h3>
+                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-2">{{ t('scenes.area_dimensions') }}</h3>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="form-label">Map Width</label>
+                                    <label class="form-label">{{ t('scenes.map_width') }}</label>
                                     <input v-model="scene.data.width" type="number" class="form-input">
                                 </div>
                                 <div>
-                                    <label class="form-label">Map Height</label>
+                                    <label class="form-label">{{ t('scenes.map_height') }}</label>
                                     <input v-model="scene.data.height" type="number" class="form-input">
                                 </div>
                             </div>
-                            <p class="text-[10px] text-noir-muted">Coordinates (X: {{scene.data?.x}}, Y: {{scene.data?.y}}) are managed via the Sector Map.</p>
+                            <p class="text-[10px] text-noir-muted">{{ t('scenes.coords_managed', { x: scene.data?.x, y: scene.data?.y }) }}</p>
                         </div>
 
                         <!-- Personages & Voertuigen in Scene (Hidden for Component Scenes) -->
                         <div v-if="scene.type !== 'vue-component'" class="border-noir-accent/30">
                             <div class="p-4 border-b border-noir-dark flex justify-between items-center bg-noir-dark/50">
-                                <h3 class="text-xs font-bold text-noir-accent uppercase">Personages & Voertuigen</h3>
-                                <button @click="openNPCModal()" class="btn btn--small btn--success text-[10px] px-2 py-0.5">+ TOEVOEGEN</button>
+                                <h3 class="text-xs font-bold text-noir-accent uppercase">{{ t('scenes.characters_vehicles') }}</h3>
+                                <button @click="openNPCModal()" class="btn btn--small btn--success text-[10px] px-2 py-0.5">+ {{ t('scenes.add') }}</button>
                             </div>
                             <div class="pt-1 space-y-3">
                                 <div v-if="scenePersonages.length === 0" class="text-center py-4 text-noir-muted italic text-[10px] uppercase">
-                                    GEEN_PERSONAGES_GEKOPPELD
+                                    {{ t('scenes.no_characters') }}
                                 </div>
                                 <div v-for="npc in scenePersonages" :key="npc.id" class="bg-noir-darker/50 p-3 rounded border border-noir-dark hover:border-noir-accent/50 transition-colors group">
                                     <div class="flex justify-between items-start mb-1">
@@ -678,7 +680,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
             </div>
         </div>
-        <Modal :isOpen="showGatewayModal" :title="gatewayForm.type === 'gateway' ? 'PLAATS GATEWAY_TRAVERSAL' : 'PLAATS SYSTEM_TRIGGER'" @close="showGatewayModal = false">
+        <Modal :isOpen="showGatewayModal" :title="gatewayForm.type === 'gateway' ? t('scenes.place_gateway') : t('scenes.place_trigger')" @close="showGatewayModal = false">
             <form @submit.prevent="saveGateway" class="space-y-4">
                 <div class="flex gap-4 p-2 bg-black/30 rounded border border-noir-dark mb-4">
                     <button
@@ -687,7 +689,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         :class="gatewayForm.type === 'gateway' ? 'bg-noir-accent text-black border-noir-accent' : 'bg-transparent text-noir-muted border-noir-dark hover:border-noir-accent/50'"
                         @click="gatewayForm.type = 'gateway'"
                     >
-                        TRAVERSAL_GATEWAY
+                        {{ t('scenes.traversal_gateway') }}
                     </button>
                     <button
                         type="button"
@@ -695,19 +697,19 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         :class="gatewayForm.type === 'trigger' ? 'bg-noir-warning text-black border-noir-warning' : 'bg-transparent text-noir-muted border-noir-dark hover:border-noir-warning/50'"
                         @click="gatewayForm.type = 'trigger'"
                     >
-                        SYSTEM_TRIGGER
+                        {{ t('scenes.system_trigger') }}
                     </button>
                 </div>
 
                 <div v-if="scene.sector" class="mt-1 text-[10px] text-noir-muted uppercase">
-                    CONTXT_SECTOR: <span class="text-white">{{ scene.sector.naam }}</span>
+                    {{ t('scenes.context_sector') }}: <span class="text-white">{{ scene.sector.naam }}</span>
                 </div>
 
                 <div v-if="gatewayForm.type === 'gateway'" class="space-y-4">
                     <div>
-                        <label class="form-label">Doel Scene</label>
+                        <label class="form-label">{{ t('scenes.target_scene') }}</label>
                         <select v-model="gatewayForm.target_scene_id" class="form-input" required>
-                            <option :value="null">-- SELECTEER DOEL --</option>
+                            <option :value="null">{{ t('scenes.select_target') }}</option>
                             <option v-for="s in availableTargetScenes" :key="s.id" :value="s.id">
                                 {{ s.titel }} (ID: {{ s.id }})
                             </option>
@@ -715,10 +717,10 @@ watch(() => scene.value?.locatie_id, (newId) => {
                     </div>
 
                     <div v-if="gatewayForm.target_scene_id">
-                        <label class="form-label">Spawn Point in Doel Scene</label>
+                        <label class="form-label">{{ t('scenes.spawn_point_target') }}</label>
                         <select v-model="gatewayForm.target_spawn_point" class="form-input">
-                            <option :value="null">-- STANDAARD (PERSONAGE) --</option>
-                            <optgroup label="Waypoints">
+                            <option :value="null">{{ t('scenes.standard_char') }}</option>
+                            <optgroup :label="t('scenes.waypoints')">
                                <option v-for="sp in targetSceneSpawnPoints.filter(p => p.type === 'waypoint')" :key="sp.id" :value="sp.name">
                                    {{ sp.name }} ({{ sp.x.toFixed(1) }}, {{ sp.y.toFixed(1) }})
                                </option>
@@ -734,12 +736,12 @@ watch(() => scene.value?.locatie_id, (newId) => {
 
                 <div v-if="gatewayForm.type === 'trigger'" class="space-y-4">
                     <div>
-                        <label class="form-label text-noir-warning">Actie / Gedrag</label>
+                        <label class="form-label text-noir-warning">{{ t('scenes.action_behavior') }}</label>
                         <select v-model="gatewayForm.gedrag_id" class="form-input" required>
-                            <option :value="null">-- SELECTEER GEDRAG --</option>
+                            <option :value="null">{{ t('scenes.select_behavior') }}</option>
                             <option v-for="g in gedragingen" :key="g.id" :value="g.id">{{ g.naam }}</option>
                         </select>
-                        <p class="text-[10px] text-noir-muted mt-1 uppercase">Wordt gelanceerd bij contact met gebied.</p>
+                        <p class="text-[10px] text-noir-muted mt-1 uppercase">{{ t('scenes.launch_hint') }}</p>
                     </div>
                 </div>
 
@@ -750,17 +752,17 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
                 -->
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showGatewayModal = false" class="btn btn--secondary">HMMM...</button>
-                    <button type="submit" class="btn btn--primary">BEWAAR_GATEWAY</button>
+                    <button type="button" @click="showGatewayModal = false" class="btn btn--secondary">{{ t('scenes.cancel') }}</button>
+                    <button type="submit" class="btn btn--primary">{{ t('scenes.save_gateway') }}</button>
                 </div>
             </form>
         </Modal>
 
         <!-- NPC / Vehicle Assignment Modal -->
-        <Modal :isOpen="showNPCModal" :title="editingNPC ? 'CONFIGURATIE_ENTITY' : 'ENTITY_TOEVOEGEN'" @close="showNPCModal = false">
+        <Modal :isOpen="showNPCModal" :title="editingNPC ? t('scenes.config_entity') : t('scenes.add_entity')" @close="showNPCModal = false">
             <form @submit.prevent="saveNPC" class="space-y-4">
                 <div>
-                    <label class="form-label">Personage / Voertuig</label>
+                    <label class="form-label">{{ t('scenes.character_vehicle') }}</label>
                     <select v-model="npcForm.personage_id" :disabled="!!editingNPC" class="form-input">
                         <option v-for="p in allPersonages" :key="p.id" :value="p.id">
                             [{{ p.type.toUpperCase() }}] {{ p.naam }}
@@ -770,27 +772,27 @@ watch(() => scene.value?.locatie_id, (newId) => {
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="form-label text-noir-accent">Entry / Spawn Point</label>
+                        <label class="form-label text-noir-accent">{{ t('scenes.entry_spawn') }}</label>
                         <select v-model="npcForm.spawn_point_name" class="form-input">
-                            <option value="">-- DEFAULT_SPAWN --</option>
+                            <option value="">{{ t('scenes.default_spawn') }}</option>
                             <option v-for="sp in scene.locatie?.spawn_points?.[scene.sector_id] || []" :key="sp.id" :value="sp.name || sp.id">
                                 {{ sp.name || 'SPAWN_' + sp.id }}
                             </option>
                         </select>
                     </div>
                     <div>
-                        <label class="form-label">Conditie</label>
+                        <label class="form-label">{{ t('scenes.condition') }}</label>
                         <select v-model="npcForm.spawn_condition.type" class="form-input">
-                            <option value="on_enter">ON_SCENE_ENTER</option>
-                            <option value="flag">IF_FLAG_IS_TRUE</option>
-                            <option value="time">AFTER_TIME_PASSED</option>
+                            <option value="on_enter">{{ t('scenes.on_scene_enter') }}</option>
+                            <option value="flag">{{ t('scenes.if_flag_true') }}</option>
+                            <option value="time">{{ t('scenes.after_time') }}</option>
                         </select>
                     </div>
                 </div>
 
 
                 <div v-if="npcForm.spawn_condition.type === 'flag'">
-                    <label class="form-label">Flag Naam (Boolean)</label>
+                    <label class="form-label">{{ t('scenes.flag_name') }}</label>
                     <input v-model="npcForm.spawn_condition.flag" type="text" placeholder="b.v. bartender_alerted" class="form-input">
                 </div>
 

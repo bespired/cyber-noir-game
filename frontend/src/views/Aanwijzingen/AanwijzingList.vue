@@ -5,7 +5,9 @@ import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import AanwijzingThumb from '../../components/thumbs/AanwijzingThumb.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const aanwijzingen = ref([]);
 const loading = ref(true);
 const showModal = ref(false);
@@ -54,24 +56,24 @@ const createAanwijzing = async () => {
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="page-header">AANWIJZINGEN</h1>
-            <click-button label="AANWIJZING TOEVOEGEN" icon="+" buttonType="add" @click="openModal" />
+            <h1 class="page-header">{{ t('clues.title') }}</h1>
+            <click-button :label="t('clues.add_clue')" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
-            BESTANDEN ONTSLEUTELEN...
+            {{ t('clues.decrypting') }}
         </div>
 
         <div v-else class="panel overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-noir-dark text-noir-muted uppercase text-xs tracking-wider border-b border-noir-panel">
-                        <th class="p-4 font-bold">Visueel</th>
-                        <th class="p-4 font-bold">Status</th>
-                        <th class="p-4 font-bold">Titel</th>
-                        <th class="p-4 font-bold">Gelinkt Persoon</th>
-                        <th class="p-4 font-bold">Locatie</th>
-                        <th class="p-4 font-bold text-right">Actie</th>
+                        <th class="p-4 font-bold">{{ t('clues.visual') }}</th>
+                        <th class="p-4 font-bold">{{ t('clues.status') }}</th>
+                        <th class="p-4 font-bold">{{ t('clues.title') }}</th>
+                        <th class="p-4 font-bold">{{ t('clues.linked_person') }}</th>
+                        <th class="p-4 font-bold">{{ t('clues.location') }}</th>
+                        <th class="p-4 font-bold text-right">{{ t('clues.action') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-noir-dark">
@@ -81,23 +83,23 @@ const createAanwijzing = async () => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" title="LOG NIEUWE AANWIJZING" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('clues.log_new')" @close="showModal = false">
             <form @submit.prevent="createAanwijzing" class="space-y-4">
                 <div>
-                    <label class="form-label">Titel</label>
+                    <label class="form-label">{{ t('clues.title') }}</label>
                     <input v-model="form.titel" type="text" required class="form-input">
                 </div>
                 <div>
-                    <label class="form-label">Beschrijving</label>
+                    <label class="form-label">{{ t('clues.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
                 <div class="flex items-center gap-2">
                     <input v-model="form.is_kritisch" type="checkbox" id="is_kritisch" class="rounded bg-noir-darker border-noir-dark text-noir-danger focus:ring-noir-danger">
-                    <label for="is_kritisch" class="text-white text-sm uppercase">Kritieke Aanwijzing?</label>
+                    <label for="is_kritisch" class="text-white text-sm uppercase">{{ t('clues.critical_question') }}</label>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">ANNULEREN</button>
-                    <button type="submit" class="btn btn--danger">LOG AANWIJZING</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('clues.cancel') }}</button>
+                    <button type="submit" class="btn btn--danger">{{ t('clues.log') }}</button>
                 </div>
             </form>
         </Modal>

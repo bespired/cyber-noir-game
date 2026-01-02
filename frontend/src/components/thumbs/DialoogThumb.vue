@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import LinkButton from '../inputs/LinkButton.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     conv: {
@@ -7,6 +9,8 @@ defineProps({
         required: true
     }
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -23,12 +27,24 @@ defineProps({
         <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
             <span class="text-xs text-noir-muted truncate max-w-[100px]">{{ conv.is_active ? 'ACTIEF' : 'INACTIEF' }}</span>
             <div class="flex flex-col gap-2 items-end">
-                <RouterLink :to="`/dialogen/${conv.id}`" class="btn--link">
-                    EDIT NODE LOGICA >
-                </RouterLink>
-                <RouterLink :to="`/dialogen/${conv.id}/emulate`" class="btn--link text-noir-accent">
+                <LinkButton
+                    name="dialoog-edit"
+                    :params="{ id: conv.id }"
+                    :label="t('common.change')"
+                    buttonType="link"
+                />
+
+                <LinkButton
+                    name="dialoog-emulate"
+                    :params="{ id: conv.id }"
+                    :label="t('common.emulate')"
+                    buttonType="blue"
+                />
+
+
+                <!-- <RouterLink :to="`/dialogen/${conv.id}/emulate`" class="btn--link text-noir-accent">
                     EMULATE DIALOOG >
-                </RouterLink>
+                </RouterLink> -->
             </div>
         </div>
     </div>

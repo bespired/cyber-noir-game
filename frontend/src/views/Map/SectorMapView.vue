@@ -2,7 +2,10 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
 import axios from '../../axios';
+import { useToast } from '../../composables/useToast';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const route = useRoute();
 const sector = ref(null);
 const scenes = ref([]);
@@ -246,9 +249,26 @@ const getLineColor = (conn) => {
 
         <!-- Map Canvas -->
         <div v-if="loading" class="flex-grow flex items-center justify-center text-noir-muted font-mono animate-pulse">
-            LADING_SECTOR_MATRIX...
+        {{ t('map.loading_sector_matrix') }}
+    </div>
+
+    <div v-else class="flex-grow relative overflow-hidden bg-noir-darker" ref="mapContainer"> 
+        
+        <!-- Grid Background -->
+        <!-- The original code did not have a grid background, so this line is not added based on the diff. -->
+
+        <!-- Toolbar -->
+        <div class="absolute top-4 left-4 z-20 flex items-center gap-4 bg-noir-dark p-2 rounded border border-noir-border">
+             <RouterLink :to="`/map/${sector?.id || ''}`" class="text-white hover:text-noir-accent transition-colors font-bold uppercase text-xs flex items-center gap-1">
+                &lt; {{ t('map.back') }}
+            </RouterLink>
+            <div class="h-4 w-px bg-noir-border"></div>
+            <h2 class="text-white font-bold uppercase tracking-wider text-sm">{{ sector?.naam }}</h2>
+             <div class="h-4 w-px bg-noir-border"></div>
+             <span class="text-xs text-noir-muted self-center font-mono uppercase">
+                {{ t('map.drag_scenes_hint') }}
+            </span>
         </div>
-        <div v-else class="flex-grow relative overflow-hidden bg-[#050505] cursor-crosshair" ref="mapContainer">
 
             <!-- Map Background -->
             <div class="absolute inset-0 pointer-events-none opacity-40"
@@ -307,10 +327,11 @@ const getLineColor = (conn) => {
                      <img v-if="getSceneArtwork(scene).length > 0"
                           :src="getImageUrl(getSceneArtwork(scene)[0].bestandspad)"
                           class="w-full h-full object-cover pointer-events-none">
-                     <div v-else class="w-full h-full bg-noir-darker pointer-events-none flex items-center justify-center">
-                         <span class="text-xs text-noir-muted italic">GEEN_VISUAL</span>
-                     </div>
-                </div>
+                     <!-- Placeholder Visual if no image -->
+            <div v-if="!scene.achtergrond_afbeelding" class="w-full h-full flex items-center justify-center bg-noir-dark">
+                <span class="text-xs text-noir-muted italic">{{ t('map.no_visual') }}</span>
+            </div>
+         </div>
 
                 <!-- Overlay Info -->
                 <div class="relative z-10 p-3 flex flex-col h-full justify-between border-t border-white/5">

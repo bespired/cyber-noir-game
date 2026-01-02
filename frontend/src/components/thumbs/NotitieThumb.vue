@@ -1,4 +1,6 @@
 <script setup>
+import ClickButton from '../inputs/ClickButton.vue';
+
 defineProps({
     note: {
         type: Object,
@@ -18,14 +20,12 @@ defineEmits(['toggle', 'delete']);
                 {{ note.titel }}
             </h2>
             <div class="flex gap-2">
-                <button @click="$emit('toggle', note)"
-                    :class="['btn btn--success cursor-pointer w-1 p-1 rounded border transition-colors', note.is_afgerond ? 'bg-noir-success text-black border-noir-success' : 'border-noir-muted text-noir-muted hover:text-noir-success hover:border-noir-success']" title="Toggle Status">
-                    ✓
-                </button>
-                <button @click="$emit('delete', note.id)"
-                class="btn btn--danger cursor-pointer w-1 p-1 rounded border border-noir-muted text-noir-muted hover:text-noir-danger hover:border-noir-danger transition-colors" title="Delete">
-                    🗑️
-                </button>
+                <click-button
+                    icon="✓"
+                    :buttonType="`${note.is_afgerond?'done':'green'}`"
+                    @click="$emit('toggle', note)"
+                />
+                <click-button icon="🗑️" buttonType="red" @click="$emit('delete', note.id)" />
             </div>
         </div>
 

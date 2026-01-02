@@ -3,7 +3,9 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
 import { useToast } from '../../composables/useToast';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 const route = useRoute();
 const router = useRouter();
@@ -13,11 +15,11 @@ const spawnOptions = ref([]); // From instellingen
 const dialogen = ref([]); // From api
 
 const actionTypes = [
-    { id: 'walk_to', label: 'WALK_TO_POSITION', icon: '🚶', svg: 'behavior' },
-    { id: 'idle',    label: 'IDLE_WAIT',        icon: '⏳', svg: 'idle' },
-    { id: 'look_at', label: 'LOOK_AT_TARGET',   icon: '👀', svg: 'look' },
-    { id: 'talk',    label: 'START_DIALOGUE',   icon: '💬', svg: 'dialogue' },
-    { id: 'custom',  label: 'CUSTOM_COMMAND',   icon: '⚙️', svg: 'cog' }
+    { id: 'walk_to', labelKey: 'behavior.walk_to', icon: '🚶', svg: 'behavior' },
+    { id: 'idle',    labelKey: 'behavior.idle',    icon: '⏳', svg: 'idle' },
+    { id: 'look_at', labelKey: 'behavior.look_at',   icon: '👀', svg: 'look' },
+    { id: 'talk',    labelKey: 'behavior.talk',   icon: '💬', svg: 'dialogue' },
+    { id: 'custom',  labelKey: 'behavior.custom',   icon: '⚙️', svg: 'cog' }
 ];
 
 const getActionIcon = (type) => {
@@ -45,7 +47,7 @@ const fetchGedrag = async () => {
             }
         }
     } catch (e) {
-        toast.error('FAILED_TO_FETCH_DATA');
+        toast.error(t('behavior.fetch_data_error'));
     } finally {
         loading.value = false;
     }
@@ -54,19 +56,19 @@ const fetchGedrag = async () => {
 const saveGedrag = async () => {
     try {
         await axios.put(`/api/gedrag/${gedrag.value.id}`, gedrag.value);
-        toast.success('BEHAVIOR_SAVED');
+        toast.success(t('behavior.saved'));
     } catch (e) {
-        toast.error('FAILED_TO_SAVE');
+        toast.error(t('behavior.save_error'));
     }
 };
 
 const deleteGedrag = async () => {
-    if (confirm('DELETE_BEHAVIOR?')) {
+    if (confirm(t('behavior.delete_confirm'))) {
         try {
             await axios.delete(`/api/gedrag/${gedrag.value.id}`);
             router.push('/gedrag');
         } catch (e) {
-            toast.error('FAILED_TO_DELETE');
+            toast.error(t('behavior.delete_error'));
         }
     }
 };
@@ -102,12 +104,12 @@ onMounted(fetchGedrag);
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted">
-        LOADING_BEHAVIOR_DATA...
+        {{ t('behavior.loading') }}
     </div>
 
     <div v-else-if="gedrag" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/gedrag" class="hover:text-white">&lt; NAAR_LIBRARY</RouterLink>
+            <RouterLink to="/gedrag" class="hover:text-white">&lt; {{ t('behavior.back_lib') }}</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ gedrag.naam }}</span>
         </div>
@@ -116,26 +118,26 @@ onMounted(fetchGedrag);
             <!-- Left: Sidebar Properties -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="panel p-6">
-                    <h2 class="text-noir-accent font-bold uppercase tracking-widest text-xs mb-4">Properties</h2>
+                    <h2 class="text-noir-accent font-bold uppercase tracking-widest text-xs mb-4">{{ t('behavior.properties') }}</h2>
                     <div class="space-y-4">
                         <div>
-                            <label class="form-label">Naam</label>
+                            <label class="form-label">{{ t('behavior.name') }}</label>
                             <input v-model="gedrag.naam" type="text" class="form-input">
                         </div>
                         <div>
-                            <label class="form-label">Beschrijving</label>
-                            <textarea v-model="gedrag.beschrijving" rows="4" class="form-input" placeholder="What does this behavior represent?"></textarea>
+                            <label class="form-label">{{ t('behavior.description') }}</label>
+                            <textarea v-model="gedrag.beschrijving" rows="4" class="form-input" :placeholder="t('behavior.placeholder_desc')"></textarea>
                         </div>
                     </div>
 
                     <div class="mt-6 flex flex-col gap-2">
-                        <button @click="saveGedrag" class="btn btn--success w-full">BEWAREN</button>
-                        <button @click="deleteGedrag" class="btn btn--danger w-full btn--small">VERWIJEREN</button>
+                        <button @click="saveGedrag" class="btn btn--success w-full">{{ t('behavior.save_btn') }}</button>
+                        <button @click="deleteGedrag" class="btn btn--danger w-full btn--small">{{ t('behavior.delete_btn') }}</button>
                     </div>
                 </div>
 
                 <div class="panel p-6">
-                    <h2 class="text-noir-warning font-bold uppercase tracking-widest text-xs mb-4">Add Actions</h2>
+                    <h2 class="text-noir-warning font-bold uppercase tracking-widest text-xs mb-4">{{ t('behavior.add_actions') }}</h2>
                     <div class="grid grid-cols-1 gap-2">
                         <button
                             v-for="type in actionTypes"
@@ -146,7 +148,7 @@ onMounted(fetchGedrag);
                             <span class="text-lg" style="height: 28px; width:28px">
                                 <img :src="`/icons/${type.svg}.svg`" />
                             </span>
-                            <span class="font-bold tracking-wider group-hover:text-noir-accent">{{ type.label }}</span>
+                            <span class="font-bold tracking-wider group-hover:text-noir-accent">{{ t(type.labelKey) }}</span>
                         </button>
                     </div>
                 </div>
@@ -156,13 +158,13 @@ onMounted(fetchGedrag);
             <div class="lg:col-span-2">
                 <div class="panel min-h-[600px] flex flex-col">
                     <div class="p-4 border-b border-noir-dark bg-noir-dark/50 flex justify-between items-center">
-                        <h2 class="text-white font-bold uppercase tracking-widest text-xs">Action_Sequence</h2>
-                        <span class="text-[10px] text-noir-muted">{{ gedrag.acties.length }} STEPS TOTAL</span>
+                        <h2 class="text-white font-bold uppercase tracking-widest text-xs">{{ t('behavior.sequence') }}</h2>
+                        <span class="text-[10px] text-noir-muted">{{ gedrag.acties.length }} {{ t('behavior.steps_total') }}</span>
                     </div>
 
                     <div class="flex-grow p-6 space-y-4 bg-[url('/img/grid.png')] bg-repeat">
                         <div v-if="gedrag.acties.length === 0" class="h-64 flex items-center justify-center text-noir-muted border-2 border-dashed border-noir-dark rounded italic uppercase tracking-tighter text-sm">
-                            NO_ACTIONS_IN_SEQUENCE
+                            {{ t('behavior.no_actions') }}
                         </div>
 
                         <div
@@ -184,14 +186,14 @@ onMounted(fetchGedrag);
                             <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="col-span-2 md:col-span-1">
                                     <h4 class="text-[10px] text-noir-muted uppercase font-bold mb-1">
-                                        {{ actionTypes.find(t => t.id === action.type)?.label }}
+                                        {{ t(actionTypes.find(t => t.id === action.type)?.labelKey) }}
                                     </h4>
 
                                     <!-- Context-specific inputs -->
                                     <div v-if="action.type === 'walk_to'" class="flex gap-2">
                                         <div class="flex-grow">
                                             <select v-model="action.params.spawn_point" class="form-input text-xs py-1">
-                                                <option value="">-- SELECT SPAWN POINT --</option>
+                                                <option value="">{{ t('behavior.select_spawn') }}</option>
                                                 <option v-for="opt in spawnOptions" :key="opt.id" :value="opt.id">{{ opt.label }}</option>
                                             </select>
                                         </div>
@@ -199,20 +201,20 @@ onMounted(fetchGedrag);
 
                                     <div v-if="action.type === 'idle'" class="flex items-center gap-2">
                                         <input v-model.number="action.params.duration" type="number" step="0.5" class="form-input text-xs py-1 w-24">
-                                        <span class="text-[10px] text-noir-muted">SECONDS</span>
+                                        <span class="text-[10px] text-noir-muted">{{ t('behavior.seconds') }}</span>
                                     </div>
 
                                     <div v-if="action.type === 'look_at'" class="flex gap-2">
                                         <select v-model="action.params.target" class="form-input text-xs py-1">
-                                            <option value="player">PLAYER</option>
-                                            <option value="last_spawn">LAST SPAWN</option>
+                                            <option value="player">{{ t('behavior.player') }}</option>
+                                            <option value="last_spawn">{{ t('behavior.last_spawn') }}</option>
                                         </select>
                                     </div>
 
                                     <div v-if="action.type === 'talk'" class="flex gap-2">
                                         <div class="flex-grow">
                                             <select v-model="action.params.dialoog_id" class="form-input text-xs py-1">
-                                                <option :value="null">-- SELECT DIALOGUE --</option>
+                                                <option :value="null">{{ t('behavior.select_dialogue') }}</option>
                                                 <option v-for="d in dialogen" :key="d.id" :value="d.id">{{ d.titel }}</option>
                                             </select>
                                         </div>

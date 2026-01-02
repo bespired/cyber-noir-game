@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import LinkButton from '../inputs/LinkButton.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     sector: {
@@ -7,6 +9,8 @@ defineProps({
         required: true
     }
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -22,7 +26,7 @@ defineProps({
                 <span v-if="sector.is_ontdekt" class="px-2 py-1 bg-noir-success/20 text-noir-success border border-noir-success rounded text-xs font-bold uppercase">DISCOVERED</span>
                 <span v-else class="px-2 py-1 bg-noir-muted/20 text-noir-muted border border-noir-muted rounded text-xs font-bold uppercase">UNKNOWN</span>
             </div>
-            
+
             <p class="text-noir-text text-sm mb-6">{{ sector.beschrijving }}</p>
 
             <!-- Locations Preview -->
@@ -39,12 +43,15 @@ defineProps({
                 </ul>
                 <div v-else class="text-xs text-noir-muted italic">No locations mapped.</div>
             </div>
-            
+
             <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                 <span class="text-xs text-noir-muted font-mono">COORDS: {{ sector.kaart_coordinaten || 'UNKNOWN' }}</span>
-                <RouterLink :to="`/map/${sector.id}`" class="btn--link">
-                    ENTER SECTOR >
-                </RouterLink>
+                <LinkButton
+                    name="sector-detail"
+                    :params="{ id: sector.id }"
+                    :label="t('common.change')"
+                    buttonType="link"
+                />
             </div>
         </div>
     </div>

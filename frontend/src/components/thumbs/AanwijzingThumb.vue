@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import LinkButton from '../inputs/LinkButton.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     clue: {
@@ -7,6 +9,8 @@ defineProps({
         required: true
     }
 });
+
+const { t } = useI18n();
 
 const getImageUrl = (path) => {
     if (!path) return '';
@@ -45,9 +49,12 @@ const getImageUrl = (path) => {
             <span v-else class="text-noir-muted italic">--</span>
         </td>
         <td class="p-4 text-right">
-            <RouterLink :to="`/aanwijzingen/${clue.id}`" class="btn--link btn--link-muted">
-                BEWERK
-            </RouterLink>
+            <LinkButton 
+                name="aanwijzing-detail" 
+                :params="{ id: clue.id }" 
+                :label="t('common.change')" 
+                buttonType="link" 
+            />
         </td>
     </tr>
 </template>

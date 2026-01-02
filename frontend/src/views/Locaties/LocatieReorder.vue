@@ -5,6 +5,10 @@ import { useRouter } from 'vue-router';
 import draggable from 'vuedraggable';
 import { useToast } from '../../composables/useToast';
 
+import { useToast } from '../../composables/useToast';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 const toast = useToast();
 
 const router = useRouter();
@@ -77,7 +81,7 @@ const saveOrder = async () => {
         router.push('/locaties');
     } catch (e) {
         console.error("Failed to save order", e);
-        toast.error("CRITICAL_ERROR: Failed to transmit reorder sequence.");
+        toast.error(t('locations.reorder_error'));
     } finally {
         saving.value = false;
     }
@@ -97,14 +101,14 @@ const getImageUrl = (path) => {
         <div class="flex justify-between items-center mb-8 border-b border-noir-dark pb-6">
             <div class="flex items-center gap-6">
                 <button @click="router.push('/locaties')" class="text-noir-muted hover:text-white transition-colors flex items-center gap-2 font-bold uppercase tracking-widest text-sm">
-                    <span class="text-xl">←</span> BACK
+                    <span class="text-xl">←</span> {{ t('locations.title') }}
                 </button>
-                <h1 class="text-3xl font-bold text-white tracking-widest uppercase">Reorder_Sequence</h1>
+                <h1 class="text-3xl font-bold text-white tracking-widest uppercase">{{ t('locations.reorder_title') }}</h1>
 
                 <div class="flex items-center gap-3 ml-4">
-                    <span class="text-xs text-noir-muted uppercase">Filter:</span>
+                    <span class="text-xs text-noir-muted uppercase">{{ t('locations.filter') }}</span>
                     <select v-model="selectedSector" class="bg-noir-darker text-noir-text border border-noir-dark rounded px-3 py-1 text-xs focus:border-noir-warning focus:outline-none uppercase">
-                        <option value="">ALL_SECTORS</option>
+                        <option value="">{{ t('locations.all_sectors') }}</option>
                         <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
                             {{ sector.naam }}
                         </option>
@@ -114,14 +118,14 @@ const getImageUrl = (path) => {
 
             <div class="flex gap-4">
                 <button @click="saveOrder" :disabled="saving" class="bg-noir-accent text-white px-6 py-2 rounded hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed">
-                    {{ saving ? 'TRANSMITTING...' : 'COMMIT_CHANGES' }}
+                    {{ saving ? t('locations.transmitting') : t('locations.commit') }}
                 </button>
             </div>
         </div>
 
         <div v-if="loading" class="flex flex-col items-center justify-center py-40 gap-4">
             <div class="w-12 h-12 border-4 border-noir-accent border-t-transparent rounded-full animate-spin"></div>
-            <div class="text-noir-muted animate-pulse font-mono tracking-widest text-lg">INITIALIZING_THUMBNAIL_BUFFER...</div>
+            <div class="text-noir-muted animate-pulse font-mono tracking-widest text-lg">{{ t('locations.init_buffer') }}</div>
         </div>
 
         <div v-else>
@@ -162,12 +166,12 @@ const getImageUrl = (path) => {
             </draggable>
 
             <div v-if="draggableLocaties.length === 0" class="text-center py-40 border-2 border-dashed border-noir-dark rounded text-noir-muted uppercase tracking-widest bg-noir-darker/30">
-                NO_LOCATIONS_IN_CURRENT_BUFFER
+                {{ t('locations.no_locations_buffer') }}
             </div>
         </div>
 
         <div class="mt-12 text-center text-[10px] text-noir-muted uppercase tracking-[0.2em] font-mono">
-            DRAG_THUMBNAILS_TO_REORGANIZE_DATA_PRIORITY
+            {{ t('locations.drag_hint') }}
         </div>
     </div>
 </template>

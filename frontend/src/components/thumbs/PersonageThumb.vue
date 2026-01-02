@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import LinkButton from "../inputs/LinkButton.vue";
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     personage: {
@@ -20,6 +21,8 @@ const getImageUrl = (path) => {
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     return `http://localhost:8000/storage${cleanPath}`;
 };
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -75,7 +78,12 @@ const getImageUrl = (path) => {
                 <span class="text-xs text-noir-muted font-mono">
                     {{ type === 'voertuig' ? 'VEH_ID' : 'ID' }}: {{ String(personage.id).padStart(4, '0') }}
                 </span>
-                <link-button name="personage-detail" :params="{id: personage.id}" label="BEWERKEN" buttonType="link" />
+                <link-button
+                    name="personage-detail"
+                    :params="{id: personage.id}"
+                    :label="t('common.change')"
+                    buttonType="link"
+                />
             </div>
         </div>
     </div>

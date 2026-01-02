@@ -5,7 +5,9 @@ import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import SceneThumb from '../../components/thumbs/SceneThumb.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const scenes = ref([]);
 const locaties = ref([]);
 const loading = ref(true);
@@ -119,17 +121,17 @@ const createScene = async () => {
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
              <div class="flex items-center gap-4">
-                <h1 class="page-header">SCENES</h1>
+                <h1 class="page-header">{{ t('scenes.title') }}</h1>
                 <div class="flex items-center gap-2">
                     <select v-model="selectedSector" class="form-input text-sm w-auto">
-                        <option value="">ALLE SECTOREN</option>
+                        <option value="">{{ t('scenes.all_sectors') }}</option>
                         <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
                             {{ sector.naam }}
                         </option>
                     </select>
 
                     <select v-model="selectedType" class="form-input text-sm w-auto">
-                        <option value="">ALLE TYPES</option>
+                        <option value="">{{ t('scenes.all_types') }}</option>
                         <option v-for="t in types" :key="t.value" :value="t.value">
                             {{ t.label }}
                         </option>
@@ -138,11 +140,11 @@ const createScene = async () => {
                     <click-button v-if="selectedSector || selectedType" icon="✕" buttonType="black" @click="{ selectedSector = ''; selectedType = ''; }" />
                 </div>
             </div>
-            <click-button label="NIEUWE SCENE" icon="+" buttonType="add" @click="openModal" />
+            <click-button :label="t('scenes.new_scene')" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
-            LADEN_SCENE_DATA...
+            {{ t('scenes.loading_data') }}
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -150,16 +152,16 @@ const createScene = async () => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" title="NEW SCENE ENTRY" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('scenes.new_entry')" @close="showModal = false">
             <form @submit.prevent="createScene" class="space-y-4">
                 <div>
-                    <label class="form-label">Titel</label>
+                    <label class="form-label">{{ t('scenes.form_title') }}</label>
                     <input v-model="form.titel" type="text" required class="form-input">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                      <div>
-                        <label class="form-label">Type</label>
+                        <label class="form-label">{{ t('scenes.form_type') }}</label>
                         <select v-model="form.type" required class="form-input">
                             <option v-for="t in types" :key="t.value" :value="t.value">
                                 {{ t.label }}
@@ -167,7 +169,7 @@ const createScene = async () => {
                         </select>
                     </div>
                      <div>
-                        <label class="form-label">Status</label>
+                        <label class="form-label">{{ t('scenes.form_status') }}</label>
                         <select v-model="form.status" required class="form-input">
                             <option value="active">Active</option>
                             <option value="completed">Completed</option>
@@ -178,23 +180,23 @@ const createScene = async () => {
 
                 <div class="grid grid-cols-2 gap-4" v-if="['outside', 'inside'].includes(form.type)">
                     <div>
-                        <label class="form-label">Sector</label>
+                        <label class="form-label">{{ t('scenes.form_sector') }}</label>
                         <select v-model="form.sector_id" required class="form-input">
-                            <option value="" disabled>Select a sector</option>
+                            <option value="" disabled>{{ t('scenes.select_sector') }}</option>
                             <option v-for="sector in sectors" :key="sector.id" :value="sector.id">{{ sector.naam }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="form-label">Location</label>
+                        <label class="form-label">{{ t('scenes.form_location') }}</label>
                         <select v-model="form.locatie_id" required class="form-input">
-                            <option value="" disabled>Select a location</option>
+                            <option value="" disabled>{{ t('scenes.select_location') }}</option>
                             <option v-for="loc in locaties" :key="loc.id" :value="loc.id">{{ loc.naam }}</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="form-label">Beschrijving</label>
+                    <label class="form-label">{{ t('scenes.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
                 <!--
@@ -210,8 +212,8 @@ const createScene = async () => {
                 </div>
                 -->
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">CANCEL</button>
-                    <button type="submit" class="btn btn--primary">MAAK_RECORD</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('scenes.cancel') }}</button>
+                    <button type="submit" class="btn btn--primary">{{ t('scenes.create_record') }}</button>
                 </div>
             </form>
         </Modal>

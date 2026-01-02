@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import LinkButton from '../inputs/LinkButton.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     locatie: {
@@ -7,6 +9,8 @@ defineProps({
         required: true
     }
 });
+
+const { t } = useI18n();
 
 const getImageUrl = (path) => {
     if (!path) return '';
@@ -62,9 +66,12 @@ const getImageUrl = (path) => {
                     3D_VIEW
                 </RouterLink>
             </div>
-            <RouterLink :to="`/locaties/${locatie.id}`" class="btn--link btn--link-warning">
-                DETAILS >
-            </RouterLink>
+            <LinkButton 
+                name="locatie-detail" 
+                :params="{ id: locatie.id }" 
+                :label="t('common.change')" 
+                buttonType="link" 
+            />
         </div>
     </div>
 </template>

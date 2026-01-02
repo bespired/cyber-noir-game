@@ -5,7 +5,9 @@ import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
 import { useToast } from '../../composables/useToast';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 
 const route = useRoute();
@@ -142,12 +144,12 @@ const getImageUrl = (path) => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        LADEN...
+        {{ t('map.loading') }}
     </div>
 
     <div v-else-if="sector" class="container mx-auto p-6">
         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/map" class="hover:text-white">&lt; SECTOREN</RouterLink>
+            <RouterLink to="/map" class="hover:text-white">&lt; {{ t('map.back_to_sectors') }}</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ sector.naam }}</span>
         </div>
@@ -159,13 +161,13 @@ const getImageUrl = (path) => {
                     <img :src="getImageUrl(sector.artwork[0].bestandspad)" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
                 </div>
                 <div v-else class="w-full h-full min-h-[200px] flex items-center justify-center text-noir-muted bg-noir-dark/50">
-                    GEEN VISUELE DATA
+                    {{ t('map.no_visual_data') }}
                 </div>
 
                 <!-- Upload Overlay -->
                 <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button @click="triggerUpload" class="px-4 py-2 border border-white text-white hover:bg-white hover:text-black transition-colors uppercase text-xs font-bold tracking-wider">
-                        {{ uploadLoading ? 'UPLOADING...' : 'WIJZIG VISUAL' }}
+                        {{ uploadLoading ? t('map.uploading') : t('map.change_visual') }}
                     </button>
                     <input type="file" ref="fileInput" @change="handleFileUpload" class="hidden" accept="image/*">
                 </div>
@@ -176,50 +178,50 @@ const getImageUrl = (path) => {
                 <div class="flex justify-between items-start mb-4">
                     <h1 class="page-header">{{ sector.naam }}</h1>
                     <button @click="openEditModal" class="text-noir-accent hover:text-white text-sm font-bold uppercase tracking-wider border border-noir-accent hover:border-white px-3 py-1 rounded transition-colors">
-                        BEWERK DATA
+                        {{ t('map.edit_data') }}
                     </button>
                 </div>
                 <p class="text-noir-text mb-6 flex-grow">{{ sector.beschrijving }}</p>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-noir-muted border-t border-noir-dark pt-4 font-mono">
                     <div>
-                        <div class="uppercase mb-1">Coördinaten</div>
+                        <div class="uppercase mb-1">{{ t('map.coordinates') }}</div>
                         <div class="text-white">{{ sector.kaart_coordinaten || 'N/A' }}</div>
                     </div>
                     <div>
-                        <div class="uppercase mb-1">Grid Positie</div>
+                        <div class="uppercase mb-1">{{ t('map.grid_position') }}</div>
                         <div class="text-white">X:{{ sector.x }} Y:{{ sector.y }}</div>
                     </div>
                     <div>
-                        <div class="uppercase mb-1">Afmetingen</div>
+                        <div class="uppercase mb-1">{{ t('map.dimensions') }}</div>
                         <div class="text-white">{{ sector.width }}x{{ sector.height }}</div>
                     </div>
                      <div>
-                        <div class="uppercase mb-1">Status</div>
-                        <div :class="sector.is_ontdekt ? 'text-noir-success' : 'text-noir-muted'">{{ sector.is_ontdekt ? 'ONTDEKT' : 'ONBEKEND' }}</div>
+                        <div class="uppercase mb-1">{{ t('map.status') }}</div>
+                        <div :class="sector.is_ontdekt ? 'text-noir-success' : 'text-noir-muted'">{{ sector.is_ontdekt ? t('map.discovered') : t('map.unknown') }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white uppercase tracking-wider">Scenes in Sector</h2>
+            <h2 class="text-xl font-bold text-white uppercase tracking-wider">{{ t('map.scenes_in_sector') }}</h2>
             <div class="flex gap-2">
                 <RouterLink :to="`/map/${sector.id}/emulate`" class="bg-noir-success text-white px-4 py-2 rounded hover:bg-green-500 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
-                    EMULATE
+                    {{ t('map.emulate') }}
                 </RouterLink>
                 <RouterLink :to="`/sector-map/${sector.id}`" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                         <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
                     </svg>
-                    VISUELE MAP
+                    {{ t('map.visual_map') }}
                 </RouterLink>
                 <button @click="openLinkSceneModal" class="bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                    + LINK BESTAANDE SCENE
+                    {{ t('map.link_scene') }}
                 </button>
             </div>
         </div>
@@ -230,7 +232,7 @@ const getImageUrl = (path) => {
                 <p class="text-noir-text text-sm mb-4 line-clamp-2">{{ scene.beschrijving }}</p>
 
                 <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-                    <span class="text-xs text-noir-muted uppercase tracking-tight">Type: {{ scene.type }}</span>
+                    <span class="text-xs text-noir-muted uppercase tracking-tight">{{ t('map.type_label') }} {{ scene.type }}</span>
                     <div class="flex gap-4 items-center">
                         <RouterLink v-if="['3D', 'WALKABLE-AREA'].includes(scene.type?.toUpperCase()) && scene.locatie_id" :to="`/locaties/${scene.locatie_id}/sector/${sector.id}/3d`" title="3D_BEWERKEN" class="text-[#00ffff] hover:text-white transition-all transform hover:scale-110 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -240,7 +242,7 @@ const getImageUrl = (path) => {
                             </svg>
                         </RouterLink>
                         <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-warning hover:text-white transition-colors text-xs font-bold uppercase tracking-wider">
-                            BEKIJK_DETAILS >
+                            {{ t('map.view_details') }}
                         </RouterLink>
                     </div>
                 </div>
@@ -248,55 +250,55 @@ const getImageUrl = (path) => {
 
             <!-- Empty State -->
             <div v-if="!sector.scenes || sector.scenes.length === 0" class="col-span-full text-center py-12 border-2 border-dashed border-noir-dark rounded text-noir-muted">
-                GEEN SCENES GEVONDEN IN DEZE SECTOR
+                {{ t('map.no_scenes_found') }}
             </div>
         </div>
 
         <!-- Edit Modal -->
-        <Modal :isOpen="showEditModal" title="BEWERK SECTOR" @close="showEditModal = false">
+        <Modal :isOpen="showEditModal" :title="t('map.edit_sector')" @close="showEditModal = false">
             <form @submit.prevent="updateSector" class="space-y-4">
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Naam</label>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.name') }}</label>
                     <input v-model="editForm.naam" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Beschrijving</label>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.description') }}</label>
                     <textarea v-model="editForm.beschrijving" required rows="4" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Breedte (px)</label>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.width') }}</label>
                         <input v-model="editForm.width" type="number" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Hoogte (px)</label>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.height') }}</label>
                         <input v-model="editForm.height" type="number" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                     </div>
                 </div>
                 <!-- X/Y are managed via map but editable here if needed -->
 
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showEditModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">OPSLAAN</button>
+                    <button type="button" @click="showEditModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">{{ t('map.cancel') }}</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">{{ t('map.save') }}</button>
                 </div>
             </form>
         </Modal>
 
         <!-- Link Scene Modal -->
-        <Modal :isOpen="showLinkSceneModal" title="LINK SCENE" @close="showLinkSceneModal = false">
+        <Modal :isOpen="showLinkSceneModal" :title="t('map.link_scene_title')" @close="showLinkSceneModal = false">
             <form @submit.prevent="linkScene" class="space-y-4">
                 <div>
-                     <label class="block text-noir-muted text-xs uppercase mb-1">Selecteer Scene</label>
+                     <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.select_scene') }}</label>
                      <select v-model="selectedSceneId" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-warning focus:outline-none">
-                        <option value="" disabled>Selecteer een scene om te linken...</option>
+                        <option value="" disabled>{{ t('map.select_scene_placeholder') }}</option>
                         <option v-for="sce in scenes" :key="sce.id" :value="sce.id">
-                            {{ sce.titel }} {{ sce.sector_id ? '(Reeds gelinkt)' : '(Vrij)' }}
+                            {{ sce.titel }} {{ sce.sector_id ? t('map.already_linked') : t('map.free') }}
                         </option>
                      </select>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showLinkSceneModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">LINK SCENE</button>
+                    <button type="button" @click="showLinkSceneModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">{{ t('map.cancel') }}</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">{{ t('map.link_scene_title') }}</button>
                 </div>
             </form>
         </Modal>

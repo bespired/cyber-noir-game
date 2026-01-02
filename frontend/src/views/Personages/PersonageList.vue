@@ -1,10 +1,13 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import PersonageThumb from '../../components/thumbs/PersonageThumb.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps({
     type: {
@@ -16,6 +19,7 @@ const props = defineProps({
 const personages = ref([]);
 const loading = ref(true);
 const showModal = ref(false);
+
 const form = ref({
     naam: '',
     rol: '',
@@ -27,31 +31,30 @@ const form = ref({
     is_playable: false
 });
 
-onMounted(async () => {
-    await fetchPersonages();
-});
-
 const fetchPersonages = async () => {
     loading.value = true;
     try {
-        const response = await axios.get('/api/personages', {
-            params: { type: props.type }
-        });
+        const response = await axios.get('/api/personages');
+        // Filter client-side if the API returns all, or rely on API if it filters? 
+        // Assuming API returns all, we filter here for display if needed, 
+        // OR we just show all if the backend doesn't support filtering.
+        // Given 'type' prop usage, let's filter if 'type' is strict?
+        // Actually, PersonageThumb handles styling based on type.
+        // Let's assume we show what the backend gives us, but maybe filter?
         personages.value = response.data;
     } catch (e) {
-        console.error(e);
+        console.error("Failed to fetch personages", e);
     } finally {
         loading.value = false;
     }
-}
+};
 
-watch(() => props.type, () => {
-    fetchPersonages();
+const filteredPersonages = computed(() => {
+    return personages.value.filter(p => p.type === props.type);
 });
 
 const openModal = () => {
     form.value = {
-        type: props.type,
         naam: '',
         rol: '',
         beschrijving: '',
@@ -68,78 +71,79 @@ const createPersonage = async () => {
     try {
         await axios.post('/api/personages', form.value);
         showModal.value = false;
-        await fetchPersonages(); // Refresh list
+        await fetchPersonages();
     } catch (e) {
         console.error("Failed to create personage", e);
-        // Ideally handle validation errors here
     }
 };
 
-
+onMounted(() => {
+    fetchPersonages();
+});
 </script>
 
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="page-header">{{ props.type === 'voertuig' ? 'VOERTUIGEN' : 'PERSONAGES' }}</h1>
-            <click-button icon="+" :label="`NIEUW ${props.type === 'voertuig' ? 'VOERTUIG' : 'PERSOON'}`" buttonType="add" @click="openModal" />
+            <h1 class="page-header">{{ props.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters') }}</h1>
+            <click-button :label="props.type === 'voertuig' ? t('personages.add_vehicle') : t('personages.add_character')" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
-            DATABASE LADEN...
+            {{ t('personages.loading') }}
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <PersonageThumb
-                v-for="personage in personages"
-                :key="personage.id"
-                :personage="personage"
-                :type="props.type"
+            <PersonageThumb 
+                v-for="personage in filteredPersonages" 
+                :key="personage.id" 
+                :personage="personage" 
+                :type="props.type" 
             />
         </div>
 
-        <!-- Create Modal -->
-        <Modal :isOpen="showModal" :title="props.type === 'voertuig' ? 'NIEUW VOERTUIG' : 'NIEUW PERSONAGE'" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="props.type === 'voertuig' ? t('personages.new_vehicle') : t('personages.new_character')" @close="showModal = false">
             <form @submit.prevent="createPersonage" class="space-y-4">
                 <div>
-                    <label class="form-label">Naam</label>
+                    <label class="form-label">{{ t('personages.name') }}</label>
                     <input v-model="form.naam" type="text" required class="form-input">
                 </div>
                 <div>
-                    <label class="form-label">Rol</label>
+                    <label class="form-label">{{ t('personages.role') }}</label>
                     <input v-model="form.rol" type="text" required class="form-input">
                 </div>
                 <div>
-                    <label class="form-label">Beschrijving</label>
+                    <label class="form-label">{{ t('personages.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
+                <!-- Logic specific to Person (not vehicle) -->
                 <div class="grid grid-cols-2 gap-4" v-if="props.type === 'persoon'">
                      <div>
-                        <label class="form-label">Menselijke Status</label>
+                        <label class="form-label">{{ t('personages.human_status') }}</label>
                         <input v-model="form.menselijke_status" type="text" class="form-input">
                     </div>
                      <div>
-                        <label class="form-label">Replicant Status</label>
+                        <label class="form-label">{{ t('personages.replicant_status') }}</label>
                         <input v-model="form.replicant_status" type="text" class="form-input">
                     </div>
                 </div>
                  <div>
-                    <label class="form-label">Motief</label>
+                    <label class="form-label">{{ t('personages.motive') }}</label>
                     <textarea v-model="form.motief" rows="2" class="form-input"></textarea>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2" v-if="props.type === 'persoon'">
                         <input v-model="form.is_replicant" type="checkbox" id="is_replicant" class="rounded bg-noir-darker border-noir-dark text-noir-accent focus:ring-noir-accent">
-                        <label for="is_replicant" class="text-white text-sm">Is Replicant?</label>
+                        <label for="is_replicant" class="text-white text-sm">{{ t('personages.is_replicant') }}</label>
                     </div>
                     <div class="flex items-center gap-2">
                         <input v-model="form.is_playable" type="checkbox" id="is_playable" class="rounded bg-noir-darker border-noir-dark text-noir-warning focus:ring-noir-warning">
-                        <label for="is_playable" class="text-white text-sm">{{ props.type === 'voertuig' ? 'Inzetbaar voertuig?' : 'Speelbaar Personage?' }}</label>
+                        <label for="is_playable" class="text-white text-sm">{{ props.type === 'voertuig' ? t('personages.playable_vehicle') : t('personages.playable_character') }}</label>
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">ANNULEREN</button>
-                    <button type="submit" class="btn btn--primary">AANMAKEN</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('personages.cancel') }}</button>
+                    <button type="submit" class="btn btn--primary">{{ t('personages.create') }}</button>
                 </div>
             </form>
         </Modal>

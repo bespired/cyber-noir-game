@@ -6,7 +6,9 @@ import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import LinkButton  from '../../components/inputs/LinkButton.vue';
 import LocatieThumb from '../../components/thumbs/LocatieThumb.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const locaties = ref([]);
 const loading = ref(true);
 const showModal = ref(false);
@@ -87,10 +89,10 @@ const createLocatie = async () => {
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
             <div class="flex items-center gap-4">
-                <h1 class="page-header">LOCATIES</h1>
+                <h1 class="page-header">{{ t('locations.title') }}</h1>
                 <div class="flex items-center gap-2">
                     <select v-model="selectedSector" class="form-input text-sm w-auto uppercase">
-                        <option value="">ALLE SECTORS</option>
+                        <option value="">{{ t('locations.all_sectors') }}</option>
                         <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
                             {{ sector.naam }}
                         </option>
@@ -99,13 +101,13 @@ const createLocatie = async () => {
                 </div>
             </div>
             <div class="flex gap-4">
-                <link-button label="VOLGORDE" icon="⇅" name="locaties-reorder" buttonType="blue" />
-                <click-button label="NIEUWE LOCATIE" icon="+" buttonType="add" @click="openModal"  />
+                <link-button :label="t('locations.order')" icon="⇅" name="locaties-reorder" buttonType="blue" />
+                <click-button :label="t('locations.new_location')" icon="+" buttonType="add" @click="openModal"  />
             </div>
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse font-mono tracking-widest text-lg py-20">
-            LOADING_GEOSPATIAL_DATA...
+            {{ t('locations.loading') }}
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -113,27 +115,27 @@ const createLocatie = async () => {
         </div>
 
         <div v-if="!loading && filteredLocaties.length === 0" class="text-center py-20 border-2 border-dashed border-noir-dark rounded text-noir-muted uppercase tracking-widest bg-noir-darker/30">
-            GEEN_LOCATIES_IN_GEKOZEN_SECTOR
+            {{ t('locations.no_locations_sector') }}
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" title="NEW DATA ENTRY" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('locations.new_entry')" @close="showModal = false">
             <form @submit.prevent="createLocatie" class="space-y-4">
                 <div>
-                    <label class="form-label">Location Name</label>
-                    <input v-model="form.naam" type="text" required class="form-input" placeholder="NAAM">
+                    <label class="form-label">{{ t('locations.name_label') }}</label>
+                    <input v-model="form.naam" type="text" required class="form-input" :placeholder="t('locations.placeholder_name')">
                 </div>
                 <div>
-                    <label class="form-label">Coordinates / Description</label>
-                    <textarea v-model="form.beschrijving" required rows="3" class="form-input" placeholder="ATMOSPHERE, DETAILS..."></textarea>
+                    <label class="form-label">{{ t('locations.coords_label') }}</label>
+                    <textarea v-model="form.beschrijving" required rows="3" class="form-input" :placeholder="t('locations.placeholder_desc')"></textarea>
                 </div>
                 <div>
-                    <label class="form-label">Intel / Notes</label>
-                    <textarea v-model="form.notities" rows="2" class="form-input" placeholder="PRIVATE INVESTIGATOR NOTES..."></textarea>
+                    <label class="form-label">{{ t('locations.intel_label') }}</label>
+                    <textarea v-model="form.notities" rows="2" class="form-input" :placeholder="t('locations.placeholder_notes')"></textarea>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">DISCARD</button>
-                    <button type="submit" class="btn btn--warning">AUTHORIZE_ENTRY</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('locations.discard') }}</button>
+                    <button type="submit" class="btn btn--warning">{{ t('locations.authorize') }}</button>
                 </div>
             </form>
         </Modal>

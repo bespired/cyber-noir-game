@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import LinkButton from '../inputs/LinkButton.vue';
 
 defineProps({
     scene: {
@@ -28,6 +30,20 @@ const getTypeIcon = (type) => {
         default: return '📍';
     }
 };
+
+const getSvgIcon = (type) => {
+    switch (type) {
+        case 'walkable-area': return 'behavior.svg';
+        case 'interrogation': return 'about.svg';
+        case 'combat':        return 'combat.svg';
+        case 'investigation': return 'clue.svg';
+        case 'practice':      return 'target.svg';
+        case 'vue-component': return 'vue.svg';
+        default: return 'cog';
+    }
+};
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -35,7 +51,10 @@ const getTypeIcon = (type) => {
         <div class="flex justify-between items-start mb-4">
             <div class="flex-grow">
                 <div class="flex items-center gap-2 mb-1">
-                    <span class="text-2xl">{{ getTypeIcon(scene.type) }}</span>
+                    <!-- <span class="text-2xl">{{ getTypeIcon(scene.type) }}</span> -->
+
+                    <img :src="`/icons/${getSvgIcon(scene.type)}`" class="w-8"/>
+
                     <h2 class="text-xl font-bold text-white group-hover:text-noir-accent transition-colors">{{ scene.titel }}</h2>
                 </div>
                 <span class="text-xs text-noir-muted uppercase tracking-wider">{{ scene.type }}</span>
@@ -93,9 +112,12 @@ const getTypeIcon = (type) => {
                 }">{{ scene.status }}</span>
             </div>
             <div class="flex flex-col items-end gap-2">
-                <RouterLink :to="`/scenes/${scene.id}`" class="btn--link">
-                    WIJZIG_SCENE >
-                </RouterLink>
+                <LinkButton
+                    name="scene-detail"
+                    :params="{ id: scene.id }"
+                    :label="t('common.change')"
+                    buttonType="link"
+                />
             </div>
         </div>
     </div>

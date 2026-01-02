@@ -4,7 +4,9 @@ import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import NotitieThumb from '../../components/thumbs/NotitieThumb.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const notes = ref([]);
 const loading = ref(true);
 const showModal = ref(false);
@@ -63,7 +65,7 @@ const toggleNote = async (note) => {
 };
 
 const deleteNote = async (id) => {
-    if (!confirm('BEVESTIG WISSEN?')) return;
+    if (!confirm(t('notes.confirm_delete'))) return;
     try {
         await axios.delete(`/api/notities/${id}`);
         await fetchNotes();
@@ -76,12 +78,12 @@ const deleteNote = async (id) => {
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="page-header">MIJN NOTITIES</h1>
-            <click-button label="NIEUW IDEE" icon="+" buttonType="add" @click="openModal" />
+            <h1 class="page-header">{{ t('notes.my_notes') }}</h1>
+            <click-button :label="t('notes.new_idea')" icon="+" buttonType="add" @click="openModal" />
         </div>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
-            DECRYPTING DATA SHARDS...
+            {{ t('notes.decrypting') }}
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -95,19 +97,19 @@ const deleteNote = async (id) => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" title="NEW DATA ENTRY" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('notes.new_entry')" @close="showModal = false">
             <form @submit.prevent="createNote" class="space-y-4">
                 <div>
-                    <label class="form-label">Title</label>
-                    <input v-model="form.titel" type="text" required class="form-input" placeholder="Enter topic...">
+                    <label class="form-label">{{ t('notes.title') }}</label>
+                    <input v-model="form.titel" type="text" required class="form-input" :placeholder="t('notes.enter_topic')">
                 </div>
                 <div>
-                    <label class="form-label">Content</label>
-                    <textarea v-model="form.inhoud" required rows="5" class="form-input" placeholder="Describe your idea..."></textarea>
+                    <label class="form-label">{{ t('notes.content') }}</label>
+                    <textarea v-model="form.inhoud" required rows="5" class="form-input" :placeholder="t('notes.describe_idea')"></textarea>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">CANCEL</button>
-                    <button type="submit" class="btn btn--primary">BEWAAR RECORD</button>
+                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('personages.cancel') }}</button>
+                    <button type="submit" class="btn btn--primary">{{ t('notes.save_record') }}</button>
                 </div>
             </form>
         </Modal>

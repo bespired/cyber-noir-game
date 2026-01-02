@@ -4,6 +4,9 @@ import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const sectors = ref([]);
 const loading = ref(true);
@@ -183,10 +186,10 @@ const createSector = async () => {
     <div class="h-[calc(100vh-4rem)] flex flex-col">
         <!-- Toolbar -->
         <div class="h-16 bg-noir-dark border-b border-noir-panel px-6 flex justify-between items-center z-20">
-            <h1 class="text-2xl font-bold text-white tracking-tight">DE SECTOR MAP</h1>
+            <h1 class="text-2xl font-bold text-white tracking-tight">{{ t('map.the_sector_map') }}</h1>
             <div class="flex gap-4">
-                <span class="text-xs text-noir-muted self-center">SLEEP SECTOREN | KLIK NAAM OM TE BEWERKEN</span>
-                <click-button icon="+" label="SECTOR TOEVOEGEN" buttonType="add" @click="openCreateModal" />
+                <span class="text-xs text-noir-muted self-center">{{ t('map.drag_hint') }}</span>
+                <click-button icon="+" :label="t('map.add_sector')" buttonType="add" @click="openCreateModal" />
 
             </div>
         </div>
@@ -247,29 +250,29 @@ const createSector = async () => {
         </div>
 
         <!-- Create Modal -->
-         <Modal :isOpen="showCreateModal" title="NIEUWE SECTOR" @close="showCreateModal = false">
+         <Modal :isOpen="showCreateModal" :title="t('map.new_sector_title')" @close="showCreateModal = false">
             <form @submit.prevent="createSector" class="space-y-4">
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Naam</label>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.name') }}</label>
                     <input v-model="form.naam" type="text" required class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-noir-muted text-xs uppercase mb-1">Beschrijving</label>
+                    <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none"></textarea>
                 </div>
                  <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Breedte (px)</label>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.width') }}</label>
                         <input v-model="form.width" type="number" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-noir-muted text-xs uppercase mb-1">Hoogte (px)</label>
+                        <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.height') }}</label>
                         <input v-model="form.height" type="number" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none">
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showCreateModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">ANNULEREN</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">AANMAKEN</button>
+                    <button type="button" @click="showCreateModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">{{ t('map.cancel') }}</button>
+                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">{{ t('map.create') }}</button>
                 </div>
             </form>
         </Modal>

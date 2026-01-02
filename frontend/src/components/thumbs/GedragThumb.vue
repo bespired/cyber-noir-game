@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import LinkButton from '../inputs/LinkButton.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     gedrag: {
@@ -7,6 +9,8 @@ defineProps({
         required: true
     }
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -23,9 +27,12 @@ defineProps({
                 <span class="text-[10px] text-noir-accent uppercase tracking-tighter">
                     {{ gedrag.acties?.length || 0 }} ACTIONS LOADED
                 </span>
-                <RouterLink :to="`/gedrag/${gedrag.id}`" class="btn btn--small btn--primary">
-                    BEWERKEN
-                </RouterLink>
+                <LinkButton
+                    name="gedrag-detail"
+                    :params="{ id: gedrag.id }"
+                    :label="t('common.change')"
+                    buttonType="link"
+                />
             </div>
         </div>
     </div>

@@ -5,7 +5,9 @@ import axios from '../../axios';
 import { useToast } from '../../composables/useToast';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import GedragThumb from '../../components/thumbs/GedragThumb.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 const gedragingen = ref([]);
 const loading = ref(true);
@@ -15,14 +17,14 @@ const fetchGedragingen = async () => {
         const response = await axios.get('/api/gedrag');
         gedragingen.value = response.data;
     } catch (e) {
-        toast.error('FAILED_TO_FETCH_BEHAVIORS');
+        toast.error(t('behavior.fetch_error'));
     } finally {
         loading.value = false;
     }
 };
 
 const createGedrag = async () => {
-    const naam = prompt('BEHAVIOR_NAME:');
+    const naam = prompt(t('behavior.name_prompt'));
     if (!naam) return;
 
     try {
@@ -31,9 +33,9 @@ const createGedrag = async () => {
             acties: []
         });
         gedragingen.value.push(response.data);
-        toast.success('BEHAVIOR_CREATED');
+        toast.success(t('behavior.created'));
     } catch (e) {
-        toast.error('FAILED_TO_CREATE_BEHAVIOR');
+        toast.error(t('behavior.create_error'));
     }
 };
 
@@ -43,12 +45,12 @@ onMounted(fetchGedragingen);
 <template>
     <div class="container mx-auto p-6">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="page-header">GEDRAG</h1>
-            <click-button label="NIEUW GEDRAG" icon="+" buttonType="add" @click="createGedrag" />
+            <h1 class="page-header">{{ t('behavior.title') }}</h1>
+            <click-button :label="t('behavior.new')" icon="+" buttonType="add" @click="createGedrag" />
         </div>
 
         <div v-if="loading" class="text-center py-20 text-noir-muted animate-pulse">
-            SCANNING_NEURAL_PATTERNS...
+            {{ t('behavior.scanning') }}
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

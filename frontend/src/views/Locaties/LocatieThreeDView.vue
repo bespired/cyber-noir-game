@@ -5,7 +5,9 @@ import axios from '../../axios';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useToast } from '../../composables/useToast';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 
 const route = useRoute();
@@ -177,7 +179,7 @@ const fetchData = async () => {
         }
     } catch (e) {
         console.error("Failed to fetch data", e);
-        error.value = "Failed to load location or sector data.";
+        error.value = t('locations.load_error');
     } finally {
         loading.value = false;
     }
@@ -192,10 +194,10 @@ const saveSpawnPoints = async () => {
             spawn_points: allSpawnPoints
         });
 
-        toast.success('SPAWN_POINTS_SAVED');
+        toast.success(t('locations.points_saved'));
     } catch (e) {
         console.error(e);
-        toast.error('FAILED_TO_SAVE_SPAWN_POINTS');
+        toast.error(t('locations.save_points_error'));
     }
 };
 
@@ -286,7 +288,7 @@ const visualizeSpawnPoints = () => {
 
 const getPersonageName = (id) => {
     const p = personages.value.find(pers => pers.id === id);
-    return p ? p.naam : 'UNKNOWN';
+    return p ? p.naam : t('locations.unknown');
 };
 
 const initThree = () => {
@@ -413,7 +415,7 @@ const loadGLB = () => {
 
     }, null, (err) => {
         console.error("Error loading GLB:", err);
-        error.value = `GLB not found or failed to load. Path: ${glbUrl.value}`;
+        error.value = `${t('locations.glb_error')} Path: ${glbUrl.value}`;
     });
 };
 
@@ -439,7 +441,7 @@ const animate = () => {
 
                 tempLabels.push({
                     id: p.id,
-                    text: p.type === 'waypoint' ? p.name : (p.type === 'personage' ? getPersonageName(p.personage_id) : 'PROP'),
+                    text: p.type === 'waypoint' ? p.name : (p.type === 'personage' ? getPersonageName(p.personage_id) : t('locations.prop')),
                     type: p.type,
                     x,
                     y
@@ -480,11 +482,11 @@ const onScroll = (e) => {
     <div class="min-h-screen bg-noir-darker p-8">
         <div class="max-w-[1300px] mx-auto">
             <div class="flex items-center text-sm text-noir-muted mb-4">
-                <RouterLink to="/locaties" class="hover:text-white">&lt; LOCATIES</RouterLink>
+                <RouterLink to="/locaties" class="hover:text-white">&lt; {{ t('locations.title') }}</RouterLink>
                 <span class="mx-2">/</span>
-                <RouterLink :to="`/locaties/${locatieId}`" class="hover:text-white">&lt;TERUG_NAAR_LOCATIE</RouterLink>
+                <RouterLink :to="`/locaties/${locatieId}`" class="hover:text-white">&lt;{{ t('locations.back_to_loc') }}</RouterLink>
                 <span class="mx-2">/</span>
-                <span class="text-white">3D_CONTROLE_VIEUW</span>
+                <span class="text-white">{{ t('locations.control_view_3d') }}</span>
 
                 <div class="ml-auto flex gap-4">
                     <button
@@ -492,10 +494,10 @@ const onScroll = (e) => {
                         class="btn btn--small"
                         :class="isEditingSpawnPoints ? 'btn--warning' : 'btn--secondary'"
                     >
-                        {{ isEditingSpawnPoints ? 'KLAAR' : 'WIJZIG_SPAWNPOINTS' }}
+                        {{ isEditingSpawnPoints ? t('locations.done') : t('locations.edit_spawn') }}
                     </button>
                     <button v-if="isEditingSpawnPoints" @click="saveSpawnPoints" class="btn btn--small btn--success">
-                        BEWAAR_WIJZIGINGEN
+                        {{ t('locations.save_changes') }}
                     </button>
                 </div>
             </div>
@@ -538,16 +540,16 @@ const onScroll = (e) => {
                 <!-- Spawnpoint Editor Panel -->
                 <div v-if="isEditingSpawnPoints" class="mt-6 w-full panel bg-noir-darker/50 border-noir-warning/30">
                     <div class="flex justify-between items-center mb-4 border-b border-noir-dark pb-2">
-                        <h3 class="text-noir-warning font-bold uppercase tracking-widest text-sm">Spawnpoint_Editor</h3>
+                        <h3 class="text-noir-warning font-bold uppercase tracking-widest text-sm">{{ t('locations.spawn_editor') }}</h3>
                         <div class="flex gap-2">
-                            <button @click="addSpawnPoint('personage')" class="btn btn--small btn--success">+ PERSONAGE</button>
-                            <button @click="addSpawnPoint('aanwijzing')" class="btn btn--small btn--warning">+ PROP</button>
-                            <button @click="addSpawnPoint('waypoint')" class="btn btn--small btn--primary">+ WAYPOINT</button>
+                            <button @click="addSpawnPoint('personage')" class="btn btn--small btn--success">{{ t('locations.add_personage') }}</button>
+                            <button @click="addSpawnPoint('aanwijzing')" class="btn btn--small btn--warning">{{ t('locations.add_prop') }}</button>
+                            <button @click="addSpawnPoint('waypoint')" class="btn btn--small btn--primary">{{ t('locations.add_waypoint') }}</button>
                         </div>
                     </div>
 
                     <div v-if="spawnPoints.length === 0" class="text-center py-4 text-noir-muted italic">
-                        GEEN_SPAWNPOINTS
+                        {{ t('locations.no_spawnpoints') }}
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div v-for="point in spawnPoints" :key="point.id" class="bg-noir-panel p-4 rounded border border-noir-dark shadow-lg">
@@ -566,7 +568,7 @@ const onScroll = (e) => {
                             <div class="space-y-3">
                                 <!-- Waypoint Name Selector -->
                                 <div v-if="point.type === 'waypoint'">
-                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">Identificatie</label>
+                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">{{ t('locations.identification') }}</label>
                                     <select v-model="point.name" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
                                         <option v-for="opt in spawnOptions" :key="opt.id" :value="opt.id">{{ opt.label }} ({{ opt.id }})</option>
                                     </select>
@@ -574,7 +576,7 @@ const onScroll = (e) => {
 
                                 <!-- Personage Selector -->
                                 <div v-if="point.type === 'personage'">
-                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">Selecteer Personage</label>
+                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">{{ t('locations.select_character') }}</label>
                                     <select v-model="point.personage_id" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
                                         <option v-for="pers in personages" :key="pers.id" :value="pers.id">{{ pers.naam }}</option>
                                     </select>
@@ -582,7 +584,7 @@ const onScroll = (e) => {
 
                                 <!-- Aanwijzing Selector -->
                                 <div v-if="point.type === 'aanwijzing'">
-                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">Selecteer Prop</label>
+                                    <label class="block text-[10px] text-noir-muted uppercase mb-1">{{ t('locations.select_prop') }}</label>
                                     <select v-model="point.aanwijzing_id" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
                                         <option v-for="aan in locatieData.aanwijzingen" :key="aan.id" :value="aan.id">{{ aan.titel }}</option>
                                     </select>
@@ -590,7 +592,7 @@ const onScroll = (e) => {
 
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
-                                        <label class="block text-[10px] text-noir-muted uppercase mb-1">Richting</label>
+                                        <label class="block text-[10px] text-noir-muted uppercase mb-1">{{ t('locations.direction') }}</label>
                                         <select v-model="point.direction" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
                                             <option :value="0">0° (N)</option>
                                             <option :value="45">45° (NE)</option>
@@ -603,7 +605,7 @@ const onScroll = (e) => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-[10px] text-noir-muted uppercase mb-1">Schaal</label>
+                                        <label class="block text-[10px] text-noir-muted uppercase mb-1">{{ t('locations.scale') }}</label>
                                         <select v-model="point.scale" class="w-full bg-noir-darker border border-noir-dark text-white p-1 rounded text-xs">
                                             <option v-for="s in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 2.0]" :key="s" :value="s">{{ s.toFixed(1) }}x</option>
                                         </select>
@@ -622,19 +624,19 @@ const onScroll = (e) => {
 
                 <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-xs">
                      <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">INFO</h3>
-                        <p class="text-noir-text">LOC: {{ locatieData.naam }}</p>
-                        <p class="text-noir-text">SEC: {{ sectorData.naam }}</p>
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">{{ t('locations.info') }}</h3>
+                        <p class="text-noir-text">{{ t('locations.loc') }} {{ locatieData.naam }}</p>
+                        <p class="text-noir-text">{{ t('locations.sec') }} {{ sectorData.naam }}</p>
                     </div>
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">RODE KEGEL</h3>
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">{{ t('locations.red_cone') }}</h3>
                         <ul class="text-noir-text space-y-1">
-                            <li>• Scroll: Z-DIEPTE</li>
-                            <li>• Shift + Scroll: X-AS</li>
+                            <li>• {{ t('locations.z_depth') }}</li>
+                            <li>• {{ t('locations.x_axis') }}</li>
                         </ul>
                     </div>
                     <div class="bg-noir-panel p-4 border border-noir-dark rounded">
-                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">DEBUG_POINTER</h3>
+                        <h3 class="text-white font-bold mb-2 uppercase border-b border-noir-dark pb-1 text-[10px]">{{ t('locations.debug_pointer') }}</h3>
                         <div class="flex gap-2">
                             <span>X: {{ pointerPosition.x.toFixed(2) }}</span>
                             <span>Y: {{ pointerPosition.y.toFixed(2) }}</span>
