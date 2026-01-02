@@ -1,7 +1,7 @@
 {
     "common": {
         "loading": "LOADING...",
-        "no_description" :"NO_DESCRIPTION_AVAILABLE",
+        "no_description": "NO_DESCRIPTION_AVAILABLE",
         "back": "Back",
         "save": "Save",
         "delete": "Delete",
@@ -431,5 +431,16 @@
             "line6": "Those who hunt them still go by the name...",
             "line7": "Nexus Runners"
         }
+    },
+    "artwork": {
+        "title": "Visual Files",
+        "no_data": "NO_VISUAL_DATA_AVAILABLE",
+        "confirm_delete": "CONFIRM_DELETE_IMAGE?",
+        "add_record": "Add Record",
+        "close_upload": "Close Upload",
+        "upload_new": "Upload New Image",
+        "optional_title": "OPTIONAL_TITLE",
+        "uploading": "UPLOADING...",
+        "upload_btn": "UPLOAD_IMAGE"
     }
 }

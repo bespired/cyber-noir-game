@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import Character3DViewer from '../../components/Character3DViewer.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
@@ -91,64 +92,82 @@ const triggerGlbUpload = () => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        {{ t('common.loading_secure') }}
+        {{ t('personages.loading_secure') }}
     </div>
 
     <div v-else-if="personage" class="container mx-auto p-6">
-        <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink :to="personage.type === 'voertuig' ? '/voertuigen' : '/personages'" class="hover:text-white">
-                &lt; {{ personage.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters') }}
-            </RouterLink>
-            <span class="mx-2">/</span>
-            <span class="text-white">{{ personage.naam }}</span>
+        <!-- Top Navigation & Save Button -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center text-sm text-noir-muted uppercase tracking-widest">
+                <RouterLink :to="personage.type === 'voertuig' ? '/voertuigen' : '/personages'" class="hover:text-white transition-colors">
+                    &lt; {{ personage.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters') }}
+                </RouterLink>
+                <span class="mx-2">/</span>
+                <span class="text-white font-bold">{{ personage.naam }}</span>
+            </div>
+            <click-button
+                :label="t('personages.save')"
+                buttonType="green"
+                @click="saveChanges"
+            />
         </div>
 
-        <div class="panel overflow-hidden">
-            <!-- Header -->
-            <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
-                <div>
-                    <h1 class="page-header mb-1">{{ personage.naam }}</h1>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-noir-accent font-mono text-sm uppercase tracking-wider">{{ personage.rol }}</span>
-                        <span class="text-xs text-noir-muted">{{ t('personages.file_id') }}: {{ String(personage.id).padStart(8, '0') }}</span>
+        <div class="panel border-noir-dark bg-noir-darker/50 overflow-hidden">
+            <!-- Inner Header -->
+            <div class="p-8 border-b border-noir-dark bg-noir-dark/30">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h1 class="text-4xl font-bold text-white uppercase tracking-tighter mb-2">{{ personage.naam }}</h1>
+                        <div class="flex items-center gap-4">
+                            <span class="text-noir-accent font-mono text-sm uppercase tracking-widest font-bold">{{ personage.rol }}</span>
+                            <span class="text-xs text-noir-muted font-mono">{{ t('personages.file_id') }}: {{ String(personage.id).padStart(8, '0') }}</span>
+                        </div>
                     </div>
                 </div>
-                <button @click="saveChanges" class="btn btn--success">
-                    {{ t('personages.save') }}
-                </button>
             </div>
 
             <!-- Tabs -->
-            <div class="flex border-b border-noir-dark">
+            <div class="flex border-b border-noir-dark bg-noir-darker">
                 <button
                     @click="activeTab = 'public'"
-                    class="flex-1 py-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2"
-                    :class="activeTab === 'public' ? 'bg-noir-panel text-white border-noir-accent' : 'bg-noir-dark text-noir-muted border-transparent hover:text-white'"
+                    class="flex-1 py-4 text-xs font-bold uppercase tracking-[0.2em] transition-all border-b-2"
+                    :class="activeTab === 'public' ? 'bg-noir-panel/40 text-white border-noir-accent' : 'text-noir-muted border-transparent hover:text-white hover:bg-white/5'"
                 >
                     {{ personage.type === 'voertuig' ? t('personages.technical_data') : t('personages.public_data') }}
                 </button>
                 <button
                     @click="activeTab = 'private'"
-                    class="flex-1 py-3 text-sm font-bold uppercase tracking-wider transition-colors border-b-2"
-                    :class="activeTab === 'private' ? 'bg-noir-panel text-noir-danger border-noir-danger' : 'bg-noir-dark text-noir-muted border-transparent hover:text-white'"
+                    class="flex-1 py-4 text-xs font-bold uppercase tracking-[0.2em] transition-all border-b-2"
+                    :class="activeTab === 'private' ? 'bg-noir-panel/40 text-noir-danger border-noir-danger' : 'text-noir-muted border-transparent hover:text-white hover:bg-white/5'"
                 >
                     {{ t('personages.classified') }}
                 </button>
             </div>
 
             <!-- Content -->
-            <div class="p-6">
-                <!-- Public Tab -->
-                <div v-if="activeTab === 'public'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column: 3D Preview & Artwork -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <!-- 3D Preview -->
-                        <div class="panel p-4">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-4 flex justify-between items-center">
+            <div class="p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    
+                    <!-- Col 1: Visual Files (Span 3) - PERSISTENT -->
+                    <div class="lg:col-span-3 lg:border-r border-noir-dark pr-6">
+                        <ArtworkManager
+                            model-type="personage"
+                            :asset-type="personage.type"
+                            :model-id="personage.id"
+                            :artwork="personage.artwork"
+                            @upload-success="handleUploadSuccess"
+                            @image-deleted="handleDeleteSuccess"
+                        />
+                    </div>
+
+                    <!-- Col 2: 3D Core (Span 4) - PERSISTENT -->
+                    <div class="lg:col-span-4 lg:border-r border-noir-dark pr-6">
+                         <div class="panel bg-noir-darker p-4 border-noir-dark">
+                            <h3 class="text-[10px] font-bold text-noir-muted uppercase mb-4 flex justify-between items-center tracking-widest">
                                 <span>{{ personage.type === 'voertuig' ? t('personages.3d_vehicle_core') : t('personages.3d_character_core') }}</span>
                                 <button
                                     @click="triggerGlbUpload"
-                                    class="text-noir-accent hover:text-white transition-colors text-[10px]"
+                                    class="text-noir-accent hover:text-white transition-colors"
                                     :disabled="uploadingGlb"
                                 >
                                     {{ uploadingGlb ? t('personages.scanning') : t('personages.upload_glb') }}
@@ -156,7 +175,7 @@ const triggerGlbUpload = () => {
                             </h3>
 
                             <div :class="[
-                                'w-full bg-black/20 rounded border border-noir-dark relative overflow-hidden',
+                                'w-full bg-black/40 rounded border border-noir-panel relative overflow-hidden',
                                 personage.type === 'voertuig' ? 'aspect-video' : 'aspect-[3/4]'
                             ]">
                                 <Character3DViewer
@@ -165,128 +184,77 @@ const triggerGlbUpload = () => {
                                     :type="personage.type"
                                 />
                                 <div v-else class="w-full h-full flex flex-col items-center justify-center text-noir-muted p-6 text-center">
-                                    <div class="text-4xl mb-4 opacity-50">👤</div>
-                                    <p class="text-[10px] uppercase tracking-widest mb-4">{{ personage.type === 'voertuig' ? t('personages.no_vehicle_data') : t('personages.no_neural_data') }}</p>
-                                    <button @click="triggerGlbUpload" class="btn btn--small btn--link">
+                                    <div class="text-4xl mb-4 opacity-30">👤</div>
+                                    <p class="text-[10px] uppercase tracking-[0.2em] mb-4 text-noir-muted/60">{{ personage.type === 'voertuig' ? t('personages.no_vehicle_data') : t('personages.no_neural_data') }}</p>
+                                    <button @click="triggerGlbUpload" class="btn btn--small btn--accent-outline">
                                         {{ t('personages.init_scan') }}
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-                        <ArtworkManager
-                            model-type="personage"
-                            :asset-type="personage.type"
-                            :model-id="personage.id"
-                            :artwork="personage.artwork"
-                            @upload-success="handleUploadSuccess"
-                            @image-deleted="handleDeleteSuccess"
-                        />
                     </div>
 
-                    <!-- Right Column: Inputs -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('personages.name') }}</label>
-                            <input v-model="personage.naam" type="text" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('personages.role') }}</label>
-                            <input v-model="personage.rol" type="text" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('personages.description') }}</label>
-                            <textarea v-model="personage.beschrijving" rows="6" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-accent focus:outline-none transition-colors"></textarea>
-                        </div>
+                    <!-- Col 3: Inputs / Content (Span 5) - SWAPPABLE -->
+                    <div class="lg:col-span-5 space-y-8 animate-fade-in">
+                        
+                        <!-- PUBLIC CONTENT -->
+                        <div v-if="activeTab === 'public'" class="space-y-8">
+                            <div>
+                                <label class="form-label text-noir-muted/80">{{ t('personages.name') }}</label>
+                                <input v-model="personage.naam" type="text" class="form-input bg-noir-dark border-noir-panel focus:border-noir-accent">
+                            </div>
+                            <div>
+                                <label class="form-label text-noir-muted/80">{{ t('personages.role') }}</label>
+                                <input v-model="personage.rol" type="text" class="form-input bg-noir-dark border-noir-panel focus:border-noir-accent">
+                            </div>
+                            <div>
+                                <label class="form-label text-noir-muted/80">{{ t('personages.description') }}</label>
+                                <textarea v-model="personage.beschrijving" rows="8" class="form-input bg-noir-dark border-noir-panel focus:border-noir-accent"></textarea>
+                            </div>
 
-                        <!-- Linked Clues (Read Only for now) -->
-                        <div v-if="personage.aanwijzingen && personage.aanwijzingen.length > 0">
-                            <h3 class="text-sm font-bold text-white uppercase mb-4 border-b border-noir-dark pb-2">{{ t('personages.linked_evidence') }}</h3>
-                            <ul class="space-y-2">
-                                <li v-for="clue in personage.aanwijzingen" :key="clue.id" class="flex items-center text-sm">
-                                    <span class="w-2 h-2 bg-noir-accent rounded-full mr-2"></span>
-                                    <span class="text-noir-text">{{ clue.titel }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Private Tab -->
-                <div v-if="activeTab === 'private'" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column: 3D Preview & Artwork -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <div class="panel p-4">
-                            <h3 class="text-xs font-bold text-noir-muted uppercase mb-4 flex justify-between items-center">
-                                <span>{{ personage.type === 'voertuig' ? t('personages.classified_drive_core') : t('personages.classified_3d_core') }}</span>
-                                <button
-                                    @click="triggerGlbUpload"
-                                    class="text-noir-accent hover:text-white transition-colors text-[10px]"
-                                    :disabled="uploadingGlb"
-                                >
-                                    {{ uploadingGlb ? t('personages.scanning') : t('personages.update_model') }}
-                                </button>
-                            </h3>
-
-                            <div :class="[
-                                'w-full bg-black/20 rounded border border-noir-dark relative overflow-hidden',
-                                personage.type === 'voertuig' ? 'aspect-video' : 'aspect-[3/4]'
-                            ]">
-                                <Character3DViewer
-                                    v-if="personage.glb_url"
-                                    :glb-url="getGlbUrl(personage.glb_url)"
-                                    :type="personage.type"
-                                />
-                                <div v-else class="w-full h-full flex flex-col items-center justify-center text-noir-muted p-6 text-center">
-                                    <div class="text-4xl mb-4 opacity-50">👤</div>
-                                    <p class="text-[10px] uppercase tracking-widest mb-4">{{ personage.type === 'voertuig' ? t('personages.no_classified_drive') : t('personages.no_classified_3d') }}</p>
-                                    <button @click="triggerGlbUpload" class="btn btn--small btn--link">
-                                        {{ t('personages.restricted_upload') }}
-                                    </button>
+                            <!-- Linked Clues -->
+                            <div v-if="personage.aanwijzingen && personage.aanwijzingen.length > 0" class="pt-4">
+                                <h3 class="text-xs font-bold text-white uppercase mb-4 tracking-widest opacity-80">{{ t('personages.linked_evidence') }}</h3>
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div v-for="clue in personage.aanwijzingen" :key="clue.id" class="p-3 bg-noir-darker border border-noir-panel rounded flex items-center text-xs uppercase tracking-wider">
+                                        <span class="w-1.5 h-1.5 bg-noir-accent rounded-full mr-3 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></span>
+                                        <span class="text-white">{{ clue.titel }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <ArtworkManager
-                            model-type="personage"
-                            :asset-type="personage.type"
-                            :model-id="personage.id"
-                            :artwork="personage.artwork"
-                            @upload-success="handleUploadSuccess"
-                            @image-deleted="handleDeleteSuccess"
-                        />
-                    </div>
-
-                    <!-- Right Column: Inputs -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="bg-noir-danger/10 border border-noir-danger/30 p-4 rounded" v-if="personage.type === 'persoon'">
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" v-model="personage.is_replicant" class="form-checkbox h-5 w-5 text-noir-danger rounded bg-noir-dark border-noir-danger focus:ring-0 focus:ring-offset-0">
-                                    <span class="text-noir-danger font-bold uppercase tracking-wider">{{ t('personages.subject_replicant') }}</span>
-                                </label>
+                        <!-- PRIVATE CONTENT (Classified) -->
+                        <div v-if="activeTab === 'private'" class="space-y-8">
+                            <div class="grid grid-cols-1 gap-4">
+                                <div class="bg-noir-danger/5 border border-noir-danger/20 p-5 rounded" v-if="personage.type === 'persoon'">
+                                    <label class="flex items-center space-x-4 cursor-pointer">
+                                        <input type="checkbox" v-model="personage.is_replicant" class="form-checkbox h-5 w-5 text-noir-danger rounded bg-noir-darker border-noir-danger/50 focus:ring-0">
+                                        <span class="text-noir-danger font-bold uppercase tracking-[0.2em] text-xs">// {{ t('personages.subject_replicant') }}</span>
+                                    </label>
+                                </div>
+                                <div class="bg-noir-warning/5 border border-noir-warning/20 p-5 rounded">
+                                    <label class="flex items-center space-x-4 cursor-pointer">
+                                        <input type="checkbox" v-model="personage.is_playable" class="form-checkbox h-5 w-5 text-noir-warning rounded bg-noir-darker border-noir-warning/50 focus:ring-0">
+                                        <span class="text-noir-warning font-bold uppercase tracking-[0.2em] text-xs">// {{ personage.type === 'voertuig' ? t('personages.deployable_vehicle') : t('personages.playable_character') }}</span>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="bg-noir-warning/10 border border-noir-warning/30 p-4 rounded" :class="personage.type !== 'persoon' ? 'md:col-span-2' : ''">
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" v-model="personage.is_playable" class="form-checkbox h-5 w-5 text-noir-warning rounded bg-noir-dark border-noir-warning focus:ring-0 focus:ring-offset-0">
-                                    <span class="text-noir-warning font-bold uppercase tracking-wider">{{ personage.type === 'voertuig' ? t('personages.deployable_vehicle') : t('personages.playable_character') }}</span>
-                                </label>
+
+                            <div v-if="personage.type === 'persoon'">
+                                <label class="form-label text-noir-muted/60">{{ t('personages.human_traits') }}</label>
+                                <textarea v-model="personage.menselijke_status" rows="3" class="form-input bg-noir-dark border-noir-panel focus:border-noir-danger/50" :placeholder="t('personages.placeholder_traits_human')"></textarea>
                             </div>
-                        </div>
 
-                        <div v-if="personage.type === 'persoon'">
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('personages.human_traits') }}</label>
-                            <textarea v-model="personage.menselijke_status" rows="3" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors placeholder-gray-700" :placeholder="t('personages.placeholder_traits_human')"></textarea>
-                        </div>
+                            <div v-if="personage.type === 'persoon'">
+                                <label class="form-label text-noir-muted/60">{{ t('personages.artificial_traits') }}</label>
+                                <textarea v-model="personage.replicant_status" rows="3" class="form-input bg-noir-dark border-noir-panel focus:border-noir-danger/50" :placeholder="t('personages.placeholder_traits_ai')"></textarea>
+                            </div>
 
-                        <div v-if="personage.type === 'persoon'">
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('personages.artificial_traits') }}</label>
-                            <textarea v-model="personage.replicant_status" rows="3" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors placeholder-gray-700" :placeholder="t('personages.placeholder_traits_ai')"></textarea>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ personage.type === 'voertuig' ? t('personages.specs_notes') : t('personages.motive_agenda') }}</label>
-                            <textarea v-model="personage.motief" rows="3" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors placeholder-gray-700" :placeholder="personage.type === 'voertuig' ? t('personages.placeholder_specs') : t('personages.placeholder_motive')"></textarea>
+                            <div>
+                                <label class="form-label text-noir-muted/60">{{ personage.type === 'voertuig' ? t('personages.specs_notes') : t('personages.motive_agenda') }}</label>
+                                <textarea v-model="personage.motief" rows="4" class="form-input bg-noir-dark border-noir-panel focus:border-noir-danger/50" :placeholder="personage.type === 'voertuig' ? t('personages.placeholder_specs') : t('personages.placeholder_motive')"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

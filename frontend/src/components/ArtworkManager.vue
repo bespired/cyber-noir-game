@@ -2,7 +2,9 @@
 import { ref, defineEmits, computed } from 'vue';
 import axios from '../axios';
 import { useToast } from '../composables/useToast';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 
 const props = defineProps({
@@ -104,11 +106,11 @@ const gridClass = computed(() => {
     if (props.modelType === 'locatie' || props.assetType === 'voertuig') {
         return 'grid-cols-1';
     }
-    return 'grid-cols-2';
+    return 'grid-cols-1';
 });
 
 const deleteImage = async (id) => {
-    if (!confirm('CONFIRM_DELETE_IMAGE')) return;
+    if (!confirm(t('artwork.confirm_delete'))) return;
 
     try {
         await axios.delete(`/api/artwork/${id}`);
@@ -124,7 +126,7 @@ const deleteImage = async (id) => {
     <div class="bg-noir-panel">
         <div class="flex justify-between items-center pb-2">
             <label class="block text-xs font-bold text-noir-muted uppercase mb-2">
-                Visuele Bestanden
+                {{ t('artwork.title') }}
             </label>
         </div>
 
@@ -142,7 +144,7 @@ const deleteImage = async (id) => {
                     <button
                         @click="deleteImage(img.id)"
                         class="text-noir-danger hover:text-white transition-colors p-1 rounded hover:bg-noir-danger/50"
-                        title="DELETE_IMAGE"
+                        :title="t('artwork.confirm_delete')"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -152,7 +154,7 @@ const deleteImage = async (id) => {
             </div>
         </div>
         <div v-else class="text-noir-muted text-sm italic mb-6">
-            GEEN_VISUEEL_DATA_BESCHIKBAAR
+            {{ t('artwork.no_data') }}
         </div>
 
         <!-- Footer Actions -->
@@ -162,13 +164,13 @@ const deleteImage = async (id) => {
                 class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded border transition-all duration-300"
                 :class="isUploadOpen ? 'bg-noir-danger/20 text-noir-danger border-noir-danger hover:bg-noir-danger hover:text-white' : 'bg-noir-accent/20 text-noir-accent border-noir-accent hover:bg-noir-accent hover:text-white'"
             >
-                {{ isUploadOpen ? 'Sluit Upload' : 'Record Toevoegen' }}
+                {{ isUploadOpen ? t('artwork.close_upload') : t('artwork.add_record') }}
             </button>
         </div>
 
         <!-- Upload Form (Collapsible) -->
         <div v-if="isUploadOpen" class="bg-noir-dark/50 p-4 rounded border border-noir-dark animate-fade-in-down">
-            <h4 class="text-sm font-bold text-noir-muted uppercase mb-3">Nieuw Plaatje Uploaden</h4>
+            <h4 class="text-sm font-bold text-noir-muted uppercase mb-3">{{ t('artwork.upload_new') }}</h4>
             <form @submit.prevent="handleUpload" class="space-y-3">
                 <div>
                     <input
@@ -184,7 +186,7 @@ const deleteImage = async (id) => {
                     <input
                         type="text"
                         v-model="artworkTitle"
-                        placeholder="OPTIONEEL_TITEL"
+                        :placeholder="t('artwork.optional_title')"
                         class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-sm text-white focus:border-noir-accent focus:outline-none transition-colors"
                     >
                 </div>
@@ -193,7 +195,7 @@ const deleteImage = async (id) => {
                     :disabled="!selectedFile || uploading"
                     class="w-full bg-noir-accent text-white py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_10px_rgba(59,130,246,0.5)] transition-all uppercase font-bold text-xs tracking-wider disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                    {{ uploading ? 'UPLOADING...' : 'UPLOAD_PLAATJE' }}
+                    {{ uploading ? t('artwork.uploading') : t('artwork.upload_btn') }}
                 </button>
             </form>
         </div>

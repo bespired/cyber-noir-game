@@ -1,7 +1,7 @@
 {
     "common": {
         "loading": "LADEN...",
-        "no_description" :"GEEN_BESCHRIJVING_BESCHIKBAAR",
+        "no_description": "GEEN_BESCHRIJVING_BESCHIKBAAR",
         "back": "Terug",
         "save": "Opslaan",
         "delete": "Verwijderen",
@@ -431,5 +431,16 @@
             "line6": "Degenen die op hen jagen, dragen nog steeds de naam…",
             "line7": "Nexus Runners"
         }
+    },
+    "artwork": {
+        "title": "Visuele Bestanden",
+        "no_data": "GEEN_VISUELE_DATA_BESCHIKBAAR",
+        "confirm_delete": "BEVESTIG WISSEN PLAATJE?",
+        "add_record": "Record Toevoegen",
+        "close_upload": "Sluit Upload",
+        "upload_new": "Nieuw Plaatje Uploaden",
+        "optional_title": "OPTIONEEL_TITEL",
+        "uploading": "UPLOADING...",
+        "upload_btn": "UPLOAD_PLAATJE"
     }
 }
