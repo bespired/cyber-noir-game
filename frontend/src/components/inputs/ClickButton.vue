@@ -12,7 +12,7 @@ const props = defineProps({
     icon: {
         type: String,
         default: null
-    }
+    },
 });
 const emit = defineEmits(['click']);
 
@@ -50,9 +50,12 @@ const handleClick = (event) => {
         margin-left: 10px;
     }
 
-
     .click-button > .label {
         margin-right: 4px;
+    }
+
+    .click-button img {
+        max-height: 2em;
     }
 
     .click-button:hover {
@@ -63,7 +66,6 @@ const handleClick = (event) => {
         padding: 5px 14px;
         font-size: 12px;
     }
-
 
     .click-button[class*="add"] {
         background-color: rgb(245, 158, 11);
@@ -85,6 +87,16 @@ const handleClick = (event) => {
     .click-button[class*="link"]:hover {
         background-color: rgb(245, 158, 11);
         color: white;
+    }
+
+
+    .click-button[class*="back"]  {
+        padding: 0;
+    }
+
+    .click-button[class*="back"]:hover {
+        color: white;
+        transform: translateX(-2px);
     }
 
 

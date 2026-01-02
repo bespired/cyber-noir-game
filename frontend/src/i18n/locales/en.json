@@ -79,7 +79,7 @@
         "area_dimensions": "AREA_DIMENSIONS",
         "map_width": "Map Width",
         "map_height": "Map Height",
-        "coords_managed": "Coordinates (X: {{x}}, Y: {{y}}) are managed via the Sector Map.",
+        "coords_managed": "Coordinates (X: {x}, Y: {y}) are managed via the Sector Map.",
         "characters_vehicles": "Characters & Vehicles",
         "add": "ADD",
         "no_characters": "NO_CHARACTERS_LINKED",

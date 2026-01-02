@@ -79,7 +79,7 @@
         "area_dimensions": "GEBIED_AFMETINGEN",
         "map_width": "Kaart Breedte",
         "map_height": "Kaart Hoogte",
-        "coords_managed": "Coördinaten (X: {{x}}, Y: {{y}}) worden beheerd via de Sector Kaart.",
+        "coords_managed": "Coördinaten (X: {x}, Y: {y}) worden beheerd via de Sector Kaart.",
         "characters_vehicles": "Personages & Voertuigen",
         "add": "TOEVOEGEN",
         "no_characters": "GEEN_PERSONAGES_GEKOPPELD",

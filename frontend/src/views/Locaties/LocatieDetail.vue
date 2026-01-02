@@ -98,16 +98,18 @@ const navigateTo3D = (sectorId) => {
 </script>
 
 <template>
-    <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
+    <div v-if="loading"
+        class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
         {{ t('locations.accessing') }}
     </div>
 
     <div v-else-if="locatie" class="container mx-auto p-6">
+<!--
         <div class="flex items-center mb-6 text-sm text-noir-muted">
             <RouterLink to="/locaties" class="hover:text-white">&lt; {{ t('locations.title') }}</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ locatie.naam }}</span>
-        </div>
+        </div> -->
 
         <div class="panel overflow-hidden">
             <!-- Header -->

@@ -32,7 +32,7 @@ const fetchGedrag = async () => {
             axios.get('/api/instellingen'),
             axios.get('/api/dialogen')
         ]);
-        
+
         gedrag.value = gedragRes.data;
         if (!gedrag.value.acties) gedrag.value.acties = [];
         dialogen.value = dialoogRes.data;
@@ -108,11 +108,12 @@ onMounted(fetchGedrag);
     </div>
 
     <div v-else-if="gedrag" class="container mx-auto p-6">
-        <div class="flex items-center mb-6 text-sm text-noir-muted">
+
+<!--         <div class="flex items-center mb-6 text-sm text-noir-muted">
             <RouterLink to="/gedrag" class="hover:text-white">&lt; {{ t('behavior.back_lib') }}</RouterLink>
             <span class="mx-2">/</span>
             <span class="text-white">{{ gedrag.naam }}</span>
-        </div>
+        </div> -->
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Left: Sidebar Properties -->

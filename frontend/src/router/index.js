@@ -35,6 +35,7 @@ const router = createRouter({
             component: () => import('../views/Personages/PersonageDetail.vue'),
             meta: { requiresAuth: true }
         },
+
         {
             path: '/map',
             name: 'map-list',

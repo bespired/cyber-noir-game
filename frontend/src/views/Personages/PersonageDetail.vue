@@ -1,19 +1,20 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import Character3DViewer from '../../components/Character3DViewer.vue';
-import ClickButton from '../../components/inputs/ClickButton.vue';
+import ClickButton  from '../../components/inputs/ClickButton.vue';
+import DetailHeader from '../../components/bars/DetailHeader.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
-const toast = useToast();
-const route = useRoute();
+const { t }  = useI18n();
+const toast  = useToast();
+const route  = useRoute();
 const router = useRouter();
 const personage = ref(null);
-const loading = ref(true);
+const loading   = ref(true);
 const uploadingGlb = ref(false);
 const activeTab = ref('public'); // 'public' or 'private'
 
@@ -88,6 +89,13 @@ const triggerGlbUpload = () => {
     };
     input.click();
 };
+
+const headerLabel = computed(() => {
+    if (!personage.value) return '';
+    return personage.value.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters')
+});
+
+
 </script>
 
 <template>
@@ -96,21 +104,13 @@ const triggerGlbUpload = () => {
     </div>
 
     <div v-else-if="personage" class="container mx-auto p-6">
-        <!-- Top Navigation & Save Button -->
-        <div class="flex justify-between items-center mb-6">
-            <div class="flex items-center text-sm text-noir-muted uppercase tracking-widest">
-                <RouterLink :to="personage.type === 'voertuig' ? '/voertuigen' : '/personages'" class="hover:text-white transition-colors">
-                    &lt; {{ personage.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters') }}
-                </RouterLink>
-                <span class="mx-2">/</span>
-                <span class="text-white font-bold">{{ personage.naam }}</span>
-            </div>
-            <click-button
-                :label="t('personages.save')"
-                buttonType="green"
-                @click="saveChanges"
-            />
-        </div>
+        <detail-header
+            :label="personage.naam"
+            :backLink="personage.type === 'voertuig' ? 'voertuigen' : 'personages'"
+            :backlabel="headerLabel"
+            :save="true"
+            @save="saveChanges"
+        />
 
         <div class="panel border-noir-dark bg-noir-darker/50 overflow-hidden">
             <!-- Inner Header -->
@@ -147,7 +147,7 @@ const triggerGlbUpload = () => {
             <!-- Content -->
             <div class="p-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    
+
                     <!-- Col 1: Visual Files (Span 3) - PERSISTENT -->
                     <div class="lg:col-span-3 lg:border-r border-noir-dark pr-6">
                         <ArtworkManager
@@ -196,7 +196,7 @@ const triggerGlbUpload = () => {
 
                     <!-- Col 3: Inputs / Content (Span 5) - SWAPPABLE -->
                     <div class="lg:col-span-5 space-y-8 animate-fade-in">
-                        
+
                         <!-- PUBLIC CONTENT -->
                         <div v-if="activeTab === 'public'" class="space-y-8">
                             <div>

@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
+import DetailHeader from '../../components/bars/DetailHeader.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
@@ -73,6 +74,18 @@ const componentParams = computed({
         }
     }
 });
+
+const three = computed(() => {
+    // console.log(scene.value)
+    if (!scene.value?.sector_id) return null
+    return { location: scene.value.locatie_id, sector: scene.value.sector_id }
+})
+
+const emulate = computed(() => {
+
+    if (scene.value.type !== 'vue-component') return null
+    return scene.value.id
+})
 
 const availableTargetScenes = computed(() => {
     if (!scene.value || !scene.value.sector_id) return [];
@@ -419,16 +432,26 @@ watch(() => scene.value?.locatie_id, (newId) => {
 </script>
 
 <template>
-    <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
+    <div v-if="loading"
+        class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
         {{ t('scenes.loading_data') }}
     </div>
 
     <div v-else-if="scene" class="container mx-auto p-6">
-        <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/scenes" class="hover:text-white">{{ t('scenes.back_to_overview') }}</RouterLink>
-            <span class="mx-2">/</span>
-            <span class="text-white">{{ scene.titel }}</span>
-        </div>
+
+        <detail-header
+            name='scene'
+            backLink="scenes"
+            :backlabel="t('scenes.back_to_overview')"
+            :label="scene.titel"
+
+            :three  ="three"
+            :emulate="emulate"
+            :gateway="scene.sector_id ? scene.sector_id : null"
+
+            :save="true"   @save="saveChanges"
+            :remove="true" @remove="deleteScene"
+        />
 
         <div class="panel overflow-hidden">
             <!-- Header -->
@@ -446,39 +469,16 @@ watch(() => scene.value?.locatie_id, (newId) => {
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 items-end">
+
                     <div class="flex gap-2">
-                        <button @click="setAsStartingScene" class="btn" :class="isStartingScene ? 'btn--accent' : 'btn--accent-outline'">
-                            <span v-if="isStartingScene">✓ {{ t('scenes.starting_scene') }}</span>
-                            <span v-else>{{ t('scenes.set_starting') }}</span>
-                        </button>
-                        <button @click="saveChanges" class="btn btn--success">
-                            {{ t('scenes.save') }}
-                        </button>
-                        <button @click="deleteScene" class="btn btn--danger">
-                            {{ t('scenes.delete') }}
-                        </button>
-                    </div>
-                    <div class="flex gap-2">
-                    <RouterLink v-if="scene.sector_id" :to="`/sector-map/${scene.sector_id}`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('scenes.gateway_overview') }}
-                    </RouterLink>
-                    <RouterLink v-if="scene.type === 'vue-component'" :to="`/scenes/${scene.id}/emulate`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('scenes.test_component') }}
-                    </RouterLink>
-                    <RouterLink v-if="scene.locatie_id && scene.sector_id" :to="`/locaties/${scene.locatie_id}/sector/${scene.sector_id}/3d`" class="btn btn--primary flex items-center justify-center gap-2 w-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                        {{ t('scenes.edit_3d') }}
-                    </RouterLink>
+
+    <!-- <RouterLink v-if="scene.type === 'vue-component'" :to="`/scenes/${scene.id}/emulate`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+        </svg>
+        {{ t('scenes.test_component') }}
+    </RouterLink> -->
+
                     </div>
                 </div>
             </div>

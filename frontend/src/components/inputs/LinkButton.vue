@@ -32,12 +32,15 @@ const props = defineProps({
 
 <template>
     <RouterLink :to="{ name, params, query }" class="link-button">
-        <ClickButton :label="label" :buttonType="buttonType" :icon="icon" />
+        <ClickButton :label="label" :buttonType="buttonType" :icon="icon"/>
     </RouterLink>
 </template>
 
 <style>
+    .click-button ~ .link-button,
+    .link-button ~ .click-button,
     .link-button ~ .link-button {
         margin-left: 10px;
     }
+
 </style>
