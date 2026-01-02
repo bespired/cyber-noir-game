@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import LinkButton from '../inputs/LinkButton.vue';
+import ThumbFooter from '../bars/ThumbFooter.vue';
 
 defineProps({
     scene: {
@@ -12,22 +13,10 @@ defineProps({
 
 const getStatusColor = (status) => {
     switch (status) {
-        case 'active': return 'bg-noir-success';
+        case 'active':    return 'bg-noir-success';
         case 'completed': return 'bg-noir-muted';
-        case 'locked': return 'bg-noir-danger';
+        case 'locked':    return 'bg-noir-danger';
         default: return 'bg-noir-muted';
-    }
-};
-
-const getTypeIcon = (type) => {
-    switch (type) {
-        case 'interrogation': return '🎭';
-        case 'combat': return '⚔️';
-        case 'investigation': return '🔍';
-        case 'walkable-area': return '👣';
-        case 'practice': return '🎯';
-        case 'vue-component': return '🎯';
-        default: return '📍';
     }
 };
 
@@ -51,13 +40,11 @@ const { t } = useI18n();
         <div class="flex justify-between items-start mb-4">
             <div class="flex-grow">
                 <div class="flex items-center gap-2 mb-1">
-                    <!-- <span class="text-2xl">{{ getTypeIcon(scene.type) }}</span> -->
-
                     <img :src="`/icons/${getSvgIcon(scene.type)}`" class="w-8"/>
-
                     <h2 class="text-xl font-bold text-white group-hover:text-noir-accent transition-colors">{{ scene.titel }}</h2>
                 </div>
-                <span class="text-xs text-noir-muted uppercase tracking-wider">{{ scene.type }}</span>
+                <span class="text-xs text-noir-muted uppercase tracking-wider">
+                {{ scene.type }}</span>
             </div>
             <div :class="['h-2 w-2 rounded-full', getStatusColor(scene.status)]"></div>
         </div>
@@ -102,23 +89,11 @@ const { t } = useI18n();
             </div>
         </div>
 
-        <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-            <div class="flex items-center gap-2">
-                <span class="text-xs text-noir-muted">ID: {{ String(scene.id).padStart(4, '0') }}</span>
-                <span class="badge" :class="{
-                    'badge--active': scene.status === 'active',
-                    'badge--completed': scene.status === 'completed',
-                    'badge--locked': scene.status === 'locked'
-                }">{{ scene.status }}</span>
-            </div>
-            <div class="flex flex-col items-end gap-2">
-                <LinkButton
-                    name="scene-detail"
-                    :params="{ id: scene.id }"
-                    :label="t('common.change')"
-                    buttonType="link"
-                />
-            </div>
-        </div>
+        <thumb-footer
+            name     ="scene"
+            :itemId  ="scene.id"
+            :edit    ="true"
+        />
+
     </div>
 </template>

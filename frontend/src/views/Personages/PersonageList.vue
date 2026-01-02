@@ -6,6 +6,7 @@ import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import PersonageThumb from '../../components/thumbs/PersonageThumb.vue';
 import { useI18n } from 'vue-i18n';
+import HeaderBar from '../../components/bars/HeaderBar.vue';
 
 const { t } = useI18n();
 
@@ -17,8 +18,8 @@ const props = defineProps({
 });
 
 const personages = ref([]);
-const loading = ref(true);
-const showModal = ref(false);
+const loading    = ref(true);
+const showModal  = ref(false);
 
 const form = ref({
     naam: '',
@@ -53,6 +54,14 @@ const filteredPersonages = computed(() => {
     return personages.value.filter(p => p.type === props.type);
 });
 
+const headerLabel = computed(() => {
+    return props.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters')
+});
+
+const addLabel = computed(() => {
+    return props.type === 'voertuig' ? t('personages.new_vehicle') : t('personages.new_character')
+});
+
 const openModal = () => {
     form.value = {
         naam: '',
@@ -77,6 +86,8 @@ const createPersonage = async () => {
     }
 };
 
+
+
 onMounted(() => {
     fetchPersonages();
 });
@@ -84,13 +95,15 @@ onMounted(() => {
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="page-header">{{ props.type === 'voertuig' ? t('personages.vehicles') : t('personages.characters') }}</h1>
-            <click-button :label="props.type === 'voertuig' ? t('personages.add_vehicle') : t('personages.add_character')" icon="+" buttonType="add" @click="openModal" />
-        </div>
+        <header-bar
+            :label="headerLabel">
+            <template #actions>
+                <click-button :label="addLabel" icon="+" buttonType="add" @click="openModal" />
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
-            {{ t('personages.loading') }}
+            {{ t('common.loading') }}
         </div>
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

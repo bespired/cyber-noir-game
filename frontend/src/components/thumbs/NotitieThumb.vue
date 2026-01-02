@@ -19,12 +19,8 @@ defineEmits(['toggle', 'delete']);
             <h2 :class="['text-xl font-bold transition-colors', note.is_afgerond ? 'text-noir-success line-through decoration-2' : 'text-white group-hover:text-noir-accent']">
                 {{ note.titel }}
             </h2>
-            <div class="flex gap-2">
-                <click-button
-                    icon="✓"
-                    :buttonType="`${note.is_afgerond?'done':'green'}`"
-                    @click="$emit('toggle', note)"
-                />
+            <div class="flex">
+                <click-button icon="✓" :buttonType="`${note.is_afgerond?'done':'green'}`" @click="$emit('toggle', note)" />
                 <click-button icon="🗑️" buttonType="red" @click="$emit('delete', note.id)" />
             </div>
         </div>

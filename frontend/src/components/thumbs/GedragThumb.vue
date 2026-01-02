@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import LinkButton from '../inputs/LinkButton.vue';
+import LinkButton  from '../inputs/LinkButton.vue';
+import ThumbFooter from '../bars/ThumbFooter.vue';
 import { useI18n } from 'vue-i18n';
 
 defineProps({
@@ -14,26 +15,28 @@ const { t } = useI18n();
 </script>
 
 <template>
-    <div class="panel group hover:border-noir-accent transition-all duration-300">
-        <div class="p-4 border-b border-noir-dark flex justify-between items-center bg-noir-dark/30">
-            <h2 class="text-white font-bold tracking-widest uppercase truncate">{{ gedrag.naam }}</h2>
-            <span class="text-[10px] text-noir-muted font-mono">ID: {{ String(gedrag.id).padStart(4, '0') }}</span>
+    <div class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-accent transition-colors group ">
+
+        <div class="flex justify-between items-start mb-2">
+            <h2 class="text-xl font-bold text-white group-hover:text-noir-accent transition-colors">{{ gedrag.naam }}</h2>
         </div>
-        <div class="p-4">
-            <p class="text-xs text-noir-text mb-4 line-clamp-2 min-h-[32px]">
-                {{ gedrag.beschrijving || 'GEEN_BESCHRIJVING_BESCHIKBAAR' }}
-            </p>
-            <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-                <span class="text-[10px] text-noir-accent uppercase tracking-tighter">
-                    {{ gedrag.acties?.length || 0 }} ACTIONS LOADED
-                </span>
-                <LinkButton
-                    name="gedrag-detail"
-                    :params="{ id: gedrag.id }"
-                    :label="t('common.change')"
-                    buttonType="link"
-                />
-            </div>
-        </div>
+
+        <span class="flex text-noir-muted text-xs font-mono ">
+            {{ gedrag.acties?.length || 0 }} {{ t('behavior.actions_loaded') }}
+        </span>
+
+
+        <p class="text-xs text-noir-text mb-4 line-clamp-2 min-h-[32px]">
+            {{ gedrag.beschrijving || t('common.no_description') }}
+        </p>
+
+        <thumb-footer
+            name     ="gedrag"
+            :itemId  ="gedrag.id"
+            :edit    ="true"
+        >
+
+        </thumb-footer>
+
     </div>
 </template>

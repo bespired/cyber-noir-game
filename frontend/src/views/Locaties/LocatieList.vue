@@ -7,6 +7,7 @@ import ClickButton  from '../../components/inputs/ClickButton.vue';
 import LinkButton   from '../../components/inputs/LinkButton.vue';
 import LocatieThumb from '../../components/thumbs/LocatieThumb.vue';
 import HeaderBar from '../../components/bars/HeaderBar.vue';
+import OptionList from '../../components/inputs/OptionList.vue';
 
 const { t } = useI18n();
 const locaties = ref([]);
@@ -87,25 +88,19 @@ const createLocatie = async () => {
 
 <template>
     <div class="container mx-auto p-6">
-        <header-bar :label="t('locations.title')" />
-        <!-- <div class="flex justify-between items-center mb-8">
-            <div class="flex items-center gap-4">
-                <h1 class="page-header">{{ t('locations.title') }}</h1>
-                <div class="flex items-center gap-2">
-                    <select v-model="selectedSector" class="form-input text-sm w-auto uppercase">
-                        <option value="">{{ t('locations.all_sectors') }}</option>
-                        <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
-                            {{ sector.naam }}
-                        </option>
-                    </select>
-                    <click-button v-if="selectedSector" icon="✕" buttonType="black" @click="selectedSector = ''" />
-                </div>
-            </div>
-            <div class="flex gap-4">
-                <link-button :label="t('locations.order')" icon="⇅" name="locaties-reorder" buttonType="blue" />
+        <header-bar :label="t('locations.title')">
+            <template #filters>
+                <option-list
+                    v-model="selectedSector"
+                    :options="sectors"
+                    :placeholder="t('locations.all_sectors')"
+                />
+            </template>
+            <template #actions>
+                <link-button  :label="t('locations.order')" icon="⇅" name="locaties-reorder" buttonType="blue" />
                 <click-button :label="t('locations.new_location')" icon="+" buttonType="add" @click="openModal"  />
-            </div>
-        </div> -->
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse font-mono tracking-widest text-lg py-20">
             {{ t('locations.loading') }}

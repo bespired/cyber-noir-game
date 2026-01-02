@@ -1,6 +1,7 @@
 {
     "common": {
         "loading": "LOADING...",
+        "no_description" :"NO_DESCRIPTION_AVAILABLE",
         "back": "Back",
         "save": "Save",
         "delete": "Delete",
@@ -230,6 +231,7 @@
         "name_prompt": "BEHAVIOR NAME:",
         "created": "BEHAVIOR CREATED",
         "create_error": "FAILED TO CREATE BEHAVIOR",
+        "actions_loaded": "ACTIONS LOADED",
         "walk_to": "WALK_TO_POSITION",
         "idle": "IDLE_WAIT",
         "look_at": "LOOK_AT_TARGET",

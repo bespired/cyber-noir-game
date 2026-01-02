@@ -6,6 +6,7 @@ import { useToast } from '../../composables/useToast';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import GedragThumb from '../../components/thumbs/GedragThumb.vue';
 import { useI18n } from 'vue-i18n';
+import HeaderBar from '../../components/bars/HeaderBar.vue';
 
 const { t } = useI18n();
 const toast = useToast();
@@ -44,10 +45,11 @@ onMounted(fetchGedragingen);
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="page-header">{{ t('behavior.title') }}</h1>
-            <click-button :label="t('behavior.new')" icon="+" buttonType="add" @click="createGedrag" />
-        </div>
+        <header-bar :label="t('behavior.title')">
+            <template #actions>
+                <click-button :label="t('behavior.new')" icon="+" buttonType="add" @click="createGedrag" />
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center py-20 text-noir-muted animate-pulse">
             {{ t('behavior.scanning') }}

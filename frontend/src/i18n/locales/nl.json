@@ -1,6 +1,7 @@
 {
     "common": {
         "loading": "LADEN...",
+        "no_description" :"GEEN_BESCHRIJVING_BESCHIKBAAR",
         "back": "Terug",
         "save": "Opslaan",
         "delete": "Verwijderen",
@@ -229,6 +230,7 @@
         "fetch_error": "FOUT BIJ OPHALEN GEDRAGINGEN",
         "name_prompt": "NAAM GEDRAG:",
         "created": "GEDRAG AANGEMAAKT",
+        "actions_loaded": "ACTIES GELADEN",
         "create_error": "FOUT BIJ AANMAKEN GEDRAG",
         "walk_to": "LOOP_NAAR_POSITIE",
         "idle": "WACHT_TER_PLAATSE",

@@ -6,6 +6,7 @@ import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import AanwijzingThumb from '../../components/thumbs/AanwijzingThumb.vue';
 import { useI18n } from 'vue-i18n';
+import HeaderBar from '../../components/bars/HeaderBar.vue';
 
 const { t } = useI18n();
 const aanwijzingen = ref([]);
@@ -55,10 +56,11 @@ const createAanwijzing = async () => {
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="page-header">{{ t('clues.title') }}</h1>
-            <click-button :label="t('clues.add_clue')" icon="+" buttonType="add" @click="openModal" />
-        </div>
+        <header-bar :label="t('clues.title')">
+            <template #actions>
+                <click-button :label="t('clues.add_clue')" icon="+" buttonType="add" @click="openModal" />
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
             {{ t('clues.decrypting') }}

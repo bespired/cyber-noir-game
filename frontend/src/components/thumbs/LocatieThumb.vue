@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import LinkButton from '../inputs/LinkButton.vue';
+import ThumbFooter from '../bars/ThumbFooter.vue';
 import { useI18n } from 'vue-i18n';
 
 defineProps({
@@ -54,7 +55,14 @@ const getImageUrl = (path) => {
 
         <p class="text-noir-text text-sm mb-4 line-clamp-3 flex-grow">{{ locatie.beschrijving }}</p>
 
-        <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
+        <thumb-footer
+            name     ="locatie"
+            :itemId  ="locatie.id"
+            :edit    ="true"
+            :three   ="`${locatie.has_glb ? locatie.glb_sector_id : null}`"
+        />
+
+        <!-- <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
             <div class="flex items-center gap-2">
                 <span class="text-xs text-noir-muted font-mono">LOC_ID: {{ String(locatie.id).padStart(4, '0') }}</span>
                 <RouterLink
@@ -66,12 +74,12 @@ const getImageUrl = (path) => {
                     3D_VIEW
                 </RouterLink>
             </div>
-            <LinkButton 
-                name="locatie-detail" 
-                :params="{ id: locatie.id }" 
-                :label="t('common.change')" 
-                buttonType="link" 
+            <LinkButton
+                name="locatie-detail"
+                :params="{ id: locatie.id }"
+                :label="t('common.change')"
+                buttonType="link"
             />
-        </div>
+        </div> -->
     </div>
 </template>

@@ -1,39 +1,48 @@
 <script setup>
+import { computed } from 'vue';
+import ClickButton from './ClickButton.vue';
 
 const props = defineProps({
-    label: {
-        type: String,
+    modelValue: {
+        type: [String, Number],
         default: ''
     },
     options: {
-        type: Object,
-        default: ''
+        type: Array,
+        default: () => []
+    },
+    placeholder: {
+        type: String,
+        default: 'Select option'
     }
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['update:modelValue']);
 
-const handleClick = (event) => {
-    emit('click', event);
-};
+const selectedOption = computed({
+    get: () => props.modelValue,
+    set: (value) => emit('update:modelValue', value)
+});
+
 </script>
 
 <template>
-    <select v-model="selectedOption" class="option-list">
-        <option value="">{{ t('locations.all_sectors') }}</option>
-        <option v-for="option in options" :key="option.id" :value="option.id">
-            {{ option.naam }}
-        </option>
-    </select>
-    <click-button icon="✕" buttonType="black"
-        v-if="selectedOption" @click="selectedOption = ''"
-    />
-
+    <div class="flex items-center gap-2">
+        <select v-model="selectedOption" class="form-input text-sm w-auto uppercase">
+            <option value="">{{ placeholder }}</option>
+            <option v-for="option in options" :key="option.id || option.value" :value="option.id || option.value">
+                {{ option.naam || option.label || option.text }}
+            </option>
+        </select>
+        <click-button 
+            v-if="selectedOption" 
+            icon="✕" 
+            buttonType="black"
+            @click="selectedOption = ''"
+        />
+    </div>
 </template>
 
-
-<style>
-    .option-list {
-
-    }
+<style scoped>
+/* Scoped styles if needed, but mostly using global noir classes */
 </style>

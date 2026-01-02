@@ -5,6 +5,7 @@ import Modal from '../../components/Modal.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import NotitieThumb from '../../components/thumbs/NotitieThumb.vue';
 import { useI18n } from 'vue-i18n';
+import HeaderBar from '../../components/bars/HeaderBar.vue';
 
 const { t } = useI18n();
 const notes = ref([]);
@@ -77,10 +78,11 @@ const deleteNote = async (id) => {
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="page-header">{{ t('notes.my_notes') }}</h1>
-            <click-button :label="t('notes.new_idea')" icon="+" buttonType="add" @click="openModal" />
-        </div>
+        <header-bar :label="t('notes.my_notes')">
+            <template #actions>
+                <click-button :label="t('notes.new_idea')" icon="+" buttonType="add" @click="openModal" />
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
             {{ t('notes.decrypting') }}

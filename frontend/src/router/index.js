@@ -50,7 +50,7 @@ const router = createRouter({
         },
         {
             path: '/dialogen/:id',
-            name: 'dialoog-edit',
+            name: 'dialoog-detail',
             component: () => import('../views/Dialogen/DialoogEditor.vue'),
             meta: { requiresAuth: true }
         },

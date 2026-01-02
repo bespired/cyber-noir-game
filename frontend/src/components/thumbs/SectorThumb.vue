@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import LinkButton from '../inputs/LinkButton.vue';
+import ThumbFooter from '../bars/ThumbFooter.vue';
 import { useI18n } from 'vue-i18n';
 
 defineProps({

@@ -1,11 +1,13 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
-import axios from '../../axios';
+import axios       from '../../axios';
 import { RouterLink } from 'vue-router';
-import Modal from '../../components/Modal.vue';
-import ClickButton from '../../components/inputs/ClickButton.vue';
-import SceneThumb from '../../components/thumbs/SceneThumb.vue';
 import { useI18n } from 'vue-i18n';
+import Modal       from '../../components/Modal.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
+import SceneThumb  from '../../components/thumbs/SceneThumb.vue';
+import HeaderBar   from '../../components/bars/HeaderBar.vue';
+import OptionList  from '../../components/inputs/OptionList.vue';
 
 const { t } = useI18n();
 const scenes = ref([]);
@@ -31,8 +33,8 @@ const types = [
     { value: 'walkable-area', label: 'Walkable Area' },
     { value: 'investigation', label: 'Investigation' },
     { value: 'interrogation', label: 'Interrogation' },
-    { value: 'combat', label: 'Combat' },
-    { value: 'practice', label: 'Practice' },
+    { value: 'combat',        label: 'Combat' },
+    { value: 'practice',      label: 'Practice' },
     { value: 'vue-component', label: 'Custom Vue Component' }
 ];
 
@@ -119,29 +121,23 @@ const createScene = async () => {
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
-             <div class="flex items-center gap-4">
-                <h1 class="page-header">{{ t('scenes.title') }}</h1>
-                <div class="flex items-center gap-2">
-                    <select v-model="selectedSector" class="form-input text-sm w-auto">
-                        <option value="">{{ t('scenes.all_sectors') }}</option>
-                        <option v-for="sector in sectors" :key="sector.id" :value="sector.id">
-                            {{ sector.naam }}
-                        </option>
-                    </select>
-
-                    <select v-model="selectedType" class="form-input text-sm w-auto">
-                        <option value="">{{ t('scenes.all_types') }}</option>
-                        <option v-for="t in types" :key="t.value" :value="t.value">
-                            {{ t.label }}
-                        </option>
-                    </select>
-
-                    <click-button v-if="selectedSector || selectedType" icon="✕" buttonType="black" @click="{ selectedSector = ''; selectedType = ''; }" />
-                </div>
-            </div>
-            <click-button :label="t('scenes.new_scene')" icon="+" buttonType="add" @click="openModal" />
-        </div>
+        <header-bar :label="t('scenes.title')">
+            <template #filters>
+                <option-list
+                    v-model="selectedSector"
+                    :options="sectors"
+                    :placeholder="t('scenes.all_sectors')"
+                />
+                <option-list
+                    v-model="selectedType"
+                    :options="types"
+                    :placeholder="t('scenes.all_types')"
+                />
+            </template>
+            <template #actions>
+                <click-button :label="t('scenes.new_scene')" icon="+" buttonType="add" @click="openModal" />
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
             {{ t('scenes.loading_data') }}
@@ -199,18 +195,7 @@ const createScene = async () => {
                     <label class="form-label">{{ t('scenes.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
-                <!--
-                    <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="form-label">Entry Point</label>
-                        <textarea v-model="form.entry_point" rows="2" class="form-input"></textarea>
-                    </div>
-                    <div>
-                        <label class="form-label">Exit Point</label>
-                        <textarea v-model="form.exit_point" rows="2" class="form-input"></textarea>
-                    </div>
-                </div>
-                -->
+
                 <div class="pt-4 flex justify-end gap-2 text-sm">
                     <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('scenes.cancel') }}</button>
                     <button type="submit" class="btn btn--primary">{{ t('scenes.create_record') }}</button>

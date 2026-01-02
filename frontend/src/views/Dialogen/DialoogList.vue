@@ -6,6 +6,10 @@ import Modal from '../../components/Modal.vue';
 import { useToast } from '../../composables/useToast';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import DialoogThumb from '../../components/thumbs/DialoogThumb.vue';
+import HeaderBar from '../../components/bars/HeaderBar.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const toast = useToast();
 
@@ -95,10 +99,11 @@ const deleteConversation = async (id) => {
 
 <template>
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-white tracking-tight">DIALOOG DATABASE</h1>
-            <click-button label="NIEUWE SEQUENCE" icon="+" buttonType="add" @click="openModal" />
-        </div>
+        <header-bar label="DIALOOG DATABASE">
+            <template #actions>
+                <click-button label="NIEUWE SEQUENCE" icon="+" buttonType="add" @click="openModal" />
+            </template>
+        </header-bar>
 
         <div v-if="loading" class="text-center text-noir-muted animate-pulse">
             LOADING_TRANSCRIPTS...

@@ -91,7 +91,7 @@ const triggerGlbUpload = () => {
 
 <template>
     <div v-if="loading" class="container mx-auto p-6 text-center text-noir-muted animate-pulse">
-        {{ t('personages.loading_secure') }}
+        {{ t('common.loading_secure') }}
     </div>
 
     <div v-else-if="personage" class="container mx-auto p-6">
@@ -154,14 +154,14 @@ const triggerGlbUpload = () => {
                                     {{ uploadingGlb ? t('personages.scanning') : t('personages.upload_glb') }}
                                 </button>
                             </h3>
-                            
+
                             <div :class="[
                                 'w-full bg-black/20 rounded border border-noir-dark relative overflow-hidden',
                                 personage.type === 'voertuig' ? 'aspect-video' : 'aspect-[3/4]'
                             ]">
-                                <Character3DViewer 
-                                    v-if="personage.glb_url" 
-                                    :glb-url="getGlbUrl(personage.glb_url)" 
+                                <Character3DViewer
+                                    v-if="personage.glb_url"
+                                    :glb-url="getGlbUrl(personage.glb_url)"
                                     :type="personage.type"
                                 />
                                 <div v-else class="w-full h-full flex flex-col items-center justify-center text-noir-muted p-6 text-center">
@@ -227,14 +227,14 @@ const triggerGlbUpload = () => {
                                     {{ uploadingGlb ? t('personages.scanning') : t('personages.update_model') }}
                                 </button>
                             </h3>
-                            
+
                             <div :class="[
                                 'w-full bg-black/20 rounded border border-noir-dark relative overflow-hidden',
                                 personage.type === 'voertuig' ? 'aspect-video' : 'aspect-[3/4]'
                             ]">
-                                <Character3DViewer 
-                                    v-if="personage.glb_url" 
-                                    :glb-url="getGlbUrl(personage.glb_url)" 
+                                <Character3DViewer
+                                    v-if="personage.glb_url"
+                                    :glb-url="getGlbUrl(personage.glb_url)"
                                     :type="personage.type"
                                 />
                                 <div v-else class="w-full h-full flex flex-col items-center justify-center text-noir-muted p-6 text-center">

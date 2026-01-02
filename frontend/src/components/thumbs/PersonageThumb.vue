@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import LinkButton from "../inputs/LinkButton.vue";
+import ThumbFooter from '../bars/ThumbFooter.vue';
 import { useI18n } from 'vue-i18n';
 
 defineProps({
@@ -74,7 +75,13 @@ const { t } = useI18n();
 
             <p class="text-noir-text text-sm mb-4 line-clamp-3 flex-grow">{{ personage.beschrijving }}</p>
 
-            <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
+            <thumb-footer
+                name     ="personage"
+                :itemId  ="personage.id"
+                :edit    ="true"
+            />
+
+            <!-- <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                 <span class="text-xs text-noir-muted font-mono">
                     {{ type === 'voertuig' ? 'VEH_ID' : 'ID' }}: {{ String(personage.id).padStart(4, '0') }}
                 </span>
@@ -84,7 +91,7 @@ const { t } = useI18n();
                     :label="t('common.change')"
                     buttonType="link"
                 />
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
