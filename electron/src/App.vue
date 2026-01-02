@@ -1,21 +1,37 @@
 <script setup>
-import { ref, onMounted, shallowRef, defineAsyncComponent } from 'vue'
+import { ref, onMounted, shallowRef, defineAsyncComponent, computed } from 'vue'
 import { gameDataService } from '@/services/GameDataService'
 
 const message = ref('Cyber Noir Engine')
 const currentScene = ref(null)
 const activeComponent = shallowRef(null)
 const loading = ref(true)
+const eventLog = ref([])
+const isDebug = computed(() => import.meta.env.VITE_DEBUG === 'true')
+
+const sceneProps = computed(() => {
+    if (!currentScene.value) return {};
+    // Merge root fields, data fields, and flattened data.props
+    const flattened = {
+        ...currentScene.value,
+        ...(currentScene.value.data || {}),
+        ...(currentScene.value.data?.props || {})
+    };
+    console.log("[DEBUG] Scene Props for", currentScene.value.id, flattened);
+    return flattened;
+});
 
 // Scan all components in the game_scenes directory
 const availableScenes = import.meta.glob('./components/game_scenes/*.vue');
 
 const loadScene = async (sceneId) => {
+    console.log("[DEBUG] Loading scene:", sceneId);
     loading.value = true
     const scene = await gameDataService.getSceneById(sceneId)
     
     if (scene) {
         currentScene.value = scene
+        console.log("[DEBUG] Scene data loaded:", scene);
         
         // Determine which component to show
         if (scene.type === 'vue-component') {
@@ -25,32 +41,51 @@ const loadScene = async (sceneId) => {
 
             if (availableScenes[path]) {
                 activeComponent.value = defineAsyncComponent(availableScenes[path]);
+                console.log("[DEBUG] Component bound:", compName);
             } else {
                 console.warn(`Scene component ${compName} not found at ${path}`);
             }
         } else if (scene.type === 'walkable-area') {
-            // Placeholder for WalkableAreaScene
-            console.log("Walkable Area scene detected, logic to be implemented")
+            // Use specialized 3D engine component
+            const path = `./components/game_scenes/WalkableAreaScene.vue`;
+
+            if (availableScenes[path]) {
+                activeComponent.value = defineAsyncComponent(availableScenes[path]);
+                console.log("[DEBUG] 3D Engine bound");
+            } else {
+                console.warn(`WalkableAreaScene component not found at ${path}`);
+            }
         } else {
             console.warn(`Unknown scene type: ${scene.type}`)
         }
+    } else {
+        console.error("[DEBUG] Scene", sceneId, "not found in data.");
     }
     
     loading.value = false
 }
 
 const onSceneComplete = (data) => {
-    console.log("Scene complete:", data)
+    console.log("[ENGINE] Scene complete event received:", data)
+    eventLog.value.unshift({
+        time: new Date().toLocaleTimeString(),
+        data
+    });
+    
     if (data.targetSceneId) {
         loadScene(data.targetSceneId)
+    } else {
+        console.warn("[ENGINE] No targetSceneId provided in complete event.");
     }
 }
 
 onMounted(async () => {
+    console.log("[ENGINE] Initializing...");
     const settings = await gameDataService.loadSettings()
     if (settings && settings.opening_scene) {
         await loadScene(settings.opening_scene)
     } else {
+        console.warn("[ENGINE] No opening_scene found in settings.");
         loading.value = false
     }
 })
@@ -66,13 +101,23 @@ onMounted(async () => {
     <component 
         v-if="activeComponent" 
         :is="activeComponent" 
-        v-bind="currentScene.data"
+        v-bind="sceneProps"
         @scene-complete="onSceneComplete"
     />
 
     <div v-else-if="!loading" class="no-scene">
         <h1>{{ message }}</h1>
-        <p>No active scene. Check settings.json or data exports.</p>
+        <p>No active scene (ID: {{ currentScene?.id }}). Check settings.json or data exports.</p>
+    </div>
+
+    <!-- Debug Log Overlay -->
+    <div v-if="isDebug" class="debug-overlay">
+        <div class="debug-header">SYSTEM_LOG</div>
+        <div v-for="(log, idx) in eventLog" :key="idx" class="debug-entry">
+            <span class="debug-time">[{{ log.time }}]</span>
+            <span class="debug-msg">SWAP -> {{ JSON.stringify(log.data) }}</span>
+        </div>
+        <div v-if="eventLog.length === 0" class="debug-empty">WAITING_FOR_EVENTS...</div>
     </div>
   </div>
 </template>
@@ -112,5 +157,57 @@ onMounted(async () => {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+.debug-overlay {
+    position: absolute;
+    bottom: 10px;
+    right: 17px;
+    width: 320px;
+    max-height: 200px;
+    background: rgba(0, 10, 10, 0.9);
+    border: 1px solid #00ffcc;
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #00ffcc;
+    z-index: 10000;
+    pointer-events: none;
+    overflow-y: auto;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+    text-transform: uppercase;
+}
+
+.debug-header {
+    border-bottom: 2px solid #00ffcc;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+.debug-entry {
+    margin-bottom: 6px;
+    line-height: 1.4;
+    border-left: 2px solid rgba(0, 255, 204, 0.3);
+    padding-left: 8px;
+}
+
+.debug-time {
+    color: rgba(0, 255, 204, 0.5);
+    margin-right: 8px;
+    font-size: 9px;
+}
+
+.debug-msg {
+    word-break: break-all;
+}
+
+.debug-empty {
+    color: rgba(0, 255, 204, 0.3);
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
 }
 </style>

@@ -257,14 +257,14 @@ class ExportGameCommand extends Command
         if (str_contains($output, 'built in') || str_contains($output, '✓ built in')) {
             $this->info('Electron build completed successfully.');
 
-            if ($this->option('dist-only')) {
-                $this->info('Cleaning up source folders (dist-only mode)...');
-                File::deleteDirectory($electronPath . '/src');
-                File::deleteDirectory($electronPath . '/public');
-                File::deleteDirectory($electronPath . '/node_modules');
-                File::delete($electronPath . '/vite.config.js');
-                $this->info('Source folders and node_modules removed. Ready for distribution.');
-            }
+            // if ($this->option('dist-only')) {
+            //     $this->info('Cleaning up source folders (dist-only mode)...');
+            //     File::deleteDirectory($electronPath . '/src');
+            //     File::deleteDirectory($electronPath . '/public');
+            //     File::deleteDirectory($electronPath . '/node_modules');
+            //     File::delete($electronPath . '/vite.config.js');
+            //     $this->info('Source folders and node_modules removed. Ready for distribution.');
+            // }
         } else {
             $this->error('Electron build might have failed. Check output above.');
         }

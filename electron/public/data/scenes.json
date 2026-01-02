@@ -880,11 +880,11 @@
         "gateways": [],
         "data": {
             "props": {
-                "test": "verified_save"
+                "nextSceneId": 1
             },
             "component": "PlayerSelectionScene"
         },
         "created_at": "2026-01-01T18:52:59.000000Z",
-        "updated_at": "2026-01-01T21:23:27.000000Z"
+        "updated_at": "2026-01-01T23:12:15.000000Z"
     }
 ]

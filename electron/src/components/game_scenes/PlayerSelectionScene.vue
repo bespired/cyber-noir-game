@@ -39,19 +39,19 @@ const prevCharacter = () => {
 
 const selectCharacter = () => {
     if (!currentCharacter.value) return;
-    
+
     console.log('Selected character:', currentCharacter.value.naam);
     localStorage.setItem('player_character', JSON.stringify(currentCharacter.value));
-    
-    emit('scene-complete', { 
+
+    emit('scene-complete', {
         targetSceneId: props.nextSceneId,
-        selectedCharacterId: currentCharacter.value.id 
+        selectedCharacterId: currentCharacter.value.id
     });
 };
 
 const getGlbUrl = (personage) => {
     if (!personage) return '';
-    
+
     // 1. Try to find the first artwork that ends with .glb in the database
     if (personage.artwork && personage.artwork.length > 0) {
         const glbArtwork = personage.artwork.find(a => a.bestandspad.toLowerCase().endsWith('.glb'));
@@ -59,7 +59,7 @@ const getGlbUrl = (personage) => {
             return resolveAssetUrl(glbArtwork.bestandspad);
         }
     }
-    
+
     // 2. Fallback: Try to calculate the path from the character's name/slug
     return getCharacterGlbUrl(personage.naam);
 };
@@ -71,7 +71,7 @@ onMounted(() => {
 
 <template>
     <div class="selection-container">
-        <h1 class="scene-title glitch-text" :data-text="title">{{ title }}</h1>
+        <!-- <h1 class="scene-title glitch-text" :data-text="title">{{ title }}</h1> -->
 
         <div v-if="loading" class="loading-state">
             <div class="loading-spinner"></div>
@@ -87,9 +87,9 @@ onMounted(() => {
             <!-- 3D View Card -->
             <div class="character-card landscape">
                 <div class="viewer-wrapper">
-                    <Character3DViewer 
+                    <Character3DViewer
                         v-if="getGlbUrl(currentCharacter)"
-                        :glb-url="getGlbUrl(currentCharacter)" 
+                        :glb-url="getGlbUrl(currentCharacter)"
                         type="persoon"
                         class="viewer-component"
                     />
@@ -104,7 +104,7 @@ onMounted(() => {
                     <div class="description custom-scrollbar">
                         {{ currentCharacter.beschrijving }}
                     </div>
-                    
+
                     <div class="stats-panel">
                         <div class="stat-row">
                             <span class="stat-label">STATUS:</span>
@@ -131,9 +131,9 @@ onMounted(() => {
         </div>
 
         <div v-if="!loading && currentCharacter" class="action-wrapper">
-            <ClickButton 
-                label="INITIALIZE_DATA_RECORD" 
-                buttonType="red" 
+            <ClickButton
+                label="INITIALIZE_DATA_RECORD"
+                buttonType="red"
                 @click="selectCharacter"
                 style="padding: 15px 40px; font-weight: bold; letter-spacing: 2px;"
             />
@@ -350,7 +350,7 @@ onMounted(() => {
 .grid-overlay {
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
         linear-gradient(rgba(255, 0, 0, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 0, 0, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
