@@ -142,15 +142,16 @@ const deleteImage = async (id) => {
                 >
                 <div class="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 flex justify-between items-center">
                     <span class="truncate mr-2">{{ img.titel || 'Untitled' }}</span>
-                    <button
+                    <ClickButton
                         @click="deleteImage(img.id)"
-                        class="text-noir-danger hover:text-white transition-colors p-1 rounded hover:bg-noir-danger/50"
+                        buttonType="black"
+                        class="!p-1"
                         :title="t('artwork.confirm_delete')"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
-                    </button>
+                    </ClickButton>
                 </div>
             </div>
         </div>
@@ -160,13 +161,11 @@ const deleteImage = async (id) => {
 
         <!-- Footer Actions -->
         <div class="mt-4 border-t border-b border-noir-dark p-4">
-            <button
+            <ClickButton
                 @click="toggleUpload"
-                class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded border transition-all duration-300"
-                :class="isUploadOpen ? 'bg-noir-danger/20 text-noir-danger border-noir-danger hover:bg-noir-danger hover:text-white' : 'bg-noir-accent/20 text-noir-accent border-noir-accent hover:bg-noir-accent hover:text-white'"
-            >
-                {{ isUploadOpen ? t('artwork.close_upload') : t('artwork.add_record') }}
-            </button>
+                :label="isUploadOpen ? t('artwork.close_upload') : t('artwork.add_record')"
+                :buttonType="isUploadOpen ? 'red' : 'add'"
+            />
         </div>
 
         <!-- Upload Form (Collapsible) -->
@@ -191,13 +190,14 @@ const deleteImage = async (id) => {
                         class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-sm text-white focus:border-noir-accent focus:outline-none transition-colors"
                     >
                 </div>
-                <button
+                <ClickButton
                     type="submit"
                     :disabled="!selectedFile || uploading"
-                    class="w-full bg-noir-accent text-white py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_10px_rgba(59,130,246,0.5)] transition-all uppercase font-bold text-xs tracking-wider disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                >
-                    {{ uploading ? t('artwork.uploading') : t('artwork.upload_btn') }}
-                </button>
+                    :label="uploading ? t('artwork.uploading') : t('artwork.upload_btn')"
+                    buttonType="green"
+                    class="w-full justify-center"
+                    @click="handleUpload"
+                />
             </form>
         </div>
     </div>

@@ -335,7 +335,7 @@ const getLineColor = (conn) => {
         </div>
 
         <!-- New Node Modal -->
-        <Modal :isOpen="isNewNodeModalOpen" title="NIEUW PRAATJE" @close="isNewNodeModalOpen = false">
+        <Modal :isOpen="isNewNodeModalOpen" title="NIEUW PRAATJE" okLabel="Praatje Toevoegen" @close="isNewNodeModalOpen = false" @ok="createNewNode">
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-noir-muted uppercase mb-1">ID (Uniek)</label>
@@ -344,10 +344,6 @@ const getLineColor = (conn) => {
                 <div>
                     <label class="block text-xs font-bold text-noir-muted uppercase mb-1">Eerste Tekst</label>
                     <textarea v-model="newNodeData.text" class="w-full bg-black border border-noir-dark text-white p-2 rounded focus:border-noir-accent outline-none min-h-[100px]" placeholder="Inhoud van het gesprek..."></textarea>
-                </div>
-                <div class="flex justify-end gap-3 mt-6">
-                    <button @click="isNewNodeModalOpen = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors uppercase text-xs font-bold">Annuleren</button>
-                    <button @click="createNewNode" class="bg-noir-accent text-black px-6 py-2 rounded font-bold uppercase text-xs hover:shadow-[0_0_15px_rgba(0,180,255,0.5)] transition-all">Praatje Toevoegen</button>
                 </div>
             </div>
         </Modal>

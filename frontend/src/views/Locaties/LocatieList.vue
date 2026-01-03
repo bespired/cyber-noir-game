@@ -115,7 +115,13 @@ const createLocatie = async () => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" :title="t('locations.new_entry')" @close="showModal = false">
+        <Modal 
+            :isOpen="showModal" 
+            :title="t('locations.new_entry')" 
+            :okLabel="t('locations.authorize')"
+            @close="showModal = false"
+            @ok="createLocatie"
+        >
             <form @submit.prevent="createLocatie" class="space-y-4">
                 <div>
                     <label class="form-label">{{ t('locations.name_label') }}</label>
@@ -128,10 +134,6 @@ const createLocatie = async () => {
                 <div>
                     <label class="form-label">{{ t('locations.intel_label') }}</label>
                     <textarea v-model="form.notities" rows="2" class="form-input" :placeholder="t('locations.placeholder_notes')"></textarea>
-                </div>
-                <div class="pt-4 flex justify-end gap-3 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('locations.discard') }}</button>
-                    <button type="submit" class="btn btn--warning">{{ t('locations.authorize') }}</button>
                 </div>
             </form>
         </Modal>

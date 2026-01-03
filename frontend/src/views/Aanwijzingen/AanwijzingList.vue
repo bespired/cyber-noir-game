@@ -85,7 +85,14 @@ const createAanwijzing = async () => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" :title="t('clues.log_new')" @close="showModal = false">
+        <Modal 
+            :isOpen="showModal" 
+            :title="t('clues.log_new')" 
+            :okLabel="t('clues.log')"
+            okButtonType="red"
+            @close="showModal = false"
+            @ok="createAanwijzing"
+        >
             <form @submit.prevent="createAanwijzing" class="space-y-4">
                 <div>
                     <label class="form-label">{{ t('clues.title') }}</label>
@@ -98,10 +105,6 @@ const createAanwijzing = async () => {
                 <div class="flex items-center gap-2">
                     <input v-model="form.is_kritisch" type="checkbox" id="is_kritisch" class="rounded bg-noir-darker border-noir-dark text-noir-danger focus:ring-noir-danger">
                     <label for="is_kritisch" class="text-white text-sm uppercase">{{ t('clues.critical_question') }}</label>
-                </div>
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('clues.cancel') }}</button>
-                    <button type="submit" class="btn btn--danger">{{ t('clues.log') }}</button>
                 </div>
             </form>
         </Modal>

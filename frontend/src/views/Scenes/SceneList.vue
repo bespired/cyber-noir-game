@@ -148,7 +148,7 @@ const createScene = async () => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" :title="t('scenes.new_entry')" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('scenes.new_entry')" :okLabel="t('scenes.create_record')" @close="showModal = false" @ok="createScene">
             <form @submit.prevent="createScene" class="space-y-4">
                 <div>
                     <label class="form-label">{{ t('scenes.form_title') }}</label>
@@ -194,11 +194,6 @@ const createScene = async () => {
                 <div>
                     <label class="form-label">{{ t('scenes.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
-                </div>
-
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('scenes.cancel') }}</button>
-                    <button type="submit" class="btn btn--primary">{{ t('scenes.create_record') }}</button>
                 </div>
             </form>
         </Modal>

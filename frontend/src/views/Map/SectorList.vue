@@ -74,7 +74,7 @@ const createSector = async () => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" :title="t('map.new_entry')" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('map.new_entry')" :okLabel="t('map.create_record')" @close="showModal = false" @ok="createSector">
             <form @submit.prevent="createSector" class="space-y-4">
                 <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.name') }}</label>
@@ -91,10 +91,6 @@ const createSector = async () => {
                 <div class="flex items-center gap-2">
                     <input v-model="form.is_ontdekt" type="checkbox" id="is_ontdekt" class="rounded bg-noir-darker border-noir-dark text-noir-accent focus:ring-noir-accent">
                     <label for="is_ontdekt" class="text-white text-sm">{{ t('map.is_discovered') }}</label>
-                </div>
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">{{ t('map.cancel') }}</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">{{ t('map.create_record') }}</button>
                 </div>
             </form>
         </Modal>

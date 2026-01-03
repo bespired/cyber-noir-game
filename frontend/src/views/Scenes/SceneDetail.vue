@@ -630,7 +630,13 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <div v-if="scene.type !== 'vue-component'" class="border-noir-accent/30">
                             <div class="p-4 border-b border-noir-dark flex justify-between items-center bg-noir-dark/50">
                                 <h3 class="text-xs font-bold text-noir-accent uppercase">{{ t('scenes.characters_vehicles') }}</h3>
-                                <button @click="openNPCModal()" class="btn btn--small btn--success text-[10px] px-2 py-0.5">+ {{ t('scenes.add') }}</button>
+                                <ClickButton
+                                    :label="t('scenes.add')"
+                                    icon="+"
+                                    buttonType="add"
+                                    class="!text-[10px] !px-2 !py-0.5"
+                                    @click="openNPCModal()"
+                                />
                             </div>
                             <div class="pt-1 space-y-3">
                                 <div v-if="scenePersonages.length === 0" class="text-center py-4 text-noir-muted italic text-[10px] uppercase">
@@ -643,16 +649,16 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                             <span class="text-white font-bold text-[11px] uppercase truncate max-w-[120px]">{{ npc.personage?.naam }}</span>
                                         </div>
                                         <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button @click="openNPCModal(npc)" class="text-noir-accent hover:text-white p-1">
+                                            <ClickButton @click="openNPCModal(npc)" buttonType="black" class="!p-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                 </svg>
-                                            </button>
-                                            <button @click="removeNPC(npc.id)" class="text-noir-danger hover:text-white p-1">
+                                            </ClickButton>
+                                            <ClickButton @click="removeNPC(npc.id)" buttonType="red" class="!p-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                                 </svg>
-                                            </button>
+                                            </ClickButton>
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-1 gap-1 text-[9px] font-mono">
@@ -678,7 +684,13 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
             </div>
         </div>
-        <Modal :isOpen="showGatewayModal" :title="gatewayForm.type === 'gateway' ? t('scenes.place_gateway') : t('scenes.place_trigger')" @close="showGatewayModal = false">
+        <Modal 
+            :isOpen="showGatewayModal" 
+            :title="gatewayForm.type === 'gateway' ? t('scenes.place_gateway') : t('scenes.place_trigger')" 
+            :okLabel="t('scenes.save_gateway')"
+            @close="showGatewayModal = false"
+            @ok="saveGateway"
+        >
             <form @submit.prevent="saveGateway" class="space-y-4">
                 <div class="flex gap-4 p-2 bg-black/30 rounded border border-noir-dark mb-4">
                     <button
@@ -742,22 +754,17 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <p class="text-[10px] text-noir-muted mt-1 uppercase">{{ t('scenes.launch_hint') }}</p>
                     </div>
                 </div>
-
-                <!--
-                <div>
-                    <label class="form-label">Label (Optioneel)</label>
-                    <input v-model="gatewayForm.label" type="text" placeholder="b.v. Naar Hoofd Street" class="form-input">
-                </div>
-                -->
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showGatewayModal = false" class="btn btn--secondary">{{ t('scenes.cancel') }}</button>
-                    <button type="submit" class="btn btn--primary">{{ t('scenes.save_gateway') }}</button>
-                </div>
             </form>
         </Modal>
 
         <!-- NPC / Vehicle Assignment Modal -->
-        <Modal :isOpen="showNPCModal" :title="editingNPC ? t('scenes.config_entity') : t('scenes.add_entity')" @close="showNPCModal = false">
+        <Modal 
+            :isOpen="showNPCModal" 
+            :title="editingNPC ? t('scenes.config_entity') : t('scenes.add_entity')" 
+            :okLabel="editingNPC ? t('common.save') : t('common.add')"
+            @close="showNPCModal = false"
+            @ok="saveNPC"
+        >
             <form @submit.prevent="saveNPC" class="space-y-4">
                 <div>
                     <label class="form-label">{{ t('scenes.character_vehicle') }}</label>
@@ -792,14 +799,6 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 <div v-if="npcForm.spawn_condition.type === 'flag'">
                     <label class="form-label">{{ t('scenes.flag_name') }}</label>
                     <input v-model="npcForm.spawn_condition.flag" type="text" placeholder="b.v. bartender_alerted" class="form-input">
-                </div>
-
-                <!-- Initial behavior and dialogue removed - now handled via global behaviors -->
-
-
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showNPCModal = false" class="btn btn--secondary">ANNULEREN</button>
-                    <button type="submit" class="btn btn--primary">{{ editingNPC ? 'BIJWERKEN' : 'TOEVOEGEN' }}</button>
                 </div>
             </form>
         </Modal>

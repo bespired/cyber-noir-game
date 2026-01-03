@@ -99,7 +99,7 @@ const deleteNote = async (id) => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" :title="t('notes.new_entry')" @close="showModal = false">
+        <Modal :isOpen="showModal" :title="t('notes.new_entry')" :okLabel="t('notes.save_record')" @close="showModal = false" @ok="createNote">
             <form @submit.prevent="createNote" class="space-y-4">
                 <div>
                     <label class="form-label">{{ t('notes.title') }}</label>
@@ -108,10 +108,6 @@ const deleteNote = async (id) => {
                 <div>
                     <label class="form-label">{{ t('notes.content') }}</label>
                     <textarea v-model="form.inhoud" required rows="5" class="form-input" :placeholder="t('notes.describe_idea')"></textarea>
-                </div>
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('personages.cancel') }}</button>
-                    <button type="submit" class="btn btn--primary">{{ t('notes.save_record') }}</button>
                 </div>
             </form>
         </Modal>

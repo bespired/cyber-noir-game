@@ -1,10 +1,28 @@
 <script setup>
+import ClickButton from './inputs/ClickButton.vue';
+
 defineProps({
   isOpen: Boolean,
-  title: String
+  title: String,
+  okLabel: {
+    type: String,
+    default: 'OK'
+  },
+  cancelLabel: {
+    type: String,
+    default: 'Annuleren'
+  },
+  showFooter: {
+    type: Boolean,
+    default: true
+  },
+  okButtonType: {
+    type: String,
+    default: 'green'
+  }
 })
 
-defineEmits(['close'])
+defineEmits(['close', 'ok'])
 </script>
 
 <template>
@@ -23,6 +41,20 @@ defineEmits(['close'])
       <!-- Body -->
       <div class="p-6 max-h-[80vh] overflow-y-auto">
         <slot></slot>
+      </div>
+
+      <!-- Footer -->
+      <div v-if="showFooter" class="bg-noir-darker p-4 border-t border-noir-dark flex justify-end gap-3">
+        <ClickButton 
+          :label="cancelLabel" 
+          buttonType="black" 
+          @click="$emit('close')" 
+        />
+        <ClickButton 
+          :label="okLabel" 
+          :buttonType="okButtonType" 
+          @click="$emit('ok')" 
+        />
       </div>
     </div>
   </div>

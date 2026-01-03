@@ -119,7 +119,7 @@ const deleteConversation = async (id) => {
         </div>
 
         <!-- Create Modal -->
-        <Modal :isOpen="showModal" title="NEW DIALOGUE SEQUENCE" @close="showModal = false">
+        <Modal :isOpen="showModal" title="NEW DIALOGUE SEQUENCE" okLabel="INITIALIZE" @close="showModal = false" @ok="createConversation">
             <form @submit.prevent="createConversation" class="space-y-4">
                 <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">Title</label>
@@ -135,10 +135,6 @@ const deleteConversation = async (id) => {
                  <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">Initial Data (JSON)</label>
                     <textarea v-model="form.tree" rows="5" class="w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none font-mono text-xs"></textarea>
-                </div>
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">INITIALIZE</button>
                 </div>
             </form>
         </Modal>

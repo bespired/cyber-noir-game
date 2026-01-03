@@ -115,7 +115,13 @@ onMounted(() => {
             />
         </div>
 
-        <Modal :isOpen="showModal" :title="props.type === 'voertuig' ? t('personages.new_vehicle') : t('personages.new_character')" @close="showModal = false">
+        <Modal 
+            :isOpen="showModal" 
+            :title="props.type === 'voertuig' ? t('personages.new_vehicle') : t('personages.new_character')" 
+            :okLabel="t('personages.create')"
+            @close="showModal = false"
+            @ok="createPersonage"
+        >
             <form @submit.prevent="createPersonage" class="space-y-4">
                 <div>
                     <label class="form-label">{{ t('personages.name') }}</label>
@@ -153,10 +159,6 @@ onMounted(() => {
                         <input v-model="form.is_playable" type="checkbox" id="is_playable" class="rounded bg-noir-darker border-noir-dark text-noir-warning focus:ring-noir-warning">
                         <label for="is_playable" class="text-white text-sm">{{ props.type === 'voertuig' ? t('personages.playable_vehicle') : t('personages.playable_character') }}</label>
                     </div>
-                </div>
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showModal = false" class="btn btn--secondary">{{ t('personages.cancel') }}</button>
-                    <button type="submit" class="btn btn--primary">{{ t('personages.create') }}</button>
                 </div>
             </form>
         </Modal>

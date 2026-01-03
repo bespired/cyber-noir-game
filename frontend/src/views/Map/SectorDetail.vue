@@ -263,7 +263,9 @@ const getImageUrl = (path) => {
 
         <!-- Edit Modal -->
         <Modal :isOpen="showEditModal" :title="t('map.edit_sector')"
+            :okLabel="t('map.save')"
             @close="showEditModal = false"
+            @ok="updateSector"
         >
             <form @submit.prevent="updateSector" class="space-y-4">
                 <div>
@@ -285,19 +287,15 @@ const getImageUrl = (path) => {
                     </div>
                 </div>
                 <!-- X/Y are managed via map but editable here if needed -->
-
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showEditModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">{{ t('map.cancel') }}</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-accent text-white rounded hover:bg-blue-600 transition-colors">{{ t('map.save') }}</button>
-                </div>
             </form>
         </Modal>
 
         <!-- Link Scene Modal -->
         <Modal :isOpen="showLinkSceneModal" :title="t('map.link_scene_title')"
+            :okLabel="t('map.link_scene_title')"
             @close="showLinkSceneModal = false"
+            @ok="linkScene"
         >
-
             <form @submit.prevent="linkScene" class="space-y-4">
                 <div>
                      <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.select_scene') }}</label>
@@ -308,12 +306,7 @@ const getImageUrl = (path) => {
                         </option>
                      </select>
                 </div>
-                <div class="pt-4 flex justify-end gap-2 text-sm">
-                    <button type="button" @click="showLinkSceneModal = false" class="px-4 py-2 text-noir-muted hover:text-white transition-colors">{{ t('map.cancel') }}</button>
-                    <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">{{ t('map.link_scene_title') }}</button>
-                </div>
             </form>
-
         </Modal>
     </div>
 </template>
