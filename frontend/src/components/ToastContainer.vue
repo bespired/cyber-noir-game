@@ -6,7 +6,7 @@ const { toasts, removeToast } = useToast();
 </script>
 
 <template>
-    <div class="fixed top-20 right-6 z-[9999] flex flex-col items-end pointer-events-none">
+    <div class="toast-container">
         <div class="w-full pointer-events-auto">
             <TransitionGroup name="list">
                 <Toast
@@ -21,6 +21,7 @@ const { toasts, removeToast } = useToast();
 </template>
 
 <style scoped>
+
 .list-enter-active,
 .list-leave-active,
 .list-move {
@@ -36,5 +37,17 @@ const { toasts, removeToast } = useToast();
 }
 .list-leave-active {
   position: absolute;
+}
+
+.toast-container {
+    position: fixed;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    z-index: 9999;
+    right: calc(var(--spacing) * 6);
+    top: calc(var(--spacing) * 20);
+    unicode-bidi: isolate;
 }
 </style>

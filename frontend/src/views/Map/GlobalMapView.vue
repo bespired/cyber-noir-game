@@ -64,7 +64,7 @@ const fetchSettings = async () => {
     } catch (e) {
         console.error("Failed to fetch map background setting", e);
         // Fallback for dev if needed, though we moved it
-        mapBackground.value = '/map-noir.png'; 
+        mapBackground.value = '/map-noir.png';
     }
 };
 
@@ -186,9 +186,11 @@ const createSector = async () => {
     <div class="h-[calc(100vh-4rem)] flex flex-col">
         <!-- Toolbar -->
         <div class="h-16 bg-noir-dark border-b border-noir-panel px-6 flex justify-between items-center z-20">
-            <h1 class="text-2xl font-bold text-white tracking-tight">{{ t('map.the_sector_map') }}</h1>
+            <h1 class="page-header">{{ t('map.the_sector_map') }}</h1>
             <div class="flex gap-4">
-                <span class="text-xs text-noir-muted self-center">{{ t('map.drag_hint') }}</span>
+                <span class="text-xs text-noir-muted self-center">
+                    {{ t('map.drag_hint') }}
+                </span>
                 <click-button icon="+" :label="t('map.add_sector')" buttonType="add" @click="openCreateModal" />
 
             </div>
@@ -196,7 +198,7 @@ const createSector = async () => {
 
         <!-- Map Canvas -->
         <div class="flex-grow relative overflow-hidden bg-[#0a0a0a] cursor-crosshair" ref="mapContainer">
-            
+
             <!-- Map Background -->
             <div class="absolute inset-0 pointer-events-none opacity-80"
                  :style="{

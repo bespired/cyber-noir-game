@@ -116,9 +116,9 @@ const navigateTo3D = (sectorId) => {
 
         <div class="panel overflow-hidden">
             <!-- Header -->
-            <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
+            <div class="detail-panel-header">
                 <div>
-                    <h1 class="page-header mb-1">{{ locatie.naam }}</h1>
+                    <h1 class="page-header">{{ locatie.naam }}</h1>
                     <div class="flex items-center space-x-4">
                         <span class="text-xs text-noir-muted">{{ t('locations.sector_id') }}: {{ String(locatie.id).padStart(8, '0') }}</span>
                     </div>

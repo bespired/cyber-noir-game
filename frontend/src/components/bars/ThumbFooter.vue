@@ -71,7 +71,6 @@ const props = defineProps({
                 :label="t('common.change')"
                 buttonType="link"
             />
-
         </span>
     </div>
 </template>

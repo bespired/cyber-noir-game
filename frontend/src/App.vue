@@ -39,7 +39,7 @@ onUnmounted(() => {
       <Header />
 
       <!-- Main content -->
-      <main class="min-h-[calc(100vh-8rem)]">
+      <main class="main-content">
         <RouterView />
       </main>
 
@@ -47,7 +47,7 @@ onUnmounted(() => {
       <ToastContainer />
 
       <!-- Footer -->
-      <footer class="bg-noir-dark border-t border-noir-panel p-4 text-center text-xs text-noir-muted">
+      <footer class="main-footer">
         CYBER_NOIR // SYSTEM_VERSION_3.5.0
       </footer>
     </div>

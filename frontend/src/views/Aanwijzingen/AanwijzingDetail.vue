@@ -69,9 +69,9 @@ const handleDeleteSuccess = (deletedId) => {
 
         <div class="bg-noir-panel border border-noir-dark rounded shadow-xl overflow-hidden">
             <!-- Header -->
-            <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
+            <div class="detail-panel-header">
                 <div>
-                    <h1 class="text-3xl font-bold text-white mb-1">{{ aanwijzing.titel }}</h1>
+                    <h1 class="page-header">{{ aanwijzing.titel }}</h1>
                     <div class="flex items-center space-x-4">
                         <span class="text-xs text-noir-muted">{{ t('clues.evidence_id') }}: {{ String(aanwijzing.id).padStart(8, '0') }}</span>
                     </div>

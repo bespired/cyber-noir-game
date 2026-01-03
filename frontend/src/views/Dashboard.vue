@@ -91,10 +91,13 @@ watch(locale, (newLocale) => {
     <div class="container mx-auto p-6">
         <div v-if="isAuthenticated">
             <div class="flex justify-between items-center mb-8">
-                <h1 class="text-3xl font-bold text-white tracking-tight">
-                    {{ t('dashboard.case_status') }}: <span class="text-noir-success">{{ t('player_selection.active') }}</span>
+                <h1 class="page-header">
+                    {{ t('dashboard.case_status') }}:
+                    <span class="text-noir-success">
+                        {{ t('player_selection.active') }}
+                    </span>
                 </h1>
-                
+
                 <div class="flex items-center">
                     <span class="text-noir-muted mr-2 text-xs">LANG:</span>
                     <select v-model="locale" class="bg-noir-panel text-white border border-noir-dark rounded px-2 py-1 text-sm focus:border-noir-accent outline-none">
@@ -226,7 +229,9 @@ watch(locale, (newLocale) => {
         <div v-else class="flex flex-col items-center justify-center min-h-[60vh] text-center">
             <div class="bg-noir-panel border border-noir-dark p-8 rounded-lg shadow-2xl max-w-md w-full">
                 <h1 class="text-3xl font-bold text-white mb-4">{{ t('dashboard.reference_title') }}</h1>
-                <p class="text-noir-muted mb-8">{{ t('dashboard.access_restricted') }}</p>
+                <p class="text-noir-muted mb-8">
+                    {{ t('dashboard.access_restricted') }}
+                </p>
                 <RouterLink :to="{ name: 'login' }" class="inline-block px-6 py-3 bg-noir-accent hover:bg-opacity-80 text-white font-bold rounded transition-colors duration-200">
                     {{ t('dashboard.login_terminal') }}
                 </RouterLink>

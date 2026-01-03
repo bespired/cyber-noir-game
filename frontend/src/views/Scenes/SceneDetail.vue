@@ -457,9 +457,11 @@ watch(() => scene.value?.locatie_id, (newId) => {
 
         <div class="panel overflow-hidden">
             <!-- Header -->
-            <div class="p-6 border-b border-noir-dark flex justify-between items-start bg-noir-dark/50">
+            <div class="detail-panel-header">
                 <div>
-                    <h1 class="page-header mb-1">{{ scene.titel }}</h1>
+                    <h1 class="page-header">{{ scene.titel }}</h1>
+                </div>
+                <div>
                     <div class="flex items-center space-x-4">
                         <select v-model="scene.type" class="form-input text-xs w-auto py-1 px-2 h-8">
                             <option v-for="t in sceneTypes" :key="t.value" :value="t.value">{{ t.label }}</option>
@@ -684,9 +686,9 @@ watch(() => scene.value?.locatie_id, (newId) => {
                 </div>
             </div>
         </div>
-        <Modal 
-            :isOpen="showGatewayModal" 
-            :title="gatewayForm.type === 'gateway' ? t('scenes.place_gateway') : t('scenes.place_trigger')" 
+        <Modal
+            :isOpen="showGatewayModal"
+            :title="gatewayForm.type === 'gateway' ? t('scenes.place_gateway') : t('scenes.place_trigger')"
             :okLabel="t('scenes.save_gateway')"
             @close="showGatewayModal = false"
             @ok="saveGateway"
@@ -758,9 +760,9 @@ watch(() => scene.value?.locatie_id, (newId) => {
         </Modal>
 
         <!-- NPC / Vehicle Assignment Modal -->
-        <Modal 
-            :isOpen="showNPCModal" 
-            :title="editingNPC ? t('scenes.config_entity') : t('scenes.add_entity')" 
+        <Modal
+            :isOpen="showNPCModal"
+            :title="editingNPC ? t('scenes.config_entity') : t('scenes.add_entity')"
             :okLabel="editingNPC ? t('common.save') : t('common.add')"
             @close="showNPCModal = false"
             @ok="saveNPC"

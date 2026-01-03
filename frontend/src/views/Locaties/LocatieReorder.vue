@@ -102,7 +102,7 @@ const getImageUrl = (path) => {
                 <button @click="router.push('/locaties')" class="text-noir-muted hover:text-white transition-colors flex items-center gap-2 font-bold uppercase tracking-widest text-sm">
                     <span class="text-xl">←</span> {{ t('locations.title') }}
                 </button>
-                <h1 class="text-3xl font-bold text-white tracking-widest uppercase">{{ t('locations.reorder_title') }}</h1>
+                <h1 class="page-header">{{ t('locations.reorder_title') }}</h1>
 
                 <div class="flex items-center gap-3 ml-4">
                     <span class="text-xs text-noir-muted uppercase">{{ t('locations.filter') }}</span>

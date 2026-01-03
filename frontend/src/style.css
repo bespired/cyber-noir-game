@@ -64,11 +64,9 @@ body {
  */
 .page-header {
   font-size: 1.875rem;
-  /* 3xl */
   line-height: 2.25rem;
   font-weight: 700;
   color: white;
-  letter-spacing: -0.025em;
   text-transform: uppercase;
 }
 

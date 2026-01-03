@@ -114,13 +114,13 @@ const headerLabel = computed(() => {
 
         <div class="panel border-noir-dark bg-noir-darker/50 overflow-hidden">
             <!-- Inner Header -->
-            <div class="p-8 border-b border-noir-dark bg-noir-dark/30">
-                <div class="flex justify-between items-end">
+            <div class="detail-panel-header">
+                <div class="">
                     <div>
-                        <h1 class="text-4xl font-bold text-white uppercase tracking-tighter mb-2">{{ personage.naam }}</h1>
+                        <h1 class="page-header">{{ personage.naam }}</h1>
                         <div class="flex items-center gap-4">
                             <span class="text-noir-accent font-mono text-sm uppercase tracking-widest font-bold">{{ personage.rol }}</span>
-                            <span class="text-xs text-noir-muted font-mono">{{ t('personages.file_id') }}: {{ String(personage.id).padStart(8, '0') }}</span>
+                            <span class="text-xs text-noir-muted font-mono">{{ t('personages.file_id') }}: {{ personage.id }}</span>
                         </div>
                     </div>
                 </div>
