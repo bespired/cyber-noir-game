@@ -5,6 +5,7 @@ import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
 import LinkButton from '../../components/inputs/LinkButton.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 import DetailHeader from '../../components/bars/DetailHeader.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';

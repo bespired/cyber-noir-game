@@ -7,7 +7,7 @@ const props = defineProps({
     },
     buttonType: {
         type: String,
-        default: 'success'
+        default: 'green'
     },
     icon: {
         type: String,

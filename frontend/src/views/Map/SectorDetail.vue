@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import LinkButton from '../../components/inputs/LinkButton.vue';
+import ClickButton from '../../components/inputs/ClickButton.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
@@ -207,22 +209,27 @@ const getImageUrl = (path) => {
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-white uppercase tracking-wider">{{ t('map.scenes_in_sector') }}</h2>
             <div class="flex gap-2">
-                <RouterLink :to="`/map/${sector.id}/emulate`" class="bg-noir-success text-white px-4 py-2 rounded hover:bg-green-500 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
-                    {{ t('map.emulate') }}
-                </RouterLink>
-                <RouterLink :to="`/sector-map/${sector.id}`" class="bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
-                    </svg>
-                    {{ t('map.visual_map') }}
-                </RouterLink>
-                <button @click="openLinkSceneModal" class="bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer">
-                    {{ t('map.link_scene') }}
-                </button>
+                <LinkButton
+                    name="sector-emulate"
+                    :params="{ id: sector.id }"
+                    buttonType="green"
+                    :label="t('map.emulate')"
+                    icon="ƈ"
+                >
+                </LinkButton>
+                <LinkButton
+                    name="sector-map"
+                    :params="{ id: sector.id }"
+                    buttonType="blue"
+                    :label="t('map.visual_map')"
+                    icon="Ɗ"
+                >
+                </LinkButton>
+                <ClickButton
+                    :label="t('map.link_scene')"
+                    buttonType="add"
+                    @click="openLinkSceneModal"
+                />
             </div>
         </div>
 
@@ -255,7 +262,9 @@ const getImageUrl = (path) => {
         </div>
 
         <!-- Edit Modal -->
-        <Modal :isOpen="showEditModal" :title="t('map.edit_sector')" @close="showEditModal = false">
+        <Modal :isOpen="showEditModal" :title="t('map.edit_sector')"
+            @close="showEditModal = false"
+        >
             <form @submit.prevent="updateSector" class="space-y-4">
                 <div>
                     <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.name') }}</label>
@@ -285,7 +294,10 @@ const getImageUrl = (path) => {
         </Modal>
 
         <!-- Link Scene Modal -->
-        <Modal :isOpen="showLinkSceneModal" :title="t('map.link_scene_title')" @close="showLinkSceneModal = false">
+        <Modal :isOpen="showLinkSceneModal" :title="t('map.link_scene_title')"
+            @close="showLinkSceneModal = false"
+        >
+
             <form @submit.prevent="linkScene" class="space-y-4">
                 <div>
                      <label class="block text-noir-muted text-xs uppercase mb-1">{{ t('map.select_scene') }}</label>
@@ -301,6 +313,7 @@ const getImageUrl = (path) => {
                     <button type="submit" class="px-4 py-2 bg-noir-warning text-black font-bold rounded hover:bg-yellow-400 transition-colors">{{ t('map.link_scene_title') }}</button>
                 </div>
             </form>
+
         </Modal>
     </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineEmits, computed } from 'vue';
 import axios from '../axios';
+import ClickButton from './inputs/ClickButton.vue';
 import { useToast } from '../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
