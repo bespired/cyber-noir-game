@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import axios from '../../axios';
 import { RouterLink } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import SectorSceneThumb  from '../../components/thumbs/SectorSceneThumb.vue';
 import LinkButton from '../../components/inputs/LinkButton.vue';
 import ClickButton from '../../components/inputs/ClickButton.vue';
 import { useToast } from '../../composables/useToast';
@@ -233,27 +234,12 @@ const getImageUrl = (path) => {
             </div>
         </div>
 
+        <!-- SectorScenes -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="scene in sector.scenes" :key="scene.id" class="bg-noir-panel border border-noir-dark p-6 rounded shadow-lg hover:border-noir-warning transition-colors group">
-                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-noir-warning transition-colors">{{ scene.titel }}</h3>
-                <p class="text-noir-text text-sm mb-4 line-clamp-2">{{ scene.beschrijving }}</p>
 
-                <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
-                    <span class="text-xs text-noir-muted uppercase tracking-tight">{{ t('map.type_label') }} {{ scene.type }}</span>
-                    <div class="flex gap-4 items-center">
-                        <RouterLink v-if="['3D', 'WALKABLE-AREA'].includes(scene.type?.toUpperCase()) && scene.locatie_id" :to="`/locaties/${scene.locatie_id}/sector/${sector.id}/3d`" title="3D_BEWERKEN" class="text-[#00ffff] hover:text-white transition-all transform hover:scale-110 drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                            </svg>
-                        </RouterLink>
-                        <RouterLink :to="`/scenes/${scene.id}`" class="text-noir-warning hover:text-white transition-colors text-xs font-bold uppercase tracking-wider">
-                            {{ t('map.view_details') }}
-                        </RouterLink>
-                    </div>
-                </div>
-            </div>
+            <SectorSceneThumb
+                v-for="scene in sector.scenes" :key="scene.id" :scene="scene" :sector="sector"
+            />
 
             <!-- Empty State -->
             <div v-if="!sector.scenes || sector.scenes.length === 0" class="col-span-full text-center py-12 border-2 border-dashed border-noir-dark rounded text-noir-muted">

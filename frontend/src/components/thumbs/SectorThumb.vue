@@ -47,6 +47,7 @@ const { t } = useI18n();
 
             <div class="flex justify-between items-center mt-4 pt-4 border-t border-noir-dark">
                 <span class="text-xs text-noir-muted font-mono">COORDS: {{ sector.kaart_coordinaten || 'UNKNOWN' }}</span>
+
                 <LinkButton
                     name="sector-detail"
                     :params="{ id: sector.id }"

@@ -29,6 +29,10 @@ const props = defineProps({
         default: false
     },
 
+    threeRoute: {
+        type: Number,
+        default: null
+    },
     three: {
         type: [Number,String],
         default: null
@@ -46,10 +50,11 @@ const props = defineProps({
         <span class="ml-auto">
             <LinkButton
                 v-if="three"
-                :name="`${name}-3d`"
-                :params="{ id: itemId, sectorId: three }"
                 label="3D"
+                name="locatie-3d"
+                :params="{ id: itemId, sectorId: three }"
                 buttonType="blue"
+                 icon="Ɖ"
             />
             <LinkButton
                 v-if="emulate"
@@ -57,6 +62,7 @@ const props = defineProps({
                 :params="{ id: itemId }"
                 :label="t('common.emulate')"
                 buttonType="green"
+                icon="ƈ"
             />
             <LinkButton
                 v-if="edit"
