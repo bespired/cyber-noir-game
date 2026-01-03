@@ -30,13 +30,13 @@
             }
         ],
         "data": {
-            "x": 443,
-            "y": 390,
+            "x": 435,
+            "y": 445,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-22T15:14:53.000000Z",
-        "updated_at": "2025-12-31T19:11:09.000000Z"
+        "updated_at": "2026-01-03T11:22:35.000000Z"
     },
     {
         "id": 4,
@@ -60,13 +60,13 @@
             }
         ],
         "data": {
-            "x": 136,
-            "y": 161,
+            "x": 107,
+            "y": 206,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-31T19:00:01.000000Z"
+        "updated_at": "2026-01-03T11:22:34.000000Z"
     },
     {
         "id": 5,
@@ -348,13 +348,13 @@
         "status": "active",
         "gateways": [],
         "data": {
-            "x": 100,
-            "y": 100,
+            "x": 97,
+            "y": 108,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-31T19:00:01.000000Z"
+        "updated_at": "2026-01-03T11:24:47.000000Z"
     },
     {
         "id": 19,
@@ -366,13 +366,13 @@
         "status": "active",
         "gateways": [],
         "data": {
-            "x": 100,
-            "y": 100,
+            "x": 363,
+            "y": 110,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-31T19:00:01.000000Z"
+        "updated_at": "2026-01-03T11:24:52.000000Z"
     },
     {
         "id": 20,
@@ -384,13 +384,13 @@
         "status": "active",
         "gateways": [],
         "data": {
-            "x": 100,
-            "y": 100,
+            "x": 365,
+            "y": 294,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-31T19:00:01.000000Z"
+        "updated_at": "2026-01-03T11:24:54.000000Z"
     },
     {
         "id": 21,
@@ -402,13 +402,13 @@
         "status": "active",
         "gateways": [],
         "data": {
-            "x": 100,
-            "y": 100,
+            "x": 748,
+            "y": 108,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2025-12-31T19:00:01.000000Z"
+        "updated_at": "2026-01-03T11:24:57.000000Z"
     },
     {
         "id": 22,
@@ -753,13 +753,13 @@
             }
         ],
         "data": {
-            "x": 738,
-            "y": 177,
+            "x": 748,
+            "y": 206,
             "width": 200,
             "height": 150
         },
         "created_at": "2025-12-26T22:20:43.000000Z",
-        "updated_at": "2025-12-31T19:11:03.000000Z"
+        "updated_at": "2026-01-03T11:22:37.000000Z"
     },
     {
         "id": 38,
@@ -861,9 +861,30 @@
         "status": "active",
         "gateways": [],
         "data": {
+            "props": {
+                "nextSceneId": 44
+            },
             "component": "DemoTitleScene"
         },
         "created_at": "2025-12-31T19:42:11.000000Z",
-        "updated_at": "2025-12-31T19:43:22.000000Z"
+        "updated_at": "2026-01-01T21:17:49.000000Z"
+    },
+    {
+        "id": 44,
+        "locatie_id": null,
+        "sector_id": null,
+        "titel": "Character keuze",
+        "type": "vue-component",
+        "beschrijving": "Scene om speelbare character te kiezen.",
+        "status": "active",
+        "gateways": [],
+        "data": {
+            "props": {
+                "nextSceneId": 1
+            },
+            "component": "PlayerSelectionScene"
+        },
+        "created_at": "2026-01-01T18:52:59.000000Z",
+        "updated_at": "2026-01-01T23:12:15.000000Z"
     }
 ]
