@@ -67,7 +67,7 @@ const emit = defineEmits(['save','remove']);
             <LinkButton
                 :name ="backLink"
                 :label="backlabel"
-                icon="<"
+                icon="←"
                 buttonType="back"
             />
             <span class="mx-2">/</span>

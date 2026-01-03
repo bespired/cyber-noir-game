@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
+import DetailHeader from '../../components/bars/DetailHeader.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
@@ -104,12 +105,14 @@ const navigateTo3D = (sectorId) => {
     </div>
 
     <div v-else-if="locatie" class="container mx-auto p-6">
-<!--
-        <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/locaties" class="hover:text-white">&lt; {{ t('locations.title') }}</RouterLink>
-            <span class="mx-2">/</span>
-            <span class="text-white">{{ locatie.naam }}</span>
-        </div> -->
+
+        <detail-header
+            backLink="locaties"
+            :backlabel="t('locations.title')"
+            :label="locatie.naam"
+            :save="true"   @save="saveChanges"
+        />
+
 
         <div class="panel overflow-hidden">
             <!-- Header -->
@@ -120,13 +123,13 @@ const navigateTo3D = (sectorId) => {
                         <span class="text-xs text-noir-muted">{{ t('locations.sector_id') }}: {{ String(locatie.id).padStart(8, '0') }}</span>
                     </div>
                 </div>
-                <button @click="saveChanges" class="btn btn--warning">
+                <!-- <button @click="saveChanges" class="btn btn--warning">
                     {{ t('locations.update') }}
-                </button>
+                </button> -->
             </div>
 
             <!-- Content -->
-            <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="pt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Left Column: Artwork -->
                 <div class="lg:col-span-1">
                     <ArtworkManager

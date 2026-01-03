@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import ArtworkManager from '../../components/ArtworkManager.vue';
 import axios from '../../axios';
 import Modal from '../../components/Modal.vue';
+import LinkButton from '../../components/inputs/LinkButton.vue';
 import DetailHeader from '../../components/bars/DetailHeader.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
@@ -468,23 +469,10 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         </span>
                     </div>
                 </div>
-                <div class="flex flex-col gap-2 items-end">
-
-                    <div class="flex gap-2">
-
-    <!-- <RouterLink v-if="scene.type === 'vue-component'" :to="`/scenes/${scene.id}/emulate`" class="btn btn--accent-outline flex items-center justify-center gap-2 w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-        </svg>
-        {{ t('scenes.test_component') }}
-    </RouterLink> -->
-
-                    </div>
-                </div>
             </div>
 
             <!-- Content -->
-            <div class="p-6">
+            <div class="pt-6">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Left Column: Visual Editor -->
                     <div class="lg:col-span-2 space-y-6">
@@ -601,10 +589,19 @@ watch(() => scene.value?.locatie_id, (newId) => {
                             </div>
                             <div class="mt-4">
                                 <label class="form-label">{{ t('scenes.form_sector') }}</label>
-                                <select v-model="scene.sector_id" class="form-input">
-                                    <option :value="null">-- {{ t('scenes.form_sector') }} --</option>
-                                    <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
-                                </select>
+                                <div class="flex gap-2">
+                                    <select v-model="scene.sector_id" class="form-input flex-1">
+                                        <option :value="null">-- {{ t('scenes.form_sector') }} --</option>
+                                        <option v-for="sec in sectors" :key="sec.id" :value="sec.id">{{ sec.naam }}</option>
+                                    </select>
+                                    <LinkButton
+                                        v-if="scene.sector_id"
+                                        name="sector-detail"
+                                        :params="{ id: scene.sector_id }"
+                                        label="SECTOR"
+                                        buttonType="blue"
+                                    />
+                                </div>
                             </div>
                         </div>
 

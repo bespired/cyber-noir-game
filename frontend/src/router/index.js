@@ -105,7 +105,7 @@ const router = createRouter({
         },
         {
             path: '/gedrag',
-            name: 'gedrag-list',
+            name: 'gedrag',
             component: () => import('../views/Gedrag/GedragList.vue'),
             meta: { requiresAuth: true }
         },

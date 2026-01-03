@@ -145,7 +145,7 @@ const headerLabel = computed(() => {
             </div>
 
             <!-- Content -->
-            <div class="p-8">
+            <div class="pt-6">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
                     <!-- Col 1: Visual Files (Span 3) - PERSISTENT -->

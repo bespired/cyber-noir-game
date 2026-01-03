@@ -3,8 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import axios from '../../axios';
 import { useRouter } from 'vue-router';
 import draggable from 'vuedraggable';
-import { useToast } from '../../composables/useToast';
-
+import ClickButton  from '../../components/inputs/ClickButton.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
@@ -117,9 +116,14 @@ const getImageUrl = (path) => {
             </div>
 
             <div class="flex gap-4">
-                <button @click="saveOrder" :disabled="saving" class="bg-noir-accent text-white px-6 py-2 rounded hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed">
+<!--                 <button @click="saveOrder" :disabled="saving" class="bg-noir-accent text-white px-6 py-2 rounded hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed">
                     {{ saving ? t('locations.transmitting') : t('locations.commit') }}
-                </button>
+                </button> -->
+
+                <click-button
+                    :label="`${saving ? t('locations.transmitting') : t('locations.commit')}`"
+                    buttonType="green"
+                />
             </div>
         </div>
 

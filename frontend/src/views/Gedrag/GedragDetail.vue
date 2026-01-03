@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import axios from '../../axios';
+import DetailHeader from '../../components/bars/DetailHeader.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
 
@@ -109,11 +110,14 @@ onMounted(fetchGedrag);
 
     <div v-else-if="gedrag" class="container mx-auto p-6">
 
-<!--         <div class="flex items-center mb-6 text-sm text-noir-muted">
-            <RouterLink to="/gedrag" class="hover:text-white">&lt; {{ t('behavior.back_lib') }}</RouterLink>
-            <span class="mx-2">/</span>
-            <span class="text-white">{{ gedrag.naam }}</span>
-        </div> -->
+        <detail-header
+            backLink="gedrag"
+            :backlabel="t('behavior.back_lib')"
+            :label="gedrag.naam"
+            :save="true"   @save="saveGedrag"
+            :remove="true" @remove="deleteGedrag"
+        />
+
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Left: Sidebar Properties -->
@@ -131,10 +135,6 @@ onMounted(fetchGedrag);
                         </div>
                     </div>
 
-                    <div class="mt-6 flex flex-col gap-2">
-                        <button @click="saveGedrag" class="btn btn--success w-full">{{ t('behavior.save_btn') }}</button>
-                        <button @click="deleteGedrag" class="btn btn--danger w-full btn--small">{{ t('behavior.delete_btn') }}</button>
-                    </div>
                 </div>
 
                 <div class="panel p-6">
