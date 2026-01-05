@@ -1,0 +1,307 @@
+[
+    {
+        "id": 1,
+        "naam": "Sapper",
+        "beschrijving": "Prote\u00efnevelden\n\u5916\u7e01\u8fb2\u533a Gaien N\u014d-ku (Outer Agricultural Ring)",
+        "ontdek_condities": null,
+        "x": 91,
+        "y": 846,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2026-01-03T21:06:55.000000Z",
+        "artwork": [
+            {
+                "id": 14,
+                "bestandspad": "artwork\/sector\/WWAgVmjmyTsnoUyh4UtEhMPIYZa6wnqClDwfw6Zs.jpg",
+                "titel": "sapper-outside.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 1,
+                "created_at": "2025-12-21T22:28:23.000000Z",
+                "updated_at": "2025-12-21T22:28:23.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "naam": "NT Politie",
+        "beschrijving": "\u6cbb\u5b89\u533a Chian-ku (Public Order Ward)",
+        "ontdek_condities": null,
+        "x": 716,
+        "y": 584,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-22T12:07:51.000000Z",
+        "artwork": [
+            {
+                "id": 15,
+                "bestandspad": "artwork\/sector\/bLQrZER8bOvIStHLOmiqgbsemjiLhqVYrW7WVccZ.jpg",
+                "titel": "police-outside.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 2,
+                "created_at": "2025-12-21T22:28:56.000000Z",
+                "updated_at": "2025-12-21T22:28:56.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "naam": "Thuis",
+        "beschrijving": "\u5c45\u4f4f\u533a Kyoj\u016b-ku (Residential Ward)",
+        "ontdek_condities": null,
+        "x": 534,
+        "y": 345,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2026-01-04T13:32:14.000000Z",
+        "artwork": [
+            {
+                "id": 16,
+                "bestandspad": "artwork\/sector\/A5pS2xK4QzpuyUEVCsCbK4RbFjkp5pVHFFDGeSSc.jpg",
+                "titel": "home-room.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 3,
+                "created_at": "2025-12-21T22:29:39.000000Z",
+                "updated_at": "2025-12-21T22:29:39.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "naam": "Wallace hoofdkantoor",
+        "beschrijving": "\u795e\u6bbf\u533a Shinden-ku (Temple Ward)",
+        "ontdek_condities": null,
+        "x": 1001,
+        "y": 666,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2026-01-04T13:32:45.000000Z",
+        "artwork": [
+            {
+                "id": 17,
+                "bestandspad": "artwork\/sector\/lrMTQOmzELcxjWJWfmWcnZ20qrBlM4SQFTHkLPyV.jpg",
+                "titel": "wallace-clerk.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 4,
+                "created_at": "2025-12-21T22:32:13.000000Z",
+                "updated_at": "2025-12-21T22:32:13.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "naam": "Food court",
+        "beschrijving": "\u591c\u5e02\u533a Yashi-ku (Night Market Ward)",
+        "ontdek_condities": null,
+        "x": 535,
+        "y": 230,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-23T15:45:36.000000Z",
+        "artwork": [
+            {
+                "id": 18,
+                "bestandspad": "artwork\/sector\/zCmvBz5nn6133md65LAuKjImRtAiQWXkAxzJOSlY.jpg",
+                "titel": "food-market.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 5,
+                "created_at": "2025-12-21T22:32:28.000000Z",
+                "updated_at": "2025-12-21T22:32:28.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "naam": "Afval",
+        "beschrijving": "\u5ec3\u5de5\u533a Haik\u014d-ku (Abandoned Industrial Ward)",
+        "ontdek_condities": null,
+        "x": 1036,
+        "y": 31,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-22T12:08:43.000000Z",
+        "artwork": [
+            {
+                "id": 20,
+                "bestandspad": "artwork\/sector\/kmXnKc3LZujCLQOmu2b7SZ0hF9CJK8iDSGjs8trS.jpg",
+                "titel": "orphan-outsize.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 6,
+                "created_at": "2025-12-21T22:35:28.000000Z",
+                "updated_at": "2025-12-21T22:35:28.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "naam": "Geheugen centrum",
+        "beschrijving": "\u8a18\u61b6\u533a Kioku-ku (Memory Ward)",
+        "ontdek_condities": null,
+        "x": 818,
+        "y": 464,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-22T12:09:43.000000Z",
+        "artwork": [
+            {
+                "id": 21,
+                "bestandspad": "artwork\/sector\/e8HPPgDmCdBa8bf1VrWBMBztK53W9EZAIaBgNPHk.jpg",
+                "titel": "stelline--forrest.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 7,
+                "created_at": "2025-12-21T23:08:34.000000Z",
+                "updated_at": "2025-12-21T23:08:34.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "naam": "Radiation Markt",
+        "beschrijving": "",
+        "ontdek_condities": null,
+        "x": 1119,
+        "y": 378,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-21T18:24:53.000000Z",
+        "artwork": [
+            {
+                "id": 61,
+                "bestandspad": "artwork\/sector\/mfb581lFLO9SugmYH8aiHcQPGLSGvcKRTpZ08iPk.jpg",
+                "titel": "radiation.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 8,
+                "created_at": "2025-12-23T15:42:08.000000Z",
+                "updated_at": "2025-12-23T15:42:08.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "naam": "Vegas",
+        "beschrijving": "\u7802\u7981\u533a Sa-Kinku (Sand Exclusion Zone)",
+        "ontdek_condities": null,
+        "x": 254,
+        "y": 393,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2026-01-03T23:19:52.000000Z",
+        "artwork": [
+            {
+                "id": 19,
+                "bestandspad": "artwork\/sector\/Kxj0RKPe8BB7YBce4FBnoc2TmXgwxe6sOyYKwx2k.jpg",
+                "titel": "vegas-statues.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 9,
+                "created_at": "2025-12-21T22:32:43.000000Z",
+                "updated_at": "2025-12-21T22:32:43.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "naam": "Het Verzet",
+        "beschrijving": "",
+        "ontdek_condities": null,
+        "x": 702,
+        "y": 896,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-30T21:52:24.000000Z",
+        "artwork": []
+    },
+    {
+        "id": 11,
+        "naam": "Good Joe Bridge",
+        "beschrijving": "",
+        "ontdek_condities": null,
+        "x": 1174,
+        "y": 750,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2026-01-04T13:33:15.000000Z",
+        "artwork": [
+            {
+                "id": 22,
+                "bestandspad": "artwork\/sector\/jgYSJFCMBy7DGO95kQlJTJOJa0agrzd4EErdDPHd.jpg",
+                "titel": "good-joe--bridge.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 11,
+                "created_at": "2025-12-21T23:08:56.000000Z",
+                "updated_at": "2025-12-21T23:08:56.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "naam": "Dijk gevecht",
+        "beschrijving": "\u6d77\u9632\u533a Kai-B\u014d-ku (Sea Defense Ward)",
+        "ontdek_condities": null,
+        "x": 1237,
+        "y": 213,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-15T21:32:50.000000Z",
+        "updated_at": "2025-12-22T12:10:19.000000Z",
+        "artwork": [
+            {
+                "id": 25,
+                "bestandspad": "artwork\/sector\/Rm0L9fd69ZKc15QXtXnkyHU9n9HVFOsKffCFmPrF.jpg",
+                "titel": "seawall--end.jpg",
+                "imageable_type": "App\\Models\\Sector",
+                "imageable_id": 12,
+                "created_at": "2025-12-22T12:11:37.000000Z",
+                "updated_at": "2025-12-22T12:11:37.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "naam": "Weeshuis",
+        "beschrijving": "\u7981\u533a Kinku (Restricted Zone)",
+        "ontdek_condities": null,
+        "x": 868,
+        "y": 31,
+        "width": 150,
+        "height": 100,
+        "kaart_coordinaten": null,
+        "is_ontdekt": false,
+        "created_at": "2025-12-22T12:09:06.000000Z",
+        "updated_at": "2025-12-22T12:09:26.000000Z",
+        "artwork": []
+    }
+]

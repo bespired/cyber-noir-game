@@ -1,0 +1,72 @@
+# cyber-noir-game
+
+Start your docker.
+
+#### Get the stack ready:
+
+create a .env.docker with
+
+`./install.sh`
+
+then:
+
+`docker compose up -d`
+
+gives you
+
+	 ✔ Network cyber-noir-game_cyber-noir-network  Created
+	 ✔ Container cyber-noir-game-mailpit-1         Started
+	 ✔ Container cyber-noir-game-mysql-1           Started
+	 ✔ Container cyber-noir-game-backend-1         Started
+	 ✔ Container cyber-noir-game-redis-1           Started
+	 ✔ Container cyber-noir-game-nginx-1           Started
+
+#### Get Laravel
+`docker compose exec backend composer install`
+
+#### Install Cyber Noir
+`docker compose exec backend php artisan migrate:refresh --seed`
+
+#### Install Artwork
+`docker compose exec backend php artisan app:artwork-install`
+
+
+#### Install Vue
+`cd frontend`
+`nvm use 20`
+`npm i`
+
+#### Start Cyber Noir
+`npm run dev`
+
+
+#### Reset password ( not really needed )
+`http://localhost:3000/forgot-password`
+
+> test@example.com
+(has given password testL33uw, unless you change it)
+
+
+#### Check your mail
+`http://localhost:8025/`
+
+#### Login
+
+![](https://raw.githubusercontent.com/bespired/cyber-noir-game/refs/heads/main/docker/dashboard.png)
+
+
+#### Backup your data
+
+`docker compose exec backend php artisan game:backup`
+
+This creates seed files in laravel database seeder folder.
+
+#### Backup your artwork
+
+This is a bit tricky...
+If you have google drive credentials you can add them
+in the .env.docker file and then artisan app:artwork-backup
+and artisan app:artwork-restore will work.
+Or you could zip the cyber-noir-game/backend/storage/app/public/artwork folder.
+
+

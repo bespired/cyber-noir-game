@@ -1,0 +1,1620 @@
+[
+    {
+        "id": 1,
+        "naam": "Sapper buiten",
+        "beschrijving": "Ge\u00efsoleerde buitenpost aan de rand van de prote\u00efnevelden. Lage bebouwing, minimale infrastructuur en nauwelijks toezicht.",
+        "notities": null,
+        "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
+        "veiligheidsniveau": 1,
+        "spawn_points": {
+            "1": [
+                {
+                    "x": 3.5,
+                    "y": 7.15328709673024e-7,
+                    "z": -3.5,
+                    "id": 1766701056831,
+                    "name": "landing",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 270,
+                    "personage_id": null
+                },
+                {
+                    "x": -2,
+                    "y": 7.15328709673024e-7,
+                    "z": 5,
+                    "id": 1766701072321,
+                    "name": "west",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 45,
+                    "personage_id": null
+                },
+                {
+                    "x": 7,
+                    "y": 7.15328709673024e-7,
+                    "z": -12.5,
+                    "id": 1766702358698,
+                    "name": "spinner",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 90,
+                    "personage_id": null
+                },
+                {
+                    "x": -5.277722537003905,
+                    "y": 1.6435764774149986e-6,
+                    "z": -8.049322545014768,
+                    "id": 1766788329516,
+                    "name": "north",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 90,
+                    "personage_id": null,
+                    "aanwijzing_id": null
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 1,
+        "scenes": [
+            {
+                "id": 1,
+                "locatie_id": 1,
+                "sector_id": 1,
+                "titel": "Sapper landing",
+                "type": "walkable-area",
+                "beschrijving": "Begin van Game",
+                "status": "entry",
+                "gateways": [
+                    {
+                        "x": 0.7372654155495978,
+                        "y": 81.89429537905806,
+                        "label": null,
+                        "width": 11.662198391420912,
+                        "height": 17.436823657263545,
+                        "target_scene_id": 4,
+                        "target_spawn_point": "east"
+                    },
+                    {
+                        "x": 13.648034239567744,
+                        "y": 64.6476145616744,
+                        "type": "gateway",
+                        "label": null,
+                        "width": 2.54177634154728,
+                        "height": 8.994042251343643,
+                        "gedrag_id": null,
+                        "target_scene_id": 37,
+                        "target_spawn_point": "north"
+                    },
+                    {
+                        "x": 77.74090209093379,
+                        "y": 67.63357124802909,
+                        "type": "gateway",
+                        "label": null,
+                        "width": 22.241803852456997,
+                        "height": 6.162512186608566,
+                        "gedrag_id": null,
+                        "target_scene_id": 45,
+                        "target_spawn_point": null
+                    }
+                ],
+                "data": {
+                    "x": 435,
+                    "y": 445,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:14:53.000000Z",
+                "updated_at": "2026-01-05T12:18:49.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "naam": "Sapper veld",
+        "beschrijving": "Uitgestrekt prote\u00efneveld met kunstmatige teeltstructuren. Permanent bedekt door mist en industri\u00eble neerslag.",
+        "notities": null,
+        "adres": "Protein Cultivation Zone AGR-9, Plot 47B, Outlands",
+        "veiligheidsniveau": 1,
+        "spawn_points": {
+            "1": [
+                {
+                    "x": 4.802120279631815,
+                    "y": 1.822169076983822e-6,
+                    "z": 0.5000000708915806,
+                    "id": 1766700593620,
+                    "name": "east",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 270,
+                    "personage_id": null
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 2,
+        "scenes": [
+            {
+                "id": 4,
+                "locatie_id": 2,
+                "sector_id": 1,
+                "titel": "Sapper veld",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 94.0348525469169,
+                        "y": 61.52879449558578,
+                        "type": "gateway",
+                        "label": null,
+                        "width": 5.764075067024123,
+                        "height": 38.00307895315594,
+                        "gedrag_id": null,
+                        "target_scene_id": 1,
+                        "target_spawn_point": "west"
+                    }
+                ],
+                "data": {
+                    "x": 107,
+                    "y": 206,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2026-01-03T11:22:34.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "naam": "NTPD Landing platform",
+        "beschrijving": "Centraal commandocentrum van de Neo Tokyo Police Directorate. Verticale megastructuur met civiele en geheime afdelingen.",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 4,
+        "spawn_points": {
+            "2": [
+                {
+                    "x": 1.5,
+                    "y": 4.4324513541579363e-7,
+                    "z": -3,
+                    "id": 1766867148997,
+                    "name": "spinner",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 0,
+                    "personage_id": null,
+                    "aanwijzing_id": null
+                },
+                {
+                    "x": 1.5,
+                    "y": 4.4324513541579363e-7,
+                    "z": -1.5,
+                    "id": 1766867160588,
+                    "name": "landing",
+                    "type": "waypoint",
+                    "scale": 0.5,
+                    "direction": 0,
+                    "personage_id": null,
+                    "aanwijzing_id": null
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2026-01-05T12:23:09.000000Z",
+        "volgorde": 5,
+        "scenes": [
+            {
+                "id": 5,
+                "locatie_id": 3,
+                "sector_id": 2,
+                "titel": "NTPD Landing Platform",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "entry",
+                "gateways": [
+                    {
+                        "x": 56.44780077246786,
+                        "y": 42.21320847826872,
+                        "type": "gateway",
+                        "label": null,
+                        "width": 11.700664585889696,
+                        "height": 7.240951819265071,
+                        "gedrag_id": null,
+                        "target_scene_id": 40,
+                        "target_spawn_point": null
+                    }
+                ],
+                "data": {
+                    "x": 4,
+                    "y": 129,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2026-01-05T12:23:57.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "naam": "Thuis buiten",
+        "beschrijving": "Wooncomplex voor lagere stadsfunctionarissen. Massieve betonstructuur met beperkte toegang en permanente bewaking.",
+        "notities": null,
+        "adres": "Residential Stack C, Building 36, Level 18, Sector H-3, NT-Megacity",
+        "veiligheidsniveau": 2,
+        "spawn_points": {
+            "3": [
+                {
+                    "x": -0.2754567546136748,
+                    "y": 6.406935426639393e-7,
+                    "z": 8.222269041342617,
+                    "id": 1766665790711,
+                    "type": "personage"
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 11,
+        "scenes": [
+            {
+                "id": 6,
+                "locatie_id": 4,
+                "sector_id": 3,
+                "titel": "Thuis buiten",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 45.85395580956773,
+                        "y": 39.131952384964436,
+                        "label": null,
+                        "width": 13.70348104653749,
+                        "height": 22.493169481121285,
+                        "target_scene_id": 7
+                    }
+                ],
+                "data": {
+                    "x": 132,
+                    "y": 132,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "naam": "Thuis kamer",
+        "beschrijving": "Standaard woonunit. Klein, functioneel en volledig geoptimaliseerd voor alleenstaand gebruik.",
+        "notities": null,
+        "adres": "Unit 18-36-C, Residential Stack C, Sector H-3",
+        "veiligheidsniveau": 1,
+        "spawn_points": {
+            "3": [
+                {
+                    "x": 1.684197187423706,
+                    "y": 0,
+                    "z": -9.157207012176514,
+                    "id": 1766665814771,
+                    "type": "personage"
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 12,
+        "scenes": [
+            {
+                "id": 7,
+                "locatie_id": 5,
+                "sector_id": 3,
+                "titel": "Thuis kamer",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 39.63468364229303,
+                        "y": 34.81819385433843,
+                        "label": null,
+                        "width": 7.062563308600083,
+                        "height": 23.41754630911258,
+                        "target_scene_id": 6
+                    }
+                ],
+                "data": {
+                    "x": 458,
+                    "y": 290,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "naam": "De Rosse Buurt",
+        "beschrijving": "Dichtbevolkte neonwijk met illegale handel, entertainment en seksindustrie. Hoge criminaliteit, lage handhaving.",
+        "notities": null,
+        "adres": "Red Light District, Neon Canal Zone, Sector N-5, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 13,
+        "scenes": [
+            {
+                "id": 8,
+                "locatie_id": 6,
+                "sector_id": 5,
+                "titel": "De Rosse Buurt",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 2.506426735218509,
+                        "y": 85.10038746037337,
+                        "label": "Naar court",
+                        "width": 94.34447300771208,
+                        "height": 13.713748972642946,
+                        "target_scene_id": 9
+                    }
+                ],
+                "data": {
+                    "x": 179,
+                    "y": 253,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "naam": "De Food Court",
+        "beschrijving": "Overdekte markt waar synthetisch voedsel en prote\u00efneproducten worden verkocht. Druk, lawaaierig en continu verlicht.",
+        "notities": null,
+        "adres": "Protein Market Hall 9, Neon Canal Zone, Sector N-5",
+        "veiligheidsniveau": 0,
+        "spawn_points": {
+            "5": [
+                {
+                    "x": -1.500000673779993,
+                    "y": 0,
+                    "z": 4.500000534124011,
+                    "id": 1766665897879,
+                    "type": "personage"
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 14,
+        "scenes": [
+            {
+                "id": 9,
+                "locatie_id": 7,
+                "sector_id": 5,
+                "titel": "De Food Court",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 39.39843633863601,
+                        "y": 55.06498373833465,
+                        "label": "Naar Rosse buurt",
+                        "width": 21.72236503856041,
+                        "height": 6.762944698837629,
+                        "target_scene_id": 8
+                    }
+                ],
+                "data": {
+                    "x": 428,
+                    "y": 499,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "naam": "Nexus Logistics HQ",
+        "beschrijving": "Logistiek distributiecentrum voor replicant-gerelateerde goederen en industri\u00eble leveringen.",
+        "notities": null,
+        "adres": "Nexus Distribution Complex, Dock Sector D-4, NT-Megacity",
+        "veiligheidsniveau": 3,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 15,
+        "scenes": [
+            {
+                "id": 10,
+                "locatie_id": 8,
+                "sector_id": null,
+                "titel": "Nexus Logistics HQ",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "naam": "Crashlocatie",
+        "beschrijving": "Verlaten industrieel terrein waar een luchtvaartuig is neergestort. Gebied is structureel instabiel.",
+        "notities": null,
+        "adres": "Industrial Ruins, Block 77, Sector I-6, NT-Megacity",
+        "veiligheidsniveau": 2,
+        "spawn_points": {
+            "6": [
+                {
+                    "x": -4,
+                    "y": 0,
+                    "z": -5.5,
+                    "id": 1766665924839,
+                    "type": "vehicle"
+                },
+                {
+                    "x": -3.5,
+                    "y": 0,
+                    "z": -6,
+                    "id": 1766665929576,
+                    "type": "personage"
+                },
+                {
+                    "x": 8,
+                    "y": 0,
+                    "z": -6,
+                    "id": 1766665934443,
+                    "type": "personage"
+                },
+                {
+                    "x": 0.5,
+                    "y": 0,
+                    "z": -14.5,
+                    "id": 1766665940930,
+                    "type": "personage"
+                }
+            ]
+        },
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 16,
+        "scenes": [
+            {
+                "id": 11,
+                "locatie_id": 9,
+                "sector_id": 6,
+                "titel": "Crashlocatie",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "naam": "Crashlocatie combat",
+        "beschrijving": "Zone met verhoogd risico op confrontaties.",
+        "notities": null,
+        "adres": "Sublevel Freight Yard, Block 77A, Sector I-6",
+        "veiligheidsniveau": 3,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 17,
+        "scenes": [
+            {
+                "id": 12,
+                "locatie_id": 10,
+                "sector_id": 6,
+                "titel": "Crashlocatie combat",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "naam": "Weeshuis buiten",
+        "beschrijving": "Overzicht waar het weeshuis ligt.",
+        "notities": null,
+        "adres": "Outer Exclusion Zone, Orphanage Block 12, Coastal Ruins",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 18,
+        "scenes": [
+            {
+                "id": 13,
+                "locatie_id": 11,
+                "sector_id": 14,
+                "titel": "Weeshuis buiten",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "naam": "Weeshuis brug",
+        "beschrijving": "Instabiele verbindingsbrug tussen verschillende delen van het complex. Gedeeltelijk ingestort.",
+        "notities": null,
+        "adres": "Collapsed Skyway 3, Orphanage Block 12",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 19,
+        "scenes": [
+            {
+                "id": 14,
+                "locatie_id": 12,
+                "sector_id": 14,
+                "titel": "Weeshuis brug",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "naam": "Weeshuis kinderen",
+        "beschrijving": "Verwerkingsruimte waar kinderen werden geregistreerd en toegewezen. Donker, vervuild en verlaten.",
+        "notities": null,
+        "adres": "Child Processing Hall, Sublevel B, Block 12",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 21,
+        "scenes": [
+            {
+                "id": 15,
+                "locatie_id": 13,
+                "sector_id": 14,
+                "titel": "Weeshuis kinderen",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "naam": "Weeshuis kantoor",
+        "beschrijving": "Administratieve ruimte van het voormalige weeshuis. Oude databanken en papieren archieven aanwezig.",
+        "notities": null,
+        "adres": "Administrative Office, Level 2, Block 12",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 22,
+        "scenes": [
+            {
+                "id": 16,
+                "locatie_id": 14,
+                "sector_id": 14,
+                "titel": "Weeshuis kantoor",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "naam": "Stelline buiten",
+        "beschrijving": "Afgesloten onderzoekscomplex omgeven door beveiligde dome-structuren.",
+        "notities": null,
+        "adres": "Stelline Research Enclave, Bio-Dome Perimeter, Sector R-1",
+        "veiligheidsniveau": 4,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 23,
+        "scenes": [
+            {
+                "id": 18,
+                "locatie_id": 15,
+                "sector_id": 7,
+                "titel": "Stelline buiten",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 97,
+                    "y": 108,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2026-01-03T11:24:47.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "naam": "Stelline bos",
+        "beschrijving": "Kunstmatig ecosysteem binnen een afgesloten koepel. Ontworpen voor gecontroleerde herinneringsstimulatie.",
+        "notities": null,
+        "adres": "Artificial Forest Dome, Sector R-1, Enclave Interior",
+        "veiligheidsniveau": 4,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 24,
+        "scenes": [
+            {
+                "id": 19,
+                "locatie_id": 16,
+                "sector_id": 7,
+                "titel": "Stelline bos",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 363,
+                    "y": 110,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2026-01-03T11:24:52.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "naam": "Stelline lab",
+        "beschrijving": "Hoogbeveiligd laboratorium voor geheugenontwerp en -validatie.",
+        "notities": null,
+        "adres": "Memory Design Laboratory, Dome Core, Sector R-1",
+        "veiligheidsniveau": 5,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 25,
+        "scenes": [
+            {
+                "id": 20,
+                "locatie_id": 17,
+                "sector_id": 7,
+                "titel": "Stelline lab",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 365,
+                    "y": 294,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2026-01-03T11:24:54.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "naam": "Stelline trap",
+        "beschrijving": "Interne toegangstrap tussen de dome-niveaus. Alleen geautoriseerd personeel.",
+        "notities": null,
+        "adres": "Access Stairwell 3, Bio-Dome Core",
+        "veiligheidsniveau": 4,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 26,
+        "scenes": [
+            {
+                "id": 21,
+                "locatie_id": 18,
+                "sector_id": 7,
+                "titel": "Stelline trap",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 748,
+                    "y": 108,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2026-01-03T11:24:57.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 19,
+        "naam": "Wallace archief",
+        "beschrijving": "Ondergronds data-archief met historische replicant- en onderzoeksgegevens.",
+        "notities": null,
+        "adres": "Data Archive Vault, Sublevel 4, Wallace HQ",
+        "veiligheidsniveau": 5,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 33,
+        "scenes": [
+            {
+                "id": 25,
+                "locatie_id": 19,
+                "sector_id": 4,
+                "titel": "Wallace archief",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "naam": "Wallace lab",
+        "beschrijving": "Primair laboratorium voor replicant-ontwikkeling en experimenten.",
+        "notities": null,
+        "adres": "Replication Laboratory, Level 6, Wallace HQ",
+        "veiligheidsniveau": 5,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 28,
+        "scenes": [
+            {
+                "id": 24,
+                "locatie_id": 20,
+                "sector_id": 4,
+                "titel": "Wallace lab",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "naam": "Wallace bibliotheek",
+        "beschrijving": "Gecontroleerde kennisruimte met cognitieve en historische datasets.",
+        "notities": null,
+        "adres": "Cognitive Records Library, Level 5",
+        "veiligheidsniveau": 5,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 29,
+        "scenes": [
+            {
+                "id": 26,
+                "locatie_id": 21,
+                "sector_id": 4,
+                "titel": "Wallace bibliotheek",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 22,
+        "naam": "Wallace kantoor Luv",
+        "beschrijving": "Operationeel kantoor van Wallace\u2019s directe vertegenwoordiger. Toegang strikt beperkt.",
+        "notities": null,
+        "adres": "Executive Operations Suite, Level 7",
+        "veiligheidsniveau": 5,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 30,
+        "scenes": [
+            {
+                "id": 23,
+                "locatie_id": 22,
+                "sector_id": 4,
+                "titel": "Wallace kantoor Luv",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 23,
+        "naam": "Wallace kantoor",
+        "beschrijving": "Hoofdplatform voor strategische besluitvorming binnen Wallace Corporation.",
+        "notities": null,
+        "adres": "CEO Operations Platform, Level 1",
+        "veiligheidsniveau": 5,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 34,
+        "scenes": [
+            {
+                "id": 27,
+                "locatie_id": 23,
+                "sector_id": 4,
+                "titel": "Wallace kantoor",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 24,
+        "naam": "Wallace buiten",
+        "beschrijving": "Monumentale buitenstructuur van Wallace HQ. Steriel, stil en permanent bewaakt.",
+        "notities": null,
+        "adres": "Wallace Corporate HQ, Oceanfront Sector W-9",
+        "veiligheidsniveau": 4,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 27,
+        "scenes": [
+            {
+                "id": 22,
+                "locatie_id": 24,
+                "sector_id": 4,
+                "titel": "Wallace buiten",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 25,
+        "naam": "Casino toegang",
+        "beschrijving": "Controlepunt aan de rand van de Las Vegas Dead Zone. Officieel verboden gebied.",
+        "notities": null,
+        "adres": "Dead Zone, Nedada Exclusion Territory",
+        "veiligheidsniveau": 2,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 37,
+        "scenes": [
+            {
+                "id": 30,
+                "locatie_id": 25,
+                "sector_id": 9,
+                "titel": "Casino toegang",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 46.706586826347305,
+                        "y": 46.16594304468224,
+                        "label": null,
+                        "width": 6.137724550898206,
+                        "height": 17.503675088031173,
+                        "target_scene_id": 29
+                    },
+                    {
+                        "x": 30.83832335329341,
+                        "y": 91.33063532817071,
+                        "label": null,
+                        "width": 37.2754491017964,
+                        "height": 7.657857851013645,
+                        "target_scene_id": 31
+                    }
+                ],
+                "data": {
+                    "x": 610,
+                    "y": 241,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 26,
+        "naam": "Vegas standbeelden",
+        "beschrijving": "Zandverzwolgen monumenten uit een vervlogen tijd. Radiologische en structurele gevaren aanwezig.",
+        "notities": null,
+        "adres": "Monument District, Sand Sector V-3, Las Vegas Dead Zone",
+        "veiligheidsniveau": 2,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 36,
+        "scenes": [
+            {
+                "id": 29,
+                "locatie_id": 26,
+                "sector_id": 9,
+                "titel": "Vegas standbeelden",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 40.26946107784431,
+                        "y": 91.4567023349629,
+                        "label": null,
+                        "width": 22.904191616766468,
+                        "height": 7.4390619124132655,
+                        "target_scene_id": 28
+                    },
+                    {
+                        "x": 83.53293413173652,
+                        "y": 48.791494307886914,
+                        "label": null,
+                        "width": 12.125748502994014,
+                        "height": 13.346552254623774,
+                        "target_scene_id": 30
+                    }
+                ],
+                "data": {
+                    "x": 608,
+                    "y": 449,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 27,
+        "naam": "Good Joe brug",
+        "beschrijving": "Verbindingsbrug boven de zeewering. Vaak gebruikt voor illegale ontmoetingen.",
+        "notities": null,
+        "adres": "Flood Barrier Bridge 2, Outer Sea Wall, NT-Megacity",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 39,
+        "scenes": [
+            {
+                "id": 32,
+                "locatie_id": 27,
+                "sector_id": 11,
+                "titel": "Good Joe brug",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 28,
+        "naam": "Good Joe Joi",
+        "beschrijving": "Uitzichtpunt boven de oceaan. Publiek toegankelijk maar structureel kwetsbaar.",
+        "notities": null,
+        "adres": "Sea Wall Overlook, Barrier Bridge 2",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 40,
+        "scenes": [
+            {
+                "id": 33,
+                "locatie_id": 28,
+                "sector_id": 11,
+                "titel": "Good Joe Joi",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 350,
+                    "y": 99,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 29,
+        "naam": "Dijk einde",
+        "beschrijving": "Uiterste rand van de zeewering. Constante blootstelling aan stormen en overstromingen.",
+        "notities": null,
+        "adres": "Sea Wall Terminus, Sector E-1, Flood Defense Line",
+        "veiligheidsniveau": 1,
+        "spawn_points": null,
+        "created_at": "2025-12-22T12:20:03.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 41,
+        "scenes": [
+            {
+                "id": 34,
+                "locatie_id": 29,
+                "sector_id": 12,
+                "titel": "Dijk einde",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 30,
+        "naam": "Weeshuis trappenhal",
+        "beschrijving": "Trappenhal naar meerdere locaties binnen het weeshuis",
+        "notities": null,
+        "adres": "Collapsed Skyway 3, Orphanage Block 12",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-22T13:28:57.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 20,
+        "scenes": [
+            {
+                "id": 17,
+                "locatie_id": 30,
+                "sector_id": 14,
+                "titel": "Weeshuis trappenhal",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 31,
+        "naam": "Vegas toegang",
+        "beschrijving": "Controlepunt aan de rand van de Las Vegas Dead Zone. Officieel verboden gebied.",
+        "notities": null,
+        "adres": "Dead Zone Gate 1, Nedada Exclusion Territory",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-22T13:32:25.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 35,
+        "scenes": [
+            {
+                "id": 28,
+                "locatie_id": 31,
+                "sector_id": 9,
+                "titel": "Vegas toegang",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 43.68127016743992,
+                        "y": 46.94668349685567,
+                        "label": "Naar standbeelden",
+                        "width": 14.670658682634738,
+                        "height": 9.408225359816768,
+                        "target_scene_id": 29
+                    }
+                ],
+                "data": {
+                    "x": 609,
+                    "y": 639,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 32,
+        "naam": "Casino zolder",
+        "beschrijving": "Waar de oude spinner staat.",
+        "notities": null,
+        "adres": "Dead Zone, Nedada Exclusion Territory",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-22T13:35:22.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 38,
+        "scenes": [
+            {
+                "id": 31,
+                "locatie_id": 32,
+                "sector_id": 9,
+                "titel": "Casino zolder",
+                "type": "walkable-area",
+                "beschrijving": "tbd",
+                "status": "active",
+                "gateways": [],
+                "data": {
+                    "x": 896,
+                    "y": 146,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-22T15:50:19.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 33,
+        "naam": "Radiation street",
+        "beschrijving": "Backally radiation guy",
+        "notities": null,
+        "adres": null,
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-23T15:38:22.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 31,
+        "scenes": [
+            {
+                "id": 35,
+                "locatie_id": 33,
+                "sector_id": 8,
+                "titel": "Radiation straat",
+                "type": "walkable-area",
+                "beschrijving": "Waar je naar je radiation mannetje toe kunt",
+                "status": "active",
+                "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-23T15:43:08.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 34,
+        "naam": "Radiotion desk",
+        "beschrijving": "Guy testing the radiation of objects",
+        "notities": null,
+        "adres": null,
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-23T15:38:44.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 32,
+        "scenes": [
+            {
+                "id": 36,
+                "locatie_id": 34,
+                "sector_id": 8,
+                "titel": "Radiation desk",
+                "type": "walkable-area",
+                "beschrijving": "Je radiation mannetje",
+                "status": "active",
+                "gateways": null,
+                "data": {
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-23T15:43:40.000000Z",
+                "updated_at": "2025-12-31T19:00:01.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 35,
+        "naam": "Sapper kamer",
+        "beschrijving": "Donkere ruimte met piano",
+        "notities": null,
+        "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": {
+            "1": [
+                {
+                    "x": -2.9749129523344013,
+                    "y": 5.732548984661359e-6,
+                    "z": 2.3294026643760697,
+                    "id": 1766788207445,
+                    "name": "north",
+                    "type": "waypoint",
+                    "scale": 1.5,
+                    "direction": 90,
+                    "personage_id": null,
+                    "aanwijzing_id": null
+                },
+                {
+                    "x": -1.9749131907530737,
+                    "y": 5.732549092661906e-6,
+                    "z": 1.3294026643758956,
+                    "id": 1767127588912,
+                    "name": "npc",
+                    "type": "waypoint",
+                    "scale": 1.5,
+                    "direction": 0,
+                    "personage_id": null,
+                    "aanwijzing_id": null
+                },
+                {
+                    "x": -5.474913190753074,
+                    "y": 5.732549092661906e-6,
+                    "z": 2.3294026643758956,
+                    "id": 1767136360488,
+                    "name": null,
+                    "type": "personage",
+                    "scale": 1.5,
+                    "direction": 90,
+                    "personage_id": 12,
+                    "aanwijzing_id": null
+                }
+            ]
+        },
+        "created_at": "2025-12-26T21:56:31.000000Z",
+        "updated_at": "2025-12-30T23:12:53.000000Z",
+        "volgorde": 3,
+        "scenes": [
+            {
+                "id": 37,
+                "locatie_id": 35,
+                "sector_id": 1,
+                "titel": "Sapper kamer",
+                "type": "walkable-area",
+                "beschrijving": "De kamer van Sapper",
+                "status": "active",
+                "gateways": [
+                    {
+                        "x": 3.351206434316354,
+                        "y": 17.43682365726356,
+                        "label": null,
+                        "width": 21.179624664879356,
+                        "height": 65.24114918953669,
+                        "target_scene_id": 1,
+                        "target_spawn_point": "north"
+                    },
+                    {
+                        "x": 68.99641577060932,
+                        "y": 66.79080807874112,
+                        "label": null,
+                        "width": 30.645161290322577,
+                        "height": 32.21674272033397,
+                        "gedrag_id": 1,
+                        "target_scene_id": null,
+                        "target_spawn_point": null
+                    }
+                ],
+                "data": {
+                    "x": 748,
+                    "y": 206,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-26T22:20:43.000000Z",
+                "updated_at": "2026-01-03T11:22:37.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 36,
+        "naam": "NTPD Hoofdkantoor",
+        "beschrijving": "Kantoor van Yoshi",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:54:18.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 7,
+        "scenes": [
+            {
+                "id": 39,
+                "locatie_id": 36,
+                "sector_id": 2,
+                "titel": "NTPD Hoofdkantoor",
+                "type": "walkable-area",
+                "beschrijving": "Yoshi kamer",
+                "status": "active",
+                "gateways": null,
+                "data": {
+                    "x": 550,
+                    "y": 125,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-27T12:05:35.000000Z",
+                "updated_at": "2026-01-04T13:50:32.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 37,
+        "naam": "NTPD gang",
+        "beschrijving": "witte politie gang",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:54:38.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 6,
+        "scenes": [
+            {
+                "id": 41,
+                "locatie_id": 37,
+                "sector_id": 2,
+                "titel": "NTPD Gang",
+                "type": "walkable-area",
+                "beschrijving": "Gang",
+                "status": "active",
+                "gateways": null,
+                "data": {
+                    "x": 279,
+                    "y": 133,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-27T12:16:39.000000Z",
+                "updated_at": "2026-01-04T13:50:31.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 38,
+        "naam": "NTPD Lift",
+        "beschrijving": "Politie Lift",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:57:32.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 4,
+        "scenes": [
+            {
+                "id": 40,
+                "locatie_id": 38,
+                "sector_id": 2,
+                "titel": "NTPD Lift",
+                "type": "investigation",
+                "beschrijving": "Lift",
+                "status": "active",
+                "gateways": null,
+                "data": {
+                    "x": 816,
+                    "y": 125,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-27T12:16:02.000000Z",
+                "updated_at": "2026-01-04T13:50:34.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 39,
+        "naam": "NTPD Baseline Kamer",
+        "beschrijving": "Hier hebben de nexus runners hun baseline test",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T11:58:07.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 8,
+        "scenes": [
+            {
+                "id": 38,
+                "locatie_id": 39,
+                "sector_id": 2,
+                "titel": "Baseline Kamer",
+                "type": "investigation",
+                "beschrijving": "Kamer voor baseline",
+                "status": "active",
+                "gateways": null,
+                "data": {
+                    "x": 1086,
+                    "y": 117,
+                    "width": 200,
+                    "height": 150
+                },
+                "created_at": "2025-12-27T12:05:08.000000Z",
+                "updated_at": "2026-01-04T13:50:36.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 41,
+        "naam": "NTPD Lab",
+        "beschrijving": "Wit lab gedeelte",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T12:18:34.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 9,
+        "scenes": []
+    },
+    {
+        "id": 42,
+        "naam": "NTPD Mortuarium",
+        "beschrijving": "Mortuarium",
+        "notities": null,
+        "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+        "veiligheidsniveau": 0,
+        "spawn_points": null,
+        "created_at": "2025-12-27T12:19:38.000000Z",
+        "updated_at": "2025-12-27T12:19:59.000000Z",
+        "volgorde": 10,
+        "scenes": []
+    }
+]

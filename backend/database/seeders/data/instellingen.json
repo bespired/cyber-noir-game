@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "sleutel": "map_background",
+        "waarde": "artwork\/algemeen\/map-noir.png",
+        "created_at": "2025-12-21T18:16:43.000000Z",
+        "updated_at": "2025-12-21T18:16:43.000000Z"
+    },
+    {
+        "id": 2,
+        "sleutel": "spinner2049",
+        "waarde": "artwork\/glb\/vehicle--spinner-2049.glb",
+        "created_at": "2025-12-25T14:41:01.000000Z",
+        "updated_at": "2025-12-25T14:41:16.000000Z"
+    },
+    {
+        "id": 3,
+        "sleutel": "playable",
+        "waarde": "Nexus Runner K",
+        "created_at": "2025-12-30T16:59:13.000000Z",
+        "updated_at": "2025-12-30T16:59:20.000000Z"
+    },
+    {
+        "id": 4,
+        "sleutel": "spawn_options",
+        "waarde": "[\n{\n    \"id\": \"north\",\n    \"label\": \"Noorder waypoint\"\n},\n{\n    \"id\": \"east\",\n    \"label\": \"Oost waypoint\"\n},\n{\n    \"id\": \"south\",\n    \"label\": \"Zuid waypoint\"\n},\n{\n    \"id\": \"west\",\n    \"label\": \"West waypoint\"\n},\n{\n    \"id\": \"npc\",\n    \"label\": \"Non playable\"\n},\n{\n    \"id\": \"sit\",\n    \"label\": \"Sit position\"\n},\n{\n    \"id\": \"spinner\",\n    \"label\": \"Spinner\"\n},\n{\n    \"id\": \"landing\",\n    \"label\": \"Detective\"\n}\n]",
+        "created_at": "2025-12-30T16:59:17.000000Z",
+        "updated_at": "2025-12-30T16:59:24.000000Z"
+    },
+    {
+        "id": 5,
+        "sleutel": "asset_install_id",
+        "waarde": "1XRqYvR3nUjNnG-MLRFG125fafrjLZ-vf",
+        "created_at": "2025-12-30T16:59:03.000000Z",
+        "updated_at": "2026-01-03T15:44:44.000000Z"
+    },
+    {
+        "id": 6,
+        "sleutel": "opening_scene",
+        "waarde": "43",
+        "created_at": "2026-01-01T14:58:22.000000Z",
+        "updated_at": "2026-01-01T23:04:23.000000Z"
+    },
+    {
+        "id": 7,
+        "sleutel": "game_fonts",
+        "waarde": "[\"nexusnoir\", \"wallace-semibold\"]",
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 8,
+        "sleutel": "game_css",
+        "waarde": "@font-face {\n  font-family: 'Wallace';\n  src: url('\/font\/wallace-semibold.ttf') format('truetype');\n  font-weight: normal;\n  font-style: normal;\n}\n\n:root {\n  font-family: Wallace, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  color-scheme: dark;\n}\n\nbody {\n  font-family: Wallace, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;\n  margin: 0;\n  display: flex;\n  place-items: center;\n  min-width: 320px;\n  min-height: 100vh;\n  background-color: #121212;\n}\n\n#app {\n  width: 100%;\n}\n\n.sector-node.is-locked {\n  display: none;\n}\n\nimg {  \n   user-drag: none;  \n   user-select: none;\n   -moz-user-select: none;\n   -webkit-user-drag: none;\n   -webkit-user-select: none;\n   -ms-user-select: none;\n}\n",
+        "created_at": null,
+        "updated_at": null
+    }
+]

@@ -1,0 +1,345 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'NexusNoir';
+  src: url('/font/nexusnoir.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wallace';
+  src: url('/font/wallace-semibold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --color-noir-bg: #111827;
+  --color-noir-dark: #0B0F19;
+  --color-noir-panel: #1F2937;
+  --color-noir-text: #E5E7EB;
+  --color-noir-muted: #9CA3AF;
+  --color-noir-accent: #3B82F6;
+  --color-noir-danger: #EF4444;
+  --color-noir-success: #10B981;
+  --color-noir-warning: #F59E0B;
+  --color-noir-darker: #05070A;
+  --color-red-900: #7f1d1d;
+  --color-red-600: #dc2626;
+  --color-red-500: #ef4444;
+  --color-black: #000000;
+
+  --font-mono: "NexusNoir", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+body {
+  @apply bg-noir-bg text-noir-text font-mono;
+}
+
+
+img {
+ -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Custom Scrollbar for Noir feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-noir-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-noir-panel);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-noir-muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 COMPONENTS                                 */
+/* -------------------------------------------------------------------------- */
+
+/* Page Header
+ * Replaces: text-3xl font-bold text-white tracking-tight uppercase
+ */
+.page-header {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* Buttons
+ * Base replaces: px-4 py-2 rounded transition-all duration-300 uppercase font-bold text-sm tracking-wider cursor-pointer
+ */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn--small {
+  font-size: 0.75rem;
+  padding: calc(1px + 0.125rem) 0.5rem;
+}
+
+/* Link Button
+ * Replaces: text-noir-accent text-sm hover:text-white hover:underline decoration-noir-accent underline-offset-4 uppercase font-semibold transition-all
+ */
+.btn--link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-noir-accent);
+  font-size: 0.875rem;
+  /* text-sm */
+  font-weight: 600;
+  /* font-semibold */
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.btn--link:hover {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: var(--color-noir-accent);
+  text-underline-offset: 4px;
+  transform: none;
+  /* Override base .btn transform */
+}
+
+/* Link Button - Warning variant */
+.btn--link-warning {
+  color: var(--color-noir-warning);
+}
+
+.btn--link-warning:hover {
+  text-decoration-color: var(--color-noir-warning);
+}
+
+/* Link Button - Muted variant */
+.btn--link-muted {
+  color: var(--color-noir-muted);
+  font-size: 0.75rem;
+  /* text-xs */
+}
+
+.btn--link-muted:hover {
+  text-decoration-color: var(--color-noir-muted);
+}
+
+/* Primary Button
+ * Replaces: bg-noir-accent text-white px-4 py-2 rounded hover:bg-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer
+ */
+.btn--primary {
+  background-color: var(--color-noir-accent);
+  color: white;
+  border: none;
+}
+
+.btn--primary:hover {
+  background-color: #3b82f6;
+  box-shadow: 0 0 15px rgb(from var(--color-noir-accent) r g b / 0.5);
+}
+
+/* Warning Button
+ * Replaces: bg-noir-warning text-black px-4 py-2 rounded hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300 uppercase font-bold text-sm tracking-wider transform hover:-translate-y-0.5 cursor-pointer
+ */
+.btn--warning {
+  background-color: var(--color-noir-warning);
+  color: black;
+  border: none;
+}
+
+.btn--warning:hover {
+  background-color: #facc15;
+  box-shadow: 0 0 15px rgb(from var(--color-noir-warning) r g b / 0.5);
+}
+
+/* Danger Button
+ * Replaces: bg-noir-danger/20 text-noir-danger border border-noir-danger px-4 py-2 rounded hover:bg-noir-danger hover:text-white hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer
+ */
+.btn--danger {
+  background-color: rgb(from var(--color-noir-danger) r g b / 0.2);
+  color: var(--color-noir-danger);
+  border-color: var(--color-noir-danger);
+}
+
+.btn--danger:hover {
+  background-color: var(--color-noir-danger);
+  color: white;
+  box-shadow: 0 0 15px rgb(from var(--color-noir-danger) r g b / 0.5);
+}
+
+/* Success Button
+ * Replaces: bg-noir-success/20 text-noir-success border border-noir-success px-4 py-2 rounded hover:bg-noir-success hover:text-black hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer
+ */
+.btn--success {
+  background-color: rgb(from var(--color-noir-success) r g b / 0.2);
+  color: var(--color-noir-success);
+  border-color: var(--color-noir-success);
+}
+
+.btn--success:hover {
+  background-color: var(--color-noir-success);
+  color: black;
+  box-shadow: 0 0 15px rgb(from var(--color-noir-success) r g b / 0.5);
+}
+
+/* Secondary Button
+ * Replaces: bg-noir-dark border border-noir-dark text-noir-muted hover:text-white px-2 py-2 rounded text-xs transition-colors
+ */
+.btn--secondary {
+  background-color: var(--color-noir-dark);
+  border-color: var(--color-noir-dark);
+  color: var(--color-noir-muted);
+}
+
+.btn--secondary:hover {
+  color: white;
+}
+
+/* Logout Button
+ * Replaces: bg-red-900/20 text-red-500 border border-red-900 px-3 py-1.5 rounded hover:bg-red-600 hover:text-white hover:shadow-[0_0_10px_rgba(220,38,38,0.5)] transition-all duration-300 uppercase tracking-wider text-xs font-bold cursor-pointer
+ */
+.btn--logout {
+  background-color: rgb(from var(--color-red-900) r g b / 0.2);
+  color: var(--color-red-500);
+  border-color: var(--color-red-900);
+  padding: 0.375rem 0.75rem;
+  /* px-3 py-1.5 */
+  font-size: 0.75rem;
+  /* text-xs */
+}
+
+.btn--logout:hover {
+  background-color: var(--color-red-600);
+  color: white;
+  box-shadow: 0 0 10px rgb(from var(--color-red-600) r g b / 0.5);
+}
+
+/* Accent Outline Button
+ * Replaces: bg-noir-accent/20 text-noir-accent border border-noir-accent px-4 py-2 rounded hover:bg-noir-accent hover:text-white hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 uppercase font-bold text-xs tracking-wider transform hover:-translate-y-0.5 cursor-pointer
+ */
+.btn--accent-outline {
+  background-color: rgb(from var(--color-noir-accent) r g b / 0.2);
+  color: var(--color-noir-accent);
+  border: 1px solid var(--color-noir-accent);
+}
+
+.btn--accent-outline:hover {
+  background-color: var(--color-noir-accent);
+  color: white;
+  box-shadow: 0 0 15px rgb(from var(--color-noir-accent) r g b / 0.5);
+}
+
+/* Panels
+ * Replaces: bg-noir-panel border border-noir-dark p-6 rounded shadow-lg
+ * With hover: hover:border-noir-accent transition-colors (use .panel--hover)
+ */
+.panel {
+  background-color: var(--color-noir-panel);
+  border: 1px solid var(--color-noir-dark);
+  padding: 1.5rem;
+  /* p-6 */
+  border-radius: 0.25rem;
+  box-shadow: 0 10px 15px -3px rgb(from var(--color-black) r g b / 0.1);
+}
+
+.panel--hover:hover {
+  border-color: var(--color-noir-warning);
+  transition: border-color 0.15s ease-in-out;
+}
+
+/* Form Input
+ * Replaces: w-full bg-noir-darker border border-noir-dark text-white p-2 rounded focus:border-noir-accent focus:outline-none
+ */
+.form-input {
+  width: 100%;
+  background-color: var(--color-noir-darker);
+  border: 1px solid var(--color-noir-dark);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.form-input:focus {
+  border-color: var(--color-noir-accent);
+  outline: none;
+}
+
+/* Form Label
+ * Replaces: block text-noir-muted text-xs uppercase mb-1 font-bold
+ */
+.form-label {
+  display: block;
+  color: var(--color-noir-muted);
+  font-size: 0.75rem;
+  /* xs */
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+/* Badges
+ * Base replaces: px-2 py-0.5 rounded text-xs font-bold uppercase border
+ */
+.badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+/* Active Badge
+ * Replaces: bg-noir-success/20 text-noir-success border border-noir-success
+ */
+.badge--active {
+  background-color: rgb(from var(--color-noir-success) r g b / 0.2);
+  color: var(--color-noir-success);
+  border-color: var(--color-noir-success);
+}
+
+/* Locked Badge
+ * Replaces: bg-noir-danger/20 text-noir-danger border border-noir-danger
+ */
+.badge--locked {
+  background-color: rgb(from var(--color-noir-danger) r g b / 0.2);
+  color: var(--color-noir-danger);
+  border-color: var(--color-noir-danger);
+}
+
+/* Completed/Neutral Badge
+ * Replaces: bg-noir-muted/20 text-noir-muted border border-noir-muted
+ */
+.badge--completed,
+.badge--neutral {
+  background-color: rgb(from var(--color-noir-muted) r g b / 0.2);
+  color: var(--color-noir-muted);
+  border-color: var(--color-noir-muted);
+}

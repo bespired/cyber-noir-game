@@ -1,0 +1,40 @@
+[
+    {
+        "id": 1,
+        "naam": "Sapper komt thuis",
+        "beschrijving": "Kom de kamer binnen.",
+        "acties": [
+            {
+                "id": 1766869628314,
+                "type": "walk_to",
+                "params": {
+                    "distance": 0,
+                    "spawn_point": "npc"
+                }
+            },
+            {
+                "id": 1767135808483,
+                "type": "look_at",
+                "params": {
+                    "target": "player"
+                }
+            },
+            {
+                "id": 1766870218691,
+                "type": "idle",
+                "params": {
+                    "duration": 2
+                }
+            },
+            {
+                "id": 1767126661949,
+                "type": "talk",
+                "params": {
+                    "dialoog_id": 2
+                }
+            }
+        ],
+        "created_at": "2025-12-27T21:06:24.000000Z",
+        "updated_at": "2025-12-30T23:03:48.000000Z"
+    }
+]
