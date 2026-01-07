@@ -25,10 +25,39 @@ class ArtworkBackupCommand extends Command
      */
     public function handle()
     {
-        $this->info('Starting Asset Backup...');
+        $this->info('Starting Asset & Data Backup...');
+
+        // 1. Export Data to JSON
+        $this->info('Exporting database to JSON...');
+        $backupPath = storage_path('app/public/backup');
+        if (!file_exists($backupPath)) {
+            mkdir($backupPath, 0755, true);
+        }
+
+        $exports = [
+            'instellingen' => \App\Models\Instelling::class,
+            'personages' => \App\Models\Personage::class,
+            'locaties' => \App\Models\Locatie::class,
+            'aanwijzingen' => \App\Models\Aanwijzing::class,
+            'sectoren' => \App\Models\Sector::class,
+            'scenes' => \App\Models\Scene::class,
+            'notities' => \App\Models\Notitie::class,
+            'dialogen' => \App\Models\Dialoog::class,
+            'afbeeldingen' => \App\Models\Afbeelding::class,
+            'gedragingen' => \App\Models\Gedrag::class,
+            'scene_personages' => \App\Models\ScenePersonage::class,
+        ];
+
+        foreach ($exports as $key => $modelClass) {
+            $path = "$backupPath/{$key}.json";
+            // Use all() on the model class
+            $data = $modelClass::all();
+            file_put_contents($path, $data->toJson(JSON_PRETTY_PRINT));
+            $this->line("Exported " . count($data) . " records to {$key}.json");
+        }
 
         $basePath = storage_path('app/public');
-        $directories = ['artwork', 'glb'];
+        $directories = ['artwork', 'glb', 'backup'];
 
         $zipFileName = 'assets-backup-' . now()->format('Y-m-d-H-i-s') . '.zip';
         $zipFilePath = storage_path('app/' . $zipFileName);
@@ -83,7 +112,7 @@ class ArtworkBackupCommand extends Command
                 // depending on configuration, but 'id' in extraMetadata is reliable.
                 $extra = $file instanceof \League\Flysystem\FileAttributes ? $file->extraMetadata() : [];
                 $realId = $extra['id'] ?? null;
-                
+
                 // Check if this is our file by name or if the path matches
                 // If human-readable paths are OFF, path() is the ID.
                 // If human-readable paths are ON, path() is the name.
@@ -102,7 +131,17 @@ class ArtworkBackupCommand extends Command
                 $this->info("File ID: {$fileId}");
                 $this->changeFilePermissions($fileId);
 
-                // Update database
+                // Update config/install.php
+                $configPath = config_path('install.php');
+
+                // Use a stub and sprintf for safe file generation, avoiding regex issues
+                $stub = "<?php\n\nreturn [\n\n    'asset_install_id' => env('APP_ASSET_INSTALL_ID', '%s'),\n\n];\n";
+                $newContent = sprintf($stub, $fileId);
+
+                file_put_contents($configPath, $newContent);
+                $this->info("Updated config/install.php with new asset_install_id.");
+
+                // Update database (optional, for backward compatibility or local cache)
                 \App\Models\Instelling::updateOrCreate(
                     ['sleutel' => 'asset_install_id'],
                     ['waarde' => $fileId]
@@ -140,12 +179,12 @@ class ArtworkBackupCommand extends Command
             $client = new \Google\Client();
             $client->setClientId(config('filesystems.disks.google.clientId'));
             $client->setClientSecret(config('filesystems.disks.google.clientSecret'));
-            
+
             $refreshToken = config('filesystems.disks.google.refreshToken');
             if (!$refreshToken) {
                 throw new \Exception('Google Drive Refresh Token is missing from configuration.');
             }
-            
+
             $token = $client->fetchAccessTokenWithRefreshToken($refreshToken);
             if (isset($token['error'])) {
                 throw new \Exception('Google Drive Auth Error: ' . ($token['error_description'] ?? $token['error']));

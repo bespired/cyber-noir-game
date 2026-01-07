@@ -30,10 +30,9 @@ gives you
 `docker compose exec backend php artisan migrate:refresh --seed`
 
 
-#### Install Artwork
+#### Install Data and Artwork
 `docker compose exec backend php artisan app:artwork-install`
-
-
+(or use the button in the about page)
 
 
 #### Install Vue
@@ -57,22 +56,17 @@ gives you
 
 #### Login
 
-![](https://raw.githubusercontent.com/bespired/cyber-noir-game/refs/heads/main/docker/dashboard.png)
+![](https://raw.githubusercontent.com/bespired/cyber-noir-game/refs/heads/main/docker/about.png)
 
 
-#### Backup your data
-
-`docker compose exec backend php artisan game:backup`
-
-This creates seed files in laravel database seeder folder.
-
-#### Backup your artwork
+#### Backup your data and artwork
 
 This is a bit tricky...
 If you have google drive credentials you can add them
-in the .env.docker file and then artisan app:artwork-backup
-and artisan app:artwork-restore will work.
+in the .env.docker file and then artisan app:artwork-backup will work.
 Or you could zip the cyber-noir-game/backend/storage/app/public/artwork folder.
+
+`docker compose exec backend php artisan game:artwork-backup`
 
 
 #### Game Running

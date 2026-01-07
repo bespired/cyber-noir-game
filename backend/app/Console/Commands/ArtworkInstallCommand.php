@@ -25,12 +25,17 @@ class ArtworkInstallCommand extends Command
      */
     public function handle()
     {
-        $fileId = \App\Models\Instelling::getWaarde('asset_install_id', env('GOOGLE_DRIVE_INITIAL_ASSETS_ID'));
+        // Priority: Config (Env/File) -> Database -> Env Fallback
+        $fileId = config('install.asset_install_id');
+
+        if (!$fileId) {
+            // Fallback to database for backward compatibility
+            $fileId = \App\Models\Instelling::getWaarde('asset_install_id', env('GOOGLE_DRIVE_INITIAL_ASSETS_ID'));
+        }
 
         if (!$fileId) {
             $this->error('Asset Install ID not found.');
-            $this->error('Please ensure the "asset_install_id" is set in the "instellingen" table');
-            $this->error('or GOOGLE_DRIVE_INITIAL_ASSETS_ID is set in .env');
+            $this->error('Please ensure "asset_install_id" is set in config/install.php, .env, or the "instellingen" table');
             return Command::FAILURE;
         }
 
@@ -125,6 +130,51 @@ class ArtworkInstallCommand extends Command
             }
 
             unlink($zipPath);
+            $this->info('Assets extracted successfully!');
+
+            // Restore Data if backup folder exists
+            $backupPath = storage_path('app/public/backup');
+            if (is_dir($backupPath)) {
+                $this->info('Restoring database from backup...');
+
+                $imports = [
+                    'instellingen' => \App\Models\Instelling::class,
+                    'personages' => \App\Models\Personage::class,
+                    'locaties' => \App\Models\Locatie::class,
+                    'aanwijzingen' => \App\Models\Aanwijzing::class,
+                    'sectoren' => \App\Models\Sector::class,
+                    'scenes' => \App\Models\Scene::class,
+                    'notities' => \App\Models\Notitie::class,
+                    'dialogen' => \App\Models\Dialoog::class,
+                    'afbeeldingen' => \App\Models\Afbeelding::class,
+                    'gedragingen' => \App\Models\Gedrag::class,
+                    'scene_personages' => \App\Models\ScenePersonage::class,
+                ];
+
+                \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+
+                foreach ($imports as $key => $modelClass) {
+                    $jsonPath = "$backupPath/{$key}.json";
+                    if (file_exists($jsonPath)) {
+                        $this->info("Restoring {$key}...");
+                        $data = json_decode(file_get_contents($jsonPath), true);
+                        if (is_array($data)) {
+                            $modelClass::truncate();
+                            // Chunk inserts or loop
+                            foreach ($data as $item) {
+                                $modelClass::create($item);
+                            }
+                            $this->line("Restored " . count($data) . " records for {$key}.");
+                        }
+                    } else {
+                        $this->warn("No backup file found for {$key}");
+                    }
+                }
+
+                \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+                $this->info('Database restoration complete!');
+            }
+
             $this->info('Installation successful!');
             return Command::SUCCESS;
 

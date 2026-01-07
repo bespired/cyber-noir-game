@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class AfbeeldingController extends Controller
 {
+    public function index()
+    {
+        return Afbeelding::all();
+    }
+
     public function destroy(Afbeelding $afbeelding)
     {
         // Delete file from storage

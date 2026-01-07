@@ -45,10 +45,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('scene-personages', \App\Http\Controllers\ScenePersonageController::class);
 
     Route::delete('/artwork/{afbeelding}', [\App\Http\Controllers\AfbeeldingController::class, 'destroy']);
+    Route::get('/afbeeldingen', [\App\Http\Controllers\AfbeeldingController::class, 'index']);
 
     Route::post('/upload/{modelType}/{modelId}', [\App\Http\Controllers\AfbeeldingUploadController::class, 'upload']);
 
     Route::apiResource('instellingen', \App\Http\Controllers\Api\InstellingController::class)->only(['index', 'show', 'update']);
 
     Route::post('/game/export', [\App\Http\Controllers\SystemController::class, 'exportGame']);
+    Route::post('/game/artwork-backup', [\App\Http\Controllers\SystemController::class, 'artworkBackup']);
+    Route::post('/game/artwork-install', [\App\Http\Controllers\SystemController::class, 'artworkInstall']);
 });

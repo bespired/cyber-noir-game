@@ -47,7 +47,27 @@
         "confirm_export_btn": "YES, CONFIRM",
         "export_success": "Game export success!",
         "export_failed": "Export failed. Check console for details.",
-        "failed_to_load_stats": "Failed to load dashboard statistics."
+        "failed_to_load_stats": "Failed to load dashboard statistics.",
+        "scene_personages": "SCENE ASSIGNMENTS",
+        "settings": "SYSTEM SETTINGS",
+        "artwork": "VISUAL ASSETS",
+        "behaviors": "BEHAVIORS",
+        "system_maintenance": "SYSTEM MAINTENANCE",
+        "backup_title": "GAME BACKUP",
+        "install_title": "GAME INSTALL",
+        "btn_backup": "START ARTWORK BACKUP",
+        "btn_install": "START ARTWORK INSTALL",
+        "action_confirm": "CONFIRM ACTION",
+        "action_desc": "This action will interact with Google Drive. Ensure you have internet access.",
+        "backup_desc": "Create a backup of all data and assets.",
+        "install_desc": "Restore data and assets from backup.",
+        "backup_success": "Backup successful!",
+        "install_success": "Install successful!",
+        "action_failed": "Action failed.",
+        "executing": "EXECUTING...",
+        "trying": "Trying to create an editor for a point and click game.",
+        "of_the": "of the"
+
     },
     "scenes": {
         "title": "SCENES",
