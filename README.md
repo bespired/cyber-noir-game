@@ -2,6 +2,8 @@
 
 Start your docker.
 
+`cd cyber-noir-game`
+
 #### Get the stack ready:
 
 create a .env.docker with
@@ -27,11 +29,6 @@ gives you
 #### Install Cyber Noir
 `docker compose exec backend php artisan migrate:refresh --seed`
 
-#### Link Storage (for artwork access)
-**Important:** For Docker compatibility, we need a relative symlink:
-```bash
-docker compose exec backend bash -c "cd public && ln -sf ../storage/app/public storage"
-```
 
 #### Install Artwork
 `docker compose exec backend php artisan app:artwork-install`
@@ -40,9 +37,9 @@ docker compose exec backend bash -c "cd public && ln -sf ../storage/app/public s
 
 
 #### Install Vue
-`cd frontend;`
-`nvm use 20;`
-`npm i;`
+`cd frontend;`  
+`nvm use 20;`  
+`npm i;`  
 
 #### Start Cyber Noir
 `npm run dev`
@@ -77,4 +74,14 @@ in the .env.docker file and then artisan app:artwork-backup
 and artisan app:artwork-restore will work.
 Or you could zip the cyber-noir-game/backend/storage/app/public/artwork folder.
 
+
+#### Game Running
+`cd electron;`  
+`nvm use 20;`  
+`npm i;` 
+
+for game testing:  
+`npm run dev`  
+for game in electron:  
+`npm run start`  
 
