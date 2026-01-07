@@ -1,7 +1,6 @@
 [
     {
         "id": 1,
-        "type": "persoon",
         "naam": "Elias Vane",
         "rol": "Antiquair",
         "beschrijving": "Eigenaar van een stoffige, donkere winkel vol pre-oorlogse analoge technologie. Spreekt traag en is obsessief nostalgisch.",
@@ -10,6 +9,7 @@
         "motief": "Zijn verzameling is een dekmantel om gevoelige informatie uit het verleden te verhandelen of te verbergen.",
         "is_replicant": true,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-14T15:40:29.000000Z",
         "updated_at": "2025-12-14T15:40:29.000000Z",
         "artwork": [
@@ -26,7 +26,6 @@
     },
     {
         "id": 2,
-        "type": "persoon",
         "naam": "Kaelen \"Kae\" Rui",
         "rol": "Nachtclubzangeres",
         "beschrijving": "Vurige, chaotische performer in een underground club. Cynisch, maar heeft een diep emotioneel bereik op het podium.",
@@ -35,6 +34,7 @@
         "motief": "Ze verbergt een relatie met het slachtoffer en is bang dat de waarheid haar carri\u00e8re verwoest.",
         "is_replicant": false,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-14T15:40:29.000000Z",
         "updated_at": "2025-12-14T15:40:29.000000Z",
         "artwork": [
@@ -51,7 +51,6 @@
     },
     {
         "id": 3,
-        "type": "persoon",
         "naam": "Nexus Runner K",
         "rol": "Inspecteur",
         "beschrijving": "Je nummer \u00e9\u00e9n go to voor speurwerk.",
@@ -60,6 +59,7 @@
         "motief": "Hij heeft onbewust of onder dwang logistieke componenten geleverd die met het incident te maken hebben.",
         "is_replicant": false,
         "is_playable": true,
+        "type": "persoon",
         "created_at": "2025-12-14T15:40:29.000000Z",
         "updated_at": "2025-12-24T14:58:57.000000Z",
         "artwork": [
@@ -76,7 +76,6 @@
     },
     {
         "id": 4,
-        "type": "persoon",
         "naam": "Elia Spindex",
         "rol": "Nexus Runner",
         "beschrijving": "Je go to detective als K opeens niet te vinden is.",
@@ -85,6 +84,7 @@
         "motief": null,
         "is_replicant": true,
         "is_playable": true,
+        "type": "persoon",
         "created_at": "2025-12-22T11:10:26.000000Z",
         "updated_at": "2025-12-24T20:13:22.000000Z",
         "artwork": [
@@ -101,7 +101,6 @@
     },
     {
         "id": 5,
-        "type": "persoon",
         "naam": "Regina D",
         "rol": "Nexus Runner",
         "beschrijving": "Zou een android kunnen zijn, maar is een prima detective",
@@ -110,6 +109,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": true,
+        "type": "persoon",
         "created_at": "2025-12-24T15:01:16.000000Z",
         "updated_at": "2025-12-24T15:01:16.000000Z",
         "artwork": [
@@ -126,7 +126,6 @@
     },
     {
         "id": 6,
-        "type": "persoon",
         "naam": "Deckard",
         "rol": "Verdachte",
         "beschrijving": "Vind deze man",
@@ -135,6 +134,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:20:40.000000Z",
         "updated_at": "2025-12-26T12:20:40.000000Z",
         "artwork": [
@@ -151,7 +151,6 @@
     },
     {
         "id": 7,
-        "type": "persoon",
         "naam": "Wander Mallace",
         "rol": "verdachte",
         "beschrijving": "Zien we hem wel?",
@@ -160,6 +159,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:33:07.000000Z",
         "updated_at": "2025-12-26T12:33:07.000000Z",
         "artwork": [
@@ -176,7 +176,6 @@
     },
     {
         "id": 8,
-        "type": "persoon",
         "naam": "Yoshi",
         "rol": "geeft aanwijzingen",
         "beschrijving": "Hoofd van NT PD",
@@ -185,6 +184,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:33:46.000000Z",
         "updated_at": "2025-12-26T12:33:46.000000Z",
         "artwork": [
@@ -201,7 +201,6 @@
     },
     {
         "id": 9,
-        "type": "persoon",
         "naam": "Dear",
         "rol": "geeft aanwijzingen",
         "beschrijving": "Hulp van Mallace",
@@ -210,6 +209,7 @@
         "motief": null,
         "is_replicant": true,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:34:21.000000Z",
         "updated_at": "2025-12-26T12:34:21.000000Z",
         "artwork": [
@@ -226,7 +226,6 @@
     },
     {
         "id": 10,
-        "type": "persoon",
         "naam": "KOi",
         "rol": "hologram",
         "beschrijving": "Speeltje",
@@ -235,6 +234,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:36:33.000000Z",
         "updated_at": "2026-01-02T13:16:19.000000Z",
         "artwork": [
@@ -251,7 +251,6 @@
     },
     {
         "id": 11,
-        "type": "persoon",
         "naam": "Dr Stellina",
         "rol": "geeft aanwijzingen",
         "beschrijving": "Dokter in Stellina institute",
@@ -260,6 +259,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:44:21.000000Z",
         "updated_at": "2025-12-26T12:44:21.000000Z",
         "artwork": [
@@ -276,7 +276,6 @@
     },
     {
         "id": 12,
-        "type": "persoon",
         "naam": "Sapper",
         "rol": "verdachte",
         "beschrijving": "Openings replicant",
@@ -285,6 +284,7 @@
         "motief": null,
         "is_replicant": true,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:45:16.000000Z",
         "updated_at": "2025-12-26T12:45:16.000000Z",
         "artwork": [
@@ -301,7 +301,6 @@
     },
     {
         "id": 13,
-        "type": "persoon",
         "naam": "Freya Sadeyour",
         "rol": "Rebelion leider",
         "beschrijving": "tbd",
@@ -310,6 +309,7 @@
         "motief": null,
         "is_replicant": true,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:46:31.000000Z",
         "updated_at": "2025-12-26T12:46:31.000000Z",
         "artwork": [
@@ -326,7 +326,6 @@
     },
     {
         "id": 14,
-        "type": "persoon",
         "naam": "Zhora",
         "rol": "verdachte",
         "beschrijving": "tbd",
@@ -335,6 +334,7 @@
         "motief": null,
         "is_replicant": true,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:52:32.000000Z",
         "updated_at": "2025-12-26T12:52:32.000000Z",
         "artwork": [
@@ -351,7 +351,6 @@
     },
     {
         "id": 15,
-        "type": "persoon",
         "naam": "Marianna",
         "rol": "verdachte",
         "beschrijving": "tbd",
@@ -360,6 +359,7 @@
         "motief": null,
         "is_replicant": true,
         "is_playable": false,
+        "type": "persoon",
         "created_at": "2025-12-26T12:53:26.000000Z",
         "updated_at": "2025-12-26T12:53:26.000000Z",
         "artwork": [
@@ -376,7 +376,6 @@
     },
     {
         "id": 16,
-        "type": "voertuig",
         "naam": "Spinner 2049",
         "rol": "Spel start",
         "beschrijving": "Spinner van de speler",
@@ -385,6 +384,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "voertuig",
         "created_at": "2025-12-27T18:49:55.000000Z",
         "updated_at": "2025-12-27T18:52:27.000000Z",
         "artwork": [
@@ -401,7 +401,6 @@
     },
     {
         "id": 17,
-        "type": "voertuig",
         "naam": "Spinner 44",
         "rol": "vliegen",
         "beschrijving": "Spinner van Deckard",
@@ -410,6 +409,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "voertuig",
         "created_at": "2025-12-27T19:17:31.000000Z",
         "updated_at": "2025-12-27T19:17:31.000000Z",
         "artwork": [
@@ -426,7 +426,6 @@
     },
     {
         "id": 18,
-        "type": "voertuig",
         "naam": "Spinner Wallace",
         "rol": "vliegen",
         "beschrijving": "Spinner van Luv",
@@ -435,6 +434,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "voertuig",
         "created_at": "2025-12-27T19:17:54.000000Z",
         "updated_at": "2025-12-27T19:17:54.000000Z",
         "artwork": [
@@ -451,7 +451,6 @@
     },
     {
         "id": 19,
-        "type": "voertuig",
         "naam": "Straatcar",
         "rol": "decor",
         "beschrijving": "Gek autotje",
@@ -460,6 +459,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "voertuig",
         "created_at": "2025-12-27T19:37:17.000000Z",
         "updated_at": "2025-12-27T19:37:17.000000Z",
         "artwork": [
@@ -476,7 +476,6 @@
     },
     {
         "id": 20,
-        "type": "voertuig",
         "naam": "Sneeuwploeg",
         "rol": "decor",
         "beschrijving": "Gele sneeuwploeg",
@@ -485,6 +484,7 @@
         "motief": null,
         "is_replicant": false,
         "is_playable": false,
+        "type": "voertuig",
         "created_at": "2025-12-27T19:38:20.000000Z",
         "updated_at": "2025-12-27T19:38:20.000000Z",
         "artwork": [

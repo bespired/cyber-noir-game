@@ -407,8 +407,8 @@ export const sectorData = [
                 "status": "entry",
                 "gateways": [
                     {
-                        "x": 56.44780077246786,
-                        "y": 42.21320847826872,
+                        "x": 56.23697798713651,
+                        "y": 40.05632921295572,
                         "type": "gateway",
                         "label": null,
                         "width": 11.700664585889696,
@@ -445,19 +445,19 @@ export const sectorData = [
                                 "id": 1766867148997,
                                 "name": "spinner",
                                 "type": "waypoint",
-                                "scale": 0.5,
+                                "scale": 0.3,
                                 "direction": 0,
                                 "personage_id": null,
                                 "aanwijzing_id": null
                             },
                             {
-                                "x": 1.5,
+                                "x": 1.450000000000001,
                                 "y": 4.4324513541579363e-7,
-                                "z": -1.5,
-                                "id": 1766867160588,
+                                "z": -2.3499999999999996,
+                                "id": 1767616672515,
                                 "name": "landing",
                                 "type": "waypoint",
-                                "scale": 0.5,
+                                "scale": 0.3,
                                 "direction": 0,
                                 "personage_id": null,
                                 "aanwijzing_id": null

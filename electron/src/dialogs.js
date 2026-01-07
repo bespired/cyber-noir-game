@@ -90,7 +90,6 @@ export const dialogs = [
         "updated_at": "2025-12-29T22:30:23.000000Z",
         "personage": {
             "id": 1,
-            "type": "persoon",
             "naam": "Elias Vane",
             "rol": "Antiquair",
             "beschrijving": "Eigenaar van een stoffige, donkere winkel vol pre-oorlogse analoge technologie. Spreekt traag en is obsessief nostalgisch.",
@@ -99,6 +98,7 @@ export const dialogs = [
             "motief": "Zijn verzameling is een dekmantel om gevoelige informatie uit het verleden te verhandelen of te verbergen.",
             "is_replicant": true,
             "is_playable": false,
+            "type": "persoon",
             "created_at": "2025-12-14T15:40:29.000000Z",
             "updated_at": "2025-12-14T15:40:29.000000Z"
         }
@@ -256,7 +256,6 @@ export const dialogs = [
         "updated_at": "2025-12-30T17:05:47.000000Z",
         "personage": {
             "id": 12,
-            "type": "persoon",
             "naam": "Sapper",
             "rol": "verdachte",
             "beschrijving": "Openings replicant",
@@ -265,6 +264,7 @@ export const dialogs = [
             "motief": null,
             "is_replicant": true,
             "is_playable": false,
+            "type": "persoon",
             "created_at": "2025-12-26T12:45:16.000000Z",
             "updated_at": "2025-12-26T12:45:16.000000Z"
         }
@@ -281,7 +281,6 @@ export const dialogs = [
         "updated_at": "2025-12-31T18:33:04.000000Z",
         "personage": {
             "id": 15,
-            "type": "persoon",
             "naam": "Marianna",
             "rol": "verdachte",
             "beschrijving": "tbd",
@@ -290,6 +289,7 @@ export const dialogs = [
             "motief": null,
             "is_replicant": true,
             "is_playable": false,
+            "type": "persoon",
             "created_at": "2025-12-26T12:53:26.000000Z",
             "updated_at": "2025-12-26T12:53:26.000000Z"
         }

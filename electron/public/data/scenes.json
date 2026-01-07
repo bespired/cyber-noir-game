@@ -55,6 +55,7 @@
             "notities": null,
             "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
             "veiligheidsniveau": 1,
+            "volgorde": 1,
             "spawn_points": {
                 "1": [
                     {
@@ -106,7 +107,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 1,
             "artwork": [
                 {
                     "id": 26,
@@ -128,6 +128,7 @@
             "notities": null,
             "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
             "veiligheidsniveau": 1,
+            "volgorde": 1,
             "spawn_points": {
                 "1": [
                     {
@@ -179,7 +180,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 1,
             "artwork": [
                 {
                     "id": 26,
@@ -229,6 +229,7 @@
             "notities": null,
             "adres": "Protein Cultivation Zone AGR-9, Plot 47B, Outlands",
             "veiligheidsniveau": 1,
+            "volgorde": 2,
             "spawn_points": {
                 "1": [
                     {
@@ -246,7 +247,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 2,
             "artwork": [
                 {
                     "id": 27,
@@ -268,6 +268,7 @@
             "notities": null,
             "adres": "Protein Cultivation Zone AGR-9, Plot 47B, Outlands",
             "veiligheidsniveau": 1,
+            "volgorde": 2,
             "spawn_points": {
                 "1": [
                     {
@@ -285,7 +286,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 2,
             "artwork": [
                 {
                     "id": 27,
@@ -309,8 +309,8 @@
         "status": "entry",
         "gateways": [
             {
-                "x": 56.44780077246786,
-                "y": 42.21320847826872,
+                "x": 56.23697798713651,
+                "y": 40.05632921295572,
                 "type": "gateway",
                 "label": null,
                 "width": 11.700664585889696,
@@ -327,7 +327,7 @@
             "height": 150
         },
         "created_at": "2025-12-22T15:50:19.000000Z",
-        "updated_at": "2026-01-05T12:23:57.000000Z",
+        "updated_at": "2026-01-05T12:31:50.000000Z",
         "locatie": {
             "id": 3,
             "naam": "NTPD Landing platform",
@@ -335,6 +335,7 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 4,
+            "volgorde": 5,
             "spawn_points": {
                 "2": [
                     {
@@ -344,19 +345,19 @@
                         "id": 1766867148997,
                         "name": "spinner",
                         "type": "waypoint",
-                        "scale": 0.5,
+                        "scale": 0.3,
                         "direction": 0,
                         "personage_id": null,
                         "aanwijzing_id": null
                     },
                     {
-                        "x": 1.5,
+                        "x": 1.450000000000001,
                         "y": 4.4324513541579363e-7,
-                        "z": -1.5,
-                        "id": 1766867160588,
+                        "z": -2.3499999999999996,
+                        "id": 1767616672515,
                         "name": "landing",
                         "type": "waypoint",
-                        "scale": 0.5,
+                        "scale": 0.3,
                         "direction": 0,
                         "personage_id": null,
                         "aanwijzing_id": null
@@ -364,8 +365,7 @@
                 ]
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
-            "updated_at": "2026-01-05T12:23:09.000000Z",
-            "volgorde": 5,
+            "updated_at": "2026-01-05T12:38:01.000000Z",
             "artwork": [
                 {
                     "id": 28,
@@ -387,6 +387,7 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 4,
+            "volgorde": 5,
             "spawn_points": {
                 "2": [
                     {
@@ -396,19 +397,19 @@
                         "id": 1766867148997,
                         "name": "spinner",
                         "type": "waypoint",
-                        "scale": 0.5,
+                        "scale": 0.3,
                         "direction": 0,
                         "personage_id": null,
                         "aanwijzing_id": null
                     },
                     {
-                        "x": 1.5,
+                        "x": 1.450000000000001,
                         "y": 4.4324513541579363e-7,
-                        "z": -1.5,
-                        "id": 1766867160588,
+                        "z": -2.3499999999999996,
+                        "id": 1767616672515,
                         "name": "landing",
                         "type": "waypoint",
-                        "scale": 0.5,
+                        "scale": 0.3,
                         "direction": 0,
                         "personage_id": null,
                         "aanwijzing_id": null
@@ -416,8 +417,7 @@
                 ]
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
-            "updated_at": "2026-01-05T12:23:09.000000Z",
-            "volgorde": 5,
+            "updated_at": "2026-01-05T12:38:01.000000Z",
             "artwork": [
                 {
                     "id": 28,
@@ -464,6 +464,7 @@
             "notities": null,
             "adres": "Residential Stack C, Building 36, Level 18, Sector H-3, NT-Megacity",
             "veiligheidsniveau": 2,
+            "volgorde": 11,
             "spawn_points": {
                 "3": [
                     {
@@ -477,7 +478,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 11,
             "artwork": [
                 {
                     "id": 29,
@@ -499,6 +499,7 @@
             "notities": null,
             "adres": "Residential Stack C, Building 36, Level 18, Sector H-3, NT-Megacity",
             "veiligheidsniveau": 2,
+            "volgorde": 11,
             "spawn_points": {
                 "3": [
                     {
@@ -512,7 +513,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 11,
             "artwork": [
                 {
                     "id": 29,
@@ -559,6 +559,7 @@
             "notities": null,
             "adres": "Unit 18-36-C, Residential Stack C, Sector H-3",
             "veiligheidsniveau": 1,
+            "volgorde": 12,
             "spawn_points": {
                 "3": [
                     {
@@ -572,7 +573,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 12,
             "artwork": [
                 {
                     "id": 30,
@@ -594,6 +594,7 @@
             "notities": null,
             "adres": "Unit 18-36-C, Residential Stack C, Sector H-3",
             "veiligheidsniveau": 1,
+            "volgorde": 12,
             "spawn_points": {
                 "3": [
                     {
@@ -607,7 +608,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 12,
             "artwork": [
                 {
                     "id": 30,
@@ -654,10 +654,10 @@
             "notities": null,
             "adres": "Red Light District, Neon Canal Zone, Sector N-5, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 13,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 13,
             "artwork": [
                 {
                     "id": 31,
@@ -679,10 +679,10 @@
             "notities": null,
             "adres": "Red Light District, Neon Canal Zone, Sector N-5, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 13,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 13,
             "artwork": [
                 {
                     "id": 31,
@@ -729,6 +729,7 @@
             "notities": null,
             "adres": "Protein Market Hall 9, Neon Canal Zone, Sector N-5",
             "veiligheidsniveau": 0,
+            "volgorde": 14,
             "spawn_points": {
                 "5": [
                     {
@@ -742,7 +743,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 14,
             "artwork": [
                 {
                     "id": 33,
@@ -764,6 +764,7 @@
             "notities": null,
             "adres": "Protein Market Hall 9, Neon Canal Zone, Sector N-5",
             "veiligheidsniveau": 0,
+            "volgorde": 14,
             "spawn_points": {
                 "5": [
                     {
@@ -777,7 +778,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 14,
             "artwork": [
                 {
                     "id": 33,
@@ -815,10 +815,10 @@
             "notities": null,
             "adres": "Nexus Distribution Complex, Dock Sector D-4, NT-Megacity",
             "veiligheidsniveau": 3,
+            "volgorde": 15,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 15,
             "artwork": [
                 {
                     "id": 34,
@@ -840,10 +840,10 @@
             "notities": null,
             "adres": "Nexus Distribution Complex, Dock Sector D-4, NT-Megacity",
             "veiligheidsniveau": 3,
+            "volgorde": 15,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 15,
             "artwork": [
                 {
                     "id": 34,
@@ -881,6 +881,7 @@
             "notities": null,
             "adres": "Industrial Ruins, Block 77, Sector I-6, NT-Megacity",
             "veiligheidsniveau": 2,
+            "volgorde": 16,
             "spawn_points": {
                 "6": [
                     {
@@ -915,7 +916,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 16,
             "artwork": [
                 {
                     "id": 35,
@@ -937,6 +937,7 @@
             "notities": null,
             "adres": "Industrial Ruins, Block 77, Sector I-6, NT-Megacity",
             "veiligheidsniveau": 2,
+            "volgorde": 16,
             "spawn_points": {
                 "6": [
                     {
@@ -971,7 +972,6 @@
             },
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 16,
             "artwork": [
                 {
                     "id": 35,
@@ -1009,10 +1009,10 @@
             "notities": null,
             "adres": "Sublevel Freight Yard, Block 77A, Sector I-6",
             "veiligheidsniveau": 3,
+            "volgorde": 17,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 17,
             "artwork": [
                 {
                     "id": 36,
@@ -1034,10 +1034,10 @@
             "notities": null,
             "adres": "Sublevel Freight Yard, Block 77A, Sector I-6",
             "veiligheidsniveau": 3,
+            "volgorde": 17,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 17,
             "artwork": [
                 {
                     "id": 36,
@@ -1075,10 +1075,10 @@
             "notities": null,
             "adres": "Outer Exclusion Zone, Orphanage Block 12, Coastal Ruins",
             "veiligheidsniveau": 1,
+            "volgorde": 18,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 18,
             "artwork": [
                 {
                     "id": 37,
@@ -1100,10 +1100,10 @@
             "notities": null,
             "adres": "Outer Exclusion Zone, Orphanage Block 12, Coastal Ruins",
             "veiligheidsniveau": 1,
+            "volgorde": 18,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 18,
             "artwork": [
                 {
                     "id": 37,
@@ -1141,10 +1141,10 @@
             "notities": null,
             "adres": "Collapsed Skyway 3, Orphanage Block 12",
             "veiligheidsniveau": 1,
+            "volgorde": 19,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 19,
             "artwork": [
                 {
                     "id": 38,
@@ -1166,10 +1166,10 @@
             "notities": null,
             "adres": "Collapsed Skyway 3, Orphanage Block 12",
             "veiligheidsniveau": 1,
+            "volgorde": 19,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 19,
             "artwork": [
                 {
                     "id": 38,
@@ -1207,10 +1207,10 @@
             "notities": null,
             "adres": "Child Processing Hall, Sublevel B, Block 12",
             "veiligheidsniveau": 1,
+            "volgorde": 21,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 21,
             "artwork": [
                 {
                     "id": 58,
@@ -1232,10 +1232,10 @@
             "notities": null,
             "adres": "Child Processing Hall, Sublevel B, Block 12",
             "veiligheidsniveau": 1,
+            "volgorde": 21,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 21,
             "artwork": [
                 {
                     "id": 58,
@@ -1273,10 +1273,10 @@
             "notities": null,
             "adres": "Administrative Office, Level 2, Block 12",
             "veiligheidsniveau": 1,
+            "volgorde": 22,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 22,
             "artwork": [
                 {
                     "id": 53,
@@ -1298,10 +1298,10 @@
             "notities": null,
             "adres": "Administrative Office, Level 2, Block 12",
             "veiligheidsniveau": 1,
+            "volgorde": 22,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 22,
             "artwork": [
                 {
                     "id": 53,
@@ -1339,10 +1339,10 @@
             "notities": null,
             "adres": "Collapsed Skyway 3, Orphanage Block 12",
             "veiligheidsniveau": 0,
+            "volgorde": 20,
             "spawn_points": null,
             "created_at": "2025-12-22T13:28:57.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 20,
             "artwork": [
                 {
                     "id": 39,
@@ -1364,10 +1364,10 @@
             "notities": null,
             "adres": "Collapsed Skyway 3, Orphanage Block 12",
             "veiligheidsniveau": 0,
+            "volgorde": 20,
             "spawn_points": null,
             "created_at": "2025-12-22T13:28:57.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 20,
             "artwork": [
                 {
                     "id": 39,
@@ -1405,10 +1405,10 @@
             "notities": null,
             "adres": "Stelline Research Enclave, Bio-Dome Perimeter, Sector R-1",
             "veiligheidsniveau": 4,
+            "volgorde": 23,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 23,
             "artwork": [
                 {
                     "id": 54,
@@ -1430,10 +1430,10 @@
             "notities": null,
             "adres": "Stelline Research Enclave, Bio-Dome Perimeter, Sector R-1",
             "veiligheidsniveau": 4,
+            "volgorde": 23,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 23,
             "artwork": [
                 {
                     "id": 54,
@@ -1471,10 +1471,10 @@
             "notities": null,
             "adres": "Artificial Forest Dome, Sector R-1, Enclave Interior",
             "veiligheidsniveau": 4,
+            "volgorde": 24,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 24,
             "artwork": [
                 {
                     "id": 51,
@@ -1496,10 +1496,10 @@
             "notities": null,
             "adres": "Artificial Forest Dome, Sector R-1, Enclave Interior",
             "veiligheidsniveau": 4,
+            "volgorde": 24,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 24,
             "artwork": [
                 {
                     "id": 51,
@@ -1537,10 +1537,10 @@
             "notities": null,
             "adres": "Memory Design Laboratory, Dome Core, Sector R-1",
             "veiligheidsniveau": 5,
+            "volgorde": 25,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 25,
             "artwork": [
                 {
                     "id": 55,
@@ -1562,10 +1562,10 @@
             "notities": null,
             "adres": "Memory Design Laboratory, Dome Core, Sector R-1",
             "veiligheidsniveau": 5,
+            "volgorde": 25,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 25,
             "artwork": [
                 {
                     "id": 55,
@@ -1603,10 +1603,10 @@
             "notities": null,
             "adres": "Access Stairwell 3, Bio-Dome Core",
             "veiligheidsniveau": 4,
+            "volgorde": 26,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 26,
             "artwork": [
                 {
                     "id": 50,
@@ -1628,10 +1628,10 @@
             "notities": null,
             "adres": "Access Stairwell 3, Bio-Dome Core",
             "veiligheidsniveau": 4,
+            "volgorde": 26,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 26,
             "artwork": [
                 {
                     "id": 50,
@@ -1669,10 +1669,10 @@
             "notities": null,
             "adres": "Wallace Corporate HQ, Oceanfront Sector W-9",
             "veiligheidsniveau": 4,
+            "volgorde": 27,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 27,
             "artwork": [
                 {
                     "id": 46,
@@ -1694,10 +1694,10 @@
             "notities": null,
             "adres": "Wallace Corporate HQ, Oceanfront Sector W-9",
             "veiligheidsniveau": 4,
+            "volgorde": 27,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 27,
             "artwork": [
                 {
                     "id": 46,
@@ -1735,10 +1735,10 @@
             "notities": null,
             "adres": "Executive Operations Suite, Level 7",
             "veiligheidsniveau": 5,
+            "volgorde": 30,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 30,
             "artwork": [
                 {
                     "id": 45,
@@ -1760,10 +1760,10 @@
             "notities": null,
             "adres": "Executive Operations Suite, Level 7",
             "veiligheidsniveau": 5,
+            "volgorde": 30,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 30,
             "artwork": [
                 {
                     "id": 45,
@@ -1801,10 +1801,10 @@
             "notities": null,
             "adres": "Replication Laboratory, Level 6, Wallace HQ",
             "veiligheidsniveau": 5,
+            "volgorde": 28,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 28,
             "artwork": [
                 {
                     "id": 48,
@@ -1826,10 +1826,10 @@
             "notities": null,
             "adres": "Replication Laboratory, Level 6, Wallace HQ",
             "veiligheidsniveau": 5,
+            "volgorde": 28,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 28,
             "artwork": [
                 {
                     "id": 48,
@@ -1867,10 +1867,10 @@
             "notities": null,
             "adres": "Data Archive Vault, Sublevel 4, Wallace HQ",
             "veiligheidsniveau": 5,
+            "volgorde": 33,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 33,
             "artwork": [
                 {
                     "id": 49,
@@ -1892,10 +1892,10 @@
             "notities": null,
             "adres": "Data Archive Vault, Sublevel 4, Wallace HQ",
             "veiligheidsniveau": 5,
+            "volgorde": 33,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 33,
             "artwork": [
                 {
                     "id": 49,
@@ -1933,10 +1933,10 @@
             "notities": null,
             "adres": "Cognitive Records Library, Level 5",
             "veiligheidsniveau": 5,
+            "volgorde": 29,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 29,
             "artwork": [
                 {
                     "id": 47,
@@ -1958,10 +1958,10 @@
             "notities": null,
             "adres": "Cognitive Records Library, Level 5",
             "veiligheidsniveau": 5,
+            "volgorde": 29,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 29,
             "artwork": [
                 {
                     "id": 47,
@@ -1999,10 +1999,10 @@
             "notities": null,
             "adres": "CEO Operations Platform, Level 1",
             "veiligheidsniveau": 5,
+            "volgorde": 34,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 34,
             "artwork": [
                 {
                     "id": 57,
@@ -2024,10 +2024,10 @@
             "notities": null,
             "adres": "CEO Operations Platform, Level 1",
             "veiligheidsniveau": 5,
+            "volgorde": 34,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 34,
             "artwork": [
                 {
                     "id": 57,
@@ -2074,10 +2074,10 @@
             "notities": null,
             "adres": "Dead Zone Gate 1, Nedada Exclusion Territory",
             "veiligheidsniveau": 0,
+            "volgorde": 35,
             "spawn_points": null,
             "created_at": "2025-12-22T13:32:25.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 35,
             "artwork": [
                 {
                     "id": 56,
@@ -2099,10 +2099,10 @@
             "notities": null,
             "adres": "Dead Zone Gate 1, Nedada Exclusion Territory",
             "veiligheidsniveau": 0,
+            "volgorde": 35,
             "spawn_points": null,
             "created_at": "2025-12-22T13:32:25.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 35,
             "artwork": [
                 {
                     "id": 56,
@@ -2157,10 +2157,10 @@
             "notities": null,
             "adres": "Monument District, Sand Sector V-3, Las Vegas Dead Zone",
             "veiligheidsniveau": 2,
+            "volgorde": 36,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 36,
             "artwork": [
                 {
                     "id": 43,
@@ -2182,10 +2182,10 @@
             "notities": null,
             "adres": "Monument District, Sand Sector V-3, Las Vegas Dead Zone",
             "veiligheidsniveau": 2,
+            "volgorde": 36,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 36,
             "artwork": [
                 {
                     "id": 43,
@@ -2240,10 +2240,10 @@
             "notities": null,
             "adres": "Dead Zone, Nedada Exclusion Territory",
             "veiligheidsniveau": 2,
+            "volgorde": 37,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 37,
             "artwork": [
                 {
                     "id": 44,
@@ -2265,10 +2265,10 @@
             "notities": null,
             "adres": "Dead Zone, Nedada Exclusion Territory",
             "veiligheidsniveau": 2,
+            "volgorde": 37,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 37,
             "artwork": [
                 {
                     "id": 44,
@@ -2306,10 +2306,10 @@
             "notities": null,
             "adres": "Dead Zone, Nedada Exclusion Territory",
             "veiligheidsniveau": 0,
+            "volgorde": 38,
             "spawn_points": null,
             "created_at": "2025-12-22T13:35:22.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 38,
             "artwork": [
                 {
                     "id": 52,
@@ -2331,10 +2331,10 @@
             "notities": null,
             "adres": "Dead Zone, Nedada Exclusion Territory",
             "veiligheidsniveau": 0,
+            "volgorde": 38,
             "spawn_points": null,
             "created_at": "2025-12-22T13:35:22.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 38,
             "artwork": [
                 {
                     "id": 52,
@@ -2372,10 +2372,10 @@
             "notities": null,
             "adres": "Flood Barrier Bridge 2, Outer Sea Wall, NT-Megacity",
             "veiligheidsniveau": 1,
+            "volgorde": 39,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 39,
             "artwork": [
                 {
                     "id": 42,
@@ -2397,10 +2397,10 @@
             "notities": null,
             "adres": "Flood Barrier Bridge 2, Outer Sea Wall, NT-Megacity",
             "veiligheidsniveau": 1,
+            "volgorde": 39,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 39,
             "artwork": [
                 {
                     "id": 42,
@@ -2438,10 +2438,10 @@
             "notities": null,
             "adres": "Sea Wall Overlook, Barrier Bridge 2",
             "veiligheidsniveau": 1,
+            "volgorde": 40,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 40,
             "artwork": [
                 {
                     "id": 41,
@@ -2463,10 +2463,10 @@
             "notities": null,
             "adres": "Sea Wall Overlook, Barrier Bridge 2",
             "veiligheidsniveau": 1,
+            "volgorde": 40,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 40,
             "artwork": [
                 {
                     "id": 41,
@@ -2504,10 +2504,10 @@
             "notities": null,
             "adres": "Sea Wall Terminus, Sector E-1, Flood Defense Line",
             "veiligheidsniveau": 1,
+            "volgorde": 41,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 41,
             "artwork": [
                 {
                     "id": 40,
@@ -2529,10 +2529,10 @@
             "notities": null,
             "adres": "Sea Wall Terminus, Sector E-1, Flood Defense Line",
             "veiligheidsniveau": 1,
+            "volgorde": 41,
             "spawn_points": null,
             "created_at": "2025-12-22T12:20:03.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 41,
             "artwork": [
                 {
                     "id": 40,
@@ -2570,10 +2570,10 @@
             "notities": null,
             "adres": null,
             "veiligheidsniveau": 0,
+            "volgorde": 31,
             "spawn_points": null,
             "created_at": "2025-12-23T15:38:22.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 31,
             "artwork": [
                 {
                     "id": 59,
@@ -2595,10 +2595,10 @@
             "notities": null,
             "adres": null,
             "veiligheidsniveau": 0,
+            "volgorde": 31,
             "spawn_points": null,
             "created_at": "2025-12-23T15:38:22.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 31,
             "artwork": [
                 {
                     "id": 59,
@@ -2636,10 +2636,10 @@
             "notities": null,
             "adres": null,
             "veiligheidsniveau": 0,
+            "volgorde": 32,
             "spawn_points": null,
             "created_at": "2025-12-23T15:38:44.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 32,
             "artwork": [
                 {
                     "id": 60,
@@ -2661,10 +2661,10 @@
             "notities": null,
             "adres": null,
             "veiligheidsniveau": 0,
+            "volgorde": 32,
             "spawn_points": null,
             "created_at": "2025-12-23T15:38:44.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 32,
             "artwork": [
                 {
                     "id": 60,
@@ -2722,6 +2722,7 @@
             "notities": null,
             "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 3,
             "spawn_points": {
                 "1": [
                     {
@@ -2764,7 +2765,6 @@
             },
             "created_at": "2025-12-26T21:56:31.000000Z",
             "updated_at": "2025-12-30T23:12:53.000000Z",
-            "volgorde": 3,
             "artwork": [
                 {
                     "id": 79,
@@ -2794,7 +2794,6 @@
                 "updated_at": "2025-12-30T21:42:13.000000Z",
                 "personage": {
                     "id": 12,
-                    "type": "persoon",
                     "naam": "Sapper",
                     "rol": "verdachte",
                     "beschrijving": "Openings replicant",
@@ -2803,6 +2802,7 @@
                     "motief": null,
                     "is_replicant": true,
                     "is_playable": false,
+                    "type": "persoon",
                     "created_at": "2025-12-26T12:45:16.000000Z",
                     "updated_at": "2025-12-26T12:45:16.000000Z",
                     "artwork": [
@@ -2827,6 +2827,7 @@
             "notities": null,
             "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 3,
             "spawn_points": {
                 "1": [
                     {
@@ -2869,7 +2870,6 @@
             },
             "created_at": "2025-12-26T21:56:31.000000Z",
             "updated_at": "2025-12-30T23:12:53.000000Z",
-            "volgorde": 3,
             "artwork": [
                 {
                     "id": 79,
@@ -2907,10 +2907,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 8,
             "spawn_points": null,
             "created_at": "2025-12-27T11:58:07.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 8,
             "artwork": [
                 {
                     "id": 82,
@@ -2932,10 +2932,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 8,
             "spawn_points": null,
             "created_at": "2025-12-27T11:58:07.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 8,
             "artwork": [
                 {
                     "id": 82,
@@ -2973,10 +2973,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 7,
             "spawn_points": null,
             "created_at": "2025-12-27T11:54:18.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 7,
             "artwork": [
                 {
                     "id": 81,
@@ -2998,10 +2998,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 7,
             "spawn_points": null,
             "created_at": "2025-12-27T11:54:18.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 7,
             "artwork": [
                 {
                     "id": 81,
@@ -3039,10 +3039,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 4,
             "spawn_points": null,
             "created_at": "2025-12-27T11:57:32.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 4,
             "artwork": [
                 {
                     "id": 83,
@@ -3064,10 +3064,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 4,
             "spawn_points": null,
             "created_at": "2025-12-27T11:57:32.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 4,
             "artwork": [
                 {
                     "id": 83,
@@ -3105,10 +3105,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 6,
             "spawn_points": null,
             "created_at": "2025-12-27T11:54:38.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 6,
             "artwork": [
                 {
                     "id": 80,
@@ -3130,10 +3130,10 @@
             "notities": null,
             "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
             "veiligheidsniveau": 0,
+            "volgorde": 6,
             "spawn_points": null,
             "created_at": "2025-12-27T11:54:38.000000Z",
             "updated_at": "2025-12-27T12:19:59.000000Z",
-            "volgorde": 6,
             "artwork": [
                 {
                     "id": 80,
