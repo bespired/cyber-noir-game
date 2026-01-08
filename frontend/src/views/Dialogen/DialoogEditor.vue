@@ -119,6 +119,7 @@ const createNewNode = () => {
     nodes.value[id] = {
         text: newNodeData.value.text,
         options: [],
+        nodeActions: [],
         x: 100,
         y: 100
     };
@@ -291,6 +292,9 @@ const getLineColor = (conn) => {
                             {{ id }}
                         </span>
                         <div v-if="id === 'root' || id === 'start'" class="w-1.5 h-1.5 rounded-full bg-noir-success shadow-[0_0_5px_#10b981]"></div>
+                        <div v-if="node.nodeActions?.length > 0" class="flex items-center gap-1 bg-noir-accent/10 border border-noir-accent/30 px-1 rounded ml-auto">
+                            <span class="text-[7px] text-noir-accent font-bold uppercase">ACTIONS: {{ node.nodeActions.length }}</span>
+                        </div>
                     </div>
 
                     <div class="h-16 mb-2 overflow-hidden border-b border-white/5">

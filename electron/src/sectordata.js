@@ -10,13 +10,13 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 14,
+                "id": 7,
                 "bestandspad": "artwork/sector/WWAgVmjmyTsnoUyh4UtEhMPIYZa6wnqClDwfw6Zs.jpg",
                 "titel": "sapper-outside.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 1,
-                "created_at": "2025-12-21T22:28:23.000000Z",
-                "updated_at": "2025-12-21T22:28:23.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
@@ -46,7 +46,7 @@ export const sectorData = [
                         "width": 2.54177634154728,
                         "height": 8.994042251343643,
                         "gedrag_id": null,
-                        "target_scene_id": 37,
+                        "target_scene_id": 35,
                         "target_spawn_point": "north"
                     },
                     {
@@ -57,13 +57,13 @@ export const sectorData = [
                         "width": 22.241803852456997,
                         "height": 6.162512186608566,
                         "gedrag_id": null,
-                        "target_scene_id": 45,
+                        "target_scene_id": 43,
                         "target_spawn_point": null
                     }
                 ],
                 "data": {
-                    "x": 435,
-                    "y": 445,
+                    "x": 443,
+                    "y": 446,
                     "width": 200,
                     "height": 150
                 },
@@ -77,8 +77,8 @@ export const sectorData = [
                     "threefile": "sapper--sapper-buiten.glb",
                     "beschrijving": "Ge\u00efsoleerde buitenpost aan de rand van de prote\u00efnevelden. Lage bebouwing, minimale infrastructuur en nauwelijks toezicht.",
                     "notities": null,
-                    "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
-                    "veiligheidsniveau": 1,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": {
                         "1": [
                             {
@@ -130,19 +130,19 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 26,
+                            "id": 18,
                             "bestandspad": "artwork/locatie/EmJHQ0RAdZpWZzCeH6QdfYrA47nPIfsBCyigCFLZ.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 1,
-                            "created_at": "2025-12-22T12:25:31.000000Z",
-                            "updated_at": "2025-12-22T12:25:31.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 4,
+                "id": 2,
                 "locatie_id": 2,
                 "sector_id": 1,
                 "titel": "Sapper veld",
@@ -178,8 +178,8 @@ export const sectorData = [
                     "threefile": "sapper--sapper-veld.glb",
                     "beschrijving": "Uitgestrekt prote\u00efneveld met kunstmatige teeltstructuren. Permanent bedekt door mist en industri\u00eble neerslag.",
                     "notities": null,
-                    "adres": "Protein Cultivation Zone AGR-9, Plot 47B, Outlands",
-                    "veiligheidsniveau": 1,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": {
                         "1": [
                             {
@@ -197,19 +197,19 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 27,
+                            "id": 19,
                             "bestandspad": "artwork/locatie/iEmVyJZK2GvLEKJR2AWc0ZhicFWW2qKgcLVQhV5G.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 2,
-                            "created_at": "2025-12-22T12:25:47.000000Z",
-                            "updated_at": "2025-12-22T12:25:47.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 37,
+                "id": 35,
                 "locatie_id": 35,
                 "sector_id": 1,
                 "titel": "Sapper kamer",
@@ -229,6 +229,7 @@ export const sectorData = [
                     {
                         "x": 68.99641577060932,
                         "y": 66.79080807874112,
+                        "type": "trigger",
                         "label": null,
                         "width": 30.645161290322577,
                         "height": 32.21674272033397,
@@ -238,8 +239,8 @@ export const sectorData = [
                     }
                 ],
                 "data": {
-                    "x": 748,
-                    "y": 206,
+                    "x": 598,
+                    "y": 186,
                     "width": 200,
                     "height": 150
                 },
@@ -256,17 +257,17 @@ export const sectorData = [
                         "motief": null,
                         "is_replicant": true,
                         "is_playable": false,
-                        "created_at": "2025-12-26T12:45:16.000000Z",
-                        "updated_at": "2025-12-26T12:45:16.000000Z",
+                        "created_at": "2026-01-08T21:16:56.000000Z",
+                        "updated_at": "2026-01-08T21:16:56.000000Z",
                         "artwork": [
                             {
-                                "id": 93,
+                                "id": 77,
                                 "bestandspad": "artwork/personage/8G8aNzQ2j6hnht1qkXq6GaKxXYfhcXQv1kbi9IY7.png",
                                 "titel": null,
                                 "imageable_type": "App\\Models\\Personage",
                                 "imageable_id": 12,
-                                "created_at": "2025-12-30T19:49:21.000000Z",
-                                "updated_at": "2025-12-30T19:49:21.000000Z"
+                                "created_at": "2026-01-08T21:16:56.000000Z",
+                                "updated_at": "2026-01-08T21:16:56.000000Z"
                             }
                         ],
                         "threefile": "sapper.glb"
@@ -308,8 +309,8 @@ export const sectorData = [
                                 }
                             }
                         ],
-                        "created_at": "2025-12-27T21:06:24.000000Z",
-                        "updated_at": "2025-12-30T23:03:48.000000Z"
+                        "created_at": "2026-01-08T21:16:56.000000Z",
+                        "updated_at": "2026-01-08T21:16:56.000000Z"
                     }
                 ],
                 "dialogs": [],
@@ -319,7 +320,7 @@ export const sectorData = [
                     "threefile": "sapper--sapper-kamer.glb",
                     "beschrijving": "Donkere ruimte met piano",
                     "notities": null,
-                    "adres": "Sector AGR-9, Protein Farm 47, Outlands, NT-Megacity",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": {
                         "1": [
@@ -363,13 +364,13 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 79,
+                            "id": 65,
                             "bestandspad": "artwork/locatie/m4j5gocbX39nryRYUZRUknvUB2lB3ZFrlintHf6p.jpg",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 35,
-                            "created_at": "2025-12-26T22:00:26.000000Z",
-                            "updated_at": "2025-12-26T22:00:26.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -387,18 +388,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 15,
+                "id": 8,
                 "bestandspad": "artwork/sector/bLQrZER8bOvIStHLOmiqgbsemjiLhqVYrW7WVccZ.jpg",
                 "titel": "police-outside.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 2,
-                "created_at": "2025-12-21T22:28:56.000000Z",
-                "updated_at": "2025-12-21T22:28:56.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 5,
+                "id": 3,
                 "locatie_id": 3,
                 "sector_id": 2,
                 "titel": "NTPD Landing Platform",
@@ -434,8 +435,8 @@ export const sectorData = [
                     "threefile": "nt-politie--ntpd-landing-platform.glb",
                     "beschrijving": "Centraal commandocentrum van de Neo Tokyo Police Directorate. Verticale megastructuur met civiele en geheime afdelingen.",
                     "notities": null,
-                    "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
-                    "veiligheidsniveau": 4,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": {
                         "2": [
                             {
@@ -466,19 +467,19 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 28,
+                            "id": 20,
                             "bestandspad": "artwork/locatie/2zGcJB6QSk5KtRLQlusGBY9MOKNiSY79FlpCOCLK.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 3,
-                            "created_at": "2025-12-22T12:26:08.000000Z",
-                            "updated_at": "2025-12-22T12:26:08.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 38,
+                "id": 36,
                 "locatie_id": 39,
                 "sector_id": 2,
                 "titel": "Baseline Kamer",
@@ -502,24 +503,24 @@ export const sectorData = [
                     "threefile": "nt-politie--ntpd-baseline-kamer.glb",
                     "beschrijving": "Hier hebben de nexus runners hun baseline test",
                     "notities": null,
-                    "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 82,
+                            "id": 68,
                             "bestandspad": "artwork/locatie/KWgcNlfwXaG2LGFjKyQiSlPC325ZiOJtRSTtkMKf.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 39,
-                            "created_at": "2025-12-27T11:58:46.000000Z",
-                            "updated_at": "2025-12-27T11:58:46.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 39,
+                "id": 37,
                 "locatie_id": 36,
                 "sector_id": 2,
                 "titel": "NTPD Hoofdkantoor",
@@ -534,7 +535,34 @@ export const sectorData = [
                     "height": 150
                 },
                 "artwork": [],
-                "npc": [],
+                "npc": [
+                    {
+                        "id": 12,
+                        "type": "persoon",
+                        "naam": "Sapper",
+                        "rol": "verdachte",
+                        "beschrijving": "Openings replicant",
+                        "menselijke_status": null,
+                        "replicant_status": null,
+                        "motief": null,
+                        "is_replicant": true,
+                        "is_playable": false,
+                        "created_at": "2026-01-08T21:16:56.000000Z",
+                        "updated_at": "2026-01-08T21:16:56.000000Z",
+                        "artwork": [
+                            {
+                                "id": 77,
+                                "bestandspad": "artwork/personage/8G8aNzQ2j6hnht1qkXq6GaKxXYfhcXQv1kbi9IY7.png",
+                                "titel": null,
+                                "imageable_type": "App\\Models\\Personage",
+                                "imageable_id": 12,
+                                "created_at": "2026-01-08T21:16:56.000000Z",
+                                "updated_at": "2026-01-08T21:16:56.000000Z"
+                            }
+                        ],
+                        "threefile": "sapper.glb"
+                    }
+                ],
                 "gedrag": [],
                 "dialogs": [],
                 "location": {
@@ -543,24 +571,24 @@ export const sectorData = [
                     "threefile": "nt-politie--ntpd-hoofdkantoor.glb",
                     "beschrijving": "Kantoor van Yoshi",
                     "notities": null,
-                    "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 81,
+                            "id": 67,
                             "bestandspad": "artwork/locatie/v689YxuvkEGzdnVEvN5x6PnGOUXmi71jc6sbxeKI.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 36,
-                            "created_at": "2025-12-27T11:56:36.000000Z",
-                            "updated_at": "2025-12-27T11:56:36.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 40,
+                "id": 38,
                 "locatie_id": 38,
                 "sector_id": 2,
                 "titel": "NTPD Lift",
@@ -584,24 +612,24 @@ export const sectorData = [
                     "threefile": "nt-politie--ntpd-lift.glb",
                     "beschrijving": "Politie Lift",
                     "notities": null,
-                    "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 83,
+                            "id": 69,
                             "bestandspad": "artwork/locatie/xLGYKPePUfH8cpSRACdiFROPqMVbAz50qRho1TKC.jpg",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 38,
-                            "created_at": "2025-12-27T11:59:08.000000Z",
-                            "updated_at": "2025-12-27T11:59:08.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 41,
+                "id": 39,
                 "locatie_id": 37,
                 "sector_id": 2,
                 "titel": "NTPD Gang",
@@ -625,18 +653,18 @@ export const sectorData = [
                     "threefile": "nt-politie--ntpd-gang.glb",
                     "beschrijving": "witte politie gang",
                     "notities": null,
-                    "adres": "NTPD Tower, Precinct Central, Block 112, Downtown Core, NT-Megacity",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 80,
+                            "id": 66,
                             "bestandspad": "artwork/locatie/d5tKwoowK35fOYAlPZa2SraZOJkVgN6eJU4cFkaG.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 37,
-                            "created_at": "2025-12-27T11:56:01.000000Z",
-                            "updated_at": "2025-12-27T11:56:01.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -654,18 +682,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 16,
+                "id": 9,
                 "bestandspad": "artwork/sector/A5pS2xK4QzpuyUEVCsCbK4RbFjkp5pVHFFDGeSSc.jpg",
                 "titel": "home-room.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 3,
-                "created_at": "2025-12-21T22:29:39.000000Z",
-                "updated_at": "2025-12-21T22:29:39.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 6,
+                "id": 4,
                 "locatie_id": 4,
                 "sector_id": 3,
                 "titel": "Thuis buiten",
@@ -698,8 +726,8 @@ export const sectorData = [
                     "threefile": "thuis--thuis-buiten.glb",
                     "beschrijving": "Wooncomplex voor lagere stadsfunctionarissen. Massieve betonstructuur met beperkte toegang en permanente bewaking.",
                     "notities": null,
-                    "adres": "Residential Stack C, Building 36, Level 18, Sector H-3, NT-Megacity",
-                    "veiligheidsniveau": 2,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": {
                         "3": [
                             {
@@ -713,19 +741,19 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 29,
+                            "id": 21,
                             "bestandspad": "artwork/locatie/hacKviOCCnFN9SNr7ftVWPCiHCEH34eWPMkcMznC.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 4,
-                            "created_at": "2025-12-22T12:29:03.000000Z",
-                            "updated_at": "2025-12-22T12:29:03.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 7,
+                "id": 5,
                 "locatie_id": 5,
                 "sector_id": 3,
                 "titel": "Thuis kamer",
@@ -758,8 +786,8 @@ export const sectorData = [
                     "threefile": "thuis--thuis-kamer.glb",
                     "beschrijving": "Standaard woonunit. Klein, functioneel en volledig geoptimaliseerd voor alleenstaand gebruik.",
                     "notities": null,
-                    "adres": "Unit 18-36-C, Residential Stack C, Sector H-3",
-                    "veiligheidsniveau": 1,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": {
                         "3": [
                             {
@@ -773,13 +801,13 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 30,
+                            "id": 22,
                             "bestandspad": "artwork/locatie/6sQR2c3pqw8twWtRWwbNSqmP7R4jd4EZvkAf8Vzs.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 5,
-                            "created_at": "2025-12-22T12:29:33.000000Z",
-                            "updated_at": "2025-12-22T12:29:33.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -797,18 +825,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 17,
+                "id": 10,
                 "bestandspad": "artwork/sector/lrMTQOmzELcxjWJWfmWcnZ20qrBlM4SQFTHkLPyV.jpg",
                 "titel": "wallace-clerk.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 4,
-                "created_at": "2025-12-21T22:32:13.000000Z",
-                "updated_at": "2025-12-21T22:32:13.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 22,
+                "id": 20,
                 "locatie_id": 24,
                 "sector_id": 4,
                 "titel": "Wallace buiten",
@@ -832,24 +860,24 @@ export const sectorData = [
                     "threefile": "wallace-hoofdkantoor--wallace-buiten.glb",
                     "beschrijving": "Monumentale buitenstructuur van Wallace HQ. Steriel, stil en permanent bewaakt.",
                     "notities": null,
-                    "adres": "Wallace Corporate HQ, Oceanfront Sector W-9",
-                    "veiligheidsniveau": 4,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 46,
+                            "id": 37,
                             "bestandspad": "artwork/locatie/jVjX85QxMx0mLvC8NnaFC0aklYkVzVhWp8JwMznk.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 24,
-                            "created_at": "2025-12-22T13:33:06.000000Z",
-                            "updated_at": "2025-12-22T13:33:06.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 23,
+                "id": 21,
                 "locatie_id": 22,
                 "sector_id": 4,
                 "titel": "Wallace kantoor Luv",
@@ -873,24 +901,24 @@ export const sectorData = [
                     "threefile": "wallace-hoofdkantoor--wallace-kantoor-luv.glb",
                     "beschrijving": "Operationeel kantoor van Wallace\u2019s directe vertegenwoordiger. Toegang strikt beperkt.",
                     "notities": null,
-                    "adres": "Executive Operations Suite, Level 7",
-                    "veiligheidsniveau": 5,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 45,
+                            "id": 36,
                             "bestandspad": "artwork/locatie/ootISohwlUD2lwqwtrM81JuIEXegvkabEX1AanDU.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 22,
-                            "created_at": "2025-12-22T13:32:37.000000Z",
-                            "updated_at": "2025-12-22T13:32:37.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 24,
+                "id": 22,
                 "locatie_id": 20,
                 "sector_id": 4,
                 "titel": "Wallace lab",
@@ -914,24 +942,24 @@ export const sectorData = [
                     "threefile": "wallace-hoofdkantoor--wallace-lab.glb",
                     "beschrijving": "Primair laboratorium voor replicant-ontwikkeling en experimenten.",
                     "notities": null,
-                    "adres": "Replication Laboratory, Level 6, Wallace HQ",
-                    "veiligheidsniveau": 5,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 48,
+                            "id": 39,
                             "bestandspad": "artwork/locatie/KqVjbCcmlpytsF32V048pMTqUr3ZSDrZukOSe7YY.jpg",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 20,
-                            "created_at": "2025-12-22T13:33:43.000000Z",
-                            "updated_at": "2025-12-22T13:33:43.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 25,
+                "id": 23,
                 "locatie_id": 19,
                 "sector_id": 4,
                 "titel": "Wallace archief",
@@ -955,24 +983,24 @@ export const sectorData = [
                     "threefile": "wallace-hoofdkantoor--wallace-archief.glb",
                     "beschrijving": "Ondergronds data-archief met historische replicant- en onderzoeksgegevens.",
                     "notities": null,
-                    "adres": "Data Archive Vault, Sublevel 4, Wallace HQ",
-                    "veiligheidsniveau": 5,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 49,
+                            "id": 40,
                             "bestandspad": "artwork/locatie/fpmlgHaT3zGWfn9c46fXpeeZqQ3NZ6NZV9URxNeF.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 19,
-                            "created_at": "2025-12-22T13:34:02.000000Z",
-                            "updated_at": "2025-12-22T13:34:02.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 26,
+                "id": 24,
                 "locatie_id": 21,
                 "sector_id": 4,
                 "titel": "Wallace bibliotheek",
@@ -996,24 +1024,24 @@ export const sectorData = [
                     "threefile": "wallace-hoofdkantoor--wallace-bibliotheek.glb",
                     "beschrijving": "Gecontroleerde kennisruimte met cognitieve en historische datasets.",
                     "notities": null,
-                    "adres": "Cognitive Records Library, Level 5",
-                    "veiligheidsniveau": 5,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 47,
+                            "id": 38,
                             "bestandspad": "artwork/locatie/SY7I0E2VhL77pYJZS2luiC8TgcOaC0uyZXQJma0o.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 21,
-                            "created_at": "2025-12-22T13:33:23.000000Z",
-                            "updated_at": "2025-12-22T13:33:23.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 27,
+                "id": 25,
                 "locatie_id": 23,
                 "sector_id": 4,
                 "titel": "Wallace kantoor",
@@ -1037,18 +1065,18 @@ export const sectorData = [
                     "threefile": "wallace-hoofdkantoor--wallace-kantoor.glb",
                     "beschrijving": "Hoofdplatform voor strategische besluitvorming binnen Wallace Corporation.",
                     "notities": null,
-                    "adres": "CEO Operations Platform, Level 1",
-                    "veiligheidsniveau": 5,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 57,
+                            "id": 48,
                             "bestandspad": "artwork/locatie/5TqZhFLPaMv3IgojJlQGXRyGhHNGli7TSt2VhrkR.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 23,
-                            "created_at": "2025-12-22T14:51:44.000000Z",
-                            "updated_at": "2025-12-22T14:51:44.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1066,18 +1094,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 18,
+                "id": 11,
                 "bestandspad": "artwork/sector/zCmvBz5nn6133md65LAuKjImRtAiQWXkAxzJOSlY.jpg",
                 "titel": "food-market.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 5,
-                "created_at": "2025-12-21T22:32:28.000000Z",
-                "updated_at": "2025-12-21T22:32:28.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 8,
+                "id": 6,
                 "locatie_id": 6,
                 "sector_id": 5,
                 "titel": "De Rosse Buurt",
@@ -1110,24 +1138,24 @@ export const sectorData = [
                     "threefile": "food-court--de-rosse-buurt.glb",
                     "beschrijving": "Dichtbevolkte neonwijk met illegale handel, entertainment en seksindustrie. Hoge criminaliteit, lage handhaving.",
                     "notities": null,
-                    "adres": "Red Light District, Neon Canal Zone, Sector N-5, NT-Megacity",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 31,
+                            "id": 23,
                             "bestandspad": "artwork/locatie/4X28eARECUQahcCA1f13NTzTaUJ6NmhZ8LqYPNn0.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 6,
-                            "created_at": "2025-12-22T12:29:48.000000Z",
-                            "updated_at": "2025-12-22T12:29:48.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 9,
+                "id": 7,
                 "locatie_id": 7,
                 "sector_id": 5,
                 "titel": "De Food Court",
@@ -1160,7 +1188,7 @@ export const sectorData = [
                     "threefile": "food-court--de-food-court.glb",
                     "beschrijving": "Overdekte markt waar synthetisch voedsel en prote\u00efneproducten worden verkocht. Druk, lawaaierig en continu verlicht.",
                     "notities": null,
-                    "adres": "Protein Market Hall 9, Neon Canal Zone, Sector N-5",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": {
                         "5": [
@@ -1175,13 +1203,13 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 33,
+                            "id": 24,
                             "bestandspad": "artwork/locatie/pzQ0Cq6EeYUPISTvo9Upj5O2SHbXJn0UoSLIf15X.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 7,
-                            "created_at": "2025-12-22T12:30:19.000000Z",
-                            "updated_at": "2025-12-22T12:30:19.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1199,18 +1227,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 20,
+                "id": 13,
                 "bestandspad": "artwork/sector/kmXnKc3LZujCLQOmu2b7SZ0hF9CJK8iDSGjs8trS.jpg",
                 "titel": "orphan-outsize.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 6,
-                "created_at": "2025-12-21T22:35:28.000000Z",
-                "updated_at": "2025-12-21T22:35:28.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 11,
+                "id": 9,
                 "locatie_id": 9,
                 "sector_id": 6,
                 "titel": "Crashlocatie",
@@ -1234,8 +1262,8 @@ export const sectorData = [
                     "threefile": "afval--crashlocatie.glb",
                     "beschrijving": "Verlaten industrieel terrein waar een luchtvaartuig is neergestort. Gebied is structureel instabiel.",
                     "notities": null,
-                    "adres": "Industrial Ruins, Block 77, Sector I-6, NT-Megacity",
-                    "veiligheidsniveau": 2,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": {
                         "6": [
                             {
@@ -1270,19 +1298,19 @@ export const sectorData = [
                     },
                     "artwork": [
                         {
-                            "id": 35,
+                            "id": 26,
                             "bestandspad": "artwork/locatie/MlzLvG4t16FMBGHTPqQpLqtG3KOP0VhLix8vrn26.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 9,
-                            "created_at": "2025-12-22T12:31:30.000000Z",
-                            "updated_at": "2025-12-22T12:31:30.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 12,
+                "id": 10,
                 "locatie_id": 10,
                 "sector_id": 6,
                 "titel": "Crashlocatie combat",
@@ -1306,18 +1334,18 @@ export const sectorData = [
                     "threefile": "afval--crashlocatie-combat.glb",
                     "beschrijving": "Zone met verhoogd risico op confrontaties.",
                     "notities": null,
-                    "adres": "Sublevel Freight Yard, Block 77A, Sector I-6",
-                    "veiligheidsniveau": 3,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 36,
+                            "id": 27,
                             "bestandspad": "artwork/locatie/gj8rfOe5FNoVy5u4A0MA41B4PnDHwQNurGPESfnj.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 10,
-                            "created_at": "2025-12-22T12:32:47.000000Z",
-                            "updated_at": "2025-12-22T12:32:47.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1335,18 +1363,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 21,
+                "id": 14,
                 "bestandspad": "artwork/sector/e8HPPgDmCdBa8bf1VrWBMBztK53W9EZAIaBgNPHk.jpg",
                 "titel": "stelline--forrest.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 7,
-                "created_at": "2025-12-21T23:08:34.000000Z",
-                "updated_at": "2025-12-21T23:08:34.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 18,
+                "id": 16,
                 "locatie_id": 15,
                 "sector_id": 7,
                 "titel": "Stelline buiten",
@@ -1370,24 +1398,24 @@ export const sectorData = [
                     "threefile": "geheugen-centrum--stelline-buiten.glb",
                     "beschrijving": "Afgesloten onderzoekscomplex omgeven door beveiligde dome-structuren.",
                     "notities": null,
-                    "adres": "Stelline Research Enclave, Bio-Dome Perimeter, Sector R-1",
-                    "veiligheidsniveau": 4,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 54,
+                            "id": 45,
                             "bestandspad": "artwork/locatie/HvnWVZUvpx505VA2vpXw5tHxd26u9gesXyHC9OZO.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 15,
-                            "created_at": "2025-12-22T14:02:09.000000Z",
-                            "updated_at": "2025-12-22T14:02:09.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 19,
+                "id": 17,
                 "locatie_id": 16,
                 "sector_id": 7,
                 "titel": "Stelline bos",
@@ -1411,24 +1439,24 @@ export const sectorData = [
                     "threefile": "geheugen-centrum--stelline-bos.glb",
                     "beschrijving": "Kunstmatig ecosysteem binnen een afgesloten koepel. Ontworpen voor gecontroleerde herinneringsstimulatie.",
                     "notities": null,
-                    "adres": "Artificial Forest Dome, Sector R-1, Enclave Interior",
-                    "veiligheidsniveau": 4,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 51,
+                            "id": 42,
                             "bestandspad": "artwork/locatie/8NjNO1iOURy0wa4GUYzPRSI6fLC2QR8F1A9QyK1I.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 16,
-                            "created_at": "2025-12-22T13:34:41.000000Z",
-                            "updated_at": "2025-12-22T13:34:41.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 20,
+                "id": 18,
                 "locatie_id": 17,
                 "sector_id": 7,
                 "titel": "Stelline lab",
@@ -1452,24 +1480,24 @@ export const sectorData = [
                     "threefile": "geheugen-centrum--stelline-lab.glb",
                     "beschrijving": "Hoogbeveiligd laboratorium voor geheugenontwerp en -validatie.",
                     "notities": null,
-                    "adres": "Memory Design Laboratory, Dome Core, Sector R-1",
-                    "veiligheidsniveau": 5,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 55,
+                            "id": 46,
                             "bestandspad": "artwork/locatie/RCVJ7pzYqQ0ml4mRNItkAhmjLvPRNDxO6gimN9Ca.jpg",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 17,
-                            "created_at": "2025-12-22T14:40:57.000000Z",
-                            "updated_at": "2025-12-22T14:40:57.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 21,
+                "id": 19,
                 "locatie_id": 18,
                 "sector_id": 7,
                 "titel": "Stelline trap",
@@ -1493,18 +1521,18 @@ export const sectorData = [
                     "threefile": "geheugen-centrum--stelline-trap.glb",
                     "beschrijving": "Interne toegangstrap tussen de dome-niveaus. Alleen geautoriseerd personeel.",
                     "notities": null,
-                    "adres": "Access Stairwell 3, Bio-Dome Core",
-                    "veiligheidsniveau": 4,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 50,
+                            "id": 41,
                             "bestandspad": "artwork/locatie/1kCsjJC6Vx2xGlP0YdMSN8v6URF5qzKDw4d6AwMP.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 18,
-                            "created_at": "2025-12-22T13:34:17.000000Z",
-                            "updated_at": "2025-12-22T13:34:17.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1522,18 +1550,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 61,
+                "id": 52,
                 "bestandspad": "artwork/sector/mfb581lFLO9SugmYH8aiHcQPGLSGvcKRTpZ08iPk.jpg",
                 "titel": "radiation.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 8,
-                "created_at": "2025-12-23T15:42:08.000000Z",
-                "updated_at": "2025-12-23T15:42:08.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 35,
+                "id": 33,
                 "locatie_id": 33,
                 "sector_id": 8,
                 "titel": "Radiation straat",
@@ -1562,19 +1590,19 @@ export const sectorData = [
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 59,
+                            "id": 50,
                             "bestandspad": "artwork/locatie/YY21mBiyrdOssekLEGSjTuk6ZEisRhWNF1YshPu3.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 33,
-                            "created_at": "2025-12-23T15:40:06.000000Z",
-                            "updated_at": "2025-12-23T15:40:06.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 36,
+                "id": 34,
                 "locatie_id": 34,
                 "sector_id": 8,
                 "titel": "Radiation desk",
@@ -1603,13 +1631,13 @@ export const sectorData = [
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 60,
+                            "id": 51,
                             "bestandspad": "artwork/locatie/czp4hmRJveXqFRd63UmY0OZGK8Yxu4BHy29HPUfx.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 34,
-                            "created_at": "2025-12-23T15:40:22.000000Z",
-                            "updated_at": "2025-12-23T15:40:22.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1627,18 +1655,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 19,
+                "id": 12,
                 "bestandspad": "artwork/sector/Kxj0RKPe8BB7YBce4FBnoc2TmXgwxe6sOyYKwx2k.jpg",
                 "titel": "vegas-statues.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 9,
-                "created_at": "2025-12-21T22:32:43.000000Z",
-                "updated_at": "2025-12-21T22:32:43.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 28,
+                "id": 26,
                 "locatie_id": 31,
                 "sector_id": 9,
                 "titel": "Vegas toegang",
@@ -1671,24 +1699,24 @@ export const sectorData = [
                     "threefile": "vegas--vegas-toegang.glb",
                     "beschrijving": "Controlepunt aan de rand van de Las Vegas Dead Zone. Officieel verboden gebied.",
                     "notities": null,
-                    "adres": "Dead Zone Gate 1, Nedada Exclusion Territory",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 56,
+                            "id": 47,
                             "bestandspad": "artwork/locatie/opHklpmC0E4dxV33VgQN9wkR5Cf3e2KaRWb1V3zI.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 31,
-                            "created_at": "2025-12-22T14:41:21.000000Z",
-                            "updated_at": "2025-12-22T14:41:21.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 29,
+                "id": 27,
                 "locatie_id": 26,
                 "sector_id": 9,
                 "titel": "Vegas standbeelden",
@@ -1729,24 +1757,24 @@ export const sectorData = [
                     "threefile": "vegas--vegas-standbeelden.glb",
                     "beschrijving": "Zandverzwolgen monumenten uit een vervlogen tijd. Radiologische en structurele gevaren aanwezig.",
                     "notities": null,
-                    "adres": "Monument District, Sand Sector V-3, Las Vegas Dead Zone",
-                    "veiligheidsniveau": 2,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 43,
+                            "id": 34,
                             "bestandspad": "artwork/locatie/D65fSGOKWPUgYQVEcTv9daUxMlGyDhigKBSamSyf.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 26,
-                            "created_at": "2025-12-22T13:31:31.000000Z",
-                            "updated_at": "2025-12-22T13:31:31.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 30,
+                "id": 28,
                 "locatie_id": 25,
                 "sector_id": 9,
                 "titel": "Casino toegang",
@@ -1787,24 +1815,24 @@ export const sectorData = [
                     "threefile": "vegas--casino-toegang.glb",
                     "beschrijving": "Controlepunt aan de rand van de Las Vegas Dead Zone. Officieel verboden gebied.",
                     "notities": null,
-                    "adres": "Dead Zone, Nedada Exclusion Territory",
-                    "veiligheidsniveau": 2,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 44,
+                            "id": 35,
                             "bestandspad": "artwork/locatie/FzDnpFTXE8cp5AIs6X4NVPEjqK6MwPaEt75BajI8.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 25,
-                            "created_at": "2025-12-22T13:31:46.000000Z",
-                            "updated_at": "2025-12-22T13:31:46.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 31,
+                "id": 29,
                 "locatie_id": 32,
                 "sector_id": 9,
                 "titel": "Casino zolder",
@@ -1828,18 +1856,18 @@ export const sectorData = [
                     "threefile": "vegas--casino-zolder.glb",
                     "beschrijving": "Waar de oude spinner staat.",
                     "notities": null,
-                    "adres": "Dead Zone, Nedada Exclusion Territory",
+                    "adres": null,
                     "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 52,
+                            "id": 43,
                             "bestandspad": "artwork/locatie/3ywoAzaz8OMp8QgXvpTopfdqMOqKEKxx6JDnsXKp.jpg",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 32,
-                            "created_at": "2025-12-22T13:35:49.000000Z",
-                            "updated_at": "2025-12-22T13:35:49.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1869,18 +1897,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 22,
+                "id": 15,
                 "bestandspad": "artwork/sector/jgYSJFCMBy7DGO95kQlJTJOJa0agrzd4EErdDPHd.jpg",
                 "titel": "good-joe--bridge.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 11,
-                "created_at": "2025-12-21T23:08:56.000000Z",
-                "updated_at": "2025-12-21T23:08:56.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 32,
+                "id": 30,
                 "locatie_id": 27,
                 "sector_id": 11,
                 "titel": "Good Joe brug",
@@ -1904,24 +1932,24 @@ export const sectorData = [
                     "threefile": "good-joe-bridge--good-joe-brug.glb",
                     "beschrijving": "Verbindingsbrug boven de zeewering. Vaak gebruikt voor illegale ontmoetingen.",
                     "notities": null,
-                    "adres": "Flood Barrier Bridge 2, Outer Sea Wall, NT-Megacity",
-                    "veiligheidsniveau": 1,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 42,
+                            "id": 33,
                             "bestandspad": "artwork/locatie/d7Jl8Z9FDDbUrJ9W00Pcz3ca69IMiWrTVmENtte3.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 27,
-                            "created_at": "2025-12-22T13:31:17.000000Z",
-                            "updated_at": "2025-12-22T13:31:17.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
             },
             {
-                "id": 33,
+                "id": 31,
                 "locatie_id": 28,
                 "sector_id": 11,
                 "titel": "Good Joe Joi",
@@ -1945,18 +1973,18 @@ export const sectorData = [
                     "threefile": "good-joe-bridge--good-joe-joi.glb",
                     "beschrijving": "Uitzichtpunt boven de oceaan. Publiek toegankelijk maar structureel kwetsbaar.",
                     "notities": null,
-                    "adres": "Sea Wall Overlook, Barrier Bridge 2",
-                    "veiligheidsniveau": 1,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 41,
+                            "id": 32,
                             "bestandspad": "artwork/locatie/GumZgyd0ltDXtiV0QjfQx1wLZPwWRQ9lZDYxUUju.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 28,
-                            "created_at": "2025-12-22T13:31:00.000000Z",
-                            "updated_at": "2025-12-22T13:31:00.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -1974,18 +2002,18 @@ export const sectorData = [
         "height": 100,
         "artwork": [
             {
-                "id": 25,
+                "id": 17,
                 "bestandspad": "artwork/sector/Rm0L9fd69ZKc15QXtXnkyHU9n9HVFOsKffCFmPrF.jpg",
                 "titel": "seawall--end.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 12,
-                "created_at": "2025-12-22T12:11:37.000000Z",
-                "updated_at": "2025-12-22T12:11:37.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 34,
+                "id": 32,
                 "locatie_id": 29,
                 "sector_id": 12,
                 "titel": "Dijk einde",
@@ -2009,18 +2037,18 @@ export const sectorData = [
                     "threefile": "dijk-gevecht--dijk-einde.glb",
                     "beschrijving": "Uiterste rand van de zeewering. Constante blootstelling aan stormen en overstromingen.",
                     "notities": null,
-                    "adres": "Sea Wall Terminus, Sector E-1, Flood Defense Line",
-                    "veiligheidsniveau": 1,
+                    "adres": null,
+                    "veiligheidsniveau": 0,
                     "spawn_points": null,
                     "artwork": [
                         {
-                            "id": 40,
+                            "id": 31,
                             "bestandspad": "artwork/locatie/CanBXb6vVULZhdeXcwJmlHfvgogGAtsEanBMs1i8.png",
                             "titel": null,
                             "imageable_type": "App\\Models\\Locatie",
                             "imageable_id": 29,
-                            "created_at": "2025-12-22T13:30:32.000000Z",
-                            "updated_at": "2025-12-22T13:30:32.000000Z"
+                            "created_at": "2026-01-08T21:16:56.000000Z",
+                            "updated_at": "2026-01-08T21:16:56.000000Z"
                         }
                     ]
                 }
@@ -2028,7 +2056,7 @@ export const sectorData = [
         ]
     },
     {
-        "id": 14,
+        "id": 13,
         "naam": "Weeshuis",
         "beschrijving": "\u7981\u533a Kinku (Restricted Zone)",
         "ontdek_condities": null,
@@ -2037,212 +2065,6 @@ export const sectorData = [
         "width": 150,
         "height": 100,
         "artwork": [],
-        "scenes": [
-            {
-                "id": 13,
-                "locatie_id": 11,
-                "sector_id": 14,
-                "titel": "Weeshuis buiten",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "artwork": [],
-                "npc": [],
-                "gedrag": [],
-                "dialogs": [],
-                "location": {
-                    "id": 11,
-                    "naam": "Weeshuis buiten",
-                    "threefile": "weeshuis--weeshuis-buiten.glb",
-                    "beschrijving": "Overzicht waar het weeshuis ligt.",
-                    "notities": null,
-                    "adres": "Outer Exclusion Zone, Orphanage Block 12, Coastal Ruins",
-                    "veiligheidsniveau": 1,
-                    "spawn_points": null,
-                    "artwork": [
-                        {
-                            "id": 37,
-                            "bestandspad": "artwork/locatie/1uZD465KNxGlGba6X87Nsz8VDQDIlQYoMghH5VMc.png",
-                            "titel": null,
-                            "imageable_type": "App\\Models\\Locatie",
-                            "imageable_id": 11,
-                            "created_at": "2025-12-22T12:34:22.000000Z",
-                            "updated_at": "2025-12-22T12:34:22.000000Z"
-                        }
-                    ]
-                }
-            },
-            {
-                "id": 14,
-                "locatie_id": 12,
-                "sector_id": 14,
-                "titel": "Weeshuis brug",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "artwork": [],
-                "npc": [],
-                "gedrag": [],
-                "dialogs": [],
-                "location": {
-                    "id": 12,
-                    "naam": "Weeshuis brug",
-                    "threefile": "weeshuis--weeshuis-brug.glb",
-                    "beschrijving": "Instabiele verbindingsbrug tussen verschillende delen van het complex. Gedeeltelijk ingestort.",
-                    "notities": null,
-                    "adres": "Collapsed Skyway 3, Orphanage Block 12",
-                    "veiligheidsniveau": 1,
-                    "spawn_points": null,
-                    "artwork": [
-                        {
-                            "id": 38,
-                            "bestandspad": "artwork/locatie/7gyC97HUzrBRxgEq2WqWHsaa7CgWJsFni16kCXnn.png",
-                            "titel": null,
-                            "imageable_type": "App\\Models\\Locatie",
-                            "imageable_id": 12,
-                            "created_at": "2025-12-22T12:34:42.000000Z",
-                            "updated_at": "2025-12-22T12:34:42.000000Z"
-                        }
-                    ]
-                }
-            },
-            {
-                "id": 15,
-                "locatie_id": 13,
-                "sector_id": 14,
-                "titel": "Weeshuis kinderen",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "artwork": [],
-                "npc": [],
-                "gedrag": [],
-                "dialogs": [],
-                "location": {
-                    "id": 13,
-                    "naam": "Weeshuis kinderen",
-                    "threefile": "weeshuis--weeshuis-kinderen.glb",
-                    "beschrijving": "Verwerkingsruimte waar kinderen werden geregistreerd en toegewezen. Donker, vervuild en verlaten.",
-                    "notities": null,
-                    "adres": "Child Processing Hall, Sublevel B, Block 12",
-                    "veiligheidsniveau": 1,
-                    "spawn_points": null,
-                    "artwork": [
-                        {
-                            "id": 58,
-                            "bestandspad": "artwork/locatie/A6hd3HrUyifNgIlvOAw7m9mzXfqE3yEqpxDanJxN.png",
-                            "titel": null,
-                            "imageable_type": "App\\Models\\Locatie",
-                            "imageable_id": 13,
-                            "created_at": "2025-12-22T19:57:44.000000Z",
-                            "updated_at": "2025-12-22T19:57:44.000000Z"
-                        }
-                    ]
-                }
-            },
-            {
-                "id": 16,
-                "locatie_id": 14,
-                "sector_id": 14,
-                "titel": "Weeshuis kantoor",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "artwork": [],
-                "npc": [],
-                "gedrag": [],
-                "dialogs": [],
-                "location": {
-                    "id": 14,
-                    "naam": "Weeshuis kantoor",
-                    "threefile": "weeshuis--weeshuis-kantoor.glb",
-                    "beschrijving": "Administratieve ruimte van het voormalige weeshuis. Oude databanken en papieren archieven aanwezig.",
-                    "notities": null,
-                    "adres": "Administrative Office, Level 2, Block 12",
-                    "veiligheidsniveau": 1,
-                    "spawn_points": null,
-                    "artwork": [
-                        {
-                            "id": 53,
-                            "bestandspad": "artwork/locatie/dCKWPDoAnLApKh1wrAhCGaSedV9lZZjFAnDRGFZj.png",
-                            "titel": null,
-                            "imageable_type": "App\\Models\\Locatie",
-                            "imageable_id": 14,
-                            "created_at": "2025-12-22T13:36:09.000000Z",
-                            "updated_at": "2025-12-22T13:36:09.000000Z"
-                        }
-                    ]
-                }
-            },
-            {
-                "id": 17,
-                "locatie_id": 30,
-                "sector_id": 14,
-                "titel": "Weeshuis trappenhal",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "artwork": [],
-                "npc": [],
-                "gedrag": [],
-                "dialogs": [],
-                "location": {
-                    "id": 30,
-                    "naam": "Weeshuis trappenhal",
-                    "threefile": "weeshuis--weeshuis-trappenhal.glb",
-                    "beschrijving": "Trappenhal naar meerdere locaties binnen het weeshuis",
-                    "notities": null,
-                    "adres": "Collapsed Skyway 3, Orphanage Block 12",
-                    "veiligheidsniveau": 0,
-                    "spawn_points": null,
-                    "artwork": [
-                        {
-                            "id": 39,
-                            "bestandspad": "artwork/locatie/uBHsk8bQO2sGDsBDn43doZxv3kSjJ65pagWVwzmo.png",
-                            "titel": null,
-                            "imageable_type": "App\\Models\\Locatie",
-                            "imageable_id": 30,
-                            "created_at": "2025-12-22T13:30:16.000000Z",
-                            "updated_at": "2025-12-22T13:30:16.000000Z"
-                        }
-                    ]
-                }
-            }
-        ]
+        "scenes": []
     }
 ];

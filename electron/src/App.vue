@@ -13,9 +13,14 @@ const isDebug = computed(() => import.meta.env.VITE_DEBUG === 'true')
 
 // Track sectors where the vehicle has already landed
 const landedSectors = ref(new Set(JSON.parse(localStorage.getItem('landedSectors') || '[]')));
+const inventory = ref(JSON.parse(localStorage.getItem('inventory') || '[]'));
 
 const saveLandedSectors = () => {
     localStorage.setItem('landedSectors', JSON.stringify([...landedSectors.value]));
+};
+
+const saveInventory = () => {
+    localStorage.setItem('inventory', JSON.stringify(inventory.value));
 };
 
 const transientProps = ref({});
@@ -100,6 +105,22 @@ const onSceneComplete = (data) => {
     }
 }
 
+const onGiveClue = (clueId) => {
+    console.log("[ENGINE] Giving clue:", clueId);
+    if (!clueId) return;
+
+    if (!inventory.value.includes(clueId)) {
+        inventory.value.push(clueId);
+        saveInventory();
+        eventLog.value.unshift({
+            time: new Date().toLocaleTimeString(),
+            data: { type: 'CLUE_ACQUIRED', id: clueId }
+        });
+    } else {
+        console.log("[ENGINE] Clue already in inventory.");
+    }
+}
+
 onMounted(async () => {
     console.log("[ENGINE] Initializing...");
 
@@ -127,6 +148,7 @@ onMounted(async () => {
         :is="activeComponent"
         v-bind="sceneProps"
         @scene-complete="onSceneComplete"
+        @give-clue="onGiveClue"
     />
 
     <div v-else-if="!loading" class="no-scene">

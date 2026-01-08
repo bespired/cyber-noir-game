@@ -42,6 +42,7 @@ const sectorData = ref(null);
 const scenesInSector = ref([]);
 const currentScene = ref(null);
 const settings = ref({});
+const allPersonages = ref([]);
 const gedragingen = ref([]);
 const gameState = reactive({
     tags: []
@@ -238,6 +239,9 @@ const updateDimensions = () => {
 };
 
 onMounted(async () => {
+    // Load global personages for auto-detection
+    allPersonages.value = await fetchRobustData('personages.json', 'personages') || [];
+
     await fetchData();
     window.addEventListener('resize', updateDimensions);
     initThree();
@@ -284,6 +288,37 @@ const fetchData = async () => {
                 gedragingen.value = await fetchRobustData('gedrag.json', 'gedrag');
             }
 
+            // Proactive NPC Detection: If scene npc/personage lists are empty, check spawn points
+            if (currentScene.value) {
+                const spList = currentScene.value.scene_personages || currentScene.value.scenePersonages || currentScene.value.npc || [];
+                if (spList.length === 0) {
+                    console.log(`[DEBUG] Scene ${currentScene.value.id} has no explicit NPCs. Checking spawn points for personage_id...`);
+                    const loc = currentScene.value.location;
+                    const allSpawnPoints = loc?.spawn_points || {};
+                    const relevantPoints = allSpawnPoints[sId] || allSpawnPoints[Number(sId)] || [];
+                    
+                    const proactiveNPCs = [];
+                    relevantPoints.forEach(p => {
+                        if (p.personage_id) {
+                            const personage = allPersonages.value.find(pers => String(pers.id) === String(p.personage_id));
+                            if (personage) {
+                                console.log(`[DEBUG] Proactively detected NPC: ${personage.naam} (ID ${personage.id}) from spawn point.`);
+                                proactiveNPCs.push({
+                                    personage_id: personage.id,
+                                    personage: personage,
+                                    spawn_point_name: p.name || p.id,
+                                    spawn_condition: { type: 'on_enter' }
+                                });
+                            }
+                        }
+                    });
+                    
+                    if (proactiveNPCs.length > 0) {
+                        currentScene.value.scene_personages = proactiveNPCs;
+                    }
+                }
+            }
+
             // Find start scene logic if currentScene not already set
             if (!currentScene.value) {
                for (const s of scenesInSector.value) {
@@ -301,11 +336,13 @@ const fetchData = async () => {
             const sectorRes = await fetchRobustData(`sectors/${sectorId.value}.json`, `sectoren/${sectorId.value}`);
             const settingsRes = await fetchRobustData('settings.json', 'instellingen');
             const gedragRes = await fetchRobustData('gedrag.json', 'gedrag');
+            const personagesRes = await fetchRobustData('personages.json', 'personages'); // Load all personages
 
             sectorData.value = sectorRes;
             scenesInSector.value = sectorData.value.scenes || [];
             settings.value = settingsRes;
             gedragingen.value = gedragRes;
+            allPersonages.value = personagesRes; // Store all personages
 
             if (props.id) {
                const sceneData = await fetchRobustData(`scenes/${props.id}.json`, `scenes/${props.id}`);
@@ -529,7 +566,27 @@ const loadSceneGLB = (sceneData, targetSpawnLabel = null) => {
 
                 spawnCharacter(charPos, sceneData.id).then(() => {
                     if (currentLoadingSceneId.value !== sceneData.id) return resolve();
-                    const spList = sceneData.scene_personages || sceneData.scenePersonages || [];
+                    
+                    let spList = sceneData.scene_personages || sceneData.scenePersonages || sceneData.npc || [];
+                    
+                    // PROACTIVE DETECTION: Scan spawn points for personages not in the explicit list
+                    if (spList.length === 0 && spawnPoints.length > 0) {
+                        const detectiveSpawned = spawnPoints.filter(p => p.personage_id);
+                        if (detectiveSpawned.length > 0) {
+                            console.log(`[SPAWN] Proactively detected ${detectiveSpawned.length} NPCs from spawn points.`);
+                            spList = detectiveSpawned.map(p => {
+                                // Find personage data
+                                const personage = allPersonages.value.find(pers => String(pers.id) === String(p.personage_id));
+                                return {
+                                    personage_id: p.personage_id,
+                                    personage: personage,
+                                    spawn_point_name: p.name || p.id,
+                                    gedrag_id: p.gedrag_id
+                                };
+                            }).filter(sp => sp.personage);
+                        }
+                    }
+
                     spawnNPCs(spList, sceneData.id).then(() => {
                         if (currentLoadingSceneId.value !== sceneData.id) return resolve();
                         
@@ -857,8 +914,11 @@ const spawnNPCs = async (scenePersonages, sceneId) => {
 
             // Find assigned spawn point
             const spawnPos = spawnPoints.find(point => point.name === sp.spawn_point_name || point.id === sp.spawn_point_name) ||
+                spawnPoints.find(point => String(point.personage_id) === String(sp.personage_id)) ||
                 spawnPoints.find(point => point.type === 'personage') ||
                 { x: 0, y: 0, z: 0 };
+
+            console.log(`[SPAWN] NPC ${p.naam} (ID:${p.id}) assigned to point: ${spawnPos.name || spawnPos.id || 'fallback'} at ${spawnPos.x}, ${spawnPos.y}, ${spawnPos.z}`);
 
             const charUrl = getCharacterGlbUrl(p.naam);
             if (!charUrl) continue;
@@ -1110,7 +1170,7 @@ const startDialogue = (dialoogId) => {
     });
 };
 
-const playNode = (nodeId) => {
+const playNode = async (nodeId) => {
     if (nodeId === '[END]' || nodeId === 'END') {
         closeDialogue();
         return;
@@ -1124,6 +1184,15 @@ const playNode = (nodeId) => {
 
     currentNodeId.value = nodeId;
     showDialogueOptions.value = false;
+
+    // Execute node-level actions
+    const actions = node.actions || node.nodeActions || [];
+    if (actions.length > 0) {
+        console.log(`[DIALOGUE] Executing ${actions.length} actions for node ${nodeId}`);
+        for (const action of actions) {
+            await runAction(action);
+        }
+    }
 
     typewriterText.value = '';
     if (typewriterInterval.value) clearInterval(typewriterInterval.value);
@@ -1205,7 +1274,7 @@ const triggerGateway = async (gateway, isForced = false) => {
             const gedrag = gedragingen.value.find(g => g.id === gateway.gedrag_id);
 
             // Find matching spawned NPCs
-            const spRelation = currentScene.value ?.scene_personages || currentScene.value ?.scenePersonages || [];
+            const spRelation = currentScene.value ?.scene_personages || currentScene.value ?.scenePersonages || currentScene.value ?.npc || [];
             const targetGedragId = String(gateway.gedrag_id);
 
             const sceneP = spRelation.filter(sp => String(sp.gedrag_id || sp.gedragId) === targetGedragId);
@@ -1312,6 +1381,12 @@ const runAction = async (action, actorId = null) => {
     console.log(`Running action ${type} for ${actorId || 'player'}`);
 
     switch (type) {
+        case 'GIVE CLUE':
+        case 'GEEF AANWIJZING':
+            const clueId = value || params.clue_id || params.id;
+            console.log(`[ACTION] Emitting give-clue for: ${clueId}`);
+            emit('give-clue', clueId);
+            break;
         case 'SET GAME TAG':
             const tag = value || params.tag;
             if (tag && !gameState.tags.includes(tag)) {

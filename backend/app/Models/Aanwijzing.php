@@ -14,6 +14,8 @@ class Aanwijzing extends Model
     protected $fillable = [
         'titel',
         'beschrijving',
+        'type',
+        'data',
         'personage_id',
         'locatie_id',
         'is_kritisch',
@@ -21,6 +23,7 @@ class Aanwijzing extends Model
 
     protected $casts = [
         'is_kritisch' => 'boolean',
+        'data' => 'array',
     ];
 
     public function personage()

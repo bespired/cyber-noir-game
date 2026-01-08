@@ -8,6 +8,7 @@
         "cancel": "Annuleren",
         "confirm": "Bevestigen",
         "change": "Bewerken",
+        "add": "Toevoegen",
         "emulate": "Emulatie",
         "sidebar": {
             "about": "OVER",
@@ -240,7 +241,18 @@
         "save": "AANWIJZING BEWAREN",
         "none": "-- Geen --",
         "file_not_found": "BESTAND NIET GEVONDEN OF CORRUPT",
-        "back": "AANWIJZINGEN"
+        "back": "AANWIJZINGEN",
+        "type": "Type",
+        "type_image": "Afbeelding",
+        "type_object": "Object (3D)",
+        "type_gamestate": "Gamestate",
+        "gamestate_data": "Gamestate Data",
+        "gamestate_key": "Gamestate Sleutel",
+        "auto_generated": "AUTO_GEGENEREERD",
+        "gamestate_hint": "De slug van de naam van deze aanwijzing zal worden gebruikt als de boolean gamestate vlag in de game engine.",
+        "gamestate_flags": "Gamestate Vlaggen (Boolean)",
+        "add_flag_placeholder": "Nieuwe vlag naam...",
+        "no_3d_model": "GEEN_3D_MODEL_GEVONDEN"
     },
     "behavior": {
         "title": "GEDRAG",
@@ -466,6 +478,9 @@
         "upload_new": "Nieuw Plaatje Uploaden",
         "optional_title": "OPTIONEEL_TITEL",
         "uploading": "UPLOADING...",
-        "upload_btn": "UPLOAD_PLAATJE"
+        "upload_btn": "UPLOAD_PLAATJE",
+        "add_glb": "GLB Toevoegen",
+        "upload_new_glb": "Nieuw GLB Bestand Uploaden",
+        "upload_btn_glb": "UPLOAD_GLB"
     }
 }

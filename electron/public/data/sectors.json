@@ -10,17 +10,17 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2026-01-03T21:06:55.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 14,
+                "id": 7,
                 "bestandspad": "artwork/sector/WWAgVmjmyTsnoUyh4UtEhMPIYZa6wnqClDwfw6Zs.jpg",
                 "titel": "sapper-outside.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 1,
-                "created_at": "2025-12-21T22:28:23.000000Z",
-                "updated_at": "2025-12-21T22:28:23.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
@@ -50,7 +50,7 @@
                         "width": 2.54177634154728,
                         "height": 8.994042251343643,
                         "gedrag_id": null,
-                        "target_scene_id": 37,
+                        "target_scene_id": 35,
                         "target_spawn_point": "north"
                     },
                     {
@@ -61,21 +61,21 @@
                         "width": 22.241803852456997,
                         "height": 6.162512186608566,
                         "gedrag_id": null,
-                        "target_scene_id": 45,
+                        "target_scene_id": 43,
                         "target_spawn_point": null
                     }
                 ],
                 "data": {
-                    "x": 435,
-                    "y": 445,
+                    "x": 443,
+                    "y": 446,
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:14:53.000000Z",
-                "updated_at": "2026-01-05T12:18:49.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 4,
+                "id": 2,
                 "locatie_id": 2,
                 "sector_id": 1,
                 "titel": "Sapper veld",
@@ -101,11 +101,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2026-01-03T11:22:34.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 37,
+                "id": 35,
                 "locatie_id": 35,
                 "sector_id": 1,
                 "titel": "Sapper kamer",
@@ -125,6 +125,7 @@
                     {
                         "x": 68.99641577060932,
                         "y": 66.79080807874112,
+                        "type": "trigger",
                         "label": null,
                         "width": 30.645161290322577,
                         "height": 32.21674272033397,
@@ -134,13 +135,13 @@
                     }
                 ],
                 "data": {
-                    "x": 748,
-                    "y": 206,
+                    "x": 598,
+                    "y": 186,
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-26T22:20:43.000000Z",
-                "updated_at": "2026-01-03T11:22:37.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -155,22 +156,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-22T12:07:51.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 15,
+                "id": 8,
                 "bestandspad": "artwork/sector/bLQrZER8bOvIStHLOmiqgbsemjiLhqVYrW7WVccZ.jpg",
                 "titel": "police-outside.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 2,
-                "created_at": "2025-12-21T22:28:56.000000Z",
-                "updated_at": "2025-12-21T22:28:56.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 5,
+                "id": 3,
                 "locatie_id": 3,
                 "sector_id": 2,
                 "titel": "NTPD Landing Platform",
@@ -196,11 +197,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2026-01-05T12:31:50.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 38,
+                "id": 36,
                 "locatie_id": 39,
                 "sector_id": 2,
                 "titel": "Baseline Kamer",
@@ -214,11 +215,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-27T12:05:08.000000Z",
-                "updated_at": "2026-01-04T13:50:36.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 39,
+                "id": 37,
                 "locatie_id": 36,
                 "sector_id": 2,
                 "titel": "NTPD Hoofdkantoor",
@@ -232,11 +233,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-27T12:05:35.000000Z",
-                "updated_at": "2026-01-04T13:50:32.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 40,
+                "id": 38,
                 "locatie_id": 38,
                 "sector_id": 2,
                 "titel": "NTPD Lift",
@@ -250,11 +251,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-27T12:16:02.000000Z",
-                "updated_at": "2026-01-04T13:50:34.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 41,
+                "id": 39,
                 "locatie_id": 37,
                 "sector_id": 2,
                 "titel": "NTPD Gang",
@@ -268,8 +269,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-27T12:16:39.000000Z",
-                "updated_at": "2026-01-04T13:50:31.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -284,22 +285,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2026-01-04T13:32:14.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 16,
+                "id": 9,
                 "bestandspad": "artwork/sector/A5pS2xK4QzpuyUEVCsCbK4RbFjkp5pVHFFDGeSSc.jpg",
                 "titel": "home-room.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 3,
-                "created_at": "2025-12-21T22:29:39.000000Z",
-                "updated_at": "2025-12-21T22:29:39.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 6,
+                "id": 4,
                 "locatie_id": 4,
                 "sector_id": 3,
                 "titel": "Thuis buiten",
@@ -322,11 +323,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 7,
+                "id": 5,
                 "locatie_id": 5,
                 "sector_id": 3,
                 "titel": "Thuis kamer",
@@ -349,8 +350,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -365,22 +366,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2026-01-04T13:32:45.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 17,
+                "id": 10,
                 "bestandspad": "artwork/sector/lrMTQOmzELcxjWJWfmWcnZ20qrBlM4SQFTHkLPyV.jpg",
                 "titel": "wallace-clerk.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 4,
-                "created_at": "2025-12-21T22:32:13.000000Z",
-                "updated_at": "2025-12-21T22:32:13.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 22,
+                "id": 20,
                 "locatie_id": 24,
                 "sector_id": 4,
                 "titel": "Wallace buiten",
@@ -394,11 +395,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 23,
+                "id": 21,
                 "locatie_id": 22,
                 "sector_id": 4,
                 "titel": "Wallace kantoor Luv",
@@ -412,11 +413,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 24,
+                "id": 22,
                 "locatie_id": 20,
                 "sector_id": 4,
                 "titel": "Wallace lab",
@@ -430,11 +431,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 25,
+                "id": 23,
                 "locatie_id": 19,
                 "sector_id": 4,
                 "titel": "Wallace archief",
@@ -448,11 +449,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 26,
+                "id": 24,
                 "locatie_id": 21,
                 "sector_id": 4,
                 "titel": "Wallace bibliotheek",
@@ -466,11 +467,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 27,
+                "id": 25,
                 "locatie_id": 23,
                 "sector_id": 4,
                 "titel": "Wallace kantoor",
@@ -484,8 +485,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -500,22 +501,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-23T15:45:36.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 18,
+                "id": 11,
                 "bestandspad": "artwork/sector/zCmvBz5nn6133md65LAuKjImRtAiQWXkAxzJOSlY.jpg",
                 "titel": "food-market.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 5,
-                "created_at": "2025-12-21T22:32:28.000000Z",
-                "updated_at": "2025-12-21T22:32:28.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 8,
+                "id": 6,
                 "locatie_id": 6,
                 "sector_id": 5,
                 "titel": "De Rosse Buurt",
@@ -538,11 +539,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 9,
+                "id": 7,
                 "locatie_id": 7,
                 "sector_id": 5,
                 "titel": "De Food Court",
@@ -565,8 +566,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -581,22 +582,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-22T12:08:43.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 20,
+                "id": 13,
                 "bestandspad": "artwork/sector/kmXnKc3LZujCLQOmu2b7SZ0hF9CJK8iDSGjs8trS.jpg",
                 "titel": "orphan-outsize.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 6,
-                "created_at": "2025-12-21T22:35:28.000000Z",
-                "updated_at": "2025-12-21T22:35:28.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 11,
+                "id": 9,
                 "locatie_id": 9,
                 "sector_id": 6,
                 "titel": "Crashlocatie",
@@ -610,11 +611,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 12,
+                "id": 10,
                 "locatie_id": 10,
                 "sector_id": 6,
                 "titel": "Crashlocatie combat",
@@ -628,8 +629,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -644,22 +645,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-22T12:09:43.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 21,
+                "id": 14,
                 "bestandspad": "artwork/sector/e8HPPgDmCdBa8bf1VrWBMBztK53W9EZAIaBgNPHk.jpg",
                 "titel": "stelline--forrest.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 7,
-                "created_at": "2025-12-21T23:08:34.000000Z",
-                "updated_at": "2025-12-21T23:08:34.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 18,
+                "id": 16,
                 "locatie_id": 15,
                 "sector_id": 7,
                 "titel": "Stelline buiten",
@@ -673,11 +674,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2026-01-03T11:24:47.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 19,
+                "id": 17,
                 "locatie_id": 16,
                 "sector_id": 7,
                 "titel": "Stelline bos",
@@ -691,11 +692,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2026-01-03T11:24:52.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 20,
+                "id": 18,
                 "locatie_id": 17,
                 "sector_id": 7,
                 "titel": "Stelline lab",
@@ -709,11 +710,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2026-01-03T11:24:54.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 21,
+                "id": 19,
                 "locatie_id": 18,
                 "sector_id": 7,
                 "titel": "Stelline trap",
@@ -727,8 +728,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2026-01-03T11:24:57.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -743,22 +744,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-21T18:24:53.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 61,
+                "id": 52,
                 "bestandspad": "artwork/sector/mfb581lFLO9SugmYH8aiHcQPGLSGvcKRTpZ08iPk.jpg",
                 "titel": "radiation.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 8,
-                "created_at": "2025-12-23T15:42:08.000000Z",
-                "updated_at": "2025-12-23T15:42:08.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 35,
+                "id": 33,
                 "locatie_id": 33,
                 "sector_id": 8,
                 "titel": "Radiation straat",
@@ -772,11 +773,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-23T15:43:08.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 36,
+                "id": 34,
                 "locatie_id": 34,
                 "sector_id": 8,
                 "titel": "Radiation desk",
@@ -790,8 +791,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-23T15:43:40.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -806,22 +807,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2026-01-03T23:19:52.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 19,
+                "id": 12,
                 "bestandspad": "artwork/sector/Kxj0RKPe8BB7YBce4FBnoc2TmXgwxe6sOyYKwx2k.jpg",
                 "titel": "vegas-statues.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 9,
-                "created_at": "2025-12-21T22:32:43.000000Z",
-                "updated_at": "2025-12-21T22:32:43.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 28,
+                "id": 26,
                 "locatie_id": 31,
                 "sector_id": 9,
                 "titel": "Vegas toegang",
@@ -844,11 +845,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 29,
+                "id": 27,
                 "locatie_id": 26,
                 "sector_id": 9,
                 "titel": "Vegas standbeelden",
@@ -879,11 +880,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 30,
+                "id": 28,
                 "locatie_id": 25,
                 "sector_id": 9,
                 "titel": "Casino toegang",
@@ -914,11 +915,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 31,
+                "id": 29,
                 "locatie_id": 32,
                 "sector_id": 9,
                 "titel": "Casino zolder",
@@ -932,8 +933,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -948,8 +949,8 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-30T21:52:24.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [],
         "scenes": []
     },
@@ -964,22 +965,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2026-01-04T13:33:15.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 22,
+                "id": 15,
                 "bestandspad": "artwork/sector/jgYSJFCMBy7DGO95kQlJTJOJa0agrzd4EErdDPHd.jpg",
                 "titel": "good-joe--bridge.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 11,
-                "created_at": "2025-12-21T23:08:56.000000Z",
-                "updated_at": "2025-12-21T23:08:56.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 32,
+                "id": 30,
                 "locatie_id": 27,
                 "sector_id": 11,
                 "titel": "Good Joe brug",
@@ -993,11 +994,11 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             },
             {
-                "id": 33,
+                "id": 31,
                 "locatie_id": 28,
                 "sector_id": 11,
                 "titel": "Good Joe Joi",
@@ -1011,8 +1012,8 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -1027,22 +1028,22 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-15T21:32:50.000000Z",
-        "updated_at": "2025-12-22T12:10:19.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 25,
+                "id": 17,
                 "bestandspad": "artwork/sector/Rm0L9fd69ZKc15QXtXnkyHU9n9HVFOsKffCFmPrF.jpg",
                 "titel": "seawall--end.jpg",
                 "imageable_type": "App\\Models\\Sector",
                 "imageable_id": 12,
-                "created_at": "2025-12-22T12:11:37.000000Z",
-                "updated_at": "2025-12-22T12:11:37.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ],
         "scenes": [
             {
-                "id": 34,
+                "id": 32,
                 "locatie_id": 29,
                 "sector_id": 12,
                 "titel": "Dijk einde",
@@ -1056,13 +1057,13 @@
                     "width": 200,
                     "height": 150
                 },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
     {
-        "id": 14,
+        "id": 13,
         "naam": "Weeshuis",
         "beschrijving": "\u7981\u533a Kinku (Restricted Zone)",
         "ontdek_condities": null,
@@ -1072,100 +1073,9 @@
         "height": 100,
         "kaart_coordinaten": null,
         "is_ontdekt": false,
-        "created_at": "2025-12-22T12:09:06.000000Z",
-        "updated_at": "2025-12-22T12:09:26.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [],
-        "scenes": [
-            {
-                "id": 13,
-                "locatie_id": 11,
-                "sector_id": 14,
-                "titel": "Weeshuis buiten",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
-            },
-            {
-                "id": 14,
-                "locatie_id": 12,
-                "sector_id": 14,
-                "titel": "Weeshuis brug",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
-            },
-            {
-                "id": 15,
-                "locatie_id": 13,
-                "sector_id": 14,
-                "titel": "Weeshuis kinderen",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
-            },
-            {
-                "id": 16,
-                "locatie_id": 14,
-                "sector_id": 14,
-                "titel": "Weeshuis kantoor",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
-            },
-            {
-                "id": 17,
-                "locatie_id": 30,
-                "sector_id": 14,
-                "titel": "Weeshuis trappenhal",
-                "type": "walkable-area",
-                "beschrijving": "tbd",
-                "status": "active",
-                "gateways": [],
-                "data": {
-                    "x": 100,
-                    "y": 100,
-                    "width": 200,
-                    "height": 150
-                },
-                "created_at": "2025-12-22T15:50:19.000000Z",
-                "updated_at": "2025-12-31T19:00:01.000000Z"
-            }
-        ]
+        "scenes": []
     }
 ]

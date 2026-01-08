@@ -9,8 +9,18 @@ class AfbeeldingUploadController extends Controller
 {
     public function upload(Request $request, string $modelType, int $modelId)
     {
-        // Allow up to 4MB (4096KB)
-        $request->validate(['artwork' => 'required|image|max:4096']);
+        // Allow images or glb files
+        $request->validate([
+            'artwork' => 'required|file|max:10240', // Increase max size to 10MB for GLBs
+        ]);
+
+        $file = $request->file('artwork');
+        $extension = strtolower($file->getClientOriginalExtension());
+        $isGlb = $extension === 'glb';
+
+        if (!$isGlb && !in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+            return response()->json(['message' => 'Invalid file type. Only images and .glb files are allowed.'], 422);
+        }
 
         // 1. Determine the Model
         $className = ucfirst($modelType);
@@ -22,28 +32,33 @@ class AfbeeldingUploadController extends Controller
 
         $item = $modelClass::findOrFail($modelId);
 
-        // 2. Process Image (Resize & Compress)
-        $file = $request->file('artwork');
-        $filename = $file->hashName(); // Generate unique hash name
-        $path = 'artwork/' . $modelType . '/' . $filename;
+        // 2. Process File
+        $filename = $file->hashName();
+        $basePath = $isGlb ? 'glb' : 'artwork';
+        $path = $basePath . '/' . $modelType . '/' . $filename;
 
-        // Create manager instance with desired driver
-        $manager = new \Intervention\Image\ImageManager(
-            new \Intervention\Image\Drivers\Gd\Driver()
-        );
+        if ($isGlb) {
+            // Store GLB directly
+            Storage::disk('public')->putFileAs($basePath . '/' . $modelType, $file, $filename);
+        } else {
+            // Process Image (Resize & Compress)
+            $manager = new \Intervention\Image\ImageManager(
+                new \Intervention\Image\Drivers\Gd\Driver()
+            );
 
-        $image = $manager->read($file);
+            $image = $manager->read($file);
 
-        // Resize if wider than 1920px (maintain aspect ratio)
-        if ($image->width() > 1920) {
-            $image->scale(width: 1920);
+            // Resize if wider than 1920px (maintain aspect ratio)
+            if ($image->width() > 1920) {
+                $image->scale(width: 1920);
+            }
+
+            // Encode as JPG with 75% quality
+            $encoded = $image->toJpeg(75);
+
+            // Store the processed image
+            Storage::disk('public')->put($path, (string) $encoded);
         }
-
-        // Encode as JPG with 75% quality to ensure size < 1MB
-        $encoded = $image->toJpeg(75);
-
-        // Store the processed image
-        Storage::disk('public')->put($path, (string) $encoded);
 
         // 3. Create database record
         $item->artwork()->create([
@@ -52,7 +67,7 @@ class AfbeeldingUploadController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Artwork succesvol geüpload!',
+            'message' => 'File succesvol geüpload!',
             'path' => Storage::url($path),
             'artwork' => $item->artwork()->latest()->first()
         ]);

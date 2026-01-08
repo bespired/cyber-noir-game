@@ -3,7 +3,7 @@ export const settings = {
     "spinner2049": "artwork/glb/vehicle--spinner-2049.glb",
     "playable": "Nexus Runner K",
     "spawn_options": "[\n{\n    \"id\": \"north\",\n    \"label\": \"Noorder waypoint\"\n},\n{\n    \"id\": \"east\",\n    \"label\": \"Oost waypoint\"\n},\n{\n    \"id\": \"south\",\n    \"label\": \"Zuid waypoint\"\n},\n{\n    \"id\": \"west\",\n    \"label\": \"West waypoint\"\n},\n{\n    \"id\": \"npc\",\n    \"label\": \"Non playable\"\n},\n{\n    \"id\": \"sit\",\n    \"label\": \"Sit position\"\n},\n{\n    \"id\": \"spinner\",\n    \"label\": \"Spinner\"\n},\n{\n    \"id\": \"landing\",\n    \"label\": \"Detective\"\n}\n]",
-    "asset_install_id": "10FNrJeVqfBIQoJgYKf1k6emvdCQlT6hZ",
+    "asset_install_id": "1lO1dpRMCj1BFqwA1BjsQX7aqJyt3r0YR",
     "opening_scene": "43",
     "game_fonts": "[\"nexusnoir\", \"wallace-semibold\"]",
     "game_css": "@font-face {\n  font-family: 'Wallace';\n  src: url('/font/wallace-semibold.ttf') format('truetype');\n  font-weight: normal;\n  font-style: normal;\n}\n\n:root {\n  font-family: Wallace, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  color-scheme: dark;\n}\n\nbody {\n  font-family: Wallace, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;\n  margin: 0;\n  display: flex;\n  place-items: center;\n  min-width: 320px;\n  min-height: 100vh;\n  background-color: #121212;\n}\n\n#app {\n  width: 100%;\n}\n\n.sector-node.is-locked {\n  display: none;\n}\n\nimg {  \n   user-drag: none;  \n   user-select: none;\n   -moz-user-select: none;\n   -webkit-user-drag: none;\n   -webkit-user-select: none;\n   -ms-user-select: none;\n}\n"

@@ -15,6 +15,8 @@ const showModal = ref(false);
 const form = ref({
     titel: '',
     beschrijving: '',
+    type: 'image',
+    data: {},
     is_kritisch: false
 });
 
@@ -38,6 +40,8 @@ const openModal = () => {
     form.value = {
         titel: '',
         beschrijving: '',
+        type: 'image',
+        data: {},
         is_kritisch: false
     };
     showModal.value = true;
@@ -99,11 +103,19 @@ const createAanwijzing = async () => {
                     <input v-model="form.titel" type="text" required class="form-input">
                 </div>
                 <div>
+                    <label class="form-label">{{ t('clues.type') }}</label>
+                    <select v-model="form.type" required class="form-input">
+                        <option value="image">{{ t('clues.type_image') }}</option>
+                        <option value="object">{{ t('clues.type_object') }}</option>
+                        <option value="gamestate">{{ t('clues.type_gamestate') }}</option>
+                    </select>
+                </div>
+                <div>
                     <label class="form-label">{{ t('clues.description') }}</label>
                     <textarea v-model="form.beschrijving" required rows="3" class="form-input"></textarea>
                 </div>
                 <div class="flex items-center gap-2">
-                    <input v-model="form.is_kritisch" type="checkbox" id="is_kritisch" class="rounded bg-noir-darker border-noir-dark text-noir-danger focus:ring-noir-danger">
+                    <input v-model="form.is_kritisch" type="checkbox" id="is_kritisch" class="rounded bg-noir-darker/50 border-noir-dark text-noir-danger focus:ring-noir-danger">
                     <label for="is_kritisch" class="text-white text-sm uppercase">{{ t('clues.critical_question') }}</label>
                 </div>
             </form>

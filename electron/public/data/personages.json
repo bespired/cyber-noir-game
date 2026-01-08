@@ -10,17 +10,17 @@
         "is_replicant": true,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-14T15:40:29.000000Z",
-        "updated_at": "2025-12-14T15:40:29.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 2,
+                "id": 1,
                 "bestandspad": "artwork/personage/b9fHrmsGDdXoji6XIaJA4sveeXNwC8QB1il41hve.png",
                 "titel": "Elias Vane",
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 1,
-                "created_at": "2025-12-14T12:19:11.000000Z",
-                "updated_at": "2025-12-14T12:19:11.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -35,17 +35,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-14T15:40:29.000000Z",
-        "updated_at": "2025-12-14T15:40:29.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 3,
+                "id": 2,
                 "bestandspad": "artwork/personage/bDDBX074HQ0j2dKMXmpVXEwXFRtXxGSejYuX1SjU.png",
                 "titel": "Kaelen",
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 2,
-                "created_at": "2025-12-14T12:25:36.000000Z",
-                "updated_at": "2025-12-14T12:25:36.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -60,17 +60,17 @@
         "is_replicant": false,
         "is_playable": true,
         "type": "persoon",
-        "created_at": "2025-12-14T15:40:29.000000Z",
-        "updated_at": "2025-12-24T14:58:57.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 63,
+                "id": 53,
                 "bestandspad": "artwork/personage/UkF3YqrchIQSEtxWWvrWa0xNdAlGFYsjANWPfQhW.png",
                 "titel": "Nexus Runner K",
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 3,
-                "created_at": "2025-12-24T14:50:54.000000Z",
-                "updated_at": "2025-12-24T14:50:54.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -85,17 +85,17 @@
         "is_replicant": true,
         "is_playable": true,
         "type": "persoon",
-        "created_at": "2025-12-22T11:10:26.000000Z",
-        "updated_at": "2025-12-24T20:13:22.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 67,
+                "id": 54,
                 "bestandspad": "artwork/personage/pJe6u3mGfokoBFD2Y72lEHq8Vk99TO8ta3ccdIZr.png",
                 "titel": "Nexus Runner",
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 4,
-                "created_at": "2025-12-24T15:23:12.000000Z",
-                "updated_at": "2025-12-24T15:23:12.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -110,17 +110,17 @@
         "is_replicant": false,
         "is_playable": true,
         "type": "persoon",
-        "created_at": "2025-12-24T15:01:16.000000Z",
-        "updated_at": "2025-12-24T15:01:16.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 68,
+                "id": 55,
                 "bestandspad": "artwork/personage/YVh7SKyqtSedUSUCfy9IxLWv9ALwf7smMTfYKTnD.png",
                 "titel": "Nexus Runner D5",
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 5,
-                "created_at": "2025-12-24T15:39:16.000000Z",
-                "updated_at": "2025-12-24T15:39:16.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -135,17 +135,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:20:40.000000Z",
-        "updated_at": "2025-12-26T12:20:40.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 69,
+                "id": 56,
                 "bestandspad": "artwork/personage/ATGdjDix469ONSMewfuxn3jF1tDOGy9gWpRCggE4.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 6,
-                "created_at": "2025-12-26T12:20:56.000000Z",
-                "updated_at": "2025-12-26T12:20:56.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -160,17 +160,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:33:07.000000Z",
-        "updated_at": "2025-12-26T12:33:07.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 70,
+                "id": 57,
                 "bestandspad": "artwork/personage/FtrsZ18sqrZ0QS5fp3RDc3Mf8DtPAeCOgmJfL8Fk.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 7,
-                "created_at": "2025-12-26T12:34:36.000000Z",
-                "updated_at": "2025-12-26T12:34:36.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -185,17 +185,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:33:46.000000Z",
-        "updated_at": "2025-12-26T12:33:46.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 71,
+                "id": 58,
                 "bestandspad": "artwork/personage/fNKiM5f7gxkURQe1sAGPuC6fpUYkHT8IHruTvh7g.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 8,
-                "created_at": "2025-12-26T12:35:04.000000Z",
-                "updated_at": "2025-12-26T12:35:04.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -210,17 +210,17 @@
         "is_replicant": true,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:34:21.000000Z",
-        "updated_at": "2025-12-26T12:34:21.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 72,
+                "id": 59,
                 "bestandspad": "artwork/personage/mArBGSC5UmSH6vdnmN2Cu6NxT7D3qt3saCYS9IcL.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 9,
-                "created_at": "2025-12-26T12:36:00.000000Z",
-                "updated_at": "2025-12-26T12:36:00.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -235,17 +235,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:36:33.000000Z",
-        "updated_at": "2026-01-02T13:16:19.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 73,
+                "id": 60,
                 "bestandspad": "artwork/personage/9SIiguPQbA6JPtiH5rN5dJHUcPBLOaHbJjJ0flZ5.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 10,
-                "created_at": "2025-12-26T12:37:00.000000Z",
-                "updated_at": "2025-12-26T12:37:00.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -260,17 +260,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:44:21.000000Z",
-        "updated_at": "2025-12-26T12:44:21.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 74,
+                "id": 61,
                 "bestandspad": "artwork/personage/kptlB35bfpM5vN2Sq2Kq5IkNPlA4TwnRt2ouaCQV.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 11,
-                "created_at": "2025-12-26T12:44:37.000000Z",
-                "updated_at": "2025-12-26T12:44:37.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -285,17 +285,17 @@
         "is_replicant": true,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:45:16.000000Z",
-        "updated_at": "2025-12-26T12:45:16.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 93,
+                "id": 77,
                 "bestandspad": "artwork/personage/8G8aNzQ2j6hnht1qkXq6GaKxXYfhcXQv1kbi9IY7.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 12,
-                "created_at": "2025-12-30T19:49:21.000000Z",
-                "updated_at": "2025-12-30T19:49:21.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -310,17 +310,17 @@
         "is_replicant": true,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:46:31.000000Z",
-        "updated_at": "2025-12-26T12:46:31.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 76,
+                "id": 62,
                 "bestandspad": "artwork/personage/Dok3ratclWXtXoC4KA9p4WWeNPb0d5i1sbagUPe2.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 13,
-                "created_at": "2025-12-26T12:46:49.000000Z",
-                "updated_at": "2025-12-26T12:46:49.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -335,17 +335,17 @@
         "is_replicant": true,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:52:32.000000Z",
-        "updated_at": "2025-12-26T12:52:32.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 77,
+                "id": 63,
                 "bestandspad": "artwork/personage/GDv8bMNLobTRcCBZ1sRGTGzpYI9zCUViFjgBfmuJ.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 14,
-                "created_at": "2025-12-26T12:53:01.000000Z",
-                "updated_at": "2025-12-26T12:53:01.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -360,17 +360,17 @@
         "is_replicant": true,
         "is_playable": false,
         "type": "persoon",
-        "created_at": "2025-12-26T12:53:26.000000Z",
-        "updated_at": "2025-12-26T12:53:26.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 78,
+                "id": 64,
                 "bestandspad": "artwork/personage/xGyLPkww4wbmQeDbZ8yHIKyYw7rBDq5g6BFwdd4y.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 15,
-                "created_at": "2025-12-26T12:53:44.000000Z",
-                "updated_at": "2025-12-26T12:53:44.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -385,17 +385,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "voertuig",
-        "created_at": "2025-12-27T18:49:55.000000Z",
-        "updated_at": "2025-12-27T18:52:27.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 88,
+                "id": 74,
                 "bestandspad": "artwork/personage/EumOD8vmlvmKsSZ2EJTTIBUR6N4XiPv60wEqGRkw.jpg",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 16,
-                "created_at": "2025-12-27T19:34:02.000000Z",
-                "updated_at": "2025-12-27T19:34:02.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -410,17 +410,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "voertuig",
-        "created_at": "2025-12-27T19:17:31.000000Z",
-        "updated_at": "2025-12-27T19:17:31.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 87,
+                "id": 73,
                 "bestandspad": "artwork/personage/K3DYkWmZ13pysXwuuGNyL2qgOGKqiPRpw5U52J4A.jpg",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 17,
-                "created_at": "2025-12-27T19:31:41.000000Z",
-                "updated_at": "2025-12-27T19:31:41.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -435,17 +435,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "voertuig",
-        "created_at": "2025-12-27T19:17:54.000000Z",
-        "updated_at": "2025-12-27T19:17:54.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 86,
+                "id": 72,
                 "bestandspad": "artwork/personage/XjmKqVBCVgkXhEDmanDI0sBeeto6IP1RteHQ5zKj.jpg",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 18,
-                "created_at": "2025-12-27T19:23:08.000000Z",
-                "updated_at": "2025-12-27T19:23:08.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -460,17 +460,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "voertuig",
-        "created_at": "2025-12-27T19:37:17.000000Z",
-        "updated_at": "2025-12-27T19:37:17.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 92,
+                "id": 76,
                 "bestandspad": "artwork/personage/AnsFYelsknDrxT3xiYi2ll5k5HrdlcFkjJ5bvK1C.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 19,
-                "created_at": "2025-12-27T19:48:26.000000Z",
-                "updated_at": "2025-12-27T19:48:26.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     },
@@ -485,17 +485,17 @@
         "is_replicant": false,
         "is_playable": false,
         "type": "voertuig",
-        "created_at": "2025-12-27T19:38:20.000000Z",
-        "updated_at": "2025-12-27T19:38:20.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "artwork": [
             {
-                "id": 91,
+                "id": 75,
                 "bestandspad": "artwork/personage/Gp1GNIPZDQ605Pug0hEyWBDLuZ1o7Fwwu2MagynF.png",
                 "titel": null,
                 "imageable_type": "App\\Models\\Personage",
                 "imageable_id": 20,
-                "created_at": "2025-12-27T19:48:09.000000Z",
-                "updated_at": "2025-12-27T19:48:09.000000Z"
+                "created_at": "2026-01-08T21:16:56.000000Z",
+                "updated_at": "2026-01-08T21:16:56.000000Z"
             }
         ]
     }

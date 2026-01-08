@@ -24,6 +24,10 @@ const props = defineProps({
     assetType: {
         type: String,
         default: 'persoon'
+    },
+    accept: {
+        type: String,
+        default: 'image/*'
     }
 });
 
@@ -163,21 +167,23 @@ const deleteImage = async (id) => {
         <div class="mt-4 border-t border-b border-noir-dark p-4">
             <ClickButton
                 @click="toggleUpload"
-                :label="isUploadOpen ? t('artwork.close_upload') : t('artwork.add_record')"
+                :label="isUploadOpen ? t('artwork.close_upload') : (props.accept === '.glb' ? t('artwork.add_glb') : t('artwork.add_record'))"
                 :buttonType="isUploadOpen ? 'red' : 'add'"
             />
         </div>
 
         <!-- Upload Form (Collapsible) -->
         <div v-if="isUploadOpen" class="bg-noir-dark/50 p-4 rounded border border-noir-dark animate-fade-in-down">
-            <h4 class="text-sm font-bold text-noir-muted uppercase mb-3">{{ t('artwork.upload_new') }}</h4>
+            <h4 class="text-sm font-bold text-noir-muted uppercase mb-3 text-noir-accent">
+                {{ props.accept === '.glb' ? t('artwork.upload_new_glb') : t('artwork.upload_new') }}
+            </h4>
             <form @submit.prevent="handleUpload" class="space-y-3">
                 <div>
                     <input
                         id="file-input"
                         type="file"
                         @change="onFileChange"
-                        accept="image/*"
+                        :accept="props.accept"
                         required
                         class="block w-full text-sm text-noir-muted file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-noir-accent file:text-white hover:file:bg-blue-600 file:cursor-pointer cursor-pointer"
                     >
@@ -193,7 +199,7 @@ const deleteImage = async (id) => {
                 <ClickButton
                     type="submit"
                     :disabled="!selectedFile || uploading"
-                    :label="uploading ? t('artwork.uploading') : t('artwork.upload_btn')"
+                    :label="uploading ? t('artwork.uploading') : (props.accept === '.glb' ? t('artwork.upload_btn_glb') : t('artwork.upload_btn'))"
                     buttonType="green"
                     class="w-full justify-center"
                     @click="handleUpload"

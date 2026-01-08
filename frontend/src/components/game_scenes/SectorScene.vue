@@ -4,7 +4,7 @@ import { useDataRobustness } from '../../composables/useDataRobustness';
 import { sectorData } from '../../sectordata.js';
 
 
-const { fetchData, resolveImgUrl, isEngine } = useDataRobustness();
+const { fetchData, resolveImgUrl, resolveStaticUrl, isEngine } = useDataRobustness();
 
 const sectors  = ref([]);
 const loading  = ref(true);
@@ -192,7 +192,7 @@ const isSectorOpen = (id) => {
                 <div class="tv-screen-content" @mousemove="updateGps">
 
                     <div v-if="loading" class="matrix-loading">
-                        <img src="/font/loading.svg" />
+                        <img :src="resolveStaticUrl('/font/loading.svg')" />
                         <div class="glitch-text">
                             BOOTING
                         </div>
@@ -412,7 +412,8 @@ const isSectorOpen = (id) => {
     padding: 0.5rem 1.5rem;
     border-top: 1px solid rgba(0, 255, 204, 0.3);
     border-bottom: 1px solid rgba(0, 255, 204, 0.3);
-    backdrop-blur: 4px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 40;
 }
 

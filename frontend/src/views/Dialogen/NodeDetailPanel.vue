@@ -58,29 +58,37 @@ const removeAction = (option, index) => {
     option.actions.splice(index, 1);
 };
 
+const addNodeAction = () => {
+    if (!editedNode.value.nodeActions) editedNode.value.nodeActions = [];
+    editedNode.value.nodeActions.push({
+        type: 'WAIT x SECONDS',
+        value: ''
+    });
+};
+
+const removeNodeAction = (index) => {
+    editedNode.value.nodeActions.splice(index, 1);
+};
+
 const hasEndTalk = (option) => {
     return option.actions?.some(a => a.type === 'END TALK');
 };
 
 const actionTypes = [
     { value: 'END TALK', label: 'EINDE' },
-    { value: 'SET GAME TAG', label: 'PLAATS GAME TAG' },
-    { value: 'REMOVE GAME TAG', label: 'VERWIJDER GAME TAG' },
-    { value: 'SET NPC TAG', label: 'PLAATS NPC TAG' },
-    { value: 'REMOVE NPC TAG', label: 'VERWIJDER NPC TAG' },
+    { value: 'GIVE CLUE', label: 'GEEF AANWIJZING' },
     { value: 'GOTO SCENE', label: 'GOTO SCENE' },
     { value: 'WAIT x SECONDS', label: 'WACHT x SECONDEN' },
     { value: 'WALK_TO', label: 'LOOP NAAR' },
+    { value: 'PLAY_ANIMATION', label: 'SPEEL ANIMATIE' },
 ];
 
 const getActionPlaceholder = (type) => {
     switch (type) {
         case 'WAIT x SECONDS': return 'Aantal seconden (bijv. 2)';
         case 'GOTO SCENE': return 'Scene ID of Naam';
-        case 'SET GAME TAG':
-        case 'REMOVE GAME TAG':
-        case 'SET NPC TAG':
-        case 'REMOVE NPC TAG': return 'Tag naam';
+        case 'GIVE CLUE': return 'Aanwijzing ID of Slug';
+        case 'PLAY_ANIMATION': return 'Animatie naam (bijv. Idle_1)';
         default: return 'Parameter...';
     }
 };
@@ -113,6 +121,28 @@ const getActionPlaceholder = (type) => {
                 <textarea v-model="editedNode.text"
                     class="w-full bg-black border border-noir-dark text-white p-3 rounded text-sm min-h-[100px] focus:border-noir-accent outline-none"
                     placeholder="Wat zegt het personage?"></textarea>
+            </div>
+
+            <!-- Node Enter Actions -->
+            <div class="space-y-2 border-t border-noir-dark pt-4">
+                 <div class="flex justify-between items-center">
+                     <label class="block text-[10px] font-bold text-noir-muted uppercase">On Enter Actions</label>
+                     <button @click="addNodeAction" class="text-[9px] text-noir-accent hover:underline uppercase">Add Action</button>
+                 </div>
+                 <div v-for="(action, aidx) in editedNode.nodeActions" :key="aidx" class="flex gap-2 items-center">
+                     <select v-model="action.type" class="bg-black border border-noir-dark text-white text-[10px] p-1.5 rounded focus:border-noir-accent outline-none">
+                         <option v-for="type in actionTypes" :key="type.value" :value="type.value">{{ type.label }}</option>
+                     </select>
+                     <input v-if="action.type !== 'END TALK'"
+                            v-model="action.value"
+                            class="flex-grow bg-black border border-noir-dark text-white text-[10px] p-1.5 rounded focus:border-noir-accent outline-none"
+                            :placeholder="getActionPlaceholder(action.type)">
+                     <button @click="removeNodeAction(aidx)" class="text-noir-danger hover:bg-noir-danger/10 p-1 rounded transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                     </button>
+                 </div>
             </div>
 
             <!-- Options Area -->

@@ -101,8 +101,16 @@ const targetSceneSpawnPoints = computed(() => {
     if (!targetScene || !targetScene.locatie || !targetScene.locatie.spawn_points) return [];
 
     const sectorId = scene.value.sector_id;
-    const spawnPoints = targetScene.locatie.spawn_points[sectorId] || targetScene.locatie.spawn_points[Number(sectorId)] || [];
-    return spawnPoints;
+    const points = targetScene.locatie.spawn_points;
+    return points[sectorId] || points[String(sectorId)] || points[Number(sectorId)] || [];
+});
+
+const locationSpawnPoints = computed(() => {
+    if (!scene.value?.locatie?.spawn_points) return [];
+    const points = scene.value.locatie.spawn_points;
+    const sId = scene.value.sector_id;
+    if (!sId) return [];
+    return points[sId] || points[String(sId)] || points[Number(sId)] || [];
 });
 
 const activeArtwork = computed(() => {
@@ -355,14 +363,24 @@ const getSceneName = (id) => {
 };
 
 const getPersonageName = (id) => {
-    const p = allPersonages.value.find(pers => pers.id === id);
+    if (!id) return t('scenes.unknown') || 'UNKNOWN';
+    const p = allPersonages.value.find(pers => String(pers.id) === String(id));
     return p ? p.naam : `ID: ${id}`;
 };
 
 const getGedragName = (id) => {
     if (!id) return 'GEEN_STRICT_GEDRAG';
-    const g = gedragingen.value.find(b => b.id === id);
+    const g = gedragingen.value.find(b => String(b.id) === String(id));
     return g ? g.naam : 'UNKNOWN';
+};
+
+const getSpawnPointLabelById = (targetNameOrId) => {
+    if (!targetNameOrId) return 'DEFAULT';
+    const sp = locationSpawnPoints.value.find(p => p.name === targetNameOrId || String(p.id) === String(targetNameOrId));
+    if (!sp) return targetNameOrId;
+    if (sp.name) return sp.name;
+    if (sp.personage_id) return `${getPersonageName(sp.personage_id)} (Slot)`;
+    return `${sp.type}_${sp.id}`;
 };
 
 const getDialoogName = (id) => {
@@ -391,13 +409,18 @@ const openNPCModal = (npc = null) => {
 
 const saveNPC = async () => {
     try {
+        const payload = {
+            ...npcForm.value,
+            spawn_point_name: npcForm.value.spawn_point_name ? String(npcForm.value.spawn_point_name) : ''
+        };
+
         if (editingNPC.value) {
-            const res = await axios.put(`/api/scene-personages/${editingNPC.value.id}`, npcForm.value);
+            const res = await axios.put(`/api/scene-personages/${editingNPC.value.id}`, payload);
             const index = scenePersonages.value.findIndex(p => p.id === editingNPC.value.id);
             scenePersonages.value[index] = { ...scenePersonages.value[index], ...res.data };
             toast.success(t('scenes.npc_updated'));
         } else {
-            const res = await axios.post('/api/scene-personages', npcForm.value);
+            const res = await axios.post('/api/scene-personages', payload);
             scenePersonages.value.push(res.data);
             toast.success(t('scenes.npc_added'));
         }
@@ -666,7 +689,7 @@ watch(() => scene.value?.locatie_id, (newId) => {
                                     <div class="grid grid-cols-1 gap-1 text-[9px] font-mono">
                                         <div class="flex gap-2">
                                             <span class="text-noir-muted">SPAWN:</span>
-                                            <span class="text-noir-accent truncate">{{ npc.spawn_point_name || 'DEFAULT' }}</span>
+                                            <span class="text-noir-accent truncate">{{ getSpawnPointLabelById(npc.spawn_point_name) }}</span>
                                         </div>
                                         <!--
                                             <div class="flex gap-2">
@@ -782,9 +805,16 @@ watch(() => scene.value?.locatie_id, (newId) => {
                         <label class="form-label text-noir-accent">{{ t('scenes.entry_spawn') }}</label>
                         <select v-model="npcForm.spawn_point_name" class="form-input">
                             <option value="">{{ t('scenes.default_spawn') }}</option>
-                            <option v-for="sp in scene.locatie?.spawn_points?.[scene.sector_id] || []" :key="sp.id" :value="sp.name || sp.id">
-                                {{ sp.name || 'SPAWN_' + sp.id }}
-                            </option>
+                            <optgroup :label="t('scenes.waypoints')">
+                                <option v-for="sp in locationSpawnPoints.filter(p => p.type === 'waypoint')" :key="sp.id" :value="sp.name || sp.id">
+                                    {{ sp.name || 'Waypoint ' + sp.id }}
+                                </option>
+                            </optgroup>
+                            <optgroup :label="t('scenes.personage_slots')">
+                                <option v-for="sp in locationSpawnPoints.filter(p => p.type === 'personage')" :key="sp.id" :value="sp.name || sp.id">
+                                    {{ getPersonageName(sp.personage_id) }} (Slot)
+                                </option>
+                            </optgroup>
                         </select>
                     </div>
                     <div>

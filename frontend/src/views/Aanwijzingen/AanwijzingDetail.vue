@@ -3,8 +3,10 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '../../axios';
 import ArtworkManager from '../../components/ArtworkManager.vue';
+import Prop3DViewer from '../../components/Prop3DViewer.vue';
 import { useToast } from '../../composables/useToast';
 import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
 const { t } = useI18n();
 const toast = useToast();
@@ -23,6 +25,9 @@ onMounted(async () => {
             axios.get('/api/locaties')
         ]);
         aanwijzing.value = aRes.data;
+        if (!aanwijzing.value.data) {
+            aanwijzing.value.data = {};
+        }
         personages.value = pRes.data;
         locaties.value = lRes.data;
     } catch (e) {
@@ -30,6 +35,28 @@ onMounted(async () => {
     } finally {
         loading.value = false;
     }
+});
+
+const getImageUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    if (path.startsWith('/storage')) return `http://localhost:8000${path}`;
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `http://localhost:8000/storage${cleanPath}`;
+};
+
+const gamestateKey = computed(() => {
+    if (!aanwijzing.value || !aanwijzing.value.titel) return '';
+    return aanwijzing.value.titel
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+});
+
+const glbUrl = computed(() => {
+    if (!aanwijzing.value || !aanwijzing.value.artwork) return '';
+    const glb = aanwijzing.value.artwork.find(a => a.bestandspad.toLowerCase().endsWith('.glb'));
+    return glb ? getImageUrl(glb.bestandspad) : '';
 });
 
 const saveChanges = async () => {
@@ -83,12 +110,22 @@ const handleDeleteSuccess = (deletedId) => {
 
             <!-- Content -->
             <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Left Column: Artwork -->
-                <div class="lg:col-span-1">
+                <!-- Left Column: Visualization / Artwork -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- 3D Viewer for objects -->
+                    <div v-if="aanwijzing.type === 'object'" class="mb-6">
+                        <Prop3DViewer v-if="glbUrl" :glb-url="glbUrl" />
+                        <div v-else class="aspect-square bg-noir-dark rounded border border-noir-panel flex flex-col items-center justify-center text-noir-muted p-4 text-center">
+                            <span class="text-2xl mb-2">📦</span>
+                            <span class="text-xs uppercase font-mono">{{ t('clues.no_3d_model') }}</span>
+                        </div>
+                    </div>
+
                     <ArtworkManager
-                        model-type="aanwijzing"
+                        :model-type="'aanwijzing'"
                         :model-id="aanwijzing.id"
                         :artwork="aanwijzing.artwork"
+                        :accept="aanwijzing.type === 'object' ? '.glb' : 'image/*'"
                         @upload-success="handleUploadSuccess"
                         @image-deleted="handleDeleteSuccess"
                     />
@@ -103,14 +140,34 @@ const handleDeleteSuccess = (deletedId) => {
                         </label>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('clues.title') }}</label>
-                        <input v-model="aanwijzing.titel" type="text" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('clues.title') }}</label>
+                            <input v-model="aanwijzing.titel" type="text" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('clues.type') }}</label>
+                            <select v-model="aanwijzing.type" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors cursor-pointer">
+                                <option value="image">{{ t('clues.type_image') }}</option>
+                                <option value="object">{{ t('clues.type_object') }}</option>
+                                <option value="gamestate">{{ t('clues.type_gamestate') }}</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-noir-muted uppercase mb-2">{{ t('clues.description') }}</label>
-                        <textarea v-model="aanwijzing.beschrijving" rows="6" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors"></textarea>
+                        <textarea v-model="aanwijzing.beschrijving" rows="4" class="w-full bg-noir-dark border border-noir-panel rounded p-2 text-white focus:border-noir-danger focus:outline-none transition-colors"></textarea>
+                    </div>
+
+                    <!-- Gamestate Data (Simplified) -->
+                    <div v-if="aanwijzing.type === 'gamestate'" class="bg-noir-dark/30 p-4 rounded border border-noir-panel">
+                        <label class="block text-xs font-bold text-noir-muted uppercase mb-1">{{ t('clues.gamestate_key') }}</label>
+                        <div class="text-white font-mono text-sm py-2 px-3 bg-noir-dark rounded border border-white/10 flex items-center justify-between">
+                            <span>{{ gamestateKey }}</span>
+                            <span class="text-[10px] text-noir-accent font-bold uppercase">{{ t('clues.auto_generated') }}</span>
+                        </div>
+                        <p class="text-[10px] text-noir-muted mt-2 italic">{{ t('clues.gamestate_hint') }}</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

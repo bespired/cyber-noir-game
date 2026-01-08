@@ -81,6 +81,15 @@ export function useDataRobustness() {
     };
 
     /**
+     * Resolves a static asset in the public folder (fonts, icons, etc.)
+     */
+    const resolveStaticUrl = (path) => {
+        if (!path) return '';
+        const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+        return isEngine.value ? `./${cleanPath}` : `/${cleanPath}`;
+    };
+
+    /**
      * Simple slugification for filenames/paths.
      */
     const slugify = (str) => {
@@ -105,6 +114,7 @@ export function useDataRobustness() {
         fetchData,
         resolveAssetUrl,
         resolveImgUrl,
+        resolveStaticUrl,
         slugify,
         getCharacterGlbUrl
     };

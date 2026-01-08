@@ -8,6 +8,7 @@
         "cancel": "Cancel",
         "confirm": "Confirm",
         "change": "Edit",
+        "add": "Add",
         "emulate": "Emulate",
         "sidebar": {
             "about": "ABOUT",
@@ -67,7 +68,6 @@
         "executing": "EXECUTING...",
         "trying": "Trying to create an editor for a point and click game.",
         "of_the": "of the"
-
     },
     "scenes": {
         "title": "SCENES",
@@ -241,7 +241,18 @@
         "save": "SAVE EVIDENCE",
         "none": "-- None --",
         "file_not_found": "FILE NOT FOUND OR CORRUPT",
-        "back": "EVIDENCE"
+        "back": "EVIDENCE",
+        "type": "Type",
+        "type_image": "Image",
+        "type_object": "Object (3D)",
+        "type_gamestate": "Gamestate",
+        "gamestate_data": "Gamestate Data",
+        "gamestate_key": "Gamestate Key",
+        "auto_generated": "AUTO_GENERATED",
+        "gamestate_hint": "The slug of the clue's name will be used as the boolean gamestate flag in the game engine.",
+        "gamestate_flags": "Gamestate Flags (Boolean)",
+        "add_flag_placeholder": "New flag name...",
+        "no_3d_model": "NO_3D_MODEL_FOUND"
     },
     "behavior": {
         "title": "BEHAVIOR",
@@ -467,6 +478,9 @@
         "upload_new": "Upload New Image",
         "optional_title": "OPTIONAL_TITLE",
         "uploading": "UPLOADING...",
-        "upload_btn": "UPLOAD_IMAGE"
+        "upload_btn": "UPLOAD_IMAGE",
+        "add_glb": "Add GLB",
+        "upload_new_glb": "Upload New GLB File",
+        "upload_btn_glb": "UPLOAD_GLB"
     }
 }

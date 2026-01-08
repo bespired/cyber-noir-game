@@ -23,7 +23,7 @@ class ScenePersonageController extends Controller
         $validated = $request->validate([
             'scene_id' => 'required|exists:scenes,id',
             'personage_id' => 'required|exists:personages,id',
-            'spawn_point_name' => 'nullable|string',
+            'spawn_point_name' => 'nullable',
             'spawn_condition' => 'nullable|array',
             'gedrag_id' => 'nullable|exists:gedragingen,id',
             'dialoog_id' => 'nullable|exists:dialogen,id',
@@ -40,7 +40,7 @@ class ScenePersonageController extends Controller
     public function update(Request $request, ScenePersonage $scenePersonage)
     {
         $validated = $request->validate([
-            'spawn_point_name' => 'nullable|string',
+            'spawn_point_name' => 'nullable',
             'spawn_condition' => 'nullable|array',
             'gedrag_id' => 'nullable|exists:gedragingen,id',
             'dialoog_id' => 'nullable|exists:dialogen,id',

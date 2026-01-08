@@ -17,6 +17,8 @@ class AanwijzingController extends Controller
         $validated = $request->validate([
             'titel' => 'required|string|max:255',
             'beschrijving' => 'required|string',
+            'type' => 'nullable|string|in:image,object,gamestate',
+            'data' => 'nullable|array',
             'personage_id' => 'nullable|exists:personages,id',
             'locatie_id' => 'nullable|exists:locaties,id',
             'is_kritisch' => 'boolean',
@@ -36,6 +38,8 @@ class AanwijzingController extends Controller
         $validated = $request->validate([
             'titel' => 'string|max:255',
             'beschrijving' => 'string',
+            'type' => 'nullable|string|in:image,object,gamestate',
+            'data' => 'nullable|array',
             'personage_id' => 'nullable|exists:personages,id',
             'locatie_id' => 'nullable|exists:locaties,id',
             'is_kritisch' => 'boolean',

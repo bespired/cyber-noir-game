@@ -86,8 +86,8 @@ export const dialogs = [
             }
         },
         "is_active": true,
-        "created_at": "2025-12-17T13:23:18.000000Z",
-        "updated_at": "2025-12-29T22:30:23.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "personage": {
             "id": 1,
             "naam": "Elias Vane",
@@ -99,8 +99,8 @@ export const dialogs = [
             "is_replicant": true,
             "is_playable": false,
             "type": "persoon",
-            "created_at": "2025-12-14T15:40:29.000000Z",
-            "updated_at": "2025-12-14T15:40:29.000000Z"
+            "created_at": "2026-01-08T21:16:56.000000Z",
+            "updated_at": "2026-01-08T21:16:56.000000Z"
         }
     },
     {
@@ -123,6 +123,12 @@ export const dialogs = [
                             "next": "threat",
                             "text": "Stap opzij",
                             "actions": []
+                        }
+                    ],
+                    "nodeActions": [
+                        {
+                            "type": "GIVE CLUE",
+                            "value": "7"
                         }
                     ]
                 },
@@ -252,8 +258,8 @@ export const dialogs = [
             }
         },
         "is_active": true,
-        "created_at": "2025-12-30T17:01:31.000000Z",
-        "updated_at": "2025-12-30T17:05:47.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "personage": {
             "id": 12,
             "naam": "Sapper",
@@ -265,8 +271,8 @@ export const dialogs = [
             "is_replicant": true,
             "is_playable": false,
             "type": "persoon",
-            "created_at": "2025-12-26T12:45:16.000000Z",
-            "updated_at": "2025-12-26T12:45:16.000000Z"
+            "created_at": "2026-01-08T21:16:56.000000Z",
+            "updated_at": "2026-01-08T21:16:56.000000Z"
         }
     },
     {
@@ -277,8 +283,8 @@ export const dialogs = [
             "nodes": []
         },
         "is_active": true,
-        "created_at": "2025-12-31T18:31:44.000000Z",
-        "updated_at": "2025-12-31T18:33:04.000000Z",
+        "created_at": "2026-01-08T21:16:56.000000Z",
+        "updated_at": "2026-01-08T21:16:56.000000Z",
         "personage": {
             "id": 15,
             "naam": "Marianna",
@@ -290,8 +296,8 @@ export const dialogs = [
             "is_replicant": true,
             "is_playable": false,
             "type": "persoon",
-            "created_at": "2025-12-26T12:53:26.000000Z",
-            "updated_at": "2025-12-26T12:53:26.000000Z"
+            "created_at": "2026-01-08T21:16:56.000000Z",
+            "updated_at": "2026-01-08T21:16:56.000000Z"
         }
     }
 ];
