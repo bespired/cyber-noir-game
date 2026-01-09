@@ -1,3 +1,14 @@
+
+
+# Cyber Noir (v1)
+
+⚠️ This version is archived.
+
+New rewrite:
+👉 https://github.com/bespired/nexus-noir
+
+
+
 # cyber-noir-game
 
 Start your docker.
